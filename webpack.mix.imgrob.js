@@ -1,3 +1,5 @@
+const mix = require('laravel-mix');
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -9,11 +11,5 @@
  |
  */
 
-
-if (process.env.section) {
-    require(`${__dirname}/webpack.mix.${process.env.section}.js`);
-}else{
-    const mix = require('laravel-mix');
-    mix.js('resources/js/app.js', 'public/assets/js/app.js')
-        .sass('resources/css/app.scss', 'public/assets/css/app.css');
-}
+mix.js('resources/js/imgrob/app.js', 'public/imgrob/assets/js/app.js').version()
+    .sass('resources/css/imgrob/app.scss', 'public/imgrob/assets/css/app.css');
