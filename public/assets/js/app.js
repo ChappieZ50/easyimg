@@ -2882,10 +2882,4060 @@ module.exports = function supportsUploadProgress(userAgent) {
 
 /***/ }),
 
-/***/ "./node_modules/@uppy/drag-drop/lib/index.js":
+/***/ "./node_modules/@uppy/dashboard/lib/components/AddFiles.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/components/AddFiles.js ***!
+  \*****************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
+
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require.h,
+    Component = _require.Component;
+
+var AddFiles = /*#__PURE__*/function (_Component) {
+  _inheritsLoose(AddFiles, _Component);
+
+  function AddFiles() {
+    var _this;
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _Component.call.apply(_Component, [this].concat(args)) || this;
+
+    _this.triggerFileInputClick = function () {
+      _this.fileInput.click();
+    };
+
+    _this.triggerFolderInputClick = function () {
+      _this.folderInput.click();
+    };
+
+    _this.onFileInputChange = function (event) {
+      _this.props.handleInputChange(event); // We clear the input after a file is selected, because otherwise
+      // change event is not fired in Chrome and Safari when a file
+      // with the same name is selected.
+      // ___Why not use value="" on <input/> instead?
+      //    Because if we use that method of clearing the input,
+      //    Chrome will not trigger change if we drop the same file twice (Issue #768).
+
+
+      event.target.value = null;
+    };
+
+    _this.renderHiddenInput = function (isFolder, refCallback) {
+      return h("input", {
+        class: "uppy-Dashboard-input",
+        hidden: true,
+        "aria-hidden": "true",
+        tabindex: -1,
+        webkitdirectory: isFolder,
+        type: "file",
+        name: "files[]",
+        multiple: _this.props.maxNumberOfFiles !== 1,
+        onchange: _this.onFileInputChange,
+        accept: _this.props.allowedFileTypes,
+        ref: refCallback
+      });
+    };
+
+    _this.renderMyDeviceAcquirer = function () {
+      return h("div", {
+        class: "uppy-DashboardTab",
+        role: "presentation",
+        "data-uppy-acquirer-id": "MyDevice"
+      }, h("button", {
+        type: "button",
+        class: "uppy-DashboardTab-btn",
+        role: "tab",
+        tabindex: 0,
+        "data-uppy-super-focusable": true,
+        onclick: _this.triggerFileInputClick
+      }, h("svg", {
+        "aria-hidden": "true",
+        focusable: "false",
+        width: "32",
+        height: "32",
+        viewBox: "0 0 32 32"
+      }, h("g", {
+        fill: "none",
+        "fill-rule": "evenodd"
+      }, h("rect", {
+        width: "32",
+        height: "32",
+        rx: "16",
+        fill: "#2275D7"
+      }), h("path", {
+        d: "M21.973 21.152H9.863l-1.108-5.087h14.464l-1.246 5.087zM9.935 11.37h3.958l.886 1.444a.673.673 0 0 0 .585.316h6.506v1.37H9.935v-3.13zm14.898 3.44a.793.793 0 0 0-.616-.31h-.978v-2.126c0-.379-.275-.613-.653-.613H15.75l-.886-1.445a.673.673 0 0 0-.585-.316H9.232c-.378 0-.667.209-.667.587V14.5h-.782a.793.793 0 0 0-.61.303.795.795 0 0 0-.155.663l1.45 6.633c.078.36.396.618.764.618h13.354c.36 0 .674-.246.76-.595l1.631-6.636a.795.795 0 0 0-.144-.675z",
+        fill: "#FFF"
+      }))), h("div", {
+        class: "uppy-DashboardTab-name"
+      }, _this.props.i18n('myDevice'))));
+    };
+
+    _this.renderBrowseButton = function (text, onClickFn) {
+      var numberOfAcquirers = _this.props.acquirers.length;
+      return h("button", {
+        type: "button",
+        class: "uppy-u-reset uppy-Dashboard-browse",
+        onclick: onClickFn,
+        "data-uppy-super-focusable": numberOfAcquirers === 0
+      }, text);
+    };
+
+    _this.renderDropPasteBrowseTagline = function () {
+      var numberOfAcquirers = _this.props.acquirers.length; // in order to keep the i18n CamelCase and options lower (as are defaults) we will want to transform a lower
+      // to Camel
+
+      var lowerFMSelectionType = _this.props.fileManagerSelectionType;
+      var camelFMSelectionType = lowerFMSelectionType.charAt(0).toUpperCase() + lowerFMSelectionType.slice(1); // For backwards compatibility, we need to support both 'browse' and 'browseFiles'/'browseFolders' as strings here.
+
+      var browseText = 'browse';
+      var browseFilesText = 'browse';
+      var browseFoldersText = 'browse';
+
+      if (lowerFMSelectionType === 'files') {
+        try {
+          browseText = _this.props.i18n('browse');
+          browseFilesText = _this.props.i18n('browse');
+          browseFoldersText = _this.props.i18n('browse');
+        } catch (_unused) {// Ignore, hopefully we can use the 'browseFiles' / 'browseFolders' strings
+        }
+      }
+
+      try {
+        browseFilesText = _this.props.i18n('browseFiles');
+        browseFoldersText = _this.props.i18n('browseFolders');
+      } catch (_unused2) {// Ignore, use the 'browse' string
+      }
+
+      var browse = _this.renderBrowseButton(browseText, _this.triggerFileInputClick);
+
+      var browseFiles = _this.renderBrowseButton(browseFilesText, _this.triggerFileInputClick);
+
+      var browseFolders = _this.renderBrowseButton(browseFoldersText, _this.triggerFolderInputClick); // Before the `fileManagerSelectionType` feature existed, we had two possible
+      // strings here, but now we have six. We use the new-style strings by default:
+
+
+      var titleText;
+
+      if (numberOfAcquirers > 0) {
+        titleText = _this.props.i18nArray("dropPasteImport" + camelFMSelectionType, {
+          browseFiles: browseFiles,
+          browseFolders: browseFolders,
+          browse: browse
+        });
+      } else {
+        titleText = _this.props.i18nArray("dropPaste" + camelFMSelectionType, {
+          browseFiles: browseFiles,
+          browseFolders: browseFolders,
+          browse: browse
+        });
+      } // We use the old-style strings if available: this implies that the user has
+      // manually specified them, so they should take precedence over the new-style
+      // defaults.
+
+
+      if (lowerFMSelectionType === 'files') {
+        try {
+          if (numberOfAcquirers > 0) {
+            titleText = _this.props.i18nArray('dropPasteImport', {
+              browse: browse
+            });
+          } else {
+            titleText = _this.props.i18nArray('dropPaste', {
+              browse: browse
+            });
+          }
+        } catch (_unused3) {// Ignore, the new-style strings will be used.
+        }
+      }
+
+      return h("div", {
+        class: "uppy-Dashboard-AddFiles-title"
+      }, titleText);
+    };
+
+    _this.renderAcquirer = function (acquirer) {
+      return h("div", {
+        class: "uppy-DashboardTab",
+        role: "presentation",
+        "data-uppy-acquirer-id": acquirer.id
+      }, h("button", {
+        type: "button",
+        class: "uppy-DashboardTab-btn",
+        role: "tab",
+        tabindex: 0,
+        "aria-controls": "uppy-DashboardContent-panel--" + acquirer.id,
+        "aria-selected": _this.props.activePickerPanel.id === acquirer.id,
+        "data-uppy-super-focusable": true,
+        onclick: function onclick() {
+          return _this.props.showPanel(acquirer.id);
+        }
+      }, acquirer.icon(), h("div", {
+        class: "uppy-DashboardTab-name"
+      }, acquirer.name)));
+    };
+
+    _this.renderAcquirers = function (acquirers) {
+      // Group last two buttons, so we don’t end up with
+      // just one button on a new line
+      var acquirersWithoutLastTwo = [].concat(acquirers);
+      var lastTwoAcquirers = acquirersWithoutLastTwo.splice(acquirers.length - 2, acquirers.length);
+      return h("div", {
+        class: "uppy-Dashboard-AddFiles-list",
+        role: "tablist"
+      }, _this.renderMyDeviceAcquirer(), acquirersWithoutLastTwo.map(function (acquirer) {
+        return _this.renderAcquirer(acquirer);
+      }), h("span", {
+        role: "presentation",
+        style: "white-space: nowrap;"
+      }, lastTwoAcquirers.map(function (acquirer) {
+        return _this.renderAcquirer(acquirer);
+      })));
+    };
+
+    return _this;
+  }
+
+  var _proto = AddFiles.prototype;
+
+  _proto.renderPoweredByUppy = function renderPoweredByUppy() {
+    var uppyBranding = h("span", null, h("svg", {
+      "aria-hidden": "true",
+      focusable: "false",
+      class: "uppy-c-icon uppy-Dashboard-poweredByIcon",
+      width: "11",
+      height: "11",
+      viewBox: "0 0 11 11"
+    }, h("path", {
+      d: "M7.365 10.5l-.01-4.045h2.612L5.5.806l-4.467 5.65h2.604l.01 4.044h3.718z",
+      "fill-rule": "evenodd"
+    })), h("span", {
+      class: "uppy-Dashboard-poweredByUppy"
+    }, "Uppy")); // Support both the old word-order-insensitive string `poweredBy` and the new word-order-sensitive string `poweredBy2`
+
+    var linkText = this.props.i18nArray('poweredBy2', {
+      backwardsCompat: this.props.i18n('poweredBy'),
+      uppy: uppyBranding
+    });
+    return h("a", {
+      tabindex: "-1",
+      href: "https://uppy.io",
+      rel: "noreferrer noopener",
+      target: "_blank",
+      class: "uppy-Dashboard-poweredBy"
+    }, linkText);
+  };
+
+  _proto.render = function render() {
+    var _this2 = this;
+
+    return h("div", {
+      class: "uppy-Dashboard-AddFiles"
+    }, this.renderHiddenInput(false, function (ref) {
+      _this2.fileInput = ref;
+    }), this.renderHiddenInput(true, function (ref) {
+      _this2.folderInput = ref;
+    }), this.renderDropPasteBrowseTagline(), this.props.acquirers.length > 0 && this.renderAcquirers(this.props.acquirers), h("div", {
+      class: "uppy-Dashboard-AddFiles-info"
+    }, this.props.note && h("div", {
+      class: "uppy-Dashboard-note"
+    }, this.props.note), this.props.proudlyDisplayPoweredByUppy && this.renderPoweredByUppy(this.props)));
+  };
+
+  return AddFiles;
+}(Component);
+
+module.exports = AddFiles;
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/components/AddFilesPanel.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/components/AddFilesPanel.js ***!
+  \**********************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require.h;
+
+var classNames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var AddFiles = __webpack_require__(/*! ./AddFiles */ "./node_modules/@uppy/dashboard/lib/components/AddFiles.js");
+
+var AddFilesPanel = function AddFilesPanel(props) {
+  return h("div", {
+    class: classNames('uppy-Dashboard-AddFilesPanel', props.className),
+    "data-uppy-panelType": "AddFiles",
+    "aria-hidden": props.showAddFilesPanel
+  }, h("div", {
+    class: "uppy-DashboardContent-bar"
+  }, h("div", {
+    class: "uppy-DashboardContent-title",
+    role: "heading",
+    "aria-level": "1"
+  }, props.i18n('addingMoreFiles')), h("button", {
+    class: "uppy-DashboardContent-back",
+    type: "button",
+    onclick: function onclick(ev) {
+      return props.toggleAddFilesPanel(false);
+    }
+  }, props.i18n('back'))), h(AddFiles, props));
+};
+
+module.exports = AddFilesPanel;
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/components/Dashboard.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/components/Dashboard.js ***!
+  \******************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+var FileList = __webpack_require__(/*! ./FileList */ "./node_modules/@uppy/dashboard/lib/components/FileList.js");
+
+var AddFiles = __webpack_require__(/*! ./AddFiles */ "./node_modules/@uppy/dashboard/lib/components/AddFiles.js");
+
+var AddFilesPanel = __webpack_require__(/*! ./AddFilesPanel */ "./node_modules/@uppy/dashboard/lib/components/AddFilesPanel.js");
+
+var PickerPanelContent = __webpack_require__(/*! ./PickerPanelContent */ "./node_modules/@uppy/dashboard/lib/components/PickerPanelContent.js");
+
+var EditorPanel = __webpack_require__(/*! ./EditorPanel */ "./node_modules/@uppy/dashboard/lib/components/EditorPanel.js");
+
+var PanelTopBar = __webpack_require__(/*! ./PickerPanelTopBar */ "./node_modules/@uppy/dashboard/lib/components/PickerPanelTopBar.js");
+
+var FileCard = __webpack_require__(/*! ./FileCard */ "./node_modules/@uppy/dashboard/lib/components/FileCard/index.js");
+
+var Slide = __webpack_require__(/*! ./Slide */ "./node_modules/@uppy/dashboard/lib/components/Slide.js");
+
+var classNames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var isDragDropSupported = __webpack_require__(/*! @uppy/utils/lib/isDragDropSupported */ "./node_modules/@uppy/utils/lib/isDragDropSupported.js");
+
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require.h; // http://dev.edenspiekermann.com/2016/02/11/introducing-accessible-modal-dialog
+// https://github.com/ghosh/micromodal
+
+
+var WIDTH_XL = 900;
+var WIDTH_LG = 700;
+var WIDTH_MD = 576;
+var HEIGHT_MD = 400;
+
+module.exports = function Dashboard(props) {
+  var noFiles = props.totalFileCount === 0;
+  var isSizeMD = props.containerWidth > WIDTH_MD;
+  var wrapperClassName = classNames({
+    'uppy-Root': props.isTargetDOMEl
+  });
+  var dashboardClassName = classNames({
+    'uppy-Dashboard': true,
+    'uppy-Dashboard--animateOpenClose': props.animateOpenClose,
+    'uppy-Dashboard--isClosing': props.isClosing,
+    'uppy-Dashboard--isDraggingOver': props.isDraggingOver,
+    'uppy-Dashboard--modal': !props.inline,
+    'uppy-size--md': props.containerWidth > WIDTH_MD,
+    'uppy-size--lg': props.containerWidth > WIDTH_LG,
+    'uppy-size--xl': props.containerWidth > WIDTH_XL,
+    'uppy-size--height-md': props.containerHeight > HEIGHT_MD,
+    'uppy-Dashboard--isAddFilesPanelVisible': props.showAddFilesPanel,
+    'uppy-Dashboard--isInnerWrapVisible': props.areInsidesReadyToBeVisible
+  }); // Important: keep these in sync with the percent width values in `src/components/FileItem/index.scss`.
+
+  var itemsPerRow = 1; // mobile
+
+  if (props.containerWidth > WIDTH_XL) {
+    itemsPerRow = 5;
+  } else if (props.containerWidth > WIDTH_LG) {
+    itemsPerRow = 4;
+  } else if (props.containerWidth > WIDTH_MD) {
+    itemsPerRow = 3;
+  }
+
+  var showFileList = props.showSelectedFiles && !noFiles;
+  var dashboard = h("div", {
+    class: dashboardClassName,
+    "data-uppy-theme": props.theme,
+    "data-uppy-num-acquirers": props.acquirers.length,
+    "data-uppy-drag-drop-supported": isDragDropSupported(),
+    "aria-hidden": props.inline ? 'false' : props.isHidden,
+    "aria-label": !props.inline ? props.i18n('dashboardWindowTitle') : props.i18n('dashboardTitle'),
+    onpaste: props.handlePaste,
+    onDragOver: props.handleDragOver,
+    onDragLeave: props.handleDragLeave,
+    onDrop: props.handleDrop
+  }, h("div", {
+    class: "uppy-Dashboard-overlay",
+    tabindex: -1,
+    onclick: props.handleClickOutside
+  }), h("div", {
+    class: "uppy-Dashboard-inner",
+    "aria-modal": !props.inline && 'true',
+    role: !props.inline && 'dialog',
+    style: {
+      width: props.inline && props.width ? props.width : '',
+      height: props.inline && props.height ? props.height : ''
+    }
+  }, !props.inline ? h("button", {
+    class: "uppy-u-reset uppy-Dashboard-close",
+    type: "button",
+    "aria-label": props.i18n('closeModal'),
+    title: props.i18n('closeModal'),
+    onclick: props.closeModal
+  }, h("span", {
+    "aria-hidden": "true"
+  }, "\xD7")) : null, h("div", {
+    class: "uppy-Dashboard-innerWrap"
+  }, h("div", {
+    class: "uppy-Dashboard-dropFilesHereHint"
+  }, props.i18n('dropHint')), showFileList && h(PanelTopBar, props), showFileList ? h(FileList, _extends({}, props, {
+    itemsPerRow: itemsPerRow
+  })) : h(AddFiles, _extends({}, props, {
+    isSizeMD: isSizeMD
+  })), h(Slide, null, props.showAddFilesPanel ? h(AddFilesPanel, _extends({
+    key: "AddFiles"
+  }, props, {
+    isSizeMD: isSizeMD
+  })) : null), h(Slide, null, props.fileCardFor ? h(FileCard, _extends({
+    key: "FileCard"
+  }, props)) : null), h(Slide, null, props.activePickerPanel ? h(PickerPanelContent, _extends({
+    key: "Picker"
+  }, props)) : null), h(Slide, null, props.showFileEditor ? h(EditorPanel, _extends({
+    key: "Editor"
+  }, props)) : null), h("div", {
+    class: "uppy-Dashboard-progressindicators"
+  }, props.progressindicators.map(function (target) {
+    return props.getPlugin(target.id).render(props.state);
+  })))));
+  return (// Wrap it for RTL language support
+    h("div", {
+      class: wrapperClassName,
+      dir: props.direction
+    }, dashboard)
+  );
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/components/EditorPanel.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/components/EditorPanel.js ***!
+  \********************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require.h;
+
+var classNames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+function EditorPanel(props) {
+  var file = this.props.files[this.props.fileCardFor];
+  return h("div", {
+    class: classNames('uppy-DashboardContent-panel', props.className),
+    role: "tabpanel",
+    "data-uppy-panelType": "FileEditor",
+    id: "uppy-DashboardContent-panel--editor"
+  }, h("div", {
+    class: "uppy-DashboardContent-bar"
+  }, h("div", {
+    class: "uppy-DashboardContent-title",
+    role: "heading",
+    "aria-level": "1"
+  }, props.i18nArray('editing', {
+    file: h("span", {
+      class: "uppy-DashboardContent-titleFile"
+    }, file.meta ? file.meta.name : file.name)
+  })), h("button", {
+    class: "uppy-DashboardContent-back",
+    type: "button",
+    onclick: props.hideAllPanels
+  }, props.i18n('done'))), h("div", {
+    class: "uppy-DashboardContent-panelBody"
+  }, props.editors.map(function (target) {
+    return props.getPlugin(target.id).render(props.state);
+  })));
+}
+
+module.exports = EditorPanel;
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/components/FileCard/index.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/components/FileCard/index.js ***!
+  \***********************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
+
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require.h,
+    Component = _require.Component;
+
+var classNames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var getFileTypeIcon = __webpack_require__(/*! ../../utils/getFileTypeIcon */ "./node_modules/@uppy/dashboard/lib/utils/getFileTypeIcon.js");
+
+var ignoreEvent = __webpack_require__(/*! ../../utils/ignoreEvent.js */ "./node_modules/@uppy/dashboard/lib/utils/ignoreEvent.js");
+
+var FilePreview = __webpack_require__(/*! ../FilePreview */ "./node_modules/@uppy/dashboard/lib/components/FilePreview.js");
+
+var FileCard = /*#__PURE__*/function (_Component) {
+  _inheritsLoose(FileCard, _Component);
+
+  function FileCard(props) {
+    var _this;
+
+    _this = _Component.call(this, props) || this;
+
+    _this.saveOnEnter = function (ev) {
+      if (ev.keyCode === 13) {
+        ev.stopPropagation();
+        ev.preventDefault();
+        var file = _this.props.files[_this.props.fileCardFor];
+
+        _this.props.saveFileCard(_this.state.formState, file.id);
+      }
+    };
+
+    _this.updateMeta = function (newVal, name) {
+      var _extends2;
+
+      _this.setState({
+        formState: _extends({}, _this.state.formState, (_extends2 = {}, _extends2[name] = newVal, _extends2))
+      });
+    };
+
+    _this.handleSave = function () {
+      var fileID = _this.props.fileCardFor;
+
+      _this.props.saveFileCard(_this.state.formState, fileID);
+    };
+
+    _this.handleCancel = function () {
+      _this.props.toggleFileCard(false);
+    };
+
+    _this.renderMetaFields = function () {
+      var metaFields = _this.props.metaFields || [];
+      var fieldCSSClasses = {
+        text: 'uppy-u-reset uppy-c-textInput uppy-Dashboard-FileCard-input'
+      };
+      return metaFields.map(function (field) {
+        var id = "uppy-Dashboard-FileCard-input-" + field.id;
+        return h("fieldset", {
+          key: field.id,
+          class: "uppy-Dashboard-FileCard-fieldset"
+        }, h("label", {
+          class: "uppy-Dashboard-FileCard-label",
+          for: id
+        }, field.name), field.render !== undefined ? field.render({
+          value: _this.state.formState[field.id],
+          onChange: function onChange(newVal) {
+            return _this.updateMeta(newVal, field.id);
+          },
+          fieldCSSClasses: fieldCSSClasses
+        }, h) : h("input", {
+          class: fieldCSSClasses.text,
+          id: id,
+          type: field.type || 'text',
+          value: _this.state.formState[field.id],
+          placeholder: field.placeholder,
+          onkeyup: _this.saveOnEnter,
+          onkeydown: _this.saveOnEnter,
+          onkeypress: _this.saveOnEnter,
+          oninput: function oninput(ev) {
+            return _this.updateMeta(ev.target.value, field.id);
+          },
+          "data-uppy-super-focusable": true
+        }));
+      });
+    };
+
+    var _file = _this.props.files[_this.props.fileCardFor];
+
+    var _metaFields = _this.props.metaFields || [];
+
+    var storedMetaData = {};
+
+    _metaFields.forEach(function (field) {
+      storedMetaData[field.id] = _file.meta[field.id] || '';
+    });
+
+    _this.state = {
+      formState: storedMetaData
+    };
+    return _this;
+  }
+
+  var _proto = FileCard.prototype;
+
+  _proto.render = function render() {
+    var _this2 = this;
+
+    var file = this.props.files[this.props.fileCardFor];
+    var showEditButton = this.props.canEditFile(file);
+    return h("div", {
+      class: classNames('uppy-Dashboard-FileCard', this.props.className),
+      "data-uppy-panelType": "FileCard",
+      onDragOver: ignoreEvent,
+      onDragLeave: ignoreEvent,
+      onDrop: ignoreEvent,
+      onPaste: ignoreEvent
+    }, h("div", {
+      class: "uppy-DashboardContent-bar"
+    }, h("div", {
+      class: "uppy-DashboardContent-title",
+      role: "heading",
+      "aria-level": "1"
+    }, this.props.i18nArray('editing', {
+      file: h("span", {
+        class: "uppy-DashboardContent-titleFile"
+      }, file.meta ? file.meta.name : file.name)
+    })), h("button", {
+      class: "uppy-DashboardContent-back",
+      type: "button",
+      title: this.props.i18n('finishEditingFile'),
+      onclick: this.handleSave
+    }, this.props.i18n('done'))), h("div", {
+      class: "uppy-Dashboard-FileCard-inner"
+    }, h("div", {
+      class: "uppy-Dashboard-FileCard-preview",
+      style: {
+        backgroundColor: getFileTypeIcon(file.type).color
+      }
+    }, h(FilePreview, {
+      file: file
+    }), showEditButton && h("button", {
+      type: "button",
+      class: "uppy-u-reset uppy-c-btn uppy-Dashboard-FileCard-edit",
+      onClick: function onClick() {
+        return _this2.props.openFileEditor(file);
+      }
+    }, this.props.i18n('editFile'))), h("div", {
+      class: "uppy-Dashboard-FileCard-info"
+    }, this.renderMetaFields()), h("div", {
+      class: "uppy-Dashboard-FileCard-actions"
+    }, h("button", {
+      class: "uppy-u-reset uppy-c-btn uppy-c-btn-primary uppy-Dashboard-FileCard-actionsBtn",
+      type: "button",
+      onclick: this.handleSave
+    }, this.props.i18n('saveChanges')), h("button", {
+      class: "uppy-u-reset uppy-c-btn uppy-c-btn-link uppy-Dashboard-FileCard-actionsBtn",
+      type: "button",
+      onclick: this.handleCancel
+    }, this.props.i18n('cancel')))));
+  };
+
+  return FileCard;
+}(Component);
+
+module.exports = FileCard;
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/components/FileItem/Buttons/index.js":
+/*!*******************************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/components/FileItem/Buttons/index.js ***!
+  \*******************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require.h;
+
+var copyToClipboard = __webpack_require__(/*! ../../../utils/copyToClipboard */ "./node_modules/@uppy/dashboard/lib/utils/copyToClipboard.js");
+
+function EditButton(_ref) {
+  var file = _ref.file,
+      uploadInProgressOrComplete = _ref.uploadInProgressOrComplete,
+      metaFields = _ref.metaFields,
+      canEditFile = _ref.canEditFile,
+      i18n = _ref.i18n,
+      onClick = _ref.onClick;
+
+  if (!uploadInProgressOrComplete && metaFields && metaFields.length > 0 || !uploadInProgressOrComplete && canEditFile(file)) {
+    return h("button", {
+      class: "uppy-u-reset uppy-Dashboard-Item-action uppy-Dashboard-Item-action--edit",
+      type: "button",
+      "aria-label": i18n('editFile') + ' ' + file.meta.name,
+      title: i18n('editFile'),
+      onclick: function onclick() {
+        return onClick();
+      }
+    }, h("svg", {
+      "aria-hidden": "true",
+      focusable: "false",
+      class: "uppy-c-icon",
+      width: "14",
+      height: "14",
+      viewBox: "0 0 14 14"
+    }, h("g", {
+      "fill-rule": "evenodd"
+    }, h("path", {
+      d: "M1.5 10.793h2.793A1 1 0 0 0 5 10.5L11.5 4a1 1 0 0 0 0-1.414L9.707.793a1 1 0 0 0-1.414 0l-6.5 6.5A1 1 0 0 0 1.5 8v2.793zm1-1V8L9 1.5l1.793 1.793-6.5 6.5H2.5z",
+      "fill-rule": "nonzero"
+    }), h("rect", {
+      x: "1",
+      y: "12.293",
+      width: "11",
+      height: "1",
+      rx: ".5"
+    }), h("path", {
+      "fill-rule": "nonzero",
+      d: "M6.793 2.5L9.5 5.207l.707-.707L7.5 1.793z"
+    }))));
+  }
+
+  return null;
+}
+
+function RemoveButton(_ref2) {
+  var i18n = _ref2.i18n,
+      onClick = _ref2.onClick;
+  return h("button", {
+    class: "uppy-u-reset uppy-Dashboard-Item-action uppy-Dashboard-Item-action--remove",
+    type: "button",
+    "aria-label": i18n('removeFile'),
+    title: i18n('removeFile'),
+    onclick: function onclick() {
+      return onClick();
+    }
+  }, h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    class: "uppy-c-icon",
+    width: "18",
+    height: "18",
+    viewBox: "0 0 18 18"
+  }, h("path", {
+    d: "M9 0C4.034 0 0 4.034 0 9s4.034 9 9 9 9-4.034 9-9-4.034-9-9-9z"
+  }), h("path", {
+    fill: "#FFF",
+    d: "M13 12.222l-.778.778L9 9.778 5.778 13 5 12.222 8.222 9 5 5.778 5.778 5 9 8.222 12.222 5l.778.778L9.778 9z"
+  })));
+}
+
+var copyLinkToClipboard = function copyLinkToClipboard(event, props) {
+  copyToClipboard(props.file.uploadURL, props.i18n('copyLinkToClipboardFallback')).then(function () {
+    props.log('Link copied to clipboard.');
+    props.info(props.i18n('copyLinkToClipboardSuccess'), 'info', 3000);
+  }).catch(props.log) // avoid losing focus
+  .then(function () {
+    return event.target.focus({
+      preventScroll: true
+    });
+  });
+};
+
+function CopyLinkButton(props) {
+  return h("button", {
+    class: "uppy-u-reset uppy-Dashboard-Item-action uppy-Dashboard-Item-action--copyLink",
+    type: "button",
+    "aria-label": props.i18n('copyLink'),
+    title: props.i18n('copyLink'),
+    onclick: function onclick(event) {
+      return copyLinkToClipboard(event, props);
+    }
+  }, h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    class: "uppy-c-icon",
+    width: "14",
+    height: "14",
+    viewBox: "0 0 14 12"
+  }, h("path", {
+    d: "M7.94 7.703a2.613 2.613 0 0 1-.626 2.681l-.852.851a2.597 2.597 0 0 1-1.849.766A2.616 2.616 0 0 1 2.764 7.54l.852-.852a2.596 2.596 0 0 1 2.69-.625L5.267 7.099a1.44 1.44 0 0 0-.833.407l-.852.851a1.458 1.458 0 0 0 1.03 2.486c.39 0 .755-.152 1.03-.426l.852-.852c.231-.231.363-.522.406-.824l1.04-1.038zm4.295-5.937A2.596 2.596 0 0 0 10.387 1c-.698 0-1.355.272-1.849.766l-.852.851a2.614 2.614 0 0 0-.624 2.688l1.036-1.036c.041-.304.173-.6.407-.833l.852-.852c.275-.275.64-.426 1.03-.426a1.458 1.458 0 0 1 1.03 2.486l-.852.851a1.442 1.442 0 0 1-.824.406l-1.04 1.04a2.596 2.596 0 0 0 2.683-.628l.851-.85a2.616 2.616 0 0 0 0-3.697zm-6.88 6.883a.577.577 0 0 0 .82 0l3.474-3.474a.579.579 0 1 0-.819-.82L5.355 7.83a.579.579 0 0 0 0 .819z"
+  })));
+}
+
+module.exports = function Buttons(props) {
+  var file = props.file,
+      uploadInProgressOrComplete = props.uploadInProgressOrComplete,
+      canEditFile = props.canEditFile,
+      metaFields = props.metaFields,
+      showLinkToFileUploadResult = props.showLinkToFileUploadResult,
+      showRemoveButton = props.showRemoveButton,
+      i18n = props.i18n,
+      removeFile = props.removeFile,
+      toggleFileCard = props.toggleFileCard,
+      openFileEditor = props.openFileEditor,
+      log = props.log,
+      info = props.info;
+
+  var editAction = function editAction() {
+    if (metaFields && metaFields.length > 0) {
+      toggleFileCard(true, file.id);
+    } else {
+      openFileEditor(file);
+    }
+  };
+
+  return h("div", {
+    className: "uppy-Dashboard-Item-actionWrapper"
+  }, h(EditButton, {
+    i18n: i18n,
+    file: file,
+    uploadInProgressOrComplete: uploadInProgressOrComplete,
+    canEditFile: canEditFile,
+    metaFields: metaFields,
+    onClick: editAction
+  }), showLinkToFileUploadResult && file.uploadURL ? h(CopyLinkButton, {
+    file: file,
+    i18n: i18n,
+    info: info,
+    log: log
+  }) : null, showRemoveButton ? h(RemoveButton, {
+    i18n: i18n,
+    info: props.info,
+    log: props.log,
+    onClick: function onClick() {
+      return removeFile(file.id, 'removed-by-user');
+    }
+  }) : null);
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/components/FileItem/FileInfo/index.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/components/FileItem/FileInfo/index.js ***!
+  \********************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require.h;
+
+var prettierBytes = __webpack_require__(/*! @transloadit/prettier-bytes */ "./node_modules/@transloadit/prettier-bytes/prettierBytes.js");
+
+var truncateString = __webpack_require__(/*! @uppy/utils/lib/truncateString */ "./node_modules/@uppy/utils/lib/truncateString.js");
+
+var renderAcquirerIcon = function renderAcquirerIcon(acquirer, props) {
+  return h("span", {
+    title: props.i18n('fileSource', {
+      name: acquirer.name
+    })
+  }, acquirer.icon());
+};
+
+var renderFileSource = function renderFileSource(props) {
+  return props.file.source && props.file.source !== props.id && h("div", {
+    class: "uppy-Dashboard-Item-sourceIcon"
+  }, props.acquirers.map(function (acquirer) {
+    if (acquirer.id === props.file.source) {
+      return renderAcquirerIcon(acquirer, props);
+    }
+  }));
+};
+
+var renderFileName = function renderFileName(props) {
+  // Take up at most 2 lines on any screen
+  var maxNameLength; // For very small mobile screens
+
+  if (props.containerWidth <= 352) {
+    maxNameLength = 35; // For regular mobile screens
+  } else if (props.containerWidth <= 576) {
+    maxNameLength = 60; // For desktops
+  } else {
+    maxNameLength = 30;
+  }
+
+  return h("div", {
+    class: "uppy-Dashboard-Item-name",
+    title: props.file.meta.name
+  }, truncateString(props.file.meta.name, maxNameLength));
+};
+
+var renderFileSize = function renderFileSize(props) {
+  return props.file.data.size && h("div", {
+    class: "uppy-Dashboard-Item-statusSize"
+  }, prettierBytes(props.file.data.size));
+};
+
+var ErrorButton = function ErrorButton(_ref) {
+  var file = _ref.file,
+      onClick = _ref.onClick;
+
+  if (file.error) {
+    return h("span", {
+      class: "uppy-Dashboard-Item-errorDetails",
+      "aria-label": file.error,
+      "data-microtip-position": "bottom",
+      "data-microtip-size": "medium",
+      role: "tooltip",
+      onclick: onClick
+    }, "?");
+  }
+
+  return null;
+};
+
+module.exports = function FileInfo(props) {
+  return h("div", {
+    class: "uppy-Dashboard-Item-fileInfo",
+    "data-uppy-file-source": props.file.source
+  }, renderFileName(props), h("div", {
+    class: "uppy-Dashboard-Item-status"
+  }, renderFileSize(props), renderFileSource(props), h(ErrorButton, {
+    file: props.file,
+    onClick: function onClick() {
+      alert(props.file.error);
+    }
+  })));
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/components/FileItem/FilePreviewAndLink/index.js":
+/*!******************************************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/components/FileItem/FilePreviewAndLink/index.js ***!
+  \******************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require.h;
+
+var FilePreview = __webpack_require__(/*! ../../FilePreview */ "./node_modules/@uppy/dashboard/lib/components/FilePreview.js");
+
+var getFileTypeIcon = __webpack_require__(/*! ../../../utils/getFileTypeIcon */ "./node_modules/@uppy/dashboard/lib/utils/getFileTypeIcon.js");
+
+module.exports = function FilePreviewAndLink(props) {
+  return h("div", {
+    class: "uppy-Dashboard-Item-previewInnerWrap",
+    style: {
+      backgroundColor: getFileTypeIcon(props.file.type).color
+    }
+  }, props.showLinkToFileUploadResult && props.file.uploadURL && h("a", {
+    class: "uppy-Dashboard-Item-previewLink",
+    href: props.file.uploadURL,
+    rel: "noreferrer noopener",
+    target: "_blank",
+    "aria-label": props.file.meta.name
+  }), h(FilePreview, {
+    file: props.file
+  }));
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/components/FileItem/FileProgress/index.js":
+/*!************************************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/components/FileItem/FileProgress/index.js ***!
+  \************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require.h;
+
+function onPauseResumeCancelRetry(props) {
+  if (props.isUploaded) return;
+
+  if (props.error && !props.hideRetryButton) {
+    props.retryUpload(props.file.id);
+    return;
+  }
+
+  if (props.resumableUploads && !props.hidePauseResumeButton) {
+    props.pauseUpload(props.file.id);
+  } else if (props.individualCancellation && !props.hideCancelButton) {
+    props.cancelUpload(props.file.id);
+  }
+}
+
+function progressIndicatorTitle(props) {
+  if (props.isUploaded) {
+    return props.i18n('uploadComplete');
+  }
+
+  if (props.error) {
+    return props.i18n('retryUpload');
+  }
+
+  if (props.resumableUploads) {
+    if (props.file.isPaused) {
+      return props.i18n('resumeUpload');
+    }
+
+    return props.i18n('pauseUpload');
+  } else if (props.individualCancellation) {
+    return props.i18n('cancelUpload');
+  }
+
+  return '';
+}
+
+function ProgressIndicatorButton(props) {
+  return h("div", {
+    class: "uppy-Dashboard-Item-progress"
+  }, h("button", {
+    class: "uppy-u-reset uppy-Dashboard-Item-progressIndicator",
+    type: "button",
+    "aria-label": progressIndicatorTitle(props),
+    title: progressIndicatorTitle(props),
+    onclick: function onclick() {
+      return onPauseResumeCancelRetry(props);
+    }
+  }, props.children));
+}
+
+function ProgressCircleContainer(_ref) {
+  var children = _ref.children;
+  return h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    width: "70",
+    height: "70",
+    viewBox: "0 0 36 36",
+    class: "uppy-c-icon uppy-Dashboard-Item-progressIcon--circle"
+  }, children);
+}
+
+function ProgressCircle(_ref2) {
+  var progress = _ref2.progress;
+  // circle length equals 2 * PI * R
+  var circleLength = 2 * Math.PI * 15;
+  return h("g", null, h("circle", {
+    class: "uppy-Dashboard-Item-progressIcon--bg",
+    r: "15",
+    cx: "18",
+    cy: "18",
+    "stroke-width": "2",
+    fill: "none"
+  }), h("circle", {
+    class: "uppy-Dashboard-Item-progressIcon--progress",
+    r: "15",
+    cx: "18",
+    cy: "18",
+    transform: "rotate(-90, 18, 18)",
+    "stroke-width": "2",
+    fill: "none",
+    "stroke-dasharray": circleLength,
+    "stroke-dashoffset": circleLength - circleLength / 100 * progress
+  }));
+}
+
+module.exports = function FileProgress(props) {
+  // Nothing if upload has not started
+  if (!props.file.progress.uploadStarted) {
+    return null;
+  } // Green checkmark when complete
+
+
+  if (props.isUploaded) {
+    return h("div", {
+      class: "uppy-Dashboard-Item-progress"
+    }, h("div", {
+      class: "uppy-Dashboard-Item-progressIndicator"
+    }, h(ProgressCircleContainer, null, h("circle", {
+      r: "15",
+      cx: "18",
+      cy: "18",
+      fill: "#1bb240"
+    }), h("polygon", {
+      class: "uppy-Dashboard-Item-progressIcon--check",
+      transform: "translate(2, 3)",
+      points: "14 22.5 7 15.2457065 8.99985857 13.1732815 14 18.3547104 22.9729883 9 25 11.1005634"
+    }))));
+  } // Retry button for error
+
+
+  if (props.error && !props.hideRetryButton) {
+    return h(ProgressIndicatorButton, props, h("svg", {
+      "aria-hidden": "true",
+      focusable: "false",
+      class: "uppy-c-icon uppy-Dashboard-Item-progressIcon--retry",
+      width: "28",
+      height: "31",
+      viewBox: "0 0 16 19"
+    }, h("path", {
+      d: "M16 11a8 8 0 1 1-8-8v2a6 6 0 1 0 6 6h2z"
+    }), h("path", {
+      d: "M7.9 3H10v2H7.9z"
+    }), h("path", {
+      d: "M8.536.5l3.535 3.536-1.414 1.414L7.12 1.914z"
+    }), h("path", {
+      d: "M10.657 2.621l1.414 1.415L8.536 7.57 7.12 6.157z"
+    })));
+  } // Pause/resume button for resumable uploads
+
+
+  if (props.resumableUploads && !props.hidePauseResumeButton) {
+    return h(ProgressIndicatorButton, props, h(ProgressCircleContainer, null, h(ProgressCircle, {
+      progress: props.file.progress.percentage
+    }), props.file.isPaused ? h("polygon", {
+      class: "uppy-Dashboard-Item-progressIcon--play",
+      transform: "translate(3, 3)",
+      points: "12 20 12 10 20 15"
+    }) : h("g", {
+      class: "uppy-Dashboard-Item-progressIcon--pause",
+      transform: "translate(14.5, 13)"
+    }, h("rect", {
+      x: "0",
+      y: "0",
+      width: "2",
+      height: "10",
+      rx: "0"
+    }), h("rect", {
+      x: "5",
+      y: "0",
+      width: "2",
+      height: "10",
+      rx: "0"
+    }))));
+  } // Cancel button for non-resumable uploads if individualCancellation is supported (not bundled)
+
+
+  if (!props.resumableUploads && props.individualCancellation && !props.hideCancelButton) {
+    return h(ProgressIndicatorButton, props, h(ProgressCircleContainer, null, h(ProgressCircle, {
+      progress: props.file.progress.percentage
+    }), h("polygon", {
+      class: "cancel",
+      transform: "translate(2, 2)",
+      points: "19.8856516 11.0625 16 14.9481516 12.1019737 11.0625 11.0625 12.1143484 14.9481516 16 11.0625 19.8980263 12.1019737 20.9375 16 17.0518484 19.8856516 20.9375 20.9375 19.8980263 17.0518484 16 20.9375 12"
+    })));
+  } // Just progress when buttons are disabled
+
+
+  return h("div", {
+    class: "uppy-Dashboard-Item-progress"
+  }, h("div", {
+    class: "uppy-Dashboard-Item-progressIndicator"
+  }, h(ProgressCircleContainer, null, h(ProgressCircle, {
+    progress: props.file.progress.percentage
+  }))));
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/components/FileItem/index.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/components/FileItem/index.js ***!
+  \***********************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
+
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require.h,
+    Component = _require.Component;
+
+var classNames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var shallowEqual = __webpack_require__(/*! is-shallow-equal */ "./node_modules/is-shallow-equal/index.js");
+
+var FilePreviewAndLink = __webpack_require__(/*! ./FilePreviewAndLink */ "./node_modules/@uppy/dashboard/lib/components/FileItem/FilePreviewAndLink/index.js");
+
+var FileProgress = __webpack_require__(/*! ./FileProgress */ "./node_modules/@uppy/dashboard/lib/components/FileItem/FileProgress/index.js");
+
+var FileInfo = __webpack_require__(/*! ./FileInfo */ "./node_modules/@uppy/dashboard/lib/components/FileItem/FileInfo/index.js");
+
+var Buttons = __webpack_require__(/*! ./Buttons */ "./node_modules/@uppy/dashboard/lib/components/FileItem/Buttons/index.js");
+
+module.exports = /*#__PURE__*/function (_Component) {
+  _inheritsLoose(FileItem, _Component);
+
+  function FileItem() {
+    return _Component.apply(this, arguments) || this;
+  }
+
+  var _proto = FileItem.prototype;
+
+  _proto.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
+    return !shallowEqual(this.props, nextProps);
+  };
+
+  _proto.componentDidMount = function componentDidMount() {
+    var file = this.props.file;
+
+    if (!file.preview) {
+      this.props.handleRequestThumbnail(file);
+    }
+  };
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    var file = this.props.file;
+
+    if (!file.preview) {
+      this.props.handleCancelThumbnail(file);
+    }
+  };
+
+  _proto.render = function render() {
+    var file = this.props.file;
+    var isProcessing = file.progress.preprocess || file.progress.postprocess;
+    var isUploaded = file.progress.uploadComplete && !isProcessing && !file.error;
+    var uploadInProgressOrComplete = file.progress.uploadStarted || isProcessing;
+    var uploadInProgress = file.progress.uploadStarted && !file.progress.uploadComplete || isProcessing;
+    var error = file.error || false;
+    var showRemoveButton = this.props.individualCancellation ? !isUploaded : !uploadInProgress && !isUploaded;
+
+    if (isUploaded && this.props.showRemoveButtonAfterComplete) {
+      showRemoveButton = true;
+    }
+
+    var dashboardItemClass = classNames({
+      'uppy-Dashboard-Item': true,
+      'is-inprogress': uploadInProgress,
+      'is-processing': isProcessing,
+      'is-complete': isUploaded,
+      'is-error': !!error,
+      'is-resumable': this.props.resumableUploads,
+      'is-noIndividualCancellation': !this.props.individualCancellation
+    });
+    return h("div", {
+      class: dashboardItemClass,
+      id: "uppy_" + file.id,
+      role: this.props.role
+    }, h("div", {
+      class: "uppy-Dashboard-Item-preview"
+    }, h(FilePreviewAndLink, {
+      file: file,
+      showLinkToFileUploadResult: this.props.showLinkToFileUploadResult
+    }), h(FileProgress, {
+      file: file,
+      error: error,
+      isUploaded: isUploaded,
+      hideRetryButton: this.props.hideRetryButton,
+      hideCancelButton: this.props.hideCancelButton,
+      hidePauseResumeButton: this.props.hidePauseResumeButton,
+      showRemoveButtonAfterComplete: this.props.showRemoveButtonAfterComplete,
+      resumableUploads: this.props.resumableUploads,
+      individualCancellation: this.props.individualCancellation,
+      pauseUpload: this.props.pauseUpload,
+      cancelUpload: this.props.cancelUpload,
+      retryUpload: this.props.retryUpload,
+      i18n: this.props.i18n
+    })), h("div", {
+      class: "uppy-Dashboard-Item-fileInfoAndButtons"
+    }, h(FileInfo, {
+      file: file,
+      id: this.props.id,
+      acquirers: this.props.acquirers,
+      containerWidth: this.props.containerWidth,
+      i18n: this.props.i18n
+    }), h(Buttons, {
+      file: file,
+      metaFields: this.props.metaFields,
+      showLinkToFileUploadResult: this.props.showLinkToFileUploadResult,
+      showRemoveButton: showRemoveButton,
+      canEditFile: this.props.canEditFile,
+      uploadInProgressOrComplete: uploadInProgressOrComplete,
+      removeFile: this.props.removeFile,
+      toggleFileCard: this.props.toggleFileCard,
+      openFileEditor: this.props.openFileEditor,
+      i18n: this.props.i18n,
+      log: this.props.log,
+      info: this.props.info
+    })));
+  };
+
+  return FileItem;
+}(Component);
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/components/FileList.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/components/FileList.js ***!
+  \*****************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+var FileItem = __webpack_require__(/*! ./FileItem/index.js */ "./node_modules/@uppy/dashboard/lib/components/FileItem/index.js");
+
+var VirtualList = __webpack_require__(/*! ./VirtualList */ "./node_modules/@uppy/dashboard/lib/components/VirtualList.js");
+
+var classNames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require.h;
+
+function chunks(list, size) {
+  var chunked = [];
+  var currentChunk = [];
+  list.forEach(function (item, i) {
+    if (currentChunk.length < size) {
+      currentChunk.push(item);
+    } else {
+      chunked.push(currentChunk);
+      currentChunk = [item];
+    }
+  });
+  if (currentChunk.length) chunked.push(currentChunk);
+  return chunked;
+}
+
+module.exports = function (props) {
+  var noFiles = props.totalFileCount === 0;
+  var dashboardFilesClass = classNames('uppy-Dashboard-files', {
+    'uppy-Dashboard-files--noFiles': noFiles
+  }); // It's not great that this is hardcoded!
+  // It's ESPECIALLY not great that this is checking against `itemsPerRow`!
+
+  var rowHeight = props.itemsPerRow === 1 // Mobile
+  ? 71 // 190px height + 2 * 5px margin
+  : 200;
+  var fileProps = {
+    // FIXME This is confusing, it's actually the Dashboard's plugin ID
+    id: props.id,
+    error: props.error,
+    // TODO move this to context
+    i18n: props.i18n,
+    log: props.log,
+    info: props.info,
+    // features
+    acquirers: props.acquirers,
+    resumableUploads: props.resumableUploads,
+    individualCancellation: props.individualCancellation,
+    // visual options
+    hideRetryButton: props.hideRetryButton,
+    hidePauseResumeButton: props.hidePauseResumeButton,
+    hideCancelButton: props.hideCancelButton,
+    showLinkToFileUploadResult: props.showLinkToFileUploadResult,
+    showRemoveButtonAfterComplete: props.showRemoveButtonAfterComplete,
+    isWide: props.isWide,
+    metaFields: props.metaFields,
+    // callbacks
+    retryUpload: props.retryUpload,
+    pauseUpload: props.pauseUpload,
+    cancelUpload: props.cancelUpload,
+    toggleFileCard: props.toggleFileCard,
+    removeFile: props.removeFile,
+    handleRequestThumbnail: props.handleRequestThumbnail,
+    handleCancelThumbnail: props.handleCancelThumbnail
+  };
+  var rows = chunks(Object.keys(props.files), props.itemsPerRow);
+
+  function renderRow(row) {
+    return (// The `role="presentation` attribute ensures that the list items are properly associated with the `VirtualList` element
+      // We use the first file ID as the key—this should not change across scroll rerenders
+      h("div", {
+        role: "presentation",
+        key: row[0]
+      }, row.map(function (fileID) {
+        return h(FileItem, _extends({
+          key: fileID
+        }, fileProps, {
+          role: "listitem",
+          openFileEditor: props.openFileEditor,
+          canEditFile: props.canEditFile,
+          file: props.files[fileID]
+        }));
+      }))
+    );
+  }
+
+  return h(VirtualList, {
+    class: dashboardFilesClass,
+    role: "list",
+    data: rows,
+    renderRow: renderRow,
+    rowHeight: rowHeight
+  });
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/components/FilePreview.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/components/FilePreview.js ***!
+  \********************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var getFileTypeIcon = __webpack_require__(/*! ../utils/getFileTypeIcon */ "./node_modules/@uppy/dashboard/lib/utils/getFileTypeIcon.js");
+
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require.h;
+
+module.exports = function FilePreview(props) {
+  var file = props.file;
+
+  if (file.preview) {
+    return h("img", {
+      class: "uppy-Dashboard-Item-previewImg",
+      alt: file.name,
+      src: file.preview
+    });
+  }
+
+  var _getFileTypeIcon = getFileTypeIcon(file.type),
+      color = _getFileTypeIcon.color,
+      icon = _getFileTypeIcon.icon;
+
+  return h("div", {
+    class: "uppy-Dashboard-Item-previewIconWrap"
+  }, h("span", {
+    class: "uppy-Dashboard-Item-previewIcon",
+    style: {
+      color: color
+    }
+  }, icon), h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    class: "uppy-Dashboard-Item-previewIconBg",
+    width: "58",
+    height: "76",
+    viewBox: "0 0 58 76"
+  }, h("rect", {
+    fill: "#FFF",
+    width: "58",
+    height: "76",
+    rx: "3",
+    "fill-rule": "evenodd"
+  })));
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/components/PickerPanelContent.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/components/PickerPanelContent.js ***!
+  \***************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require.h;
+
+var classNames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var ignoreEvent = __webpack_require__(/*! ../utils/ignoreEvent.js */ "./node_modules/@uppy/dashboard/lib/utils/ignoreEvent.js");
+
+function PickerPanelContent(props) {
+  return h("div", {
+    class: classNames('uppy-DashboardContent-panel', props.className),
+    role: "tabpanel",
+    "data-uppy-panelType": "PickerPanel",
+    id: "uppy-DashboardContent-panel--" + props.activePickerPanel.id,
+    onDragOver: ignoreEvent,
+    onDragLeave: ignoreEvent,
+    onDrop: ignoreEvent,
+    onPaste: ignoreEvent
+  }, h("div", {
+    class: "uppy-DashboardContent-bar"
+  }, h("div", {
+    class: "uppy-DashboardContent-title",
+    role: "heading",
+    "aria-level": "1"
+  }, props.i18n('importFrom', {
+    name: props.activePickerPanel.name
+  })), h("button", {
+    class: "uppy-DashboardContent-back",
+    type: "button",
+    onclick: props.hideAllPanels
+  }, props.i18n('done'))), h("div", {
+    class: "uppy-DashboardContent-panelBody"
+  }, props.getPlugin(props.activePickerPanel.id).render(props.state)));
+}
+
+module.exports = PickerPanelContent;
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/components/PickerPanelTopBar.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/components/PickerPanelTopBar.js ***!
+  \**************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require.h;
+
+var uploadStates = {
+  STATE_ERROR: 'error',
+  STATE_WAITING: 'waiting',
+  STATE_PREPROCESSING: 'preprocessing',
+  STATE_UPLOADING: 'uploading',
+  STATE_POSTPROCESSING: 'postprocessing',
+  STATE_COMPLETE: 'complete',
+  STATE_PAUSED: 'paused'
+};
+
+function getUploadingState(isAllErrored, isAllComplete, isAllPaused, files) {
+  if (files === void 0) {
+    files = {};
+  }
+
+  if (isAllErrored) {
+    return uploadStates.STATE_ERROR;
+  }
+
+  if (isAllComplete) {
+    return uploadStates.STATE_COMPLETE;
+  }
+
+  if (isAllPaused) {
+    return uploadStates.STATE_PAUSED;
+  }
+
+  var state = uploadStates.STATE_WAITING;
+  var fileIDs = Object.keys(files);
+
+  for (var i = 0; i < fileIDs.length; i++) {
+    var progress = files[fileIDs[i]].progress; // If ANY files are being uploaded right now, show the uploading state.
+
+    if (progress.uploadStarted && !progress.uploadComplete) {
+      return uploadStates.STATE_UPLOADING;
+    } // If files are being preprocessed AND postprocessed at this time, we show the
+    // preprocess state. If any files are being uploaded we show uploading.
+
+
+    if (progress.preprocess && state !== uploadStates.STATE_UPLOADING) {
+      state = uploadStates.STATE_PREPROCESSING;
+    } // If NO files are being preprocessed or uploaded right now, but some files are
+    // being postprocessed, show the postprocess state.
+
+
+    if (progress.postprocess && state !== uploadStates.STATE_UPLOADING && state !== uploadStates.STATE_PREPROCESSING) {
+      state = uploadStates.STATE_POSTPROCESSING;
+    }
+  }
+
+  return state;
+}
+
+function UploadStatus(props) {
+  var uploadingState = getUploadingState(props.isAllErrored, props.isAllComplete, props.isAllPaused, props.files);
+
+  switch (uploadingState) {
+    case 'uploading':
+      return props.i18n('uploadingXFiles', {
+        smart_count: props.inProgressNotPausedFiles.length
+      });
+
+    case 'preprocessing':
+    case 'postprocessing':
+      return props.i18n('processingXFiles', {
+        smart_count: props.processingFiles.length
+      });
+
+    case 'paused':
+      return props.i18n('uploadPaused');
+
+    case 'waiting':
+      return props.i18n('xFilesSelected', {
+        smart_count: props.newFiles.length
+      });
+
+    case 'complete':
+      return props.i18n('uploadComplete');
+  }
+}
+
+function PanelTopBar(props) {
+  var allowNewUpload = props.allowNewUpload; // TODO maybe this should be done in ../index.js, then just pass that down as `allowNewUpload`
+
+  if (allowNewUpload && props.maxNumberOfFiles) {
+    allowNewUpload = props.totalFileCount < props.maxNumberOfFiles;
+  }
+
+  return h("div", {
+    class: "uppy-DashboardContent-bar"
+  }, !props.isAllComplete && !props.hideCancelButton ? h("button", {
+    class: "uppy-DashboardContent-back",
+    type: "button",
+    onclick: props.cancelAll
+  }, props.i18n('cancel')) : h("div", null), h("div", {
+    class: "uppy-DashboardContent-title",
+    role: "heading",
+    "aria-level": "1"
+  }, h(UploadStatus, props)), allowNewUpload ? h("button", {
+    class: "uppy-DashboardContent-addMore",
+    type: "button",
+    "aria-label": props.i18n('addMoreFiles'),
+    title: props.i18n('addMoreFiles'),
+    onclick: function onclick() {
+      return props.toggleAddFilesPanel(true);
+    }
+  }, h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    class: "uppy-c-icon",
+    width: "15",
+    height: "15",
+    viewBox: "0 0 15 15"
+  }, h("path", {
+    d: "M8 6.5h6a.5.5 0 0 1 .5.5v.5a.5.5 0 0 1-.5.5H8v6a.5.5 0 0 1-.5.5H7a.5.5 0 0 1-.5-.5V8h-6a.5.5 0 0 1-.5-.5V7a.5.5 0 0 1 .5-.5h6v-6A.5.5 0 0 1 7 0h.5a.5.5 0 0 1 .5.5v6z"
+  })), h("span", {
+    class: "uppy-DashboardContent-addMoreCaption"
+  }, props.i18n('addMore'))) : h("div", null));
+}
+
+module.exports = PanelTopBar;
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/components/Slide.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/components/Slide.js ***!
+  \**************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
+
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    cloneElement = _require.cloneElement,
+    Component = _require.Component;
+
+var classNames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var transitionName = 'uppy-transition-slideDownUp';
+var duration = 250;
+/**
+ * Vertical slide transition.
+ *
+ * This can take a _single_ child component, which _must_ accept a `className` prop.
+ *
+ * Currently this is specific to the `uppy-transition-slideDownUp` transition,
+ * but it should be simple to extend this for any type of single-element
+ * transition by setting the CSS name and duration as props.
+ */
+
+var Slide = /*#__PURE__*/function (_Component) {
+  _inheritsLoose(Slide, _Component);
+
+  function Slide(props) {
+    var _this;
+
+    _this = _Component.call(this, props) || this;
+    _this.state = {
+      cachedChildren: null,
+      className: ''
+    };
+    return _this;
+  }
+
+  var _proto = Slide.prototype;
+
+  _proto.componentWillUpdate = function componentWillUpdate(nextProps) {
+    var _this2 = this;
+
+    var cachedChildren = this.state.cachedChildren;
+    var child = nextProps.children[0];
+    if (cachedChildren === child) return;
+    var patch = {
+      cachedChildren: child
+    }; // Enter transition
+
+    if (child && !cachedChildren) {
+      patch.className = transitionName + "-enter";
+      cancelAnimationFrame(this.animationFrame);
+      clearTimeout(this.leaveTimeout);
+      this.leaveTimeout = undefined;
+      this.animationFrame = requestAnimationFrame(function () {
+        // Force it to render before we add the active class
+        _this2.base.getBoundingClientRect();
+
+        _this2.setState({
+          className: transitionName + "-enter " + transitionName + "-enter-active"
+        });
+
+        _this2.enterTimeout = setTimeout(function () {
+          _this2.setState({
+            className: ''
+          });
+        }, duration);
+      });
+    } // Leave transition
+
+
+    if (cachedChildren && !child && this.leaveTimeout === undefined) {
+      patch.cachedChildren = cachedChildren;
+      patch.className = transitionName + "-leave";
+      cancelAnimationFrame(this.animationFrame);
+      clearTimeout(this.enterTimeout);
+      this.enterTimeout = undefined;
+      this.animationFrame = requestAnimationFrame(function () {
+        _this2.setState({
+          className: transitionName + "-leave " + transitionName + "-leave-active"
+        });
+
+        _this2.leaveTimeout = setTimeout(function () {
+          _this2.setState({
+            cachedChildren: null,
+            className: ''
+          });
+        }, duration);
+      });
+    }
+
+    this.setState(patch);
+  };
+
+  _proto.render = function render() {
+    var _this$state = this.state,
+        cachedChildren = _this$state.cachedChildren,
+        className = _this$state.className;
+
+    if (!cachedChildren) {
+      return null;
+    }
+
+    return cloneElement(cachedChildren, {
+      className: classNames(className, cachedChildren.attributes.className)
+    });
+  };
+
+  return Slide;
+}(Component);
+
+module.exports = Slide;
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/components/VirtualList.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/components/VirtualList.js ***!
+  \********************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
+
+/**
+ * Adapted from preact-virtual-list: https://github.com/developit/preact-virtual-list
+ *
+ * © 2016 Jason Miller
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ * Adaptations:
+ * - Added role=presentation to helper elements
+ * - Tweaked styles for Uppy's Dashboard use case
+ */
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require.h,
+    Component = _require.Component;
+
+var STYLE_INNER = {
+  position: 'relative',
+  // Disabled for our use case: the wrapper elements around FileList already deal with overflow,
+  // and this additional property would hide things that we want to show.
+  //
+  // overflow: 'hidden',
+  width: '100%',
+  minHeight: '100%'
+};
+var STYLE_CONTENT = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  // Because the `top` value gets set to some offset, this `height` being 100% would make the scrollbar
+  // stretch far beyond the content. For our use case, the content div actually can get its height from
+  // the elements inside it, so we don't need to specify a `height` property at all.
+  //
+  // height: '100%',
+  width: '100%',
+  overflow: 'visible'
+};
+
+var VirtualList = /*#__PURE__*/function (_Component) {
+  _inheritsLoose(VirtualList, _Component);
+
+  function VirtualList(props) {
+    var _this;
+
+    _this = _Component.call(this, props) || this; // The currently focused node, used to retain focus when the visible rows change.
+    // To avoid update loops, this should not cause state updates, so it's kept as a plain property.
+
+    _this.handleResize = function () {
+      _this.resize();
+    };
+
+    _this.handleScroll = function () {
+      _this.setState({
+        offset: _this.base.scrollTop
+      });
+
+      if (_this.props.sync) {
+        _this.forceUpdate();
+      }
+    };
+
+    _this.focusElement = null;
+    _this.state = {
+      offset: 0,
+      height: 0
+    };
+    return _this;
+  }
+
+  var _proto = VirtualList.prototype;
+
+  _proto.resize = function resize() {
+    if (this.state.height !== this.base.offsetHeight) {
+      this.setState({
+        height: this.base.offsetHeight
+      });
+    }
+  };
+
+  _proto.componentWillUpdate = function componentWillUpdate() {
+    if (this.base.contains(document.activeElement)) {
+      this.focusElement = document.activeElement;
+    }
+  };
+
+  _proto.componentDidUpdate = function componentDidUpdate() {
+    // Maintain focus when rows are added and removed.
+    if (this.focusElement && this.focusElement.parentNode && document.activeElement !== this.focusElement) {
+      this.focusElement.focus();
+    }
+
+    this.focusElement = null;
+    this.resize();
+  };
+
+  _proto.componentDidMount = function componentDidMount() {
+    this.resize();
+    window.addEventListener('resize', this.handleResize);
+  };
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  };
+
+  _proto.render = function render(_ref) {
+    var data = _ref.data,
+        rowHeight = _ref.rowHeight,
+        renderRow = _ref.renderRow,
+        _ref$overscanCount = _ref.overscanCount,
+        overscanCount = _ref$overscanCount === void 0 ? 10 : _ref$overscanCount,
+        sync = _ref.sync,
+        props = _objectWithoutPropertiesLoose(_ref, ["data", "rowHeight", "renderRow", "overscanCount", "sync"]);
+
+    var _this$state = this.state,
+        offset = _this$state.offset,
+        height = _this$state.height; // first visible row index
+
+    var start = Math.floor(offset / rowHeight); // actual number of visible rows (without overscan)
+
+    var visibleRowCount = Math.floor(height / rowHeight); // Overscan: render blocks of rows modulo an overscan row count
+    // This dramatically reduces DOM writes during scrolling
+
+    if (overscanCount) {
+      start = Math.max(0, start - start % overscanCount);
+      visibleRowCount += overscanCount;
+    } // last visible + overscan row index + padding to allow keyboard focus to travel past the visible area
+
+
+    var end = start + visibleRowCount + 4; // data slice currently in viewport plus overscan items
+
+    var selection = data.slice(start, end);
+
+    var styleInner = _extends({}, STYLE_INNER, {
+      height: data.length * rowHeight
+    });
+
+    var styleContent = _extends({}, STYLE_CONTENT, {
+      top: start * rowHeight
+    }); // The `role="presentation"` attributes ensure that these wrapper elements are not treated as list
+    // items by accessibility and outline tools.
+
+
+    return h("div", _extends({
+      onScroll: this.handleScroll
+    }, props), h("div", {
+      role: "presentation",
+      style: styleInner
+    }, h("div", {
+      role: "presentation",
+      style: styleContent
+    }, selection.map(renderRow))));
+  };
+
+  return VirtualList;
+}(Component);
+
+module.exports = VirtualList;
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/index.js":
 /*!***************************************************!*\
-  !*** ./node_modules/@uppy/drag-drop/lib/index.js ***!
+  !*** ./node_modules/@uppy/dashboard/lib/index.js ***!
   \***************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _class, _temp;
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
+
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require.h;
+
+var _require2 = __webpack_require__(/*! @uppy/core */ "./node_modules/@uppy/core/lib/index.js"),
+    Plugin = _require2.Plugin;
+
+var Translator = __webpack_require__(/*! @uppy/utils/lib/Translator */ "./node_modules/@uppy/utils/lib/Translator.js");
+
+var DashboardUI = __webpack_require__(/*! ./components/Dashboard */ "./node_modules/@uppy/dashboard/lib/components/Dashboard.js");
+
+var StatusBar = __webpack_require__(/*! @uppy/status-bar */ "./node_modules/@uppy/status-bar/lib/index.js");
+
+var Informer = __webpack_require__(/*! @uppy/informer */ "./node_modules/@uppy/informer/lib/index.js");
+
+var ThumbnailGenerator = __webpack_require__(/*! @uppy/thumbnail-generator */ "./node_modules/@uppy/thumbnail-generator/lib/index.js");
+
+var findAllDOMElements = __webpack_require__(/*! @uppy/utils/lib/findAllDOMElements */ "./node_modules/@uppy/utils/lib/findAllDOMElements.js");
+
+var toArray = __webpack_require__(/*! @uppy/utils/lib/toArray */ "./node_modules/@uppy/utils/lib/toArray.js");
+
+var getDroppedFiles = __webpack_require__(/*! @uppy/utils/lib/getDroppedFiles */ "./node_modules/@uppy/utils/lib/getDroppedFiles/index.js");
+
+var getTextDirection = __webpack_require__(/*! @uppy/utils/lib/getTextDirection */ "./node_modules/@uppy/utils/lib/getTextDirection.js");
+
+var trapFocus = __webpack_require__(/*! ./utils/trapFocus */ "./node_modules/@uppy/dashboard/lib/utils/trapFocus.js");
+
+var cuid = __webpack_require__(/*! cuid */ "./node_modules/cuid/index.js");
+
+var ResizeObserver = __webpack_require__(/*! resize-observer-polyfill */ "./node_modules/resize-observer-polyfill/dist/ResizeObserver.es.js").default || __webpack_require__(/*! resize-observer-polyfill */ "./node_modules/resize-observer-polyfill/dist/ResizeObserver.es.js");
+
+var createSuperFocus = __webpack_require__(/*! ./utils/createSuperFocus */ "./node_modules/@uppy/dashboard/lib/utils/createSuperFocus.js");
+
+var memoize = __webpack_require__(/*! memoize-one */ "./node_modules/memoize-one/dist/memoize-one.esm.js").default || __webpack_require__(/*! memoize-one */ "./node_modules/memoize-one/dist/memoize-one.esm.js");
+
+var TAB_KEY = 9;
+var ESC_KEY = 27;
+
+function createPromise() {
+  var o = {};
+  o.promise = new Promise(function (resolve, reject) {
+    o.resolve = resolve;
+    o.reject = reject;
+  });
+  return o;
+}
+
+function defaultPickerIcon() {
+  return h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    width: "30",
+    height: "30",
+    viewBox: "0 0 30 30"
+  }, h("path", {
+    d: "M15 30c8.284 0 15-6.716 15-15 0-8.284-6.716-15-15-15C6.716 0 0 6.716 0 15c0 8.284 6.716 15 15 15zm4.258-12.676v6.846h-8.426v-6.846H5.204l9.82-12.364 9.82 12.364H19.26z"
+  }));
+}
+/**
+ * Dashboard UI with previews, metadata editing, tabs for various services and more
+ */
+
+
+module.exports = (_temp = _class = /*#__PURE__*/function (_Plugin) {
+  _inheritsLoose(Dashboard, _Plugin);
+
+  function Dashboard(uppy, _opts) {
+    var _this;
+
+    _this = _Plugin.call(this, uppy, _opts) || this;
+
+    _this.setOptions = function (newOpts) {
+      _Plugin.prototype.setOptions.call(_assertThisInitialized(_this), newOpts);
+
+      _this.i18nInit();
+    };
+
+    _this.i18nInit = function () {
+      _this.translator = new Translator([_this.defaultLocale, _this.uppy.locale, _this.opts.locale]);
+      _this.i18n = _this.translator.translate.bind(_this.translator);
+      _this.i18nArray = _this.translator.translateArray.bind(_this.translator);
+
+      _this.setPluginState(); // so that UI re-renders and we see the updated locale
+
+    };
+
+    _this.removeTarget = function (plugin) {
+      var pluginState = _this.getPluginState(); // filter out the one we want to remove
+
+
+      var newTargets = pluginState.targets.filter(function (target) {
+        return target.id !== plugin.id;
+      });
+
+      _this.setPluginState({
+        targets: newTargets
+      });
+    };
+
+    _this.addTarget = function (plugin) {
+      var callerPluginId = plugin.id || plugin.constructor.name;
+      var callerPluginName = plugin.title || callerPluginId;
+      var callerPluginType = plugin.type;
+
+      if (callerPluginType !== 'acquirer' && callerPluginType !== 'progressindicator' && callerPluginType !== 'editor') {
+        var msg = 'Dashboard: can only be targeted by plugins of types: acquirer, progressindicator, editor';
+
+        _this.uppy.log(msg, 'error');
+
+        return;
+      }
+
+      var target = {
+        id: callerPluginId,
+        name: callerPluginName,
+        type: callerPluginType
+      };
+
+      var state = _this.getPluginState();
+
+      var newTargets = state.targets.slice();
+      newTargets.push(target);
+
+      _this.setPluginState({
+        targets: newTargets
+      });
+
+      return _this.el;
+    };
+
+    _this.hideAllPanels = function () {
+      var update = {
+        activePickerPanel: false,
+        showAddFilesPanel: false,
+        activeOverlayType: null,
+        fileCardFor: null,
+        showFileEditor: false
+      };
+
+      var current = _this.getPluginState();
+
+      if (current.activePickerPanel === update.activePickerPanel && current.showAddFilesPanel === update.showAddFilesPanel && current.showFileEditor === update.showFileEditor && current.activeOverlayType === update.activeOverlayType) {
+        // avoid doing a state update if nothing changed
+        return;
+      }
+
+      _this.setPluginState(update);
+    };
+
+    _this.showPanel = function (id) {
+      var _this$getPluginState = _this.getPluginState(),
+          targets = _this$getPluginState.targets;
+
+      var activePickerPanel = targets.filter(function (target) {
+        return target.type === 'acquirer' && target.id === id;
+      })[0];
+
+      _this.setPluginState({
+        activePickerPanel: activePickerPanel,
+        activeOverlayType: 'PickerPanel'
+      });
+    };
+
+    _this.canEditFile = function (file) {
+      var _this$getPluginState2 = _this.getPluginState(),
+          targets = _this$getPluginState2.targets;
+
+      var editors = _this._getEditors(targets);
+
+      return editors.some(function (target) {
+        return _this.uppy.getPlugin(target.id).canEditFile(file);
+      });
+    };
+
+    _this.openFileEditor = function (file) {
+      var _this$getPluginState3 = _this.getPluginState(),
+          targets = _this$getPluginState3.targets;
+
+      var editors = _this._getEditors(targets);
+
+      _this.setPluginState({
+        showFileEditor: true,
+        fileCardFor: file.id || null,
+        activeOverlayType: 'FileEditor'
+      });
+
+      editors.forEach(function (editor) {
+        _this.uppy.getPlugin(editor.id).selectFile(file);
+      });
+    };
+
+    _this.openModal = function () {
+      var _createPromise = createPromise(),
+          promise = _createPromise.promise,
+          resolve = _createPromise.resolve; // save scroll position
+
+
+      _this.savedScrollPosition = window.pageYOffset; // save active element, so we can restore focus when modal is closed
+
+      _this.savedActiveElement = document.activeElement;
+
+      if (_this.opts.disablePageScrollWhenModalOpen) {
+        document.body.classList.add('uppy-Dashboard-isFixed');
+      }
+
+      if (_this.opts.animateOpenClose && _this.getPluginState().isClosing) {
+        var handler = function handler() {
+          _this.setPluginState({
+            isHidden: false
+          });
+
+          _this.el.removeEventListener('animationend', handler, false);
+
+          resolve();
+        };
+
+        _this.el.addEventListener('animationend', handler, false);
+      } else {
+        _this.setPluginState({
+          isHidden: false
+        });
+
+        resolve();
+      }
+
+      if (_this.opts.browserBackButtonClose) {
+        _this.updateBrowserHistory();
+      } // handle ESC and TAB keys in modal dialog
+
+
+      document.addEventListener('keydown', _this.handleKeyDownInModal);
+
+      _this.uppy.emit('dashboard:modal-open');
+
+      return promise;
+    };
+
+    _this.closeModal = function (opts) {
+      if (opts === void 0) {
+        opts = {};
+      }
+
+      var _opts2 = opts,
+          _opts2$manualClose = _opts2.manualClose,
+          manualClose = _opts2$manualClose === void 0 ? true : _opts2$manualClose;
+
+      var _this$getPluginState4 = _this.getPluginState(),
+          isHidden = _this$getPluginState4.isHidden,
+          isClosing = _this$getPluginState4.isClosing;
+
+      if (isHidden || isClosing) {
+        // short-circuit if animation is ongoing
+        return;
+      }
+
+      var _createPromise2 = createPromise(),
+          promise = _createPromise2.promise,
+          resolve = _createPromise2.resolve;
+
+      if (_this.opts.disablePageScrollWhenModalOpen) {
+        document.body.classList.remove('uppy-Dashboard-isFixed');
+      }
+
+      if (_this.opts.animateOpenClose) {
+        _this.setPluginState({
+          isClosing: true
+        });
+
+        var handler = function handler() {
+          _this.setPluginState({
+            isHidden: true,
+            isClosing: false
+          });
+
+          _this.superFocus.cancel();
+
+          _this.savedActiveElement.focus();
+
+          _this.el.removeEventListener('animationend', handler, false);
+
+          resolve();
+        };
+
+        _this.el.addEventListener('animationend', handler, false);
+      } else {
+        _this.setPluginState({
+          isHidden: true
+        });
+
+        _this.superFocus.cancel();
+
+        _this.savedActiveElement.focus();
+
+        resolve();
+      } // handle ESC and TAB keys in modal dialog
+
+
+      document.removeEventListener('keydown', _this.handleKeyDownInModal);
+
+      if (manualClose) {
+        if (_this.opts.browserBackButtonClose) {
+          // Make sure that the latest entry in the history state is our modal name
+          if (history.state && history.state[_this.modalName]) {
+            // Go back in history to clear out the entry we created (ultimately closing the modal)
+            history.go(-1);
+          }
+        }
+      }
+
+      _this.uppy.emit('dashboard:modal-closed');
+
+      return promise;
+    };
+
+    _this.isModalOpen = function () {
+      return !_this.getPluginState().isHidden || false;
+    };
+
+    _this.requestCloseModal = function () {
+      if (_this.opts.onRequestCloseModal) {
+        return _this.opts.onRequestCloseModal();
+      }
+
+      return _this.closeModal();
+    };
+
+    _this.setDarkModeCapability = function (isDarkModeOn) {
+      var _this$uppy$getState = _this.uppy.getState(),
+          capabilities = _this$uppy$getState.capabilities;
+
+      _this.uppy.setState({
+        capabilities: _extends({}, capabilities, {
+          darkMode: isDarkModeOn
+        })
+      });
+    };
+
+    _this.handleSystemDarkModeChange = function (event) {
+      var isDarkModeOnNow = event.matches;
+
+      _this.uppy.log("[Dashboard] Dark mode is " + (isDarkModeOnNow ? 'on' : 'off'));
+
+      _this.setDarkModeCapability(isDarkModeOnNow);
+    };
+
+    _this.toggleFileCard = function (show, fileID) {
+      var file = _this.uppy.getFile(fileID);
+
+      if (show) {
+        _this.uppy.emit('dashboard:file-edit-start', file);
+      } else {
+        _this.uppy.emit('dashboard:file-edit-complete', file);
+      }
+
+      _this.setPluginState({
+        fileCardFor: show ? fileID : null,
+        activeOverlayType: show ? 'FileCard' : null
+      });
+    };
+
+    _this.toggleAddFilesPanel = function (show) {
+      _this.setPluginState({
+        showAddFilesPanel: show,
+        activeOverlayType: show ? 'AddFiles' : null
+      });
+    };
+
+    _this.addFiles = function (files) {
+      var descriptors = files.map(function (file) {
+        return {
+          source: _this.id,
+          name: file.name,
+          type: file.type,
+          data: file,
+          meta: {
+            // path of the file relative to the ancestor directory the user selected.
+            // e.g. 'docs/Old Prague/airbnb.pdf'
+            relativePath: file.relativePath || null
+          }
+        };
+      });
+
+      try {
+        _this.uppy.addFiles(descriptors);
+      } catch (err) {
+        _this.uppy.log(err);
+      }
+    };
+
+    _this.startListeningToResize = function () {
+      // Watch for Dashboard container (`.uppy-Dashboard-inner`) resize
+      // and update containerWidth/containerHeight in plugin state accordingly.
+      // Emits first event on initialization.
+      _this.resizeObserver = new ResizeObserver(function (entries, observer) {
+        var uppyDashboardInnerEl = entries[0];
+        var _uppyDashboardInnerEl = uppyDashboardInnerEl.contentRect,
+            width = _uppyDashboardInnerEl.width,
+            height = _uppyDashboardInnerEl.height;
+
+        _this.uppy.log("[Dashboard] resized: " + width + " / " + height, 'debug');
+
+        _this.setPluginState({
+          containerWidth: width,
+          containerHeight: height,
+          areInsidesReadyToBeVisible: true
+        });
+      });
+
+      _this.resizeObserver.observe(_this.el.querySelector('.uppy-Dashboard-inner')); // If ResizeObserver fails to emit an event telling us what size to use - default to the mobile view
+
+
+      _this.makeDashboardInsidesVisibleAnywayTimeout = setTimeout(function () {
+        var pluginState = _this.getPluginState();
+
+        var isModalAndClosed = !_this.opts.inline && pluginState.isHidden;
+
+        if ( // if ResizeObserver hasn't yet fired,
+        !pluginState.areInsidesReadyToBeVisible && // and it's not due to the modal being closed
+        !isModalAndClosed) {
+          _this.uppy.log("[Dashboard] resize event didn't fire on time: defaulted to mobile layout", 'debug');
+
+          _this.setPluginState({
+            areInsidesReadyToBeVisible: true
+          });
+        }
+      }, 1000);
+    };
+
+    _this.stopListeningToResize = function () {
+      _this.resizeObserver.disconnect();
+
+      clearTimeout(_this.makeDashboardInsidesVisibleAnywayTimeout);
+    };
+
+    _this.recordIfFocusedOnUppyRecently = function (event) {
+      if (_this.el.contains(event.target)) {
+        _this.ifFocusedOnUppyRecently = true;
+      } else {
+        _this.ifFocusedOnUppyRecently = false; // ___Why run this.superFocus.cancel here when it already runs in superFocusOnEachUpdate?
+        //    Because superFocus is debounced, when we move from Uppy to some other element on the page,
+        //    previously run superFocus sometimes hits and moves focus back to Uppy.
+
+        _this.superFocus.cancel();
+      }
+    };
+
+    _this.updateBrowserHistory = function () {
+      // Ensure history state does not already contain our modal name to avoid double-pushing
+      if (!history.state || !history.state[_this.modalName]) {
+        var _extends2;
+
+        // Push to history so that the page is not lost on browser back button press
+        history.pushState(_extends({}, history.state, (_extends2 = {}, _extends2[_this.modalName] = true, _extends2)), '');
+      } // Listen for back button presses
+
+
+      window.addEventListener('popstate', _this.handlePopState, false);
+    };
+
+    _this.handlePopState = function (event) {
+      // Close the modal if the history state no longer contains our modal name
+      if (_this.isModalOpen() && (!event.state || !event.state[_this.modalName])) {
+        _this.closeModal({
+          manualClose: false
+        });
+      } // When the browser back button is pressed and uppy is now the latest entry in the history but the modal is closed, fix the history by removing the uppy history entry
+      // This occurs when another entry is added into the history state while the modal is open, and then the modal gets manually closed
+      // Solves PR #575 (https://github.com/transloadit/uppy/pull/575)
+
+
+      if (!_this.isModalOpen() && event.state && event.state[_this.modalName]) {
+        history.go(-1);
+      }
+    };
+
+    _this.handleKeyDownInModal = function (event) {
+      // close modal on esc key press
+      if (event.keyCode === ESC_KEY) _this.requestCloseModal(event); // trap focus on tab key press
+
+      if (event.keyCode === TAB_KEY) trapFocus.forModal(event, _this.getPluginState().activeOverlayType, _this.el);
+    };
+
+    _this.handleClickOutside = function () {
+      if (_this.opts.closeModalOnClickOutside) _this.requestCloseModal();
+    };
+
+    _this.handlePaste = function (event) {
+      // 1. Let any acquirer plugin (Url/Webcam/etc.) handle pastes to the root
+      _this.uppy.iteratePlugins(function (plugin) {
+        if (plugin.type === 'acquirer') {
+          // Every Plugin with .type acquirer can define handleRootPaste(event)
+          plugin.handleRootPaste && plugin.handleRootPaste(event);
+        }
+      }); // 2. Add all dropped files
+
+
+      var files = toArray(event.clipboardData.files);
+
+      _this.addFiles(files);
+    };
+
+    _this.handleInputChange = function (event) {
+      event.preventDefault();
+      var files = toArray(event.target.files);
+
+      _this.addFiles(files);
+    };
+
+    _this.handleDragOver = function (event) {
+      event.preventDefault();
+      event.stopPropagation(); // 1. Add a small (+) icon on drop
+      // (and prevent browsers from interpreting this as files being _moved_ into the browser, https://github.com/transloadit/uppy/issues/1978)
+
+      event.dataTransfer.dropEffect = 'copy';
+      clearTimeout(_this.removeDragOverClassTimeout);
+
+      _this.setPluginState({
+        isDraggingOver: true
+      });
+    };
+
+    _this.handleDragLeave = function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      clearTimeout(_this.removeDragOverClassTimeout); // Timeout against flickering, this solution is taken from drag-drop library. Solution with 'pointer-events: none' didn't work across browsers.
+
+      _this.removeDragOverClassTimeout = setTimeout(function () {
+        _this.setPluginState({
+          isDraggingOver: false
+        });
+      }, 50);
+    };
+
+    _this.handleDrop = function (event, dropCategory) {
+      event.preventDefault();
+      event.stopPropagation();
+      clearTimeout(_this.removeDragOverClassTimeout); // 2. Remove dragover class
+
+      _this.setPluginState({
+        isDraggingOver: false
+      }); // 3. Let any acquirer plugin (Url/Webcam/etc.) handle drops to the root
+
+
+      _this.uppy.iteratePlugins(function (plugin) {
+        if (plugin.type === 'acquirer') {
+          // Every Plugin with .type acquirer can define handleRootDrop(event)
+          plugin.handleRootDrop && plugin.handleRootDrop(event);
+        }
+      }); // 4. Add all dropped files
+
+
+      var executedDropErrorOnce = false;
+
+      var logDropError = function logDropError(error) {
+        _this.uppy.log(error, 'error'); // In practice all drop errors are most likely the same, so let's just show one to avoid overwhelming the user
+
+
+        if (!executedDropErrorOnce) {
+          _this.uppy.info(error.message, 'error');
+
+          executedDropErrorOnce = true;
+        }
+      };
+
+      getDroppedFiles(event.dataTransfer, {
+        logDropError: logDropError
+      }).then(function (files) {
+        if (files.length > 0) {
+          _this.uppy.log('[Dashboard] Files were dropped');
+
+          _this.addFiles(files);
+        }
+      });
+    };
+
+    _this.handleRequestThumbnail = function (file) {
+      if (!_this.opts.waitForThumbnailsBeforeUpload) {
+        _this.uppy.emit('thumbnail:request', file);
+      }
+    };
+
+    _this.handleCancelThumbnail = function (file) {
+      if (!_this.opts.waitForThumbnailsBeforeUpload) {
+        _this.uppy.emit('thumbnail:cancel', file);
+      }
+    };
+
+    _this.handleKeyDownInInline = function (event) {
+      // Trap focus on tab key press.
+      if (event.keyCode === TAB_KEY) trapFocus.forInline(event, _this.getPluginState().activeOverlayType, _this.el);
+    };
+
+    _this.handlePasteOnBody = function (event) {
+      var isFocusInOverlay = _this.el.contains(document.activeElement);
+
+      if (isFocusInOverlay) {
+        _this.handlePaste(event);
+      }
+    };
+
+    _this.handleComplete = function (_ref) {
+      var failed = _ref.failed;
+
+      if (_this.opts.closeAfterFinish && failed.length === 0) {
+        // All uploads are done
+        _this.requestCloseModal();
+      }
+    };
+
+    _this._openFileEditorWhenFilesAdded = function (files) {
+      var firstFile = files[0];
+
+      if (_this.canEditFile(firstFile)) {
+        _this.openFileEditor(firstFile);
+      }
+    };
+
+    _this.initEvents = function () {
+      // Modal open button
+      if (_this.opts.trigger && !_this.opts.inline) {
+        var showModalTrigger = findAllDOMElements(_this.opts.trigger);
+
+        if (showModalTrigger) {
+          showModalTrigger.forEach(function (trigger) {
+            return trigger.addEventListener('click', _this.openModal);
+          });
+        } else {
+          _this.uppy.log('Dashboard modal trigger not found. Make sure `trigger` is set in Dashboard options, unless you are planning to call `dashboard.openModal()` method yourself', 'warning');
+        }
+      }
+
+      _this.startListeningToResize();
+
+      document.addEventListener('paste', _this.handlePasteOnBody);
+
+      _this.uppy.on('plugin-remove', _this.removeTarget);
+
+      _this.uppy.on('file-added', _this.hideAllPanels);
+
+      _this.uppy.on('dashboard:modal-closed', _this.hideAllPanels);
+
+      _this.uppy.on('file-editor:complete', _this.hideAllPanels);
+
+      _this.uppy.on('complete', _this.handleComplete); // ___Why fire on capture?
+      //    Because this.ifFocusedOnUppyRecently needs to change before onUpdate() fires.
+
+
+      document.addEventListener('focus', _this.recordIfFocusedOnUppyRecently, true);
+      document.addEventListener('click', _this.recordIfFocusedOnUppyRecently, true);
+
+      if (_this.opts.inline) {
+        _this.el.addEventListener('keydown', _this.handleKeyDownInInline);
+      }
+
+      if (_this.opts.autoOpenFileEditor) {
+        _this.uppy.on('files-added', _this._openFileEditorWhenFilesAdded);
+      }
+    };
+
+    _this.removeEvents = function () {
+      var showModalTrigger = findAllDOMElements(_this.opts.trigger);
+
+      if (!_this.opts.inline && showModalTrigger) {
+        showModalTrigger.forEach(function (trigger) {
+          return trigger.removeEventListener('click', _this.openModal);
+        });
+      }
+
+      _this.stopListeningToResize();
+
+      document.removeEventListener('paste', _this.handlePasteOnBody);
+      window.removeEventListener('popstate', _this.handlePopState, false);
+
+      _this.uppy.off('plugin-remove', _this.removeTarget);
+
+      _this.uppy.off('file-added', _this.hideAllPanels);
+
+      _this.uppy.off('dashboard:modal-closed', _this.hideAllPanels);
+
+      _this.uppy.off('complete', _this.handleComplete);
+
+      document.removeEventListener('focus', _this.recordIfFocusedOnUppyRecently);
+      document.removeEventListener('click', _this.recordIfFocusedOnUppyRecently);
+
+      if (_this.opts.inline) {
+        _this.el.removeEventListener('keydown', _this.handleKeyDownInInline);
+      }
+
+      if (_this.opts.autoOpenFileEditor) {
+        _this.uppy.off('files-added', _this._openFileEditorWhenFilesAdded);
+      }
+    };
+
+    _this.superFocusOnEachUpdate = function () {
+      var isFocusInUppy = _this.el.contains(document.activeElement); // When focus is lost on the page (== focus is on body for most browsers, or focus is null for IE11)
+
+
+      var isFocusNowhere = document.activeElement === document.body || document.activeElement === null;
+
+      var isInformerHidden = _this.uppy.getState().info.isHidden;
+
+      var isModal = !_this.opts.inline;
+
+      if ( // If update is connected to showing the Informer - let the screen reader calmly read it.
+      isInformerHidden && ( // If we are in a modal - always superfocus without concern for other elements on the page (user is unlikely to want to interact with the rest of the page)
+      isModal || // If we are already inside of Uppy, or
+      isFocusInUppy || // If we are not focused on anything BUT we have already, at least once, focused on uppy
+      //   1. We focus when isFocusNowhere, because when the element we were focused on disappears (e.g. an overlay), - focus gets lost. If user is typing something somewhere else on the page, - focus won't be 'nowhere'.
+      //   2. We only focus when focus is nowhere AND this.ifFocusedOnUppyRecently, to avoid focus jumps if we do something else on the page.
+      //   [Practical check] Without '&& this.ifFocusedOnUppyRecently', in Safari, in inline mode, when file is uploading, - navigate via tab to the checkbox, try to press space multiple times. Focus will jump to Uppy.
+      isFocusNowhere && _this.ifFocusedOnUppyRecently)) {
+        _this.superFocus(_this.el, _this.getPluginState().activeOverlayType);
+      } else {
+        _this.superFocus.cancel();
+      }
+    };
+
+    _this.afterUpdate = function () {
+      _this.superFocusOnEachUpdate();
+    };
+
+    _this.cancelUpload = function (fileID) {
+      _this.uppy.removeFile(fileID);
+    };
+
+    _this.saveFileCard = function (meta, fileID) {
+      _this.uppy.setFileMeta(fileID, meta);
+
+      _this.toggleFileCard(false, fileID);
+    };
+
+    _this._attachRenderFunctionToTarget = function (target) {
+      var plugin = _this.uppy.getPlugin(target.id);
+
+      return _extends({}, target, {
+        icon: plugin.icon || _this.opts.defaultPickerIcon,
+        render: plugin.render
+      });
+    };
+
+    _this._isTargetSupported = function (target) {
+      var plugin = _this.uppy.getPlugin(target.id); // If the plugin does not provide a `supported` check, assume the plugin works everywhere.
+
+
+      if (typeof plugin.isSupported !== 'function') {
+        return true;
+      }
+
+      return plugin.isSupported();
+    };
+
+    _this._getAcquirers = memoize(function (targets) {
+      return targets.filter(function (target) {
+        return target.type === 'acquirer' && _this._isTargetSupported(target);
+      }).map(_this._attachRenderFunctionToTarget);
+    });
+    _this._getProgressIndicators = memoize(function (targets) {
+      return targets.filter(function (target) {
+        return target.type === 'progressindicator';
+      }).map(_this._attachRenderFunctionToTarget);
+    });
+    _this._getEditors = memoize(function (targets) {
+      return targets.filter(function (target) {
+        return target.type === 'editor';
+      }).map(_this._attachRenderFunctionToTarget);
+    });
+
+    _this.render = function (state) {
+      var pluginState = _this.getPluginState();
+
+      var files = state.files,
+          capabilities = state.capabilities,
+          allowNewUpload = state.allowNewUpload; // TODO: move this to Core, to share between Status Bar and Dashboard
+      // (and any other plugin that might need it, too)
+
+      var newFiles = Object.keys(files).filter(function (file) {
+        return !files[file].progress.uploadStarted;
+      });
+      var uploadStartedFiles = Object.keys(files).filter(function (file) {
+        return files[file].progress.uploadStarted;
+      });
+      var pausedFiles = Object.keys(files).filter(function (file) {
+        return files[file].isPaused;
+      });
+      var completeFiles = Object.keys(files).filter(function (file) {
+        return files[file].progress.uploadComplete;
+      });
+      var erroredFiles = Object.keys(files).filter(function (file) {
+        return files[file].error;
+      });
+      var inProgressFiles = Object.keys(files).filter(function (file) {
+        return !files[file].progress.uploadComplete && files[file].progress.uploadStarted;
+      });
+      var inProgressNotPausedFiles = inProgressFiles.filter(function (file) {
+        return !files[file].isPaused;
+      });
+      var processingFiles = Object.keys(files).filter(function (file) {
+        return files[file].progress.preprocess || files[file].progress.postprocess;
+      });
+      var isUploadStarted = uploadStartedFiles.length > 0;
+      var isAllComplete = state.totalProgress === 100 && completeFiles.length === Object.keys(files).length && processingFiles.length === 0;
+      var isAllErrored = isUploadStarted && erroredFiles.length === uploadStartedFiles.length;
+      var isAllPaused = inProgressFiles.length !== 0 && pausedFiles.length === inProgressFiles.length;
+
+      var acquirers = _this._getAcquirers(pluginState.targets);
+
+      var progressindicators = _this._getProgressIndicators(pluginState.targets);
+
+      var editors = _this._getEditors(pluginState.targets);
+
+      var theme;
+
+      if (_this.opts.theme === 'auto') {
+        theme = capabilities.darkMode ? 'dark' : 'light';
+      } else {
+        theme = _this.opts.theme;
+      }
+
+      if (['files', 'folders', 'both'].indexOf(_this.opts.fileManagerSelectionType) < 0) {
+        _this.opts.fileManagerSelectionType = 'files';
+        console.error("Unsupported option for \"fileManagerSelectionType\". Using default of \"" + _this.opts.fileManagerSelectionType + "\".");
+      }
+
+      return DashboardUI({
+        state: state,
+        isHidden: pluginState.isHidden,
+        files: files,
+        newFiles: newFiles,
+        uploadStartedFiles: uploadStartedFiles,
+        completeFiles: completeFiles,
+        erroredFiles: erroredFiles,
+        inProgressFiles: inProgressFiles,
+        inProgressNotPausedFiles: inProgressNotPausedFiles,
+        processingFiles: processingFiles,
+        isUploadStarted: isUploadStarted,
+        isAllComplete: isAllComplete,
+        isAllErrored: isAllErrored,
+        isAllPaused: isAllPaused,
+        totalFileCount: Object.keys(files).length,
+        totalProgress: state.totalProgress,
+        allowNewUpload: allowNewUpload,
+        acquirers: acquirers,
+        theme: theme,
+        direction: _this.opts.direction,
+        activePickerPanel: pluginState.activePickerPanel,
+        showFileEditor: pluginState.showFileEditor,
+        animateOpenClose: _this.opts.animateOpenClose,
+        isClosing: pluginState.isClosing,
+        getPlugin: _this.uppy.getPlugin,
+        progressindicators: progressindicators,
+        editors: editors,
+        autoProceed: _this.uppy.opts.autoProceed,
+        id: _this.id,
+        closeModal: _this.requestCloseModal,
+        handleClickOutside: _this.handleClickOutside,
+        handleInputChange: _this.handleInputChange,
+        handlePaste: _this.handlePaste,
+        inline: _this.opts.inline,
+        showPanel: _this.showPanel,
+        hideAllPanels: _this.hideAllPanels,
+        log: _this.uppy.log,
+        i18n: _this.i18n,
+        i18nArray: _this.i18nArray,
+        removeFile: _this.uppy.removeFile,
+        uppy: _this.uppy,
+        info: _this.uppy.info,
+        note: _this.opts.note,
+        metaFields: pluginState.metaFields,
+        resumableUploads: capabilities.resumableUploads || false,
+        individualCancellation: capabilities.individualCancellation,
+        isMobileDevice: capabilities.isMobileDevice,
+        pauseUpload: _this.uppy.pauseResume,
+        retryUpload: _this.uppy.retryUpload,
+        cancelUpload: _this.cancelUpload,
+        cancelAll: _this.uppy.cancelAll,
+        fileCardFor: pluginState.fileCardFor,
+        toggleFileCard: _this.toggleFileCard,
+        toggleAddFilesPanel: _this.toggleAddFilesPanel,
+        showAddFilesPanel: pluginState.showAddFilesPanel,
+        saveFileCard: _this.saveFileCard,
+        openFileEditor: _this.openFileEditor,
+        canEditFile: _this.canEditFile,
+        width: _this.opts.width,
+        height: _this.opts.height,
+        showLinkToFileUploadResult: _this.opts.showLinkToFileUploadResult,
+        fileManagerSelectionType: _this.opts.fileManagerSelectionType,
+        proudlyDisplayPoweredByUppy: _this.opts.proudlyDisplayPoweredByUppy,
+        hideCancelButton: _this.opts.hideCancelButton,
+        hideRetryButton: _this.opts.hideRetryButton,
+        hidePauseResumeButton: _this.opts.hidePauseResumeButton,
+        showRemoveButtonAfterComplete: _this.opts.showRemoveButtonAfterComplete,
+        containerWidth: pluginState.containerWidth,
+        containerHeight: pluginState.containerHeight,
+        areInsidesReadyToBeVisible: pluginState.areInsidesReadyToBeVisible,
+        isTargetDOMEl: _this.isTargetDOMEl,
+        parentElement: _this.el,
+        allowedFileTypes: _this.uppy.opts.restrictions.allowedFileTypes,
+        maxNumberOfFiles: _this.uppy.opts.restrictions.maxNumberOfFiles,
+        showSelectedFiles: _this.opts.showSelectedFiles,
+        handleRequestThumbnail: _this.handleRequestThumbnail,
+        handleCancelThumbnail: _this.handleCancelThumbnail,
+        // drag props
+        isDraggingOver: pluginState.isDraggingOver,
+        handleDragOver: _this.handleDragOver,
+        handleDragLeave: _this.handleDragLeave,
+        handleDrop: _this.handleDrop
+      });
+    };
+
+    _this.discoverProviderPlugins = function () {
+      _this.uppy.iteratePlugins(function (plugin) {
+        if (plugin && !plugin.target && plugin.opts && plugin.opts.target === _this.constructor) {
+          _this.addTarget(plugin);
+        }
+      });
+    };
+
+    _this.install = function () {
+      // Set default state for Dashboard
+      _this.setPluginState({
+        isHidden: true,
+        fileCardFor: null,
+        activeOverlayType: null,
+        showAddFilesPanel: false,
+        activePickerPanel: false,
+        showFileEditor: false,
+        metaFields: _this.opts.metaFields,
+        targets: [],
+        // We'll make them visible once .containerWidth is determined
+        areInsidesReadyToBeVisible: false,
+        isDraggingOver: false
+      });
+
+      var _this$opts = _this.opts,
+          inline = _this$opts.inline,
+          closeAfterFinish = _this$opts.closeAfterFinish;
+
+      if (inline && closeAfterFinish) {
+        throw new Error('[Dashboard] `closeAfterFinish: true` cannot be used on an inline Dashboard, because an inline Dashboard cannot be closed at all. Either set `inline: false`, or disable the `closeAfterFinish` option.');
+      }
+
+      var allowMultipleUploads = _this.uppy.opts.allowMultipleUploads;
+
+      if (allowMultipleUploads && closeAfterFinish) {
+        _this.uppy.log('[Dashboard] When using `closeAfterFinish`, we recommended setting the `allowMultipleUploads` option to `false` in the Uppy constructor. See https://uppy.io/docs/uppy/#allowMultipleUploads-true', 'warning');
+      }
+
+      var target = _this.opts.target;
+
+      if (target) {
+        _this.mount(target, _assertThisInitialized(_this));
+      }
+
+      var plugins = _this.opts.plugins || [];
+      plugins.forEach(function (pluginID) {
+        var plugin = _this.uppy.getPlugin(pluginID);
+
+        if (plugin) {
+          plugin.mount(_assertThisInitialized(_this), plugin);
+        }
+      });
+
+      if (!_this.opts.disableStatusBar) {
+        _this.uppy.use(StatusBar, {
+          id: _this.id + ":StatusBar",
+          target: _assertThisInitialized(_this),
+          hideUploadButton: _this.opts.hideUploadButton,
+          hideRetryButton: _this.opts.hideRetryButton,
+          hidePauseResumeButton: _this.opts.hidePauseResumeButton,
+          hideCancelButton: _this.opts.hideCancelButton,
+          showProgressDetails: _this.opts.showProgressDetails,
+          hideAfterFinish: _this.opts.hideProgressAfterFinish,
+          locale: _this.opts.locale,
+          doneButtonHandler: _this.opts.doneButtonHandler
+        });
+      }
+
+      if (!_this.opts.disableInformer) {
+        _this.uppy.use(Informer, {
+          id: _this.id + ":Informer",
+          target: _assertThisInitialized(_this)
+        });
+      }
+
+      if (!_this.opts.disableThumbnailGenerator) {
+        _this.uppy.use(ThumbnailGenerator, {
+          id: _this.id + ":ThumbnailGenerator",
+          thumbnailWidth: _this.opts.thumbnailWidth,
+          thumbnailType: _this.opts.thumbnailType,
+          waitForThumbnailsBeforeUpload: _this.opts.waitForThumbnailsBeforeUpload,
+          // If we don't block on thumbnails, we can lazily generate them
+          lazy: !_this.opts.waitForThumbnailsBeforeUpload
+        });
+      } // Dark Mode / theme
+
+
+      _this.darkModeMediaQuery = typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+      var isDarkModeOnFromTheStart = _this.darkModeMediaQuery ? _this.darkModeMediaQuery.matches : false;
+
+      _this.uppy.log("[Dashboard] Dark mode is " + (isDarkModeOnFromTheStart ? 'on' : 'off'));
+
+      _this.setDarkModeCapability(isDarkModeOnFromTheStart);
+
+      if (_this.opts.theme === 'auto') {
+        _this.darkModeMediaQuery.addListener(_this.handleSystemDarkModeChange);
+      }
+
+      _this.discoverProviderPlugins();
+
+      _this.initEvents();
+    };
+
+    _this.uninstall = function () {
+      if (!_this.opts.disableInformer) {
+        var informer = _this.uppy.getPlugin(_this.id + ":Informer"); // Checking if this plugin exists, in case it was removed by uppy-core
+        // before the Dashboard was.
+
+
+        if (informer) _this.uppy.removePlugin(informer);
+      }
+
+      if (!_this.opts.disableStatusBar) {
+        var statusBar = _this.uppy.getPlugin(_this.id + ":StatusBar");
+
+        if (statusBar) _this.uppy.removePlugin(statusBar);
+      }
+
+      if (!_this.opts.disableThumbnailGenerator) {
+        var thumbnail = _this.uppy.getPlugin(_this.id + ":ThumbnailGenerator");
+
+        if (thumbnail) _this.uppy.removePlugin(thumbnail);
+      }
+
+      var plugins = _this.opts.plugins || [];
+      plugins.forEach(function (pluginID) {
+        var plugin = _this.uppy.getPlugin(pluginID);
+
+        if (plugin) plugin.unmount();
+      });
+
+      if (_this.opts.theme === 'auto') {
+        _this.darkModeMediaQuery.removeListener(_this.handleSystemDarkModeChange);
+      }
+
+      _this.unmount();
+
+      _this.removeEvents();
+    };
+
+    _this.id = _this.opts.id || 'Dashboard';
+    _this.title = 'Dashboard';
+    _this.type = 'orchestrator';
+    _this.modalName = "uppy-Dashboard-" + cuid();
+    _this.defaultLocale = {
+      strings: {
+        closeModal: 'Close Modal',
+        importFrom: 'Import from %{name}',
+        addingMoreFiles: 'Adding more files',
+        addMoreFiles: 'Add more files',
+        dashboardWindowTitle: 'File Uploader Window (Press escape to close)',
+        dashboardTitle: 'File Uploader',
+        copyLinkToClipboardSuccess: 'Link copied to clipboard',
+        copyLinkToClipboardFallback: 'Copy the URL below',
+        copyLink: 'Copy link',
+        fileSource: 'File source: %{name}',
+        done: 'Done',
+        back: 'Back',
+        addMore: 'Add more',
+        removeFile: 'Remove file',
+        editFile: 'Edit file',
+        editing: 'Editing %{file}',
+        finishEditingFile: 'Finish editing file',
+        saveChanges: 'Save changes',
+        cancel: 'Cancel',
+        myDevice: 'My Device',
+        dropPasteFiles: 'Drop files here, paste or %{browseFiles}',
+        dropPasteFolders: 'Drop files here, paste or %{browseFolders}',
+        dropPasteBoth: 'Drop files here, paste, %{browseFiles} or %{browseFolders}',
+        dropPasteImportFiles: 'Drop files here, paste, %{browseFiles} or import from:',
+        dropPasteImportFolders: 'Drop files here, paste, %{browseFolders} or import from:',
+        dropPasteImportBoth: 'Drop files here, paste, %{browseFiles}, %{browseFolders} or import from:',
+        dropHint: 'Drop your files here',
+        browseFiles: 'browse files',
+        browseFolders: 'browse folders',
+        uploadComplete: 'Upload complete',
+        uploadPaused: 'Upload paused',
+        resumeUpload: 'Resume upload',
+        pauseUpload: 'Pause upload',
+        retryUpload: 'Retry upload',
+        cancelUpload: 'Cancel upload',
+        xFilesSelected: {
+          0: '%{smart_count} file selected',
+          1: '%{smart_count} files selected'
+        },
+        uploadingXFiles: {
+          0: 'Uploading %{smart_count} file',
+          1: 'Uploading %{smart_count} files'
+        },
+        processingXFiles: {
+          0: 'Processing %{smart_count} file',
+          1: 'Processing %{smart_count} files'
+        },
+        // The default `poweredBy2` string only combines the `poweredBy` string (%{backwardsCompat}) with the size.
+        // Locales can override `poweredBy2` to specify a different word order. This is for backwards compat with
+        // Uppy 1.9.x and below which did a naive concatenation of `poweredBy2 + size` instead of using a locale-specific
+        // substitution.
+        // TODO: In 2.0 `poweredBy2` should be removed in and `poweredBy` updated to use substitution.
+        poweredBy2: '%{backwardsCompat} %{uppy}',
+        poweredBy: 'Powered by'
+      }
+    }; // set default options
+
+    var defaultOptions = {
+      target: 'body',
+      metaFields: [],
+      trigger: '#uppy-select-files',
+      inline: false,
+      width: 750,
+      height: 550,
+      thumbnailWidth: 280,
+      thumbnailType: 'image/jpeg',
+      waitForThumbnailsBeforeUpload: false,
+      defaultPickerIcon: defaultPickerIcon,
+      showLinkToFileUploadResult: true,
+      showProgressDetails: false,
+      hideUploadButton: false,
+      hideCancelButton: false,
+      hideRetryButton: false,
+      hidePauseResumeButton: false,
+      hideProgressAfterFinish: false,
+      doneButtonHandler: function doneButtonHandler() {
+        _this.uppy.reset();
+
+        _this.requestCloseModal();
+      },
+      note: null,
+      closeModalOnClickOutside: false,
+      closeAfterFinish: false,
+      disableStatusBar: false,
+      disableInformer: false,
+      disableThumbnailGenerator: false,
+      disablePageScrollWhenModalOpen: true,
+      animateOpenClose: true,
+      fileManagerSelectionType: 'files',
+      proudlyDisplayPoweredByUppy: true,
+      onRequestCloseModal: function onRequestCloseModal() {
+        return _this.closeModal();
+      },
+      showSelectedFiles: true,
+      showRemoveButtonAfterComplete: false,
+      browserBackButtonClose: false,
+      theme: 'light',
+      autoOpenFileEditor: false
+    }; // merge default options with the ones set by user
+
+    _this.opts = _extends({}, defaultOptions, _opts);
+
+    _this.i18nInit();
+
+    _this.superFocus = createSuperFocus();
+    _this.ifFocusedOnUppyRecently = false; // Timeouts
+
+    _this.makeDashboardInsidesVisibleAnywayTimeout = null;
+    _this.removeDragOverClassTimeout = null;
+    return _this;
+  }
+
+  var _proto = Dashboard.prototype;
+
+  _proto.onMount = function onMount() {
+    // Set the text direction if the page has not defined one.
+    var element = this.el;
+    var direction = getTextDirection(element);
+
+    if (!direction) {
+      element.dir = 'ltr';
+    }
+  };
+
+  return Dashboard;
+}(Plugin), _class.VERSION = "1.16.0", _temp);
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/utils/copyToClipboard.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/utils/copyToClipboard.js ***!
+  \*******************************************************************/
+/***/ ((module) => {
+
+/**
+ * Copies text to clipboard by creating an almost invisible textarea,
+ * adding text there, then running execCommand('copy').
+ * Falls back to prompt() when the easy way fails (hello, Safari!)
+ * From http://stackoverflow.com/a/30810322
+ *
+ * @param {string} textToCopy
+ * @param {string} fallbackString
+ * @returns {Promise}
+ */
+module.exports = function copyToClipboard(textToCopy, fallbackString) {
+  fallbackString = fallbackString || 'Copy the URL below';
+  return new Promise(function (resolve) {
+    var textArea = document.createElement('textarea');
+    textArea.setAttribute('style', {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '2em',
+      height: '2em',
+      padding: 0,
+      border: 'none',
+      outline: 'none',
+      boxShadow: 'none',
+      background: 'transparent'
+    });
+    textArea.value = textToCopy;
+    document.body.appendChild(textArea);
+    textArea.select();
+
+    var magicCopyFailed = function magicCopyFailed() {
+      document.body.removeChild(textArea);
+      window.prompt(fallbackString, textToCopy);
+      resolve();
+    };
+
+    try {
+      var successful = document.execCommand('copy');
+
+      if (!successful) {
+        return magicCopyFailed('copy command unavailable');
+      }
+
+      document.body.removeChild(textArea);
+      return resolve();
+    } catch (err) {
+      document.body.removeChild(textArea);
+      return magicCopyFailed(err);
+    }
+  });
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/utils/createSuperFocus.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/utils/createSuperFocus.js ***!
+  \********************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var debounce = __webpack_require__(/*! lodash.debounce */ "./node_modules/lodash.debounce/index.js");
+
+var FOCUSABLE_ELEMENTS = __webpack_require__(/*! @uppy/utils/lib/FOCUSABLE_ELEMENTS */ "./node_modules/@uppy/utils/lib/FOCUSABLE_ELEMENTS.js");
+
+var getActiveOverlayEl = __webpack_require__(/*! ./getActiveOverlayEl */ "./node_modules/@uppy/dashboard/lib/utils/getActiveOverlayEl.js");
+/*
+  Focuses on some element in the currently topmost overlay.
+
+  1. If there are some [data-uppy-super-focusable] elements rendered already - focuses on the first superfocusable element, and leaves focus up to the control of a user (until currently focused element disappears from the screen [which can happen when overlay changes, or, e.g., when we click on a folder in googledrive]).
+  2. If there are no [data-uppy-super-focusable] elements yet (or ever) - focuses on the first focusable element, but switches focus if superfocusable elements appear on next render.
+*/
+
+
+module.exports = function createSuperFocus() {
+  var lastFocusWasOnSuperFocusableEl = false;
+
+  var superFocus = function superFocus(dashboardEl, activeOverlayType) {
+    var overlayEl = getActiveOverlayEl(dashboardEl, activeOverlayType);
+    var isFocusInOverlay = overlayEl.contains(document.activeElement); // If focus is already in the topmost overlay, AND on last update we focused on the superfocusable element - then leave focus up to the user.
+    // [Practical check] without this line, typing in the search input in googledrive overlay won't work.
+
+    if (isFocusInOverlay && lastFocusWasOnSuperFocusableEl) return;
+    var superFocusableEl = overlayEl.querySelector('[data-uppy-super-focusable]'); // If we are already in the topmost overlay, AND there are no super focusable elements yet, - leave focus up to the user.
+    // [Practical check] without this line, if you are in an empty folder in google drive, and something's uploading in the bg, - focus will be jumping to Done all the time.
+
+    if (isFocusInOverlay && !superFocusableEl) return;
+
+    if (superFocusableEl) {
+      superFocusableEl.focus({
+        preventScroll: true
+      });
+      lastFocusWasOnSuperFocusableEl = true;
+    } else {
+      var firstEl = overlayEl.querySelector(FOCUSABLE_ELEMENTS);
+      firstEl && firstEl.focus({
+        preventScroll: true
+      });
+      lastFocusWasOnSuperFocusableEl = false;
+    }
+  }; // ___Why do we need to debounce?
+  //    1. To deal with animations: overlay changes via animations, which results in the DOM updating AFTER plugin.update() already executed.
+  //    [Practical check] without debounce, if we open the Url overlay, and click 'Done', Dashboard won't get focused again.
+  //    [Practical check] if we delay 250ms instead of 260ms - IE11 won't get focused in same situation.
+  //    2. Performance: there can be many state update()s in a second, and this function is called every time.
+
+
+  return debounce(superFocus, 260);
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/utils/getActiveOverlayEl.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/utils/getActiveOverlayEl.js ***!
+  \**********************************************************************/
+/***/ ((module) => {
+
+/**
+ * @returns {HTMLElement} - either dashboard element, or the overlay that's most on top
+ */
+module.exports = function getActiveOverlayEl(dashboardEl, activeOverlayType) {
+  if (activeOverlayType) {
+    var overlayEl = dashboardEl.querySelector("[data-uppy-paneltype=\"" + activeOverlayType + "\"]"); // if an overlay is already mounted
+
+    if (overlayEl) return overlayEl;
+  }
+
+  return dashboardEl;
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/utils/getFileTypeIcon.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/utils/getFileTypeIcon.js ***!
+  \*******************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require.h;
+
+function iconImage() {
+  return h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    width: "25",
+    height: "25",
+    viewBox: "0 0 25 25"
+  }, h("g", {
+    fill: "#686DE0",
+    "fill-rule": "evenodd"
+  }, h("path", {
+    d: "M5 7v10h15V7H5zm0-1h15a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z",
+    "fill-rule": "nonzero"
+  }), h("path", {
+    d: "M6.35 17.172l4.994-5.026a.5.5 0 0 1 .707 0l2.16 2.16 3.505-3.505a.5.5 0 0 1 .707 0l2.336 2.31-.707.72-1.983-1.97-3.505 3.505a.5.5 0 0 1-.707 0l-2.16-2.159-3.938 3.939-1.409.026z",
+    "fill-rule": "nonzero"
+  }), h("circle", {
+    cx: "7.5",
+    cy: "9.5",
+    r: "1.5"
+  })));
+}
+
+function iconAudio() {
+  return h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    class: "uppy-c-icon",
+    width: "25",
+    height: "25",
+    viewBox: "0 0 25 25"
+  }, h("path", {
+    d: "M9.5 18.64c0 1.14-1.145 2-2.5 2s-2.5-.86-2.5-2c0-1.14 1.145-2 2.5-2 .557 0 1.079.145 1.5.396V7.25a.5.5 0 0 1 .379-.485l9-2.25A.5.5 0 0 1 18.5 5v11.64c0 1.14-1.145 2-2.5 2s-2.5-.86-2.5-2c0-1.14 1.145-2 2.5-2 .557 0 1.079.145 1.5.396V8.67l-8 2v7.97zm8-11v-2l-8 2v2l8-2zM7 19.64c.855 0 1.5-.484 1.5-1s-.645-1-1.5-1-1.5.484-1.5 1 .645 1 1.5 1zm9-2c.855 0 1.5-.484 1.5-1s-.645-1-1.5-1-1.5.484-1.5 1 .645 1 1.5 1z",
+    fill: "#049BCF",
+    "fill-rule": "nonzero"
+  }));
+}
+
+function iconVideo() {
+  return h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    class: "uppy-c-icon",
+    width: "25",
+    height: "25",
+    viewBox: "0 0 25 25"
+  }, h("path", {
+    d: "M16 11.834l4.486-2.691A1 1 0 0 1 22 10v6a1 1 0 0 1-1.514.857L16 14.167V17a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2.834zM15 9H5v8h10V9zm1 4l5 3v-6l-5 3z",
+    fill: "#19AF67",
+    "fill-rule": "nonzero"
+  }));
+}
+
+function iconPDF() {
+  return h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    class: "uppy-c-icon",
+    width: "25",
+    height: "25",
+    viewBox: "0 0 25 25"
+  }, h("path", {
+    d: "M9.766 8.295c-.691-1.843-.539-3.401.747-3.726 1.643-.414 2.505.938 2.39 3.299-.039.79-.194 1.662-.537 3.148.324.49.66.967 1.055 1.51.17.231.382.488.629.757 1.866-.128 3.653.114 4.918.655 1.487.635 2.192 1.685 1.614 2.84-.566 1.133-1.839 1.084-3.416.249-1.141-.604-2.457-1.634-3.51-2.707a13.467 13.467 0 0 0-2.238.426c-1.392 4.051-4.534 6.453-5.707 4.572-.986-1.58 1.38-4.206 4.914-5.375.097-.322.185-.656.264-1.001.08-.353.306-1.31.407-1.737-.678-1.059-1.2-2.031-1.53-2.91zm2.098 4.87c-.033.144-.068.287-.104.427l.033-.01-.012.038a14.065 14.065 0 0 1 1.02-.197l-.032-.033.052-.004a7.902 7.902 0 0 1-.208-.271c-.197-.27-.38-.526-.555-.775l-.006.028-.002-.003c-.076.323-.148.632-.186.8zm5.77 2.978c1.143.605 1.832.632 2.054.187.26-.519-.087-1.034-1.113-1.473-.911-.39-2.175-.608-3.55-.608.845.766 1.787 1.459 2.609 1.894zM6.559 18.789c.14.223.693.16 1.425-.413.827-.648 1.61-1.747 2.208-3.206-2.563 1.064-4.102 2.867-3.633 3.62zm5.345-10.97c.088-1.793-.351-2.48-1.146-2.28-.473.119-.564 1.05-.056 2.405.213.566.52 1.188.908 1.859.18-.858.268-1.453.294-1.984z",
+    fill: "#E2514A",
+    "fill-rule": "nonzero"
+  }));
+}
+
+function iconArchive() {
+  return h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    width: "25",
+    height: "25",
+    viewBox: "0 0 25 25"
+  }, h("path", {
+    d: "M10.45 2.05h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5V2.55a.5.5 0 0 1 .5-.5zm2.05 1.024h1.05a.5.5 0 0 1 .5.5V3.6a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5v-.001zM10.45 0h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5V.5a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.024a.5.5 0 0 1 .5-.5zm-2.05 3.074h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.024a.5.5 0 0 1 .5-.5zm-2.05 1.024h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm-2.05 1.025h1.05a.5.5 0 0 1 .5.5v.025a.5.5 0 0 1-.5.5h-1.05a.5.5 0 0 1-.5-.5v-.025a.5.5 0 0 1 .5-.5zm2.05 1.025h1.05a.5.5 0 0 1 .5.5v.024a.5.5 0 0 1-.5.5H12.5a.5.5 0 0 1-.5-.5v-.024a.5.5 0 0 1 .5-.5zm-1.656 3.074l-.82 5.946c.52.302 1.174.458 1.976.458.803 0 1.455-.156 1.975-.458l-.82-5.946h-2.311zm0-1.025h2.312c.512 0 .946.378 1.015.885l.82 5.946c.056.412-.142.817-.501 1.026-.686.398-1.515.597-2.49.597-.974 0-1.804-.199-2.49-.597a1.025 1.025 0 0 1-.5-1.026l.819-5.946c.07-.507.503-.885 1.015-.885zm.545 6.6a.5.5 0 0 1-.397-.561l.143-.999a.5.5 0 0 1 .495-.429h.74a.5.5 0 0 1 .495.43l.143.998a.5.5 0 0 1-.397.561c-.404.08-.819.08-1.222 0z",
+    fill: "#00C469",
+    "fill-rule": "nonzero"
+  }));
+}
+
+function iconFile() {
+  return h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    class: "uppy-c-icon",
+    width: "25",
+    height: "25",
+    viewBox: "0 0 25 25"
+  }, h("g", {
+    fill: "#A7AFB7",
+    "fill-rule": "nonzero"
+  }, h("path", {
+    d: "M5.5 22a.5.5 0 0 1-.5-.5v-18a.5.5 0 0 1 .5-.5h10.719a.5.5 0 0 1 .367.16l3.281 3.556a.5.5 0 0 1 .133.339V21.5a.5.5 0 0 1-.5.5h-14zm.5-1h13V7.25L16 4H6v17z"
+  }), h("path", {
+    d: "M15 4v3a1 1 0 0 0 1 1h3V7h-3V4h-1z"
+  })));
+}
+
+function iconText() {
+  return h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    class: "uppy-c-icon",
+    width: "25",
+    height: "25",
+    viewBox: "0 0 25 25"
+  }, h("path", {
+    d: "M4.5 7h13a.5.5 0 1 1 0 1h-13a.5.5 0 0 1 0-1zm0 3h15a.5.5 0 1 1 0 1h-15a.5.5 0 1 1 0-1zm0 3h15a.5.5 0 1 1 0 1h-15a.5.5 0 1 1 0-1zm0 3h10a.5.5 0 1 1 0 1h-10a.5.5 0 1 1 0-1z",
+    fill: "#5A5E69",
+    "fill-rule": "nonzero"
+  }));
+}
+
+module.exports = function getIconByMime(fileType) {
+  var defaultChoice = {
+    color: '#838999',
+    icon: iconFile()
+  };
+  if (!fileType) return defaultChoice;
+  var fileTypeGeneral = fileType.split('/')[0];
+  var fileTypeSpecific = fileType.split('/')[1]; // Text
+
+  if (fileTypeGeneral === 'text') {
+    return {
+      color: '#5a5e69',
+      icon: iconText()
+    };
+  } // Image
+
+
+  if (fileTypeGeneral === 'image') {
+    return {
+      color: '#686de0',
+      icon: iconImage()
+    };
+  } // Audio
+
+
+  if (fileTypeGeneral === 'audio') {
+    return {
+      color: '#068dbb',
+      icon: iconAudio()
+    };
+  } // Video
+
+
+  if (fileTypeGeneral === 'video') {
+    return {
+      color: '#19af67',
+      icon: iconVideo()
+    };
+  } // PDF
+
+
+  if (fileTypeGeneral === 'application' && fileTypeSpecific === 'pdf') {
+    return {
+      color: '#e25149',
+      icon: iconPDF()
+    };
+  } // Archive
+
+
+  var archiveTypes = ['zip', 'x-7z-compressed', 'x-rar-compressed', 'x-tar', 'x-gzip', 'x-apple-diskimage'];
+
+  if (fileTypeGeneral === 'application' && archiveTypes.indexOf(fileTypeSpecific) !== -1) {
+    return {
+      color: '#00C469',
+      icon: iconArchive()
+    };
+  }
+
+  return defaultChoice;
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/utils/ignoreEvent.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/utils/ignoreEvent.js ***!
+  \***************************************************************/
+/***/ ((module) => {
+
+// ignore drop/paste events if they are not in input or textarea —
+// otherwise when Url plugin adds drop/paste listeners to this.el,
+// draging UI elements or pasting anything into any field triggers those events —
+// Url treats them as URLs that need to be imported
+function ignoreEvent(ev) {
+  var tagName = ev.target.tagName;
+
+  if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
+    ev.stopPropagation();
+    return;
+  }
+
+  ev.preventDefault();
+  ev.stopPropagation();
+}
+
+module.exports = ignoreEvent;
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/dashboard/lib/utils/trapFocus.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/@uppy/dashboard/lib/utils/trapFocus.js ***!
+  \*************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var toArray = __webpack_require__(/*! @uppy/utils/lib/toArray */ "./node_modules/@uppy/utils/lib/toArray.js");
+
+var getActiveOverlayEl = __webpack_require__(/*! ./getActiveOverlayEl */ "./node_modules/@uppy/dashboard/lib/utils/getActiveOverlayEl.js");
+
+var FOCUSABLE_ELEMENTS = __webpack_require__(/*! @uppy/utils/lib//FOCUSABLE_ELEMENTS */ "./node_modules/@uppy/utils/lib/FOCUSABLE_ELEMENTS.js");
+
+function focusOnFirstNode(event, nodes) {
+  var node = nodes[0];
+
+  if (node) {
+    node.focus();
+    event.preventDefault();
+  }
+}
+
+function focusOnLastNode(event, nodes) {
+  var node = nodes[nodes.length - 1];
+
+  if (node) {
+    node.focus();
+    event.preventDefault();
+  }
+} // ___Why not just use (focusedItemIndex === -1)?
+//    Firefox thinks <ul> is focusable, but we don't have <ul>s in our FOCUSABLE_ELEMENTS. Which means that if we tab into the <ul>, code will think that we are not in the active overlay, and we should focusOnFirstNode() of the currently active overlay!
+//    [Practical check] if we use (focusedItemIndex === -1), instagram provider in firefox will never get focus on its pics in the <ul>.
+
+
+function isFocusInOverlay(activeOverlayEl) {
+  return activeOverlayEl.contains(document.activeElement);
+}
+
+function trapFocus(event, activeOverlayType, dashboardEl) {
+  var activeOverlayEl = getActiveOverlayEl(dashboardEl, activeOverlayType);
+  var focusableNodes = toArray(activeOverlayEl.querySelectorAll(FOCUSABLE_ELEMENTS));
+  var focusedItemIndex = focusableNodes.indexOf(document.activeElement); // If we pressed tab, and focus is not yet within the current overlay - focus on the first element within the current overlay.
+  // This is a safety measure (for when user returns from another tab e.g.), most plugins will try to focus on some important element as it loads.
+
+  if (!isFocusInOverlay(activeOverlayEl)) {
+    focusOnFirstNode(event, focusableNodes); // If we pressed shift + tab, and we're on the first element of a modal
+  } else if (event.shiftKey && focusedItemIndex === 0) {
+    focusOnLastNode(event, focusableNodes); // If we pressed tab, and we're on the last element of the modal
+  } else if (!event.shiftKey && focusedItemIndex === focusableNodes.length - 1) {
+    focusOnFirstNode(event, focusableNodes);
+  }
+}
+
+module.exports = {
+  // Traps focus inside of the currently open overlay (e.g. Dashboard, or e.g. Instagram), never lets focus disappear from the modal.
+  forModal: function forModal(event, activeOverlayType, dashboardEl) {
+    trapFocus(event, activeOverlayType, dashboardEl);
+  },
+  // Traps focus inside of the currently open overlay, unless overlay is null - then let the user tab away.
+  forInline: function forInline(event, activeOverlayType, dashboardEl) {
+    // ___When we're in the bare 'Drop files here, paste, browse or import from' screen
+    if (activeOverlayType === null) {// Do nothing and let the browser handle it, user can tab away from Uppy to other elements on the page
+      // ___When there is some overlay with 'Done' button
+    } else {
+      // Trap the focus inside this overlay!
+      // User can close the overlay (click 'Done') if they want to travel away from Uppy.
+      trapFocus(event, activeOverlayType, dashboardEl);
+    }
+  }
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/informer/lib/index.js":
+/*!**************************************************!*\
+  !*** ./node_modules/@uppy/informer/lib/index.js ***!
+  \**************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _class, _temp;
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
+
+var _require = __webpack_require__(/*! @uppy/core */ "./node_modules/@uppy/core/lib/index.js"),
+    Plugin = _require.Plugin;
+
+var _require2 = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require2.h;
+/**
+ * Informer
+ * Shows rad message bubbles
+ * used like this: `uppy.info('hello world', 'info', 5000)`
+ * or for errors: `uppy.info('Error uploading img.jpg', 'error', 5000)`
+ *
+ */
+
+
+module.exports = (_temp = _class = /*#__PURE__*/function (_Plugin) {
+  _inheritsLoose(Informer, _Plugin);
+
+  function Informer(uppy, opts) {
+    var _this;
+
+    _this = _Plugin.call(this, uppy, opts) || this;
+
+    _this.render = function (state) {
+      var _state$info = state.info,
+          isHidden = _state$info.isHidden,
+          message = _state$info.message,
+          details = _state$info.details;
+
+      function displayErrorAlert() {
+        var errorMessage = message + " \n\n " + details;
+        alert(errorMessage);
+      }
+
+      var handleMouseOver = function handleMouseOver() {
+        clearTimeout(_this.uppy.infoTimeoutID);
+      };
+
+      var handleMouseLeave = function handleMouseLeave() {
+        _this.uppy.infoTimeoutID = setTimeout(_this.uppy.hideInfo, 2000);
+      };
+
+      return h("div", {
+        class: "uppy uppy-Informer",
+        "aria-hidden": isHidden
+      }, h("p", {
+        role: "alert"
+      }, message, ' ', details && h("span", {
+        "aria-label": details,
+        "data-microtip-position": "top-left",
+        "data-microtip-size": "medium",
+        role: "tooltip",
+        onclick: displayErrorAlert,
+        onMouseOver: handleMouseOver,
+        onMouseLeave: handleMouseLeave
+      }, "?")));
+    };
+
+    _this.type = 'progressindicator';
+    _this.id = _this.opts.id || 'Informer';
+    _this.title = 'Informer'; // set default options
+
+    var defaultOptions = {}; // merge default options with the ones set by user
+
+    _this.opts = _extends({}, defaultOptions, opts);
+    return _this;
+  }
+
+  var _proto = Informer.prototype;
+
+  _proto.install = function install() {
+    var target = this.opts.target;
+
+    if (target) {
+      this.mount(target, this);
+    }
+  };
+
+  return Informer;
+}(Plugin), _class.VERSION = "1.6.0", _temp);
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/status-bar/lib/StatusBar.js":
+/*!********************************************************!*\
+  !*** ./node_modules/@uppy/status-bar/lib/StatusBar.js ***!
+  \********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+var throttle = __webpack_require__(/*! lodash.throttle */ "./node_modules/lodash.throttle/index.js");
+
+var classNames = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+
+var statusBarStates = __webpack_require__(/*! ./StatusBarStates */ "./node_modules/@uppy/status-bar/lib/StatusBarStates.js");
+
+var prettierBytes = __webpack_require__(/*! @transloadit/prettier-bytes */ "./node_modules/@transloadit/prettier-bytes/prettierBytes.js");
+
+var prettyETA = __webpack_require__(/*! @uppy/utils/lib/prettyETA */ "./node_modules/@uppy/utils/lib/prettyETA.js");
+
+var _require = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
+    h = _require.h;
+
+function calculateProcessingProgress(files) {
+  // Collect pre or postprocessing progress states.
+  var progresses = [];
+  Object.keys(files).forEach(function (fileID) {
+    var progress = files[fileID].progress;
+
+    if (progress.preprocess) {
+      progresses.push(progress.preprocess);
+    }
+
+    if (progress.postprocess) {
+      progresses.push(progress.postprocess);
+    }
+  }); // In the future we should probably do this differently. For now we'll take the
+  // mode and message from the first file…
+
+  var _progresses$ = progresses[0],
+      mode = _progresses$.mode,
+      message = _progresses$.message;
+  var value = progresses.filter(isDeterminate).reduce(function (total, progress, index, all) {
+    return total + progress.value / all.length;
+  }, 0);
+
+  function isDeterminate(progress) {
+    return progress.mode === 'determinate';
+  }
+
+  return {
+    mode: mode,
+    message: message,
+    value: value
+  };
+}
+
+function togglePauseResume(props) {
+  if (props.isAllComplete) return;
+
+  if (!props.resumableUploads) {
+    return props.cancelAll();
+  }
+
+  if (props.isAllPaused) {
+    return props.resumeAll();
+  }
+
+  return props.pauseAll();
+}
+
+module.exports = function (props) {
+  props = props || {};
+  var _props = props,
+      newFiles = _props.newFiles,
+      allowNewUpload = _props.allowNewUpload,
+      isUploadInProgress = _props.isUploadInProgress,
+      isAllPaused = _props.isAllPaused,
+      resumableUploads = _props.resumableUploads,
+      error = _props.error,
+      hideUploadButton = _props.hideUploadButton,
+      hidePauseResumeButton = _props.hidePauseResumeButton,
+      hideCancelButton = _props.hideCancelButton,
+      hideRetryButton = _props.hideRetryButton;
+  var uploadState = props.uploadState;
+  var progressValue = props.totalProgress;
+  var progressMode;
+  var progressBarContent;
+
+  if (uploadState === statusBarStates.STATE_PREPROCESSING || uploadState === statusBarStates.STATE_POSTPROCESSING) {
+    var progress = calculateProcessingProgress(props.files);
+    progressMode = progress.mode;
+
+    if (progressMode === 'determinate') {
+      progressValue = progress.value * 100;
+    }
+
+    progressBarContent = ProgressBarProcessing(progress);
+  } else if (uploadState === statusBarStates.STATE_COMPLETE) {
+    progressBarContent = ProgressBarComplete(props);
+  } else if (uploadState === statusBarStates.STATE_UPLOADING) {
+    if (!props.supportsUploadProgress) {
+      progressMode = 'indeterminate';
+      progressValue = null;
+    }
+
+    progressBarContent = ProgressBarUploading(props);
+  } else if (uploadState === statusBarStates.STATE_ERROR) {
+    progressValue = undefined;
+    progressBarContent = ProgressBarError(props);
+  }
+
+  var width = typeof progressValue === 'number' ? progressValue : 100;
+  var isHidden = uploadState === statusBarStates.STATE_WAITING && props.hideUploadButton || uploadState === statusBarStates.STATE_WAITING && !props.newFiles > 0 || uploadState === statusBarStates.STATE_COMPLETE && props.hideAfterFinish;
+  var showUploadBtn = !error && newFiles && !isUploadInProgress && !isAllPaused && allowNewUpload && !hideUploadButton;
+  var showCancelBtn = !hideCancelButton && uploadState !== statusBarStates.STATE_WAITING && uploadState !== statusBarStates.STATE_COMPLETE;
+  var showPauseResumeBtn = resumableUploads && !hidePauseResumeButton && uploadState === statusBarStates.STATE_UPLOADING;
+  var showRetryBtn = error && !hideRetryButton;
+  var showDoneBtn = props.doneButtonHandler && uploadState === statusBarStates.STATE_COMPLETE;
+  var progressClassNames = "uppy-StatusBar-progress\n                           " + (progressMode ? 'is-' + progressMode : '');
+  var statusBarClassNames = classNames({
+    'uppy-Root': props.isTargetDOMEl
+  }, 'uppy-StatusBar', "is-" + uploadState);
+  return h("div", {
+    class: statusBarClassNames,
+    "aria-hidden": isHidden
+  }, h("div", {
+    class: progressClassNames,
+    style: {
+      width: width + '%'
+    },
+    role: "progressbar",
+    "aria-valuemin": "0",
+    "aria-valuemax": "100",
+    "aria-valuenow": progressValue
+  }), progressBarContent, h("div", {
+    class: "uppy-StatusBar-actions"
+  }, showUploadBtn ? h(UploadBtn, _extends({}, props, {
+    uploadState: uploadState
+  })) : null, showRetryBtn ? h(RetryBtn, props) : null, showPauseResumeBtn ? h(PauseResumeButton, props) : null, showCancelBtn ? h(CancelBtn, props) : null, showDoneBtn ? h(DoneBtn, props) : null));
+};
+
+var UploadBtn = function UploadBtn(props) {
+  var uploadBtnClassNames = classNames('uppy-u-reset', 'uppy-c-btn', 'uppy-StatusBar-actionBtn', 'uppy-StatusBar-actionBtn--upload', {
+    'uppy-c-btn-primary': props.uploadState === statusBarStates.STATE_WAITING
+  });
+  return h("button", {
+    type: "button",
+    class: uploadBtnClassNames,
+    "aria-label": props.i18n('uploadXFiles', {
+      smart_count: props.newFiles
+    }),
+    onclick: props.startUpload,
+    "data-uppy-super-focusable": true
+  }, props.newFiles && props.isUploadStarted ? props.i18n('uploadXNewFiles', {
+    smart_count: props.newFiles
+  }) : props.i18n('uploadXFiles', {
+    smart_count: props.newFiles
+  }));
+};
+
+var RetryBtn = function RetryBtn(props) {
+  return h("button", {
+    type: "button",
+    class: "uppy-u-reset uppy-c-btn uppy-StatusBar-actionBtn uppy-StatusBar-actionBtn--retry",
+    "aria-label": props.i18n('retryUpload'),
+    onclick: props.retryAll,
+    "data-uppy-super-focusable": true
+  }, h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    class: "uppy-c-icon",
+    width: "8",
+    height: "10",
+    viewBox: "0 0 8 10"
+  }, h("path", {
+    d: "M4 2.408a2.75 2.75 0 1 0 2.75 2.75.626.626 0 0 1 1.25.018v.023a4 4 0 1 1-4-4.041V.25a.25.25 0 0 1 .389-.208l2.299 1.533a.25.25 0 0 1 0 .416l-2.3 1.533A.25.25 0 0 1 4 3.316v-.908z"
+  })), props.i18n('retry'));
+};
+
+var CancelBtn = function CancelBtn(props) {
+  return h("button", {
+    type: "button",
+    class: "uppy-u-reset uppy-StatusBar-actionCircleBtn",
+    title: props.i18n('cancel'),
+    "aria-label": props.i18n('cancel'),
+    onclick: props.cancelAll,
+    "data-uppy-super-focusable": true
+  }, h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    class: "uppy-c-icon",
+    width: "16",
+    height: "16",
+    viewBox: "0 0 16 16"
+  }, h("g", {
+    fill: "none",
+    "fill-rule": "evenodd"
+  }, h("circle", {
+    fill: "#888",
+    cx: "8",
+    cy: "8",
+    r: "8"
+  }), h("path", {
+    fill: "#FFF",
+    d: "M9.283 8l2.567 2.567-1.283 1.283L8 9.283 5.433 11.85 4.15 10.567 6.717 8 4.15 5.433 5.433 4.15 8 6.717l2.567-2.567 1.283 1.283z"
+  }))));
+};
+
+var PauseResumeButton = function PauseResumeButton(props) {
+  var isAllPaused = props.isAllPaused,
+      i18n = props.i18n;
+  var title = isAllPaused ? i18n('resume') : i18n('pause');
+  return h("button", {
+    title: title,
+    "aria-label": title,
+    class: "uppy-u-reset uppy-StatusBar-actionCircleBtn",
+    type: "button",
+    onclick: function onclick() {
+      return togglePauseResume(props);
+    },
+    "data-uppy-super-focusable": true
+  }, isAllPaused ? h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    class: "uppy-c-icon",
+    width: "16",
+    height: "16",
+    viewBox: "0 0 16 16"
+  }, h("g", {
+    fill: "none",
+    "fill-rule": "evenodd"
+  }, h("circle", {
+    fill: "#888",
+    cx: "8",
+    cy: "8",
+    r: "8"
+  }), h("path", {
+    fill: "#FFF",
+    d: "M6 4.25L11.5 8 6 11.75z"
+  }))) : h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    class: "uppy-c-icon",
+    width: "16",
+    height: "16",
+    viewBox: "0 0 16 16"
+  }, h("g", {
+    fill: "none",
+    "fill-rule": "evenodd"
+  }, h("circle", {
+    fill: "#888",
+    cx: "8",
+    cy: "8",
+    r: "8"
+  }), h("path", {
+    d: "M5 4.5h2v7H5v-7zm4 0h2v7H9v-7z",
+    fill: "#FFF"
+  }))));
+};
+
+var DoneBtn = function DoneBtn(props) {
+  var i18n = props.i18n;
+  return h("button", {
+    type: "button",
+    class: "uppy-u-reset uppy-c-btn uppy-StatusBar-actionBtn uppy-StatusBar-actionBtn--done",
+    onClick: props.doneButtonHandler,
+    "data-uppy-super-focusable": true
+  }, i18n('done'));
+};
+
+var LoadingSpinner = function LoadingSpinner() {
+  return h("svg", {
+    class: "uppy-StatusBar-spinner",
+    "aria-hidden": "true",
+    focusable: "false",
+    width: "14",
+    height: "14"
+  }, h("path", {
+    d: "M13.983 6.547c-.12-2.509-1.64-4.893-3.939-5.936-2.48-1.127-5.488-.656-7.556 1.094C.524 3.367-.398 6.048.162 8.562c.556 2.495 2.46 4.52 4.94 5.183 2.932.784 5.61-.602 7.256-3.015-1.493 1.993-3.745 3.309-6.298 2.868-2.514-.434-4.578-2.349-5.153-4.84a6.226 6.226 0 0 1 2.98-6.778C6.34.586 9.74 1.1 11.373 3.493c.407.596.693 1.282.842 1.988.127.598.073 1.197.161 1.794.078.525.543 1.257 1.15.864.525-.341.49-1.05.456-1.592-.007-.15.02.3 0 0",
+    "fill-rule": "evenodd"
+  }));
+};
+
+var ProgressBarProcessing = function ProgressBarProcessing(props) {
+  var value = Math.round(props.value * 100);
+  return h("div", {
+    class: "uppy-StatusBar-content"
+  }, h(LoadingSpinner, null), props.mode === 'determinate' ? value + "% \xB7 " : '', props.message);
+};
+
+var renderDot = function renderDot() {
+  return " \xB7 ";
+};
+
+var ProgressDetails = function ProgressDetails(props) {
+  var ifShowFilesUploadedOfTotal = props.numUploads > 1;
+  return h("div", {
+    class: "uppy-StatusBar-statusSecondary"
+  }, ifShowFilesUploadedOfTotal && props.i18n('filesUploadedOfTotal', {
+    complete: props.complete,
+    smart_count: props.numUploads
+  }), h("span", {
+    class: "uppy-StatusBar-additionalInfo"
+  }, ifShowFilesUploadedOfTotal && renderDot(), props.i18n('dataUploadedOfTotal', {
+    complete: prettierBytes(props.totalUploadedSize),
+    total: prettierBytes(props.totalSize)
+  }), renderDot(), props.i18n('xTimeLeft', {
+    time: prettyETA(props.totalETA)
+  })));
+};
+
+var UnknownProgressDetails = function UnknownProgressDetails(props) {
+  return h("div", {
+    class: "uppy-StatusBar-statusSecondary"
+  }, props.i18n('filesUploadedOfTotal', {
+    complete: props.complete,
+    smart_count: props.numUploads
+  }));
+};
+
+var UploadNewlyAddedFiles = function UploadNewlyAddedFiles(props) {
+  var uploadBtnClassNames = classNames('uppy-u-reset', 'uppy-c-btn', 'uppy-StatusBar-actionBtn', 'uppy-StatusBar-actionBtn--uploadNewlyAdded');
+  return h("div", {
+    class: "uppy-StatusBar-statusSecondary"
+  }, h("div", {
+    class: "uppy-StatusBar-statusSecondaryHint"
+  }, props.i18n('xMoreFilesAdded', {
+    smart_count: props.newFiles
+  })), h("button", {
+    type: "button",
+    class: uploadBtnClassNames,
+    "aria-label": props.i18n('uploadXFiles', {
+      smart_count: props.newFiles
+    }),
+    onclick: props.startUpload
+  }, props.i18n('upload')));
+};
+
+var ThrottledProgressDetails = throttle(ProgressDetails, 500, {
+  leading: true,
+  trailing: true
+});
+
+var ProgressBarUploading = function ProgressBarUploading(props) {
+  if (!props.isUploadStarted || props.isAllComplete) {
+    return null;
+  }
+
+  var title = props.isAllPaused ? props.i18n('paused') : props.i18n('uploading');
+  var showUploadNewlyAddedFiles = props.newFiles && props.isUploadStarted;
+  return h("div", {
+    class: "uppy-StatusBar-content",
+    "aria-label": title,
+    title: title
+  }, !props.isAllPaused ? h(LoadingSpinner, null) : null, h("div", {
+    class: "uppy-StatusBar-status"
+  }, h("div", {
+    class: "uppy-StatusBar-statusPrimary"
+  }, props.supportsUploadProgress ? title + ": " + props.totalProgress + "%" : title), !props.isAllPaused && !showUploadNewlyAddedFiles && props.showProgressDetails ? props.supportsUploadProgress ? h(ThrottledProgressDetails, props) : h(UnknownProgressDetails, props) : null, showUploadNewlyAddedFiles ? h(UploadNewlyAddedFiles, props) : null));
+};
+
+var ProgressBarComplete = function ProgressBarComplete(_ref) {
+  var totalProgress = _ref.totalProgress,
+      i18n = _ref.i18n;
+  return h("div", {
+    class: "uppy-StatusBar-content",
+    role: "status",
+    title: i18n('complete')
+  }, h("div", {
+    class: "uppy-StatusBar-status"
+  }, h("div", {
+    class: "uppy-StatusBar-statusPrimary"
+  }, h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    class: "uppy-StatusBar-statusIndicator uppy-c-icon",
+    width: "15",
+    height: "11",
+    viewBox: "0 0 15 11"
+  }, h("path", {
+    d: "M.414 5.843L1.627 4.63l3.472 3.472L13.202 0l1.212 1.213L5.1 10.528z"
+  })), i18n('complete'))));
+};
+
+var ProgressBarError = function ProgressBarError(_ref2) {
+  var error = _ref2.error,
+      retryAll = _ref2.retryAll,
+      hideRetryButton = _ref2.hideRetryButton,
+      i18n = _ref2.i18n;
+
+  function displayErrorAlert() {
+    var errorMessage = i18n('uploadFailed') + " \n\n " + error;
+    alert(errorMessage);
+  }
+
+  return h("div", {
+    class: "uppy-StatusBar-content",
+    role: "alert",
+    title: i18n('uploadFailed')
+  }, h("div", {
+    class: "uppy-StatusBar-status"
+  }, h("div", {
+    class: "uppy-StatusBar-statusPrimary"
+  }, h("svg", {
+    "aria-hidden": "true",
+    focusable: "false",
+    class: "uppy-StatusBar-statusIndicator uppy-c-icon",
+    width: "11",
+    height: "11",
+    viewBox: "0 0 11 11"
+  }, h("path", {
+    d: "M4.278 5.5L0 1.222 1.222 0 5.5 4.278 9.778 0 11 1.222 6.722 5.5 11 9.778 9.778 11 5.5 6.722 1.222 11 0 9.778z"
+  })), i18n('uploadFailed'))), h("span", {
+    class: "uppy-StatusBar-details",
+    "aria-label": error,
+    "data-microtip-position": "top-right",
+    "data-microtip-size": "medium",
+    role: "tooltip",
+    onclick: displayErrorAlert
+  }, "?"));
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/status-bar/lib/StatusBarStates.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@uppy/status-bar/lib/StatusBarStates.js ***!
+  \**************************************************************/
+/***/ ((module) => {
+
+module.exports = {
+  STATE_ERROR: 'error',
+  STATE_WAITING: 'waiting',
+  STATE_PREPROCESSING: 'preprocessing',
+  STATE_UPLOADING: 'uploading',
+  STATE_POSTPROCESSING: 'postprocessing',
+  STATE_COMPLETE: 'complete'
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/status-bar/lib/index.js":
+/*!****************************************************!*\
+  !*** ./node_modules/@uppy/status-bar/lib/index.js ***!
+  \****************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var _class, _temp;
@@ -2901,63 +6951,91 @@ var _require = __webpack_require__(/*! @uppy/core */ "./node_modules/@uppy/core/
 
 var Translator = __webpack_require__(/*! @uppy/utils/lib/Translator */ "./node_modules/@uppy/utils/lib/Translator.js");
 
-var toArray = __webpack_require__(/*! @uppy/utils/lib/toArray */ "./node_modules/@uppy/utils/lib/toArray.js");
+var StatusBarUI = __webpack_require__(/*! ./StatusBar */ "./node_modules/@uppy/status-bar/lib/StatusBar.js");
 
-var isDragDropSupported = __webpack_require__(/*! @uppy/utils/lib/isDragDropSupported */ "./node_modules/@uppy/utils/lib/isDragDropSupported.js");
+var statusBarStates = __webpack_require__(/*! ./StatusBarStates */ "./node_modules/@uppy/status-bar/lib/StatusBarStates.js");
 
-var getDroppedFiles = __webpack_require__(/*! @uppy/utils/lib/getDroppedFiles */ "./node_modules/@uppy/utils/lib/getDroppedFiles/index.js");
+var getSpeed = __webpack_require__(/*! @uppy/utils/lib/getSpeed */ "./node_modules/@uppy/utils/lib/getSpeed.js");
 
-var _require2 = __webpack_require__(/*! preact */ "./node_modules/preact/dist/preact.esm.js"),
-    h = _require2.h;
+var getBytesRemaining = __webpack_require__(/*! @uppy/utils/lib/getBytesRemaining */ "./node_modules/@uppy/utils/lib/getBytesRemaining.js");
+
+var getTextDirection = __webpack_require__(/*! @uppy/utils/lib/getTextDirection */ "./node_modules/@uppy/utils/lib/getTextDirection.js");
 /**
- * Drag & Drop plugin
- *
+ * StatusBar: renders a status bar with upload/pause/resume/cancel/retry buttons,
+ * progress percentage and time remaining.
  */
 
 
 module.exports = (_temp = _class = /*#__PURE__*/function (_Plugin) {
-  _inheritsLoose(DragDrop, _Plugin);
+  _inheritsLoose(StatusBar, _Plugin);
 
-  function DragDrop(uppy, opts) {
+  function StatusBar(uppy, opts) {
     var _this;
 
     _this = _Plugin.call(this, uppy, opts) || this;
-    _this.type = 'acquirer';
-    _this.id = _this.opts.id || 'DragDrop';
-    _this.title = 'Drag & Drop';
+
+    _this.startUpload = function () {
+      return _this.uppy.upload().catch(function () {// Error logged in Core
+      });
+    };
+
+    _this.id = _this.opts.id || 'StatusBar';
+    _this.title = 'StatusBar';
+    _this.type = 'progressindicator';
     _this.defaultLocale = {
       strings: {
-        dropHereOr: 'Drop files here or %{browse}',
-        browse: 'browse'
+        uploading: 'Uploading',
+        upload: 'Upload',
+        complete: 'Complete',
+        uploadFailed: 'Upload failed',
+        paused: 'Paused',
+        retry: 'Retry',
+        retryUpload: 'Retry upload',
+        cancel: 'Cancel',
+        pause: 'Pause',
+        resume: 'Resume',
+        done: 'Done',
+        filesUploadedOfTotal: {
+          0: '%{complete} of %{smart_count} file uploaded',
+          1: '%{complete} of %{smart_count} files uploaded'
+        },
+        dataUploadedOfTotal: '%{complete} of %{total}',
+        xTimeLeft: '%{time} left',
+        uploadXFiles: {
+          0: 'Upload %{smart_count} file',
+          1: 'Upload %{smart_count} files'
+        },
+        uploadXNewFiles: {
+          0: 'Upload +%{smart_count} file',
+          1: 'Upload +%{smart_count} files'
+        },
+        xMoreFilesAdded: {
+          0: '%{smart_count} more file added',
+          1: '%{smart_count} more files added'
+        }
       }
-    }; // Default options
+    }; // set default options
 
-    var defaultOpts = {
-      target: null,
-      inputName: 'files[]',
-      width: '100%',
-      height: '100%',
-      note: null
-    }; // Merge default options with the ones set by user
+    var defaultOptions = {
+      target: 'body',
+      hideUploadButton: false,
+      hideRetryButton: false,
+      hidePauseResumeButton: false,
+      hideCancelButton: false,
+      showProgressDetails: false,
+      hideAfterFinish: true,
+      doneButtonHandler: null
+    };
+    _this.opts = _extends({}, defaultOptions, opts);
 
-    _this.opts = _extends({}, defaultOpts, opts); // Check for browser dragDrop support
+    _this.i18nInit();
 
-    _this.isDragDropSupported = isDragDropSupported();
-    _this.removeDragOverClassTimeout = null;
-
-    _this.i18nInit(); // Bind `this` to class methods
-
-
-    _this.onInputChange = _this.onInputChange.bind(_assertThisInitialized(_this));
-    _this.handleDragOver = _this.handleDragOver.bind(_assertThisInitialized(_this));
-    _this.handleDragLeave = _this.handleDragLeave.bind(_assertThisInitialized(_this));
-    _this.handleDrop = _this.handleDrop.bind(_assertThisInitialized(_this));
-    _this.addFiles = _this.addFiles.bind(_assertThisInitialized(_this));
     _this.render = _this.render.bind(_assertThisInitialized(_this));
+    _this.install = _this.install.bind(_assertThisInitialized(_this));
     return _this;
   }
 
-  var _proto = DragDrop.prototype;
+  var _proto = StatusBar.prototype;
 
   _proto.setOptions = function setOptions(newOpts) {
     _Plugin.prototype.setOptions.call(this, newOpts);
@@ -2968,172 +7046,164 @@ module.exports = (_temp = _class = /*#__PURE__*/function (_Plugin) {
   _proto.i18nInit = function i18nInit() {
     this.translator = new Translator([this.defaultLocale, this.uppy.locale, this.opts.locale]);
     this.i18n = this.translator.translate.bind(this.translator);
-    this.i18nArray = this.translator.translateArray.bind(this.translator);
     this.setPluginState(); // so that UI re-renders and we see the updated locale
   };
 
-  _proto.addFiles = function addFiles(files) {
-    var _this2 = this;
-
-    var descriptors = files.map(function (file) {
-      return {
-        source: _this2.id,
-        name: file.name,
-        type: file.type,
-        data: file,
-        meta: {
-          // path of the file relative to the ancestor directory the user selected.
-          // e.g. 'docs/Old Prague/airbnb.pdf'
-          relativePath: file.relativePath || null
-        }
-      };
+  _proto.getTotalSpeed = function getTotalSpeed(files) {
+    var totalSpeed = 0;
+    files.forEach(function (file) {
+      totalSpeed = totalSpeed + getSpeed(file.progress);
     });
+    return totalSpeed;
+  };
 
-    try {
-      this.uppy.addFiles(descriptors);
-    } catch (err) {
-      this.uppy.log(err);
+  _proto.getTotalETA = function getTotalETA(files) {
+    var totalSpeed = this.getTotalSpeed(files);
+
+    if (totalSpeed === 0) {
+      return 0;
     }
+
+    var totalBytesRemaining = files.reduce(function (total, file) {
+      return total + getBytesRemaining(file.progress);
+    }, 0);
+    return Math.round(totalBytesRemaining / totalSpeed * 10) / 10;
   };
 
-  _proto.onInputChange = function onInputChange(event) {
-    this.uppy.log('[DragDrop] Files selected through input');
-    var files = toArray(event.target.files);
-    this.addFiles(files); // We clear the input after a file is selected, because otherwise
-    // change event is not fired in Chrome and Safari when a file
-    // with the same name is selected.
-    // ___Why not use value="" on <input/> instead?
-    //    Because if we use that method of clearing the input,
-    //    Chrome will not trigger change if we drop the same file twice (Issue #768).
+  _proto.getUploadingState = function getUploadingState(isAllErrored, isAllComplete, files) {
+    if (isAllErrored) {
+      return statusBarStates.STATE_ERROR;
+    }
 
-    event.target.value = null;
-  };
+    if (isAllComplete) {
+      return statusBarStates.STATE_COMPLETE;
+    }
 
-  _proto.handleDrop = function handleDrop(event, dropCategory) {
-    var _this3 = this;
+    var state = statusBarStates.STATE_WAITING;
+    var fileIDs = Object.keys(files);
 
-    event.preventDefault();
-    event.stopPropagation();
-    clearTimeout(this.removeDragOverClassTimeout); // 2. Remove dragover class
+    for (var i = 0; i < fileIDs.length; i++) {
+      var progress = files[fileIDs[i]].progress; // If ANY files are being uploaded right now, show the uploading state.
 
-    this.setPluginState({
-      isDraggingOver: false
-    }); // 3. Add all dropped files
+      if (progress.uploadStarted && !progress.uploadComplete) {
+        return statusBarStates.STATE_UPLOADING;
+      } // If files are being preprocessed AND postprocessed at this time, we show the
+      // preprocess state. If any files are being uploaded we show uploading.
 
-    this.uppy.log('[DragDrop] Files were dropped');
 
-    var logDropError = function logDropError(error) {
-      _this3.uppy.log(error, 'error');
-    };
+      if (progress.preprocess && state !== statusBarStates.STATE_UPLOADING) {
+        state = statusBarStates.STATE_PREPROCESSING;
+      } // If NO files are being preprocessed or uploaded right now, but some files are
+      // being postprocessed, show the postprocess state.
 
-    getDroppedFiles(event.dataTransfer, {
-      logDropError: logDropError
-    }).then(function (files) {
-      return _this3.addFiles(files);
-    });
-  };
 
-  _proto.handleDragOver = function handleDragOver(event) {
-    event.preventDefault();
-    event.stopPropagation(); // 1. Add a small (+) icon on drop
-    // (and prevent browsers from interpreting this as files being _moved_ into the browser, https://github.com/transloadit/uppy/issues/1978)
+      if (progress.postprocess && state !== statusBarStates.STATE_UPLOADING && state !== statusBarStates.STATE_PREPROCESSING) {
+        state = statusBarStates.STATE_POSTPROCESSING;
+      }
+    }
 
-    event.dataTransfer.dropEffect = 'copy';
-    clearTimeout(this.removeDragOverClassTimeout);
-    this.setPluginState({
-      isDraggingOver: true
-    });
-  };
-
-  _proto.handleDragLeave = function handleDragLeave(event) {
-    var _this4 = this;
-
-    event.preventDefault();
-    event.stopPropagation();
-    clearTimeout(this.removeDragOverClassTimeout); // Timeout against flickering, this solution is taken from drag-drop library. Solution with 'pointer-events: none' didn't work across browsers.
-
-    this.removeDragOverClassTimeout = setTimeout(function () {
-      _this4.setPluginState({
-        isDraggingOver: false
-      });
-    }, 50);
-  };
-
-  _proto.renderHiddenFileInput = function renderHiddenFileInput() {
-    var _this5 = this;
-
-    var restrictions = this.uppy.opts.restrictions;
-    return h("input", {
-      class: "uppy-DragDrop-input",
-      type: "file",
-      hidden: true,
-      ref: function ref(_ref) {
-        _this5.fileInputRef = _ref;
-      },
-      name: this.opts.inputName,
-      multiple: restrictions.maxNumberOfFiles !== 1,
-      accept: restrictions.allowedFileTypes,
-      onchange: this.onInputChange
-    });
-  };
-
-  _proto.renderArrowSvg = function renderArrowSvg() {
-    return h("svg", {
-      "aria-hidden": "true",
-      focusable: "false",
-      class: "uppy-c-icon uppy-DragDrop-arrow",
-      width: "16",
-      height: "16",
-      viewBox: "0 0 16 16"
-    }, h("path", {
-      d: "M11 10V0H5v10H2l6 6 6-6h-3zm0 0",
-      "fill-rule": "evenodd"
-    }));
-  };
-
-  _proto.renderLabel = function renderLabel() {
-    return h("div", {
-      class: "uppy-DragDrop-label"
-    }, this.i18nArray('dropHereOr', {
-      browse: h("span", {
-        class: "uppy-DragDrop-browse"
-      }, this.i18n('browse'))
-    }));
-  };
-
-  _proto.renderNote = function renderNote() {
-    return h("span", {
-      class: "uppy-DragDrop-note"
-    }, this.opts.note);
+    return state;
   };
 
   _proto.render = function render(state) {
-    var _this6 = this;
+    var capabilities = state.capabilities,
+        files = state.files,
+        allowNewUpload = state.allowNewUpload,
+        totalProgress = state.totalProgress,
+        error = state.error; // TODO: move this to Core, to share between Status Bar and Dashboard
+    // (and any other plugin that might need it, too)
 
-    var dragDropClass = "uppy-Root\n      uppy-u-reset\n      uppy-DragDrop-container\n      " + (this.isDragDropSupported ? 'uppy-DragDrop--isDragDropSupported' : '') + "\n      " + (this.getPluginState().isDraggingOver ? 'uppy-DragDrop--isDraggingOver' : '') + "\n    ";
-    var dragDropStyle = {
-      width: this.opts.width,
-      height: this.opts.height
-    };
-    return h("button", {
-      type: "button",
-      class: dragDropClass,
-      style: dragDropStyle,
-      onClick: function onClick() {
-        return _this6.fileInputRef.click();
-      },
-      onDragOver: this.handleDragOver,
-      onDragLeave: this.handleDragLeave,
-      onDrop: this.handleDrop
-    }, this.renderHiddenFileInput(), h("div", {
-      class: "uppy-DragDrop-inner"
-    }, this.renderArrowSvg(), this.renderLabel(), this.renderNote()));
+    var filesArray = Object.keys(files).map(function (file) {
+      return files[file];
+    });
+    var newFiles = filesArray.filter(function (file) {
+      return !file.progress.uploadStarted && !file.progress.preprocess && !file.progress.postprocess;
+    });
+    var uploadStartedFiles = filesArray.filter(function (file) {
+      return file.progress.uploadStarted;
+    });
+    var pausedFiles = uploadStartedFiles.filter(function (file) {
+      return file.isPaused;
+    });
+    var completeFiles = filesArray.filter(function (file) {
+      return file.progress.uploadComplete;
+    });
+    var erroredFiles = filesArray.filter(function (file) {
+      return file.error;
+    });
+    var inProgressFiles = filesArray.filter(function (file) {
+      return !file.progress.uploadComplete && file.progress.uploadStarted;
+    });
+    var inProgressNotPausedFiles = inProgressFiles.filter(function (file) {
+      return !file.isPaused;
+    });
+    var startedFiles = filesArray.filter(function (file) {
+      return file.progress.uploadStarted || file.progress.preprocess || file.progress.postprocess;
+    });
+    var processingFiles = filesArray.filter(function (file) {
+      return file.progress.preprocess || file.progress.postprocess;
+    });
+    var totalETA = this.getTotalETA(inProgressNotPausedFiles);
+    var totalSize = 0;
+    var totalUploadedSize = 0;
+    startedFiles.forEach(function (file) {
+      totalSize = totalSize + (file.progress.bytesTotal || 0);
+      totalUploadedSize = totalUploadedSize + (file.progress.bytesUploaded || 0);
+    });
+    var isUploadStarted = startedFiles.length > 0;
+    var isAllComplete = totalProgress === 100 && completeFiles.length === Object.keys(files).length && processingFiles.length === 0;
+    var isAllErrored = error && erroredFiles.length === filesArray.length;
+    var isAllPaused = inProgressFiles.length !== 0 && pausedFiles.length === inProgressFiles.length;
+    var isUploadInProgress = inProgressFiles.length > 0;
+    var resumableUploads = capabilities.resumableUploads || false;
+    var supportsUploadProgress = capabilities.uploadProgress !== false;
+    return StatusBarUI({
+      error: error,
+      uploadState: this.getUploadingState(isAllErrored, isAllComplete, state.files || {}),
+      allowNewUpload: allowNewUpload,
+      totalProgress: totalProgress,
+      totalSize: totalSize,
+      totalUploadedSize: totalUploadedSize,
+      isAllComplete: isAllComplete,
+      isAllPaused: isAllPaused,
+      isAllErrored: isAllErrored,
+      isUploadStarted: isUploadStarted,
+      isUploadInProgress: isUploadInProgress,
+      complete: completeFiles.length,
+      newFiles: newFiles.length,
+      numUploads: startedFiles.length,
+      totalETA: totalETA,
+      files: files,
+      i18n: this.i18n,
+      pauseAll: this.uppy.pauseAll,
+      resumeAll: this.uppy.resumeAll,
+      retryAll: this.uppy.retryAll,
+      cancelAll: this.uppy.cancelAll,
+      startUpload: this.startUpload,
+      doneButtonHandler: this.opts.doneButtonHandler,
+      resumableUploads: resumableUploads,
+      supportsUploadProgress: supportsUploadProgress,
+      showProgressDetails: this.opts.showProgressDetails,
+      hideUploadButton: this.opts.hideUploadButton,
+      hideRetryButton: this.opts.hideRetryButton,
+      hidePauseResumeButton: this.opts.hidePauseResumeButton,
+      hideCancelButton: this.opts.hideCancelButton,
+      hideAfterFinish: this.opts.hideAfterFinish,
+      isTargetDOMEl: this.isTargetDOMEl
+    });
+  };
+
+  _proto.onMount = function onMount() {
+    // Set the text direction if the page has not defined one.
+    var element = this.el;
+    var direction = getTextDirection(element);
+
+    if (!direction) {
+      element.dir = 'ltr';
+    }
   };
 
   _proto.install = function install() {
-    this.setPluginState({
-      isDraggingOver: false
-    });
     var target = this.opts.target;
 
     if (target) {
@@ -3145,8 +7215,8 @@ module.exports = (_temp = _class = /*#__PURE__*/function (_Plugin) {
     this.unmount();
   };
 
-  return DragDrop;
-}(Plugin), _class.VERSION = "1.4.24", _temp);
+  return StatusBar;
+}(Plugin), _class.VERSION = "1.9.0", _temp);
 
 /***/ }),
 
@@ -3214,6 +7284,1335 @@ module.exports = function defaultStore() {
 
 /***/ }),
 
+/***/ "./node_modules/@uppy/thumbnail-generator/lib/index.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/@uppy/thumbnail-generator/lib/index.js ***!
+  \*************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _class, _temp;
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
+
+var _require = __webpack_require__(/*! @uppy/core */ "./node_modules/@uppy/core/lib/index.js"),
+    Plugin = _require.Plugin;
+
+var Translator = __webpack_require__(/*! @uppy/utils/lib/Translator */ "./node_modules/@uppy/utils/lib/Translator.js");
+
+var dataURItoBlob = __webpack_require__(/*! @uppy/utils/lib/dataURItoBlob */ "./node_modules/@uppy/utils/lib/dataURItoBlob.js");
+
+var isObjectURL = __webpack_require__(/*! @uppy/utils/lib/isObjectURL */ "./node_modules/@uppy/utils/lib/isObjectURL.js");
+
+var isPreviewSupported = __webpack_require__(/*! @uppy/utils/lib/isPreviewSupported */ "./node_modules/@uppy/utils/lib/isPreviewSupported.js");
+
+var MathLog2 = __webpack_require__(/*! math-log2 */ "./node_modules/math-log2/index.js"); // Polyfill for IE.
+
+
+var exifr = __webpack_require__(/*! exifr/dist/mini.legacy.umd.js */ "./node_modules/exifr/dist/mini.legacy.umd.js");
+/**
+ * The Thumbnail Generator plugin
+ */
+
+
+module.exports = (_temp = _class = /*#__PURE__*/function (_Plugin) {
+  _inheritsLoose(ThumbnailGenerator, _Plugin);
+
+  function ThumbnailGenerator(uppy, opts) {
+    var _this;
+
+    _this = _Plugin.call(this, uppy, opts) || this;
+
+    _this.onFileAdded = function (file) {
+      if (!file.preview && isPreviewSupported(file.type) && !file.isRemote) {
+        _this.addToQueue(file.id);
+      }
+    };
+
+    _this.onCancelRequest = function (file) {
+      var index = _this.queue.indexOf(file.id);
+
+      if (index !== -1) {
+        _this.queue.splice(index, 1);
+      }
+    };
+
+    _this.onFileRemoved = function (file) {
+      var index = _this.queue.indexOf(file.id);
+
+      if (index !== -1) {
+        _this.queue.splice(index, 1);
+      } // Clean up object URLs.
+
+
+      if (file.preview && isObjectURL(file.preview)) {
+        URL.revokeObjectURL(file.preview);
+      }
+    };
+
+    _this.onRestored = function () {
+      var _this$uppy$getState = _this.uppy.getState(),
+          files = _this$uppy$getState.files;
+
+      var fileIDs = Object.keys(files);
+      fileIDs.forEach(function (fileID) {
+        var file = _this.uppy.getFile(fileID);
+
+        if (!file.isRestored) return; // Only add blob URLs; they are likely invalid after being restored.
+
+        if (!file.preview || isObjectURL(file.preview)) {
+          _this.addToQueue(file.id);
+        }
+      });
+    };
+
+    _this.waitUntilAllProcessed = function (fileIDs) {
+      fileIDs.forEach(function (fileID) {
+        var file = _this.uppy.getFile(fileID);
+
+        _this.uppy.emit('preprocess-progress', file, {
+          mode: 'indeterminate',
+          message: _this.i18n('generatingThumbnails')
+        });
+      });
+
+      var emitPreprocessCompleteForAll = function emitPreprocessCompleteForAll() {
+        fileIDs.forEach(function (fileID) {
+          var file = _this.uppy.getFile(fileID);
+
+          _this.uppy.emit('preprocess-complete', file);
+        });
+      };
+
+      return new Promise(function (resolve, reject) {
+        if (_this.queueProcessing) {
+          _this.uppy.once('thumbnail:all-generated', function () {
+            emitPreprocessCompleteForAll();
+            resolve();
+          });
+        } else {
+          emitPreprocessCompleteForAll();
+          resolve();
+        }
+      });
+    };
+
+    _this.type = 'modifier';
+    _this.id = _this.opts.id || 'ThumbnailGenerator';
+    _this.title = 'Thumbnail Generator';
+    _this.queue = [];
+    _this.queueProcessing = false;
+    _this.defaultThumbnailDimension = 200;
+    _this.thumbnailType = _this.opts.thumbnailType || 'image/jpeg';
+    _this.defaultLocale = {
+      strings: {
+        generatingThumbnails: 'Generating thumbnails...'
+      }
+    };
+    var defaultOptions = {
+      thumbnailWidth: null,
+      thumbnailHeight: null,
+      waitForThumbnailsBeforeUpload: false,
+      lazy: false
+    };
+    _this.opts = _extends({}, defaultOptions, opts);
+
+    if (_this.opts.lazy && _this.opts.waitForThumbnailsBeforeUpload) {
+      throw new Error('ThumbnailGenerator: The `lazy` and `waitForThumbnailsBeforeUpload` options are mutually exclusive. Please ensure at most one of them is set to `true`.');
+    }
+
+    _this.i18nInit();
+
+    return _this;
+  }
+
+  var _proto = ThumbnailGenerator.prototype;
+
+  _proto.setOptions = function setOptions(newOpts) {
+    _Plugin.prototype.setOptions.call(this, newOpts);
+
+    this.i18nInit();
+  };
+
+  _proto.i18nInit = function i18nInit() {
+    this.translator = new Translator([this.defaultLocale, this.uppy.locale, this.opts.locale]);
+    this.i18n = this.translator.translate.bind(this.translator);
+    this.setPluginState(); // so that UI re-renders and we see the updated locale
+  }
+  /**
+   * Create a thumbnail for the given Uppy file object.
+   *
+   * @param {{data: Blob}} file
+   * @param {number} targetWidth
+   * @param {number} targetHeight
+   * @returns {Promise}
+   */
+  ;
+
+  _proto.createThumbnail = function createThumbnail(file, targetWidth, targetHeight) {
+    var _this2 = this;
+
+    // bug in the compatibility data
+    // eslint-disable-next-line compat/compat
+    var originalUrl = URL.createObjectURL(file.data);
+    var onload = new Promise(function (resolve, reject) {
+      var image = new Image();
+      image.src = originalUrl;
+      image.addEventListener('load', function () {
+        // bug in the compatibility data
+        // eslint-disable-next-line compat/compat
+        URL.revokeObjectURL(originalUrl);
+        resolve(image);
+      });
+      image.addEventListener('error', function (event) {
+        // bug in the compatibility data
+        // eslint-disable-next-line compat/compat
+        URL.revokeObjectURL(originalUrl);
+        reject(event.error || new Error('Could not create thumbnail'));
+      });
+    });
+    var orientationPromise = exifr.rotation(file.data).catch(function (_err) {
+      return 1;
+    });
+    return Promise.all([onload, orientationPromise]).then(function (_ref) {
+      var image = _ref[0],
+          orientation = _ref[1];
+
+      var dimensions = _this2.getProportionalDimensions(image, targetWidth, targetHeight, orientation.deg);
+
+      var rotatedImage = _this2.rotateImage(image, orientation);
+
+      var resizedImage = _this2.resizeImage(rotatedImage, dimensions.width, dimensions.height);
+
+      return _this2.canvasToBlob(resizedImage, _this2.thumbnailType, 80);
+    }).then(function (blob) {
+      // bug in the compatibility data
+      // eslint-disable-next-line compat/compat
+      return URL.createObjectURL(blob);
+    });
+  }
+  /**
+   * Get the new calculated dimensions for the given image and a target width
+   * or height. If both width and height are given, only width is taken into
+   * account. If neither width nor height are given, the default dimension
+   * is used.
+   */
+  ;
+
+  _proto.getProportionalDimensions = function getProportionalDimensions(img, width, height, rotation) {
+    var aspect = img.width / img.height;
+
+    if (rotation === 90 || rotation === 270) {
+      aspect = img.height / img.width;
+    }
+
+    if (width != null) {
+      return {
+        width: width,
+        height: Math.round(width / aspect)
+      };
+    }
+
+    if (height != null) {
+      return {
+        width: Math.round(height * aspect),
+        height: height
+      };
+    }
+
+    return {
+      width: this.defaultThumbnailDimension,
+      height: Math.round(this.defaultThumbnailDimension / aspect)
+    };
+  }
+  /**
+   * Make sure the image doesn’t exceed browser/device canvas limits.
+   * For ios with 256 RAM and ie
+   */
+  ;
+
+  _proto.protect = function protect(image) {
+    // https://stackoverflow.com/questions/6081483/maximum-size-of-a-canvas-element
+    var ratio = image.width / image.height;
+    var maxSquare = 5000000; // ios max canvas square
+
+    var maxSize = 4096; // ie max canvas dimensions
+
+    var maxW = Math.floor(Math.sqrt(maxSquare * ratio));
+    var maxH = Math.floor(maxSquare / Math.sqrt(maxSquare * ratio));
+
+    if (maxW > maxSize) {
+      maxW = maxSize;
+      maxH = Math.round(maxW / ratio);
+    }
+
+    if (maxH > maxSize) {
+      maxH = maxSize;
+      maxW = Math.round(ratio * maxH);
+    }
+
+    if (image.width > maxW) {
+      var canvas = document.createElement('canvas');
+      canvas.width = maxW;
+      canvas.height = maxH;
+      canvas.getContext('2d').drawImage(image, 0, 0, maxW, maxH);
+      image = canvas;
+    }
+
+    return image;
+  }
+  /**
+   * Resize an image to the target `width` and `height`.
+   *
+   * Returns a Canvas with the resized image on it.
+   */
+  ;
+
+  _proto.resizeImage = function resizeImage(image, targetWidth, targetHeight) {
+    // Resizing in steps refactored to use a solution from
+    // https://blog.uploadcare.com/image-resize-in-browsers-is-broken-e38eed08df01
+    image = this.protect(image);
+    var steps = Math.ceil(MathLog2(image.width / targetWidth));
+
+    if (steps < 1) {
+      steps = 1;
+    }
+
+    var sW = targetWidth * Math.pow(2, steps - 1);
+    var sH = targetHeight * Math.pow(2, steps - 1);
+    var x = 2;
+
+    while (steps--) {
+      var canvas = document.createElement('canvas');
+      canvas.width = sW;
+      canvas.height = sH;
+      canvas.getContext('2d').drawImage(image, 0, 0, sW, sH);
+      image = canvas;
+      sW = Math.round(sW / x);
+      sH = Math.round(sH / x);
+    }
+
+    return image;
+  };
+
+  _proto.rotateImage = function rotateImage(image, translate) {
+    var w = image.width;
+    var h = image.height;
+
+    if (translate.deg === 90 || translate.deg === 270) {
+      w = image.height;
+      h = image.width;
+    }
+
+    var canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+    var context = canvas.getContext('2d');
+    context.translate(w / 2, h / 2);
+
+    if (translate.canvas) {
+      context.rotate(translate.rad);
+      context.scale(translate.scaleX, translate.scaleY);
+    }
+
+    context.drawImage(image, -image.width / 2, -image.height / 2, image.width, image.height);
+    return canvas;
+  }
+  /**
+   * Save a <canvas> element's content to a Blob object.
+   *
+   * @param {HTMLCanvasElement} canvas
+   * @returns {Promise}
+   */
+  ;
+
+  _proto.canvasToBlob = function canvasToBlob(canvas, type, quality) {
+    try {
+      canvas.getContext('2d').getImageData(0, 0, 1, 1);
+    } catch (err) {
+      if (err.code === 18) {
+        return Promise.reject(new Error('cannot read image, probably an svg with external resources'));
+      }
+    }
+
+    if (canvas.toBlob) {
+      return new Promise(function (resolve) {
+        canvas.toBlob(resolve, type, quality);
+      }).then(function (blob) {
+        if (blob === null) {
+          throw new Error('cannot read image, probably an svg with external resources');
+        }
+
+        return blob;
+      });
+    }
+
+    return Promise.resolve().then(function () {
+      return dataURItoBlob(canvas.toDataURL(type, quality), {});
+    }).then(function (blob) {
+      if (blob === null) {
+        throw new Error('could not extract blob, probably an old browser');
+      }
+
+      return blob;
+    });
+  }
+  /**
+   * Set the preview URL for a file.
+   */
+  ;
+
+  _proto.setPreviewURL = function setPreviewURL(fileID, preview) {
+    this.uppy.setFileState(fileID, {
+      preview: preview
+    });
+  };
+
+  _proto.addToQueue = function addToQueue(item) {
+    this.queue.push(item);
+
+    if (this.queueProcessing === false) {
+      this.processQueue();
+    }
+  };
+
+  _proto.processQueue = function processQueue() {
+    var _this3 = this;
+
+    this.queueProcessing = true;
+
+    if (this.queue.length > 0) {
+      var current = this.uppy.getFile(this.queue.shift());
+
+      if (!current) {
+        this.uppy.log('[ThumbnailGenerator] file was removed before a thumbnail could be generated, but not removed from the queue. This is probably a bug', 'error');
+        return;
+      }
+
+      return this.requestThumbnail(current).catch(function (err) {}) // eslint-disable-line handle-callback-err
+      .then(function () {
+        return _this3.processQueue();
+      });
+    } else {
+      this.queueProcessing = false;
+      this.uppy.log('[ThumbnailGenerator] Emptied thumbnail queue');
+      this.uppy.emit('thumbnail:all-generated');
+    }
+  };
+
+  _proto.requestThumbnail = function requestThumbnail(file) {
+    var _this4 = this;
+
+    if (isPreviewSupported(file.type) && !file.isRemote) {
+      return this.createThumbnail(file, this.opts.thumbnailWidth, this.opts.thumbnailHeight).then(function (preview) {
+        _this4.setPreviewURL(file.id, preview);
+
+        _this4.uppy.log("[ThumbnailGenerator] Generated thumbnail for " + file.id);
+
+        _this4.uppy.emit('thumbnail:generated', _this4.uppy.getFile(file.id), preview);
+      }).catch(function (err) {
+        _this4.uppy.log("[ThumbnailGenerator] Failed thumbnail for " + file.id + ":", 'warning');
+
+        _this4.uppy.log(err, 'warning');
+
+        _this4.uppy.emit('thumbnail:error', _this4.uppy.getFile(file.id), err);
+      });
+    }
+
+    return Promise.resolve();
+  };
+
+  _proto.install = function install() {
+    this.uppy.on('file-removed', this.onFileRemoved);
+
+    if (this.opts.lazy) {
+      this.uppy.on('thumbnail:request', this.onFileAdded);
+      this.uppy.on('thumbnail:cancel', this.onCancelRequest);
+    } else {
+      this.uppy.on('file-added', this.onFileAdded);
+      this.uppy.on('restored', this.onRestored);
+    }
+
+    if (this.opts.waitForThumbnailsBeforeUpload) {
+      this.uppy.addPreProcessor(this.waitUntilAllProcessed);
+    }
+  };
+
+  _proto.uninstall = function uninstall() {
+    this.uppy.off('file-removed', this.onFileRemoved);
+
+    if (this.opts.lazy) {
+      this.uppy.off('thumbnail:request', this.onFileAdded);
+      this.uppy.off('thumbnail:cancel', this.onCancelRequest);
+    } else {
+      this.uppy.off('file-added', this.onFileAdded);
+      this.uppy.off('restored', this.onRestored);
+    }
+
+    if (this.opts.waitForThumbnailsBeforeUpload) {
+      this.uppy.removePreProcessor(this.waitUntilAllProcessed);
+    }
+  };
+
+  return ThumbnailGenerator;
+}(Plugin), _class.VERSION = "1.7.5", _temp);
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/tus/lib/getFingerprint.js":
+/*!******************************************************!*\
+  !*** ./node_modules/@uppy/tus/lib/getFingerprint.js ***!
+  \******************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var tus = __webpack_require__(/*! tus-js-client */ "./node_modules/tus-js-client/lib.esm/browser/index.js");
+
+function isCordova() {
+  return typeof window !== 'undefined' && (typeof window.PhoneGap !== 'undefined' || typeof window.Cordova !== 'undefined' || typeof window.cordova !== 'undefined');
+}
+
+function isReactNative() {
+  return typeof navigator !== 'undefined' && typeof navigator.product === 'string' && navigator.product.toLowerCase() === 'reactnative';
+} // We override tus fingerprint to uppy’s `file.id`, since the `file.id`
+// now also includes `relativePath` for files added from folders.
+// This means you can add 2 identical files, if one is in folder a,
+// the other in folder b — `a/file.jpg` and `b/file.jpg`, when added
+// together with a folder, will be treated as 2 separate files.
+//
+// For React Native and Cordova, we let tus-js-client’s default
+// fingerprint handling take charge.
+
+
+module.exports = function getFingerprint(uppyFileObj) {
+  return function (file, options) {
+    if (isCordova() || isReactNative()) {
+      return tus.defaultOptions.fingerprint(file, options);
+    }
+
+    var uppyFingerprint = ['tus', uppyFileObj.id, options.endpoint].join('-');
+    return Promise.resolve(uppyFingerprint);
+  };
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/tus/lib/index.js":
+/*!*********************************************!*\
+  !*** ./node_modules/@uppy/tus/lib/index.js ***!
+  \*********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var _class, _temp;
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; subClass.__proto__ = superClass; }
+
+var _require = __webpack_require__(/*! @uppy/core */ "./node_modules/@uppy/core/lib/index.js"),
+    Plugin = _require.Plugin;
+
+var tus = __webpack_require__(/*! tus-js-client */ "./node_modules/tus-js-client/lib.esm/browser/index.js");
+
+var _require2 = __webpack_require__(/*! @uppy/companion-client */ "./node_modules/@uppy/companion-client/lib/index.js"),
+    Provider = _require2.Provider,
+    RequestClient = _require2.RequestClient,
+    Socket = _require2.Socket;
+
+var emitSocketProgress = __webpack_require__(/*! @uppy/utils/lib/emitSocketProgress */ "./node_modules/@uppy/utils/lib/emitSocketProgress.js");
+
+var getSocketHost = __webpack_require__(/*! @uppy/utils/lib/getSocketHost */ "./node_modules/@uppy/utils/lib/getSocketHost.js");
+
+var settle = __webpack_require__(/*! @uppy/utils/lib/settle */ "./node_modules/@uppy/utils/lib/settle.js");
+
+var EventTracker = __webpack_require__(/*! @uppy/utils/lib/EventTracker */ "./node_modules/@uppy/utils/lib/EventTracker.js");
+
+var NetworkError = __webpack_require__(/*! @uppy/utils/lib/NetworkError */ "./node_modules/@uppy/utils/lib/NetworkError.js");
+
+var isNetworkError = __webpack_require__(/*! @uppy/utils/lib/isNetworkError */ "./node_modules/@uppy/utils/lib/isNetworkError.js");
+
+var RateLimitedQueue = __webpack_require__(/*! @uppy/utils/lib/RateLimitedQueue */ "./node_modules/@uppy/utils/lib/RateLimitedQueue.js");
+
+var hasProperty = __webpack_require__(/*! @uppy/utils/lib/hasProperty */ "./node_modules/@uppy/utils/lib/hasProperty.js");
+
+var getFingerprint = __webpack_require__(/*! ./getFingerprint */ "./node_modules/@uppy/tus/lib/getFingerprint.js");
+/** @typedef {import('..').TusOptions} TusOptions */
+
+/** @typedef {import('tus-js-client').UploadOptions} RawTusOptions */
+
+/** @typedef {import('@uppy/core').Uppy} Uppy */
+
+/** @typedef {import('@uppy/core').UppyFile} UppyFile */
+
+/** @typedef {import('@uppy/core').FailedUppyFile<{}>} FailedUppyFile */
+
+/**
+ * Extracted from https://github.com/tus/tus-js-client/blob/master/lib/upload.js#L13
+ * excepted we removed 'fingerprint' key to avoid adding more dependencies
+ *
+ * @type {RawTusOptions}
+ */
+
+
+var tusDefaultOptions = {
+  endpoint: '',
+  uploadUrl: null,
+  metadata: {},
+  uploadSize: null,
+  onProgress: null,
+  onChunkComplete: null,
+  onSuccess: null,
+  onError: null,
+  overridePatchMethod: false,
+  headers: {},
+  addRequestId: false,
+  chunkSize: Infinity,
+  retryDelays: [0, 1000, 3000, 5000],
+  parallelUploads: 1,
+  storeFingerprintForResuming: true,
+  removeFingerprintOnSuccess: false,
+  uploadLengthDeferred: false,
+  uploadDataDuringCreation: false
+};
+/**
+ * Tus resumable file uploader
+ */
+
+module.exports = (_temp = _class = /*#__PURE__*/function (_Plugin) {
+  _inheritsLoose(Tus, _Plugin);
+
+  /**
+   * @param {Uppy} uppy
+   * @param {TusOptions} opts
+   */
+  function Tus(uppy, opts) {
+    var _this;
+
+    _this = _Plugin.call(this, uppy, opts) || this;
+    _this.type = 'uploader';
+    _this.id = _this.opts.id || 'Tus';
+    _this.title = 'Tus'; // set default options
+
+    var defaultOptions = {
+      autoRetry: true,
+      resume: true,
+      useFastRemoteRetry: true,
+      limit: 0,
+      retryDelays: [0, 1000, 3000, 5000],
+      withCredentials: false
+    }; // merge default options with the ones set by user
+
+    /** @type {import("..").TusOptions} */
+
+    _this.opts = _extends({}, defaultOptions, opts);
+    /**
+     * Simultaneous upload limiting is shared across all uploads with this plugin.
+     *
+     * @type {RateLimitedQueue}
+     */
+
+    _this.requests = new RateLimitedQueue(_this.opts.limit);
+    _this.uploaders = Object.create(null);
+    _this.uploaderEvents = Object.create(null);
+    _this.uploaderSockets = Object.create(null);
+    _this.handleResetProgress = _this.handleResetProgress.bind(_assertThisInitialized(_this));
+    _this.handleUpload = _this.handleUpload.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  var _proto = Tus.prototype;
+
+  _proto.handleResetProgress = function handleResetProgress() {
+    var files = _extends({}, this.uppy.getState().files);
+
+    Object.keys(files).forEach(function (fileID) {
+      // Only clone the file object if it has a Tus `uploadUrl` attached.
+      if (files[fileID].tus && files[fileID].tus.uploadUrl) {
+        var tusState = _extends({}, files[fileID].tus);
+
+        delete tusState.uploadUrl;
+        files[fileID] = _extends({}, files[fileID], {
+          tus: tusState
+        });
+      }
+    });
+    this.uppy.setState({
+      files: files
+    });
+  }
+  /**
+   * Clean up all references for a file's upload: the tus.Upload instance,
+   * any events related to the file, and the Companion WebSocket connection.
+   *
+   * @param {string} fileID
+   */
+  ;
+
+  _proto.resetUploaderReferences = function resetUploaderReferences(fileID, opts) {
+    if (opts === void 0) {
+      opts = {};
+    }
+
+    if (this.uploaders[fileID]) {
+      var uploader = this.uploaders[fileID];
+      uploader.abort();
+
+      if (opts.abort) {
+        // to avoid 423 error from tus server, we wait
+        // to be sure the previous request has been aborted before terminating the upload
+        // @todo remove the timeout when this "wait" is handled in tus-js-client internally
+        setTimeout(function () {
+          return uploader.abort(true);
+        }, 1000);
+      }
+
+      this.uploaders[fileID] = null;
+    }
+
+    if (this.uploaderEvents[fileID]) {
+      this.uploaderEvents[fileID].remove();
+      this.uploaderEvents[fileID] = null;
+    }
+
+    if (this.uploaderSockets[fileID]) {
+      this.uploaderSockets[fileID].close();
+      this.uploaderSockets[fileID] = null;
+    }
+  }
+  /**
+   * Create a new Tus upload.
+   *
+   * A lot can happen during an upload, so this is quite hard to follow!
+   * - First, the upload is started. If the file was already paused by the time the upload starts, nothing should happen.
+   *   If the `limit` option is used, the upload must be queued onto the `this.requests` queue.
+   *   When an upload starts, we store the tus.Upload instance, and an EventTracker instance that manages the event listeners
+   *   for pausing, cancellation, removal, etc.
+   * - While the upload is in progress, it may be paused or cancelled.
+   *   Pausing aborts the underlying tus.Upload, and removes the upload from the `this.requests` queue. All other state is
+   *   maintained.
+   *   Cancelling removes the upload from the `this.requests` queue, and completely aborts the upload--the tus.Upload instance
+   *   is aborted and discarded, the EventTracker instance is destroyed (removing all listeners).
+   *   Resuming the upload uses the `this.requests` queue as well, to prevent selectively pausing and resuming uploads from
+   *   bypassing the limit.
+   * - After completing an upload, the tus.Upload and EventTracker instances are cleaned up, and the upload is marked as done
+   *   in the `this.requests` queue.
+   * - When an upload completed with an error, the same happens as on successful completion, but the `upload()` promise is rejected.
+   *
+   * When working on this function, keep in mind:
+   *  - When an upload is completed or cancelled for any reason, the tus.Upload and EventTracker instances need to be cleaned up using this.resetUploaderReferences().
+   *  - When an upload is cancelled or paused, for any reason, it needs to be removed from the `this.requests` queue using `queuedRequest.abort()`.
+   *  - When an upload is completed for any reason, including errors, it needs to be marked as such using `queuedRequest.done()`.
+   *  - When an upload is started or resumed, it needs to go through the `this.requests` queue. The `queuedRequest` variable must be updated so the other uses of it are valid.
+   *  - Before replacing the `queuedRequest` variable, the previous `queuedRequest` must be aborted, else it will keep taking up a spot in the queue.
+   *
+   * @param {UppyFile} file for use with upload
+   * @param {number} current file in a queue
+   * @param {number} total number of files in a queue
+   * @returns {Promise<void>}
+   */
+  ;
+
+  _proto.upload = function upload(file, current, total) {
+    var _this2 = this;
+
+    this.resetUploaderReferences(file.id); // Create a new tus upload
+
+    return new Promise(function (resolve, reject) {
+      _this2.uppy.emit('upload-started', file);
+
+      var opts = _extends({}, _this2.opts, file.tus || {});
+      /** @type {RawTusOptions} */
+
+
+      var uploadOptions = _extends({}, tusDefaultOptions, opts);
+
+      delete uploadOptions.resume; // Make `resume: true` work like it did in tus-js-client v1.
+      // TODO: Remove in @uppy/tus v2
+
+      if (opts.resume) {
+        uploadOptions.storeFingerprintForResuming = true;
+      } // We override tus fingerprint to uppy’s `file.id`, since the `file.id`
+      // now also includes `relativePath` for files added from folders.
+      // This means you can add 2 identical files, if one is in folder a,
+      // the other in folder b.
+
+
+      uploadOptions.fingerprint = getFingerprint(file);
+
+      uploadOptions.onBeforeRequest = function (req) {
+        var xhr = req.getUnderlyingObject();
+        xhr.withCredentials = !!opts.withCredentials;
+
+        if (typeof opts.onBeforeRequest === 'function') {
+          opts.onBeforeRequest(req);
+        }
+      };
+
+      uploadOptions.onError = function (err) {
+        _this2.uppy.log(err);
+
+        var xhr = err.originalRequest ? err.originalRequest.getUnderlyingObject() : null;
+
+        if (isNetworkError(xhr)) {
+          err = new NetworkError(err, xhr);
+        }
+
+        _this2.resetUploaderReferences(file.id);
+
+        queuedRequest.done();
+
+        _this2.uppy.emit('upload-error', file, err);
+
+        reject(err);
+      };
+
+      uploadOptions.onProgress = function (bytesUploaded, bytesTotal) {
+        _this2.onReceiveUploadUrl(file, upload.url);
+
+        _this2.uppy.emit('upload-progress', file, {
+          uploader: _this2,
+          bytesUploaded: bytesUploaded,
+          bytesTotal: bytesTotal
+        });
+      };
+
+      uploadOptions.onSuccess = function () {
+        var uploadResp = {
+          uploadURL: upload.url
+        };
+
+        _this2.resetUploaderReferences(file.id);
+
+        queuedRequest.done();
+
+        _this2.uppy.emit('upload-success', file, uploadResp);
+
+        if (upload.url) {
+          _this2.uppy.log('Download ' + upload.file.name + ' from ' + upload.url);
+        }
+
+        resolve(upload);
+      };
+
+      var copyProp = function copyProp(obj, srcProp, destProp) {
+        if (hasProperty(obj, srcProp) && !hasProperty(obj, destProp)) {
+          obj[destProp] = obj[srcProp];
+        }
+      };
+      /** @type {Record<string, string>} */
+
+
+      var meta = {};
+      var metaFields = Array.isArray(opts.metaFields) ? opts.metaFields // Send along all fields by default.
+      : Object.keys(file.meta);
+      metaFields.forEach(function (item) {
+        meta[item] = file.meta[item];
+      }); // tusd uses metadata fields 'filetype' and 'filename'
+
+      copyProp(meta, 'type', 'filetype');
+      copyProp(meta, 'name', 'filename');
+      uploadOptions.metadata = meta;
+      var upload = new tus.Upload(file.data, uploadOptions);
+      _this2.uploaders[file.id] = upload;
+      _this2.uploaderEvents[file.id] = new EventTracker(_this2.uppy); // Make `resume: true` work like it did in tus-js-client v1.
+      // TODO: Remove in @uppy/tus v2.
+
+      if (opts.resume) {
+        upload.findPreviousUploads().then(function (previousUploads) {
+          var previousUpload = previousUploads[0];
+
+          if (previousUpload) {
+            _this2.uppy.log("[Tus] Resuming upload of " + file.id + " started at " + previousUpload.creationTime);
+
+            upload.resumeFromPreviousUpload(previousUpload);
+          }
+        });
+      }
+
+      var queuedRequest = _this2.requests.run(function () {
+        if (!file.isPaused) {
+          // Ensure this gets scheduled to run _after_ `findPreviousUploads()` returns.
+          // TODO: Remove in @uppy/tus v2.
+          Promise.resolve().then(function () {
+            upload.start();
+          });
+        } // Don't do anything here, the caller will take care of cancelling the upload itself
+        // using resetUploaderReferences(). This is because resetUploaderReferences() has to be
+        // called when this request is still in the queue, and has not been started yet, too. At
+        // that point this cancellation function is not going to be called.
+        // Also, we need to remove the request from the queue _without_ destroying everything
+        // related to this upload to handle pauses.
+
+
+        return function () {};
+      });
+
+      _this2.onFileRemove(file.id, function (targetFileID) {
+        queuedRequest.abort();
+
+        _this2.resetUploaderReferences(file.id, {
+          abort: !!upload.url
+        });
+
+        resolve("upload " + targetFileID + " was removed");
+      });
+
+      _this2.onPause(file.id, function (isPaused) {
+        if (isPaused) {
+          // Remove this file from the queue so another file can start in its place.
+          queuedRequest.abort();
+          upload.abort();
+        } else {
+          // Resuming an upload should be queued, else you could pause and then resume a queued upload to make it skip the queue.
+          queuedRequest.abort();
+          queuedRequest = _this2.requests.run(function () {
+            upload.start();
+            return function () {};
+          });
+        }
+      });
+
+      _this2.onPauseAll(file.id, function () {
+        queuedRequest.abort();
+        upload.abort();
+      });
+
+      _this2.onCancelAll(file.id, function () {
+        queuedRequest.abort();
+
+        _this2.resetUploaderReferences(file.id, {
+          abort: !!upload.url
+        });
+
+        resolve("upload " + file.id + " was canceled");
+      });
+
+      _this2.onResumeAll(file.id, function () {
+        queuedRequest.abort();
+
+        if (file.error) {
+          upload.abort();
+        }
+
+        queuedRequest = _this2.requests.run(function () {
+          upload.start();
+          return function () {};
+        });
+      });
+    }).catch(function (err) {
+      _this2.uppy.emit('upload-error', file, err);
+
+      throw err;
+    });
+  }
+  /**
+   * @param {UppyFile} file for use with upload
+   * @param {number} current file in a queue
+   * @param {number} total number of files in a queue
+   * @returns {Promise<void>}
+   */
+  ;
+
+  _proto.uploadRemote = function uploadRemote(file, current, total) {
+    var _this3 = this;
+
+    this.resetUploaderReferences(file.id);
+
+    var opts = _extends({}, this.opts);
+
+    if (file.tus) {
+      // Install file-specific upload overrides.
+      _extends(opts, file.tus);
+    }
+
+    this.uppy.emit('upload-started', file);
+    this.uppy.log(file.remote.url);
+
+    if (file.serverToken) {
+      return this.connectToServerSocket(file);
+    }
+
+    return new Promise(function (resolve, reject) {
+      var Client = file.remote.providerOptions.provider ? Provider : RequestClient;
+      var client = new Client(_this3.uppy, file.remote.providerOptions); // !! cancellation is NOT supported at this stage yet
+
+      client.post(file.remote.url, _extends({}, file.remote.body, {
+        endpoint: opts.endpoint,
+        uploadUrl: opts.uploadUrl,
+        protocol: 'tus',
+        size: file.data.size,
+        headers: opts.headers,
+        metadata: file.meta
+      })).then(function (res) {
+        _this3.uppy.setFileState(file.id, {
+          serverToken: res.token
+        });
+
+        file = _this3.uppy.getFile(file.id);
+        return _this3.connectToServerSocket(file);
+      }).then(function () {
+        resolve();
+      }).catch(function (err) {
+        _this3.uppy.emit('upload-error', file, err);
+
+        reject(err);
+      });
+    });
+  }
+  /**
+   * See the comment on the upload() method.
+   *
+   * Additionally, when an upload is removed, completed, or cancelled, we need to close the WebSocket connection. This is handled by the resetUploaderReferences() function, so the same guidelines apply as in upload().
+   *
+   * @param {UppyFile} file
+   */
+  ;
+
+  _proto.connectToServerSocket = function connectToServerSocket(file) {
+    var _this4 = this;
+
+    return new Promise(function (resolve, reject) {
+      var token = file.serverToken;
+      var host = getSocketHost(file.remote.companionUrl);
+      var socket = new Socket({
+        target: host + "/api/" + token,
+        autoOpen: false
+      });
+      _this4.uploaderSockets[file.id] = socket;
+      _this4.uploaderEvents[file.id] = new EventTracker(_this4.uppy);
+
+      _this4.onFileRemove(file.id, function () {
+        queuedRequest.abort(); // still send pause event in case we are dealing with older version of companion
+        // @todo don't send pause event in the next major release.
+
+        socket.send('pause', {});
+        socket.send('cancel', {});
+
+        _this4.resetUploaderReferences(file.id);
+
+        resolve("upload " + file.id + " was removed");
+      });
+
+      _this4.onPause(file.id, function (isPaused) {
+        if (isPaused) {
+          // Remove this file from the queue so another file can start in its place.
+          queuedRequest.abort();
+          socket.send('pause', {});
+        } else {
+          // Resuming an upload should be queued, else you could pause and then resume a queued upload to make it skip the queue.
+          queuedRequest.abort();
+          queuedRequest = _this4.requests.run(function () {
+            socket.send('resume', {});
+            return function () {};
+          });
+        }
+      });
+
+      _this4.onPauseAll(file.id, function () {
+        queuedRequest.abort();
+        socket.send('pause', {});
+      });
+
+      _this4.onCancelAll(file.id, function () {
+        queuedRequest.abort(); // still send pause event in case we are dealing with older version of companion
+        // @todo don't send pause event in the next major release.
+
+        socket.send('pause', {});
+        socket.send('cancel', {});
+
+        _this4.resetUploaderReferences(file.id);
+
+        resolve("upload " + file.id + " was canceled");
+      });
+
+      _this4.onResumeAll(file.id, function () {
+        queuedRequest.abort();
+
+        if (file.error) {
+          socket.send('pause', {});
+        }
+
+        queuedRequest = _this4.requests.run(function () {
+          socket.send('resume', {});
+          return function () {};
+        });
+      });
+
+      _this4.onRetry(file.id, function () {
+        // Only do the retry if the upload is actually in progress;
+        // else we could try to send these messages when the upload is still queued.
+        // We may need a better check for this since the socket may also be closed
+        // for other reasons, like network failures.
+        if (socket.isOpen) {
+          socket.send('pause', {});
+          socket.send('resume', {});
+        }
+      });
+
+      _this4.onRetryAll(file.id, function () {
+        // See the comment in the onRetry() call
+        if (socket.isOpen) {
+          socket.send('pause', {});
+          socket.send('resume', {});
+        }
+      });
+
+      socket.on('progress', function (progressData) {
+        return emitSocketProgress(_this4, progressData, file);
+      });
+      socket.on('error', function (errData) {
+        var message = errData.error.message;
+
+        var error = _extends(new Error(message), {
+          cause: errData.error
+        }); // If the remote retry optimisation should not be used,
+        // close the socket—this will tell companion to clear state and delete the file.
+
+
+        if (!_this4.opts.useFastRemoteRetry) {
+          _this4.resetUploaderReferences(file.id); // Remove the serverToken so that a new one will be created for the retry.
+
+
+          _this4.uppy.setFileState(file.id, {
+            serverToken: null
+          });
+        } else {
+          socket.close();
+        }
+
+        _this4.uppy.emit('upload-error', file, error);
+
+        queuedRequest.done();
+        reject(error);
+      });
+      socket.on('success', function (data) {
+        var uploadResp = {
+          uploadURL: data.url
+        };
+
+        _this4.uppy.emit('upload-success', file, uploadResp);
+
+        _this4.resetUploaderReferences(file.id);
+
+        queuedRequest.done();
+        resolve();
+      });
+
+      var queuedRequest = _this4.requests.run(function () {
+        socket.open();
+
+        if (file.isPaused) {
+          socket.send('pause', {});
+        } // Don't do anything here, the caller will take care of cancelling the upload itself
+        // using resetUploaderReferences(). This is because resetUploaderReferences() has to be
+        // called when this request is still in the queue, and has not been started yet, too. At
+        // that point this cancellation function is not going to be called.
+        // Also, we need to remove the request from the queue _without_ destroying everything
+        // related to this upload to handle pauses.
+
+
+        return function () {};
+      });
+    });
+  }
+  /**
+   * Store the uploadUrl on the file options, so that when Golden Retriever
+   * restores state, we will continue uploading to the correct URL.
+   *
+   * @param {UppyFile} file
+   * @param {string} uploadURL
+   */
+  ;
+
+  _proto.onReceiveUploadUrl = function onReceiveUploadUrl(file, uploadURL) {
+    var currentFile = this.uppy.getFile(file.id);
+    if (!currentFile) return; // Only do the update if we didn't have an upload URL yet.
+
+    if (!currentFile.tus || currentFile.tus.uploadUrl !== uploadURL) {
+      this.uppy.log('[Tus] Storing upload url');
+      this.uppy.setFileState(currentFile.id, {
+        tus: _extends({}, currentFile.tus, {
+          uploadUrl: uploadURL
+        })
+      });
+    }
+  }
+  /**
+   * @param {string} fileID
+   * @param {function(string): void} cb
+   */
+  ;
+
+  _proto.onFileRemove = function onFileRemove(fileID, cb) {
+    this.uploaderEvents[fileID].on('file-removed', function (file) {
+      if (fileID === file.id) cb(file.id);
+    });
+  }
+  /**
+   * @param {string} fileID
+   * @param {function(boolean): void} cb
+   */
+  ;
+
+  _proto.onPause = function onPause(fileID, cb) {
+    this.uploaderEvents[fileID].on('upload-pause', function (targetFileID, isPaused) {
+      if (fileID === targetFileID) {
+        // const isPaused = this.uppy.pauseResume(fileID)
+        cb(isPaused);
+      }
+    });
+  }
+  /**
+   * @param {string} fileID
+   * @param {function(): void} cb
+   */
+  ;
+
+  _proto.onRetry = function onRetry(fileID, cb) {
+    this.uploaderEvents[fileID].on('upload-retry', function (targetFileID) {
+      if (fileID === targetFileID) {
+        cb();
+      }
+    });
+  }
+  /**
+   * @param {string} fileID
+   * @param {function(): void} cb
+   */
+  ;
+
+  _proto.onRetryAll = function onRetryAll(fileID, cb) {
+    var _this5 = this;
+
+    this.uploaderEvents[fileID].on('retry-all', function (filesToRetry) {
+      if (!_this5.uppy.getFile(fileID)) return;
+      cb();
+    });
+  }
+  /**
+   * @param {string} fileID
+   * @param {function(): void} cb
+   */
+  ;
+
+  _proto.onPauseAll = function onPauseAll(fileID, cb) {
+    var _this6 = this;
+
+    this.uploaderEvents[fileID].on('pause-all', function () {
+      if (!_this6.uppy.getFile(fileID)) return;
+      cb();
+    });
+  }
+  /**
+   * @param {string} fileID
+   * @param {function(): void} cb
+   */
+  ;
+
+  _proto.onCancelAll = function onCancelAll(fileID, cb) {
+    var _this7 = this;
+
+    this.uploaderEvents[fileID].on('cancel-all', function () {
+      if (!_this7.uppy.getFile(fileID)) return;
+      cb();
+    });
+  }
+  /**
+   * @param {string} fileID
+   * @param {function(): void} cb
+   */
+  ;
+
+  _proto.onResumeAll = function onResumeAll(fileID, cb) {
+    var _this8 = this;
+
+    this.uploaderEvents[fileID].on('resume-all', function () {
+      if (!_this8.uppy.getFile(fileID)) return;
+      cb();
+    });
+  }
+  /**
+   * @param {(UppyFile | FailedUppyFile)[]} files
+   */
+  ;
+
+  _proto.uploadFiles = function uploadFiles(files) {
+    var _this9 = this;
+
+    var promises = files.map(function (file, i) {
+      var current = i + 1;
+      var total = files.length;
+
+      if ('error' in file && file.error) {
+        return Promise.reject(new Error(file.error));
+      } else if (file.isRemote) {
+        return _this9.uploadRemote(file, current, total);
+      } else {
+        return _this9.upload(file, current, total);
+      }
+    });
+    return settle(promises);
+  }
+  /**
+   * @param {string[]} fileIDs
+   */
+  ;
+
+  _proto.handleUpload = function handleUpload(fileIDs) {
+    var _this10 = this;
+
+    if (fileIDs.length === 0) {
+      this.uppy.log('[Tus] No files to upload');
+      return Promise.resolve();
+    }
+
+    if (this.opts.limit === 0) {
+      this.uppy.log('[Tus] When uploading multiple files at once, consider setting the `limit` option (to `10` for example), to limit the number of concurrent uploads, which helps prevent memory and network issues: https://uppy.io/docs/tus/#limit-0', 'warning');
+    }
+
+    this.uppy.log('[Tus] Uploading...');
+    var filesToUpload = fileIDs.map(function (fileID) {
+      return _this10.uppy.getFile(fileID);
+    });
+    return this.uploadFiles(filesToUpload).then(function () {
+      return null;
+    });
+  };
+
+  _proto.install = function install() {
+    this.uppy.setState({
+      capabilities: _extends({}, this.uppy.getState().capabilities, {
+        resumableUploads: true
+      })
+    });
+    this.uppy.addUploader(this.handleUpload);
+    this.uppy.on('reset-progress', this.handleResetProgress);
+
+    if (this.opts.autoRetry) {
+      this.uppy.on('back-online', this.uppy.retryAll);
+    }
+  };
+
+  _proto.uninstall = function uninstall() {
+    this.uppy.setState({
+      capabilities: _extends({}, this.uppy.getState().capabilities, {
+        resumableUploads: false
+      })
+    });
+    this.uppy.removeUploader(this.handleUpload);
+
+    if (this.opts.autoRetry) {
+      this.uppy.off('back-online', this.uppy.retryAll);
+    }
+  };
+
+  return Tus;
+}(Plugin), _class.VERSION = "1.8.4", _temp);
+
+/***/ }),
+
 /***/ "./node_modules/@uppy/utils/lib/EventTracker.js":
 /*!******************************************************!*\
   !*** ./node_modules/@uppy/utils/lib/EventTracker.js ***!
@@ -3251,6 +8650,16 @@ module.exports = /*#__PURE__*/function () {
 
   return EventTracker;
 }();
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/utils/lib/FOCUSABLE_ELEMENTS.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@uppy/utils/lib/FOCUSABLE_ELEMENTS.js ***!
+  \************************************************************/
+/***/ ((module) => {
+
+module.exports = ['a[href]:not([tabindex^="-"]):not([inert]):not([aria-hidden])', 'area[href]:not([tabindex^="-"]):not([inert]):not([aria-hidden])', 'input:not([disabled]):not([inert]):not([aria-hidden])', 'select:not([disabled]):not([inert]):not([aria-hidden])', 'textarea:not([disabled]):not([inert]):not([aria-hidden])', 'button:not([disabled]):not([inert]):not([aria-hidden])', 'iframe:not([tabindex^="-"]):not([inert]):not([aria-hidden])', 'object:not([tabindex^="-"]):not([inert]):not([aria-hidden])', 'embed:not([tabindex^="-"]):not([inert]):not([aria-hidden])', '[contenteditable]:not([tabindex^="-"]):not([inert]):not([aria-hidden])', '[tabindex]:not([tabindex^="-"]):not([inert]):not([aria-hidden])'];
 
 /***/ }),
 
@@ -3721,6 +9130,51 @@ module.exports = /*#__PURE__*/function () {
 
 /***/ }),
 
+/***/ "./node_modules/@uppy/utils/lib/dataURItoBlob.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@uppy/utils/lib/dataURItoBlob.js ***!
+  \*******************************************************/
+/***/ ((module) => {
+
+module.exports = function dataURItoBlob(dataURI, opts, toFile) {
+  // get the base64 data
+  var data = dataURI.split(',')[1]; // user may provide mime type, if not get it from data URI
+
+  var mimeType = opts.mimeType || dataURI.split(',')[0].split(':')[1].split(';')[0]; // default to plain/text if data URI has no mimeType
+
+  if (mimeType == null) {
+    mimeType = 'plain/text';
+  }
+
+  var binary = atob(data);
+  var array = [];
+
+  for (var i = 0; i < binary.length; i++) {
+    array.push(binary.charCodeAt(i));
+  }
+
+  var bytes;
+
+  try {
+    bytes = new Uint8Array(array); // eslint-disable-line compat/compat
+  } catch (err) {
+    return null;
+  } // Convert to a File?
+
+
+  if (toFile) {
+    return new File([bytes], opts.name || '', {
+      type: mimeType
+    });
+  }
+
+  return new Blob([bytes], {
+    type: mimeType
+  });
+};
+
+/***/ }),
+
 /***/ "./node_modules/@uppy/utils/lib/emitSocketProgress.js":
 /*!************************************************************!*\
   !*** ./node_modules/@uppy/utils/lib/emitSocketProgress.js ***!
@@ -3771,6 +9225,34 @@ module.exports = function fetchWithNetworkError() {
       throw new NetworkError(err);
     }
   });
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/utils/lib/findAllDOMElements.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@uppy/utils/lib/findAllDOMElements.js ***!
+  \************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var isDOMElement = __webpack_require__(/*! ./isDOMElement */ "./node_modules/@uppy/utils/lib/isDOMElement.js");
+/**
+ * Find one or more DOM elements.
+ *
+ * @param {string} element
+ * @returns {Array|null}
+ */
+
+
+module.exports = function findAllDOMElements(element) {
+  if (typeof element === 'string') {
+    var elements = [].slice.call(document.querySelectorAll(element));
+    return elements.length > 0 ? elements : null;
+  }
+
+  if (typeof element === 'object' && isDOMElement(element)) {
+    return [element];
+  }
 };
 
 /***/ }),
@@ -3858,6 +9340,18 @@ function encodeFilename(name) {
 function encodeCharacter(character) {
   return character.charCodeAt(0).toString(32);
 }
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/utils/lib/getBytesRemaining.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@uppy/utils/lib/getBytesRemaining.js ***!
+  \***********************************************************/
+/***/ ((module) => {
+
+module.exports = function getBytesRemaining(fileProgress) {
+  return fileProgress.bytesTotal - fileProgress.bytesUploaded;
+};
 
 /***/ }),
 
@@ -4115,6 +9609,51 @@ module.exports = function getSocketHost(url) {
 
 /***/ }),
 
+/***/ "./node_modules/@uppy/utils/lib/getSpeed.js":
+/*!**************************************************!*\
+  !*** ./node_modules/@uppy/utils/lib/getSpeed.js ***!
+  \**************************************************/
+/***/ ((module) => {
+
+module.exports = function getSpeed(fileProgress) {
+  if (!fileProgress.bytesUploaded) return 0;
+  var timeElapsed = new Date() - fileProgress.uploadStarted;
+  var uploadSpeed = fileProgress.bytesUploaded / (timeElapsed / 1000);
+  return uploadSpeed;
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/utils/lib/getTextDirection.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@uppy/utils/lib/getTextDirection.js ***!
+  \**********************************************************/
+/***/ ((module) => {
+
+/**
+ * Get the declared text direction for an element.
+ *
+ * @param {Node} element
+ * @returns {string|undefined}
+ */
+function getTextDirection(element) {
+  // There is another way to determine text direction using getComputedStyle(), as done here:
+  // https://github.com/pencil-js/text-direction/blob/2a235ce95089b3185acec3b51313cbba921b3811/text-direction.js
+  //
+  // We do not use that approach because we are interested specifically in the _declared_ text direction.
+  // If no text direction is declared, we have to provide our own explicit text direction so our
+  // bidirectional CSS style sheets work.
+  while (element && !element.dir) {
+    element = element.parentNode;
+  }
+
+  return element ? element.dir : undefined;
+}
+
+module.exports = getTextDirection;
+
+/***/ }),
+
 /***/ "./node_modules/@uppy/utils/lib/getTimeStamp.js":
 /*!******************************************************!*\
   !*** ./node_modules/@uppy/utils/lib/getTimeStamp.js ***!
@@ -4220,6 +9759,43 @@ module.exports = isNetworkError;
 
 /***/ }),
 
+/***/ "./node_modules/@uppy/utils/lib/isObjectURL.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/@uppy/utils/lib/isObjectURL.js ***!
+  \*****************************************************/
+/***/ ((module) => {
+
+/**
+ * Check if a URL string is an object URL from `URL.createObjectURL`.
+ *
+ * @param {string} url
+ * @returns {boolean}
+ */
+module.exports = function isObjectURL(url) {
+  return url.indexOf('blob:') === 0;
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/utils/lib/isPreviewSupported.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@uppy/utils/lib/isPreviewSupported.js ***!
+  \************************************************************/
+/***/ ((module) => {
+
+module.exports = function isPreviewSupported(fileType) {
+  if (!fileType) return false;
+  var fileTypeSpecific = fileType.split('/')[1]; // list of images that browsers can preview
+
+  if (/^(jpe?g|gif|png|svg|svg\+xml|bmp|webp|avif)$/.test(fileTypeSpecific)) {
+    return true;
+  }
+
+  return false;
+};
+
+/***/ }),
+
 /***/ "./node_modules/@uppy/utils/lib/mimeTypes.js":
 /*!***************************************************!*\
   !*** ./node_modules/@uppy/utils/lib/mimeTypes.js ***!
@@ -4284,6 +9860,48 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/@uppy/utils/lib/prettyETA.js":
+/*!***************************************************!*\
+  !*** ./node_modules/@uppy/utils/lib/prettyETA.js ***!
+  \***************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var secondsToTime = __webpack_require__(/*! ./secondsToTime */ "./node_modules/@uppy/utils/lib/secondsToTime.js");
+
+module.exports = function prettyETA(seconds) {
+  var time = secondsToTime(seconds); // Only display hours and minutes if they are greater than 0 but always
+  // display minutes if hours is being displayed
+  // Display a leading zero if the there is a preceding unit: 1m 05s, but 5s
+
+  var hoursStr = time.hours ? time.hours + 'h ' : '';
+  var minutesVal = time.hours ? ('0' + time.minutes).substr(-2) : time.minutes;
+  var minutesStr = minutesVal ? minutesVal + 'm' : '';
+  var secondsVal = minutesVal ? ('0' + time.seconds).substr(-2) : time.seconds;
+  var secondsStr = time.hours ? '' : minutesVal ? ' ' + secondsVal + 's' : secondsVal + 's';
+  return "" + hoursStr + minutesStr + secondsStr;
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/utils/lib/secondsToTime.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@uppy/utils/lib/secondsToTime.js ***!
+  \*******************************************************/
+/***/ ((module) => {
+
+module.exports = function secondsToTime(rawSeconds) {
+  var hours = Math.floor(rawSeconds / 3600) % 24;
+  var minutes = Math.floor(rawSeconds / 60) % 60;
+  var seconds = Math.floor(rawSeconds % 60);
+  return {
+    hours: hours,
+    minutes: minutes,
+    seconds: seconds
+  };
+};
+
+/***/ }),
+
 /***/ "./node_modules/@uppy/utils/lib/settle.js":
 /*!************************************************!*\
   !*** ./node_modules/@uppy/utils/lib/settle.js ***!
@@ -4326,6 +9944,37 @@ module.exports = function settle(promises) {
  */
 module.exports = function toArray(list) {
   return Array.prototype.slice.call(list || [], 0);
+};
+
+/***/ }),
+
+/***/ "./node_modules/@uppy/utils/lib/truncateString.js":
+/*!********************************************************!*\
+  !*** ./node_modules/@uppy/utils/lib/truncateString.js ***!
+  \********************************************************/
+/***/ ((module) => {
+
+/**
+ * Truncates a string to the given number of chars (maxLength) by inserting '...' in the middle of that string.
+ * Partially taken from https://stackoverflow.com/a/5723274/3192470.
+ *
+ * @param {string} string - string to be truncated
+ * @param {number} maxLength - maximum size of the resulting string
+ * @returns {string}
+ */
+module.exports = function truncateString(string, maxLength) {
+  var separator = '...'; // Return original string if it's already shorter than maxLength
+
+  if (string.length <= maxLength) {
+    return string; // Return truncated substring without '...' if string can't be meaningfully truncated
+  } else if (maxLength <= separator.length) {
+    return string.substr(0, maxLength); // Return truncated string divided in half by '...'
+  } else {
+    var charsToShow = maxLength - separator.length;
+    var frontChars = Math.ceil(charsToShow / 2);
+    var backChars = Math.floor(charsToShow / 2);
+    return string.substr(0, frontChars) + separator + string.substr(string.length - backChars);
+  }
 };
 
 /***/ }),
@@ -6907,12 +12556,46 @@ var Uppy = __webpack_require__(/*! @uppy/core */ "./node_modules/@uppy/core/lib/
 
 var XHRUpload = __webpack_require__(/*! @uppy/xhr-upload */ "./node_modules/@uppy/xhr-upload/lib/index.js");
 
-var DragDrop = __webpack_require__(/*! @uppy/drag-drop */ "./node_modules/@uppy/drag-drop/lib/index.js");
+var Dashboard = __webpack_require__(/*! @uppy/dashboard */ "./node_modules/@uppy/dashboard/lib/index.js");
+
+var Tus = __webpack_require__(/*! @uppy/tus */ "./node_modules/@uppy/tus/lib/index.js");
 
 var feather = __webpack_require__(/*! feather-icons */ "./node_modules/feather-icons/dist/feather.js");
 
 $(document).ready(function () {
   feather.replace();
+  var uppy_note = $('#irob_dropzone').attr('data-note');
+  var uppy = new Uppy({
+    debug: true,
+    autoProceed: false,
+    restrictions: {
+      maxFileSize: 3000000,
+      maxNumberOfFiles: 5,
+      minNumberOfFiles: 1,
+      allowedFileTypes: ["image/*"]
+    }
+  }).use(Dashboard, {
+    target: "#irob_dropzone",
+    inline: true,
+    width: 1000,
+    note: uppy_note,
+    replaceTargetContent: true,
+    showProgressDetails: true,
+    metaFields: [{
+      id: 'name',
+      name: 'Name',
+      placeholder: 'file name'
+    }, {
+      id: 'caption',
+      name: 'Caption',
+      placeholder: 'describe what the image is about'
+    }]
+  }).use(XHRUpload, {
+    endpoint: "upload",
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
 });
 
 /***/ }),
@@ -6945,6 +12628,167 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./node_modules/base64-js/index.js":
+/*!*****************************************!*\
+  !*** ./node_modules/base64-js/index.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+
+exports.byteLength = byteLength
+exports.toByteArray = toByteArray
+exports.fromByteArray = fromByteArray
+
+var lookup = []
+var revLookup = []
+var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
+
+var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+for (var i = 0, len = code.length; i < len; ++i) {
+  lookup[i] = code[i]
+  revLookup[code.charCodeAt(i)] = i
+}
+
+// Support decoding URL-safe base64 strings, as Node.js does.
+// See: https://en.wikipedia.org/wiki/Base64#URL_applications
+revLookup['-'.charCodeAt(0)] = 62
+revLookup['_'.charCodeAt(0)] = 63
+
+function getLens (b64) {
+  var len = b64.length
+
+  if (len % 4 > 0) {
+    throw new Error('Invalid string. Length must be a multiple of 4')
+  }
+
+  // Trim off extra bytes after placeholder bytes are found
+  // See: https://github.com/beatgammit/base64-js/issues/42
+  var validLen = b64.indexOf('=')
+  if (validLen === -1) validLen = len
+
+  var placeHoldersLen = validLen === len
+    ? 0
+    : 4 - (validLen % 4)
+
+  return [validLen, placeHoldersLen]
+}
+
+// base64 is 4/3 + up to two characters of the original data
+function byteLength (b64) {
+  var lens = getLens(b64)
+  var validLen = lens[0]
+  var placeHoldersLen = lens[1]
+  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
+}
+
+function _byteLength (b64, validLen, placeHoldersLen) {
+  return ((validLen + placeHoldersLen) * 3 / 4) - placeHoldersLen
+}
+
+function toByteArray (b64) {
+  var tmp
+  var lens = getLens(b64)
+  var validLen = lens[0]
+  var placeHoldersLen = lens[1]
+
+  var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen))
+
+  var curByte = 0
+
+  // if there are placeholders, only get up to the last complete 4 chars
+  var len = placeHoldersLen > 0
+    ? validLen - 4
+    : validLen
+
+  var i
+  for (i = 0; i < len; i += 4) {
+    tmp =
+      (revLookup[b64.charCodeAt(i)] << 18) |
+      (revLookup[b64.charCodeAt(i + 1)] << 12) |
+      (revLookup[b64.charCodeAt(i + 2)] << 6) |
+      revLookup[b64.charCodeAt(i + 3)]
+    arr[curByte++] = (tmp >> 16) & 0xFF
+    arr[curByte++] = (tmp >> 8) & 0xFF
+    arr[curByte++] = tmp & 0xFF
+  }
+
+  if (placeHoldersLen === 2) {
+    tmp =
+      (revLookup[b64.charCodeAt(i)] << 2) |
+      (revLookup[b64.charCodeAt(i + 1)] >> 4)
+    arr[curByte++] = tmp & 0xFF
+  }
+
+  if (placeHoldersLen === 1) {
+    tmp =
+      (revLookup[b64.charCodeAt(i)] << 10) |
+      (revLookup[b64.charCodeAt(i + 1)] << 4) |
+      (revLookup[b64.charCodeAt(i + 2)] >> 2)
+    arr[curByte++] = (tmp >> 8) & 0xFF
+    arr[curByte++] = tmp & 0xFF
+  }
+
+  return arr
+}
+
+function tripletToBase64 (num) {
+  return lookup[num >> 18 & 0x3F] +
+    lookup[num >> 12 & 0x3F] +
+    lookup[num >> 6 & 0x3F] +
+    lookup[num & 0x3F]
+}
+
+function encodeChunk (uint8, start, end) {
+  var tmp
+  var output = []
+  for (var i = start; i < end; i += 3) {
+    tmp =
+      ((uint8[i] << 16) & 0xFF0000) +
+      ((uint8[i + 1] << 8) & 0xFF00) +
+      (uint8[i + 2] & 0xFF)
+    output.push(tripletToBase64(tmp))
+  }
+  return output.join('')
+}
+
+function fromByteArray (uint8) {
+  var tmp
+  var len = uint8.length
+  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
+  var parts = []
+  var maxChunkLength = 16383 // must be multiple of 3
+
+  // go through the array every three bytes, we'll deal with trailing stuff later
+  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
+    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
+  }
+
+  // pad the end with zeros, but make sure to not forget the extra bytes
+  if (extraBytes === 1) {
+    tmp = uint8[len - 1]
+    parts.push(
+      lookup[tmp >> 2] +
+      lookup[(tmp << 4) & 0x3F] +
+      '=='
+    )
+  } else if (extraBytes === 2) {
+    tmp = (uint8[len - 2] << 8) + uint8[len - 1]
+    parts.push(
+      lookup[tmp >> 10] +
+      lookup[(tmp >> 4) & 0x3F] +
+      lookup[(tmp << 2) & 0x3F] +
+      '='
+    )
+  }
+
+  return parts.join('')
+}
+
 
 /***/ }),
 
@@ -14002,6 +19846,1867 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
+/***/ "./node_modules/buffer/index.js":
+/*!**************************************!*\
+  !*** ./node_modules/buffer/index.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <http://feross.org>
+ * @license  MIT
+ */
+/* eslint-disable no-proto */
+
+
+
+var base64 = __webpack_require__(/*! base64-js */ "./node_modules/base64-js/index.js")
+var ieee754 = __webpack_require__(/*! ieee754 */ "./node_modules/ieee754/index.js")
+var isArray = __webpack_require__(/*! isarray */ "./node_modules/isarray/index.js")
+
+exports.Buffer = Buffer
+exports.SlowBuffer = SlowBuffer
+exports.INSPECT_MAX_BYTES = 50
+
+/**
+ * If `Buffer.TYPED_ARRAY_SUPPORT`:
+ *   === true    Use Uint8Array implementation (fastest)
+ *   === false   Use Object implementation (most compatible, even IE6)
+ *
+ * Browsers that support typed arrays are IE 10+, Firefox 4+, Chrome 7+, Safari 5.1+,
+ * Opera 11.6+, iOS 4.2+.
+ *
+ * Due to various browser bugs, sometimes the Object implementation will be used even
+ * when the browser supports typed arrays.
+ *
+ * Note:
+ *
+ *   - Firefox 4-29 lacks support for adding new properties to `Uint8Array` instances,
+ *     See: https://bugzilla.mozilla.org/show_bug.cgi?id=695438.
+ *
+ *   - Chrome 9-10 is missing the `TypedArray.prototype.subarray` function.
+ *
+ *   - IE10 has a broken `TypedArray.prototype.subarray` function which returns arrays of
+ *     incorrect length in some situations.
+
+ * We detect these buggy browsers and set `Buffer.TYPED_ARRAY_SUPPORT` to `false` so they
+ * get the Object implementation, which is slower but behaves correctly.
+ */
+Buffer.TYPED_ARRAY_SUPPORT = __webpack_require__.g.TYPED_ARRAY_SUPPORT !== undefined
+  ? __webpack_require__.g.TYPED_ARRAY_SUPPORT
+  : typedArraySupport()
+
+/*
+ * Export kMaxLength after typed array support is determined.
+ */
+exports.kMaxLength = kMaxLength()
+
+function typedArraySupport () {
+  try {
+    var arr = new Uint8Array(1)
+    arr.__proto__ = {__proto__: Uint8Array.prototype, foo: function () { return 42 }}
+    return arr.foo() === 42 && // typed array instances can be augmented
+        typeof arr.subarray === 'function' && // chrome 9-10 lack `subarray`
+        arr.subarray(1, 1).byteLength === 0 // ie10 has broken `subarray`
+  } catch (e) {
+    return false
+  }
+}
+
+function kMaxLength () {
+  return Buffer.TYPED_ARRAY_SUPPORT
+    ? 0x7fffffff
+    : 0x3fffffff
+}
+
+function createBuffer (that, length) {
+  if (kMaxLength() < length) {
+    throw new RangeError('Invalid typed array length')
+  }
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    // Return an augmented `Uint8Array` instance, for best performance
+    that = new Uint8Array(length)
+    that.__proto__ = Buffer.prototype
+  } else {
+    // Fallback: Return an object instance of the Buffer class
+    if (that === null) {
+      that = new Buffer(length)
+    }
+    that.length = length
+  }
+
+  return that
+}
+
+/**
+ * The Buffer constructor returns instances of `Uint8Array` that have their
+ * prototype changed to `Buffer.prototype`. Furthermore, `Buffer` is a subclass of
+ * `Uint8Array`, so the returned instances will have all the node `Buffer` methods
+ * and the `Uint8Array` methods. Square bracket notation works as expected -- it
+ * returns a single octet.
+ *
+ * The `Uint8Array` prototype remains unmodified.
+ */
+
+function Buffer (arg, encodingOrOffset, length) {
+  if (!Buffer.TYPED_ARRAY_SUPPORT && !(this instanceof Buffer)) {
+    return new Buffer(arg, encodingOrOffset, length)
+  }
+
+  // Common case.
+  if (typeof arg === 'number') {
+    if (typeof encodingOrOffset === 'string') {
+      throw new Error(
+        'If encoding is specified then the first argument must be a string'
+      )
+    }
+    return allocUnsafe(this, arg)
+  }
+  return from(this, arg, encodingOrOffset, length)
+}
+
+Buffer.poolSize = 8192 // not used by this implementation
+
+// TODO: Legacy, not needed anymore. Remove in next major version.
+Buffer._augment = function (arr) {
+  arr.__proto__ = Buffer.prototype
+  return arr
+}
+
+function from (that, value, encodingOrOffset, length) {
+  if (typeof value === 'number') {
+    throw new TypeError('"value" argument must not be a number')
+  }
+
+  if (typeof ArrayBuffer !== 'undefined' && value instanceof ArrayBuffer) {
+    return fromArrayBuffer(that, value, encodingOrOffset, length)
+  }
+
+  if (typeof value === 'string') {
+    return fromString(that, value, encodingOrOffset)
+  }
+
+  return fromObject(that, value)
+}
+
+/**
+ * Functionally equivalent to Buffer(arg, encoding) but throws a TypeError
+ * if value is a number.
+ * Buffer.from(str[, encoding])
+ * Buffer.from(array)
+ * Buffer.from(buffer)
+ * Buffer.from(arrayBuffer[, byteOffset[, length]])
+ **/
+Buffer.from = function (value, encodingOrOffset, length) {
+  return from(null, value, encodingOrOffset, length)
+}
+
+if (Buffer.TYPED_ARRAY_SUPPORT) {
+  Buffer.prototype.__proto__ = Uint8Array.prototype
+  Buffer.__proto__ = Uint8Array
+  if (typeof Symbol !== 'undefined' && Symbol.species &&
+      Buffer[Symbol.species] === Buffer) {
+    // Fix subarray() in ES2016. See: https://github.com/feross/buffer/pull/97
+    Object.defineProperty(Buffer, Symbol.species, {
+      value: null,
+      configurable: true
+    })
+  }
+}
+
+function assertSize (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('"size" argument must be a number')
+  } else if (size < 0) {
+    throw new RangeError('"size" argument must not be negative')
+  }
+}
+
+function alloc (that, size, fill, encoding) {
+  assertSize(size)
+  if (size <= 0) {
+    return createBuffer(that, size)
+  }
+  if (fill !== undefined) {
+    // Only pay attention to encoding if it's a string. This
+    // prevents accidentally sending in a number that would
+    // be interpretted as a start offset.
+    return typeof encoding === 'string'
+      ? createBuffer(that, size).fill(fill, encoding)
+      : createBuffer(that, size).fill(fill)
+  }
+  return createBuffer(that, size)
+}
+
+/**
+ * Creates a new filled Buffer instance.
+ * alloc(size[, fill[, encoding]])
+ **/
+Buffer.alloc = function (size, fill, encoding) {
+  return alloc(null, size, fill, encoding)
+}
+
+function allocUnsafe (that, size) {
+  assertSize(size)
+  that = createBuffer(that, size < 0 ? 0 : checked(size) | 0)
+  if (!Buffer.TYPED_ARRAY_SUPPORT) {
+    for (var i = 0; i < size; ++i) {
+      that[i] = 0
+    }
+  }
+  return that
+}
+
+/**
+ * Equivalent to Buffer(num), by default creates a non-zero-filled Buffer instance.
+ * */
+Buffer.allocUnsafe = function (size) {
+  return allocUnsafe(null, size)
+}
+/**
+ * Equivalent to SlowBuffer(num), by default creates a non-zero-filled Buffer instance.
+ */
+Buffer.allocUnsafeSlow = function (size) {
+  return allocUnsafe(null, size)
+}
+
+function fromString (that, string, encoding) {
+  if (typeof encoding !== 'string' || encoding === '') {
+    encoding = 'utf8'
+  }
+
+  if (!Buffer.isEncoding(encoding)) {
+    throw new TypeError('"encoding" must be a valid string encoding')
+  }
+
+  var length = byteLength(string, encoding) | 0
+  that = createBuffer(that, length)
+
+  var actual = that.write(string, encoding)
+
+  if (actual !== length) {
+    // Writing a hex string, for example, that contains invalid characters will
+    // cause everything after the first invalid character to be ignored. (e.g.
+    // 'abxxcd' will be treated as 'ab')
+    that = that.slice(0, actual)
+  }
+
+  return that
+}
+
+function fromArrayLike (that, array) {
+  var length = array.length < 0 ? 0 : checked(array.length) | 0
+  that = createBuffer(that, length)
+  for (var i = 0; i < length; i += 1) {
+    that[i] = array[i] & 255
+  }
+  return that
+}
+
+function fromArrayBuffer (that, array, byteOffset, length) {
+  array.byteLength // this throws if `array` is not a valid ArrayBuffer
+
+  if (byteOffset < 0 || array.byteLength < byteOffset) {
+    throw new RangeError('\'offset\' is out of bounds')
+  }
+
+  if (array.byteLength < byteOffset + (length || 0)) {
+    throw new RangeError('\'length\' is out of bounds')
+  }
+
+  if (byteOffset === undefined && length === undefined) {
+    array = new Uint8Array(array)
+  } else if (length === undefined) {
+    array = new Uint8Array(array, byteOffset)
+  } else {
+    array = new Uint8Array(array, byteOffset, length)
+  }
+
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    // Return an augmented `Uint8Array` instance, for best performance
+    that = array
+    that.__proto__ = Buffer.prototype
+  } else {
+    // Fallback: Return an object instance of the Buffer class
+    that = fromArrayLike(that, array)
+  }
+  return that
+}
+
+function fromObject (that, obj) {
+  if (Buffer.isBuffer(obj)) {
+    var len = checked(obj.length) | 0
+    that = createBuffer(that, len)
+
+    if (that.length === 0) {
+      return that
+    }
+
+    obj.copy(that, 0, 0, len)
+    return that
+  }
+
+  if (obj) {
+    if ((typeof ArrayBuffer !== 'undefined' &&
+        obj.buffer instanceof ArrayBuffer) || 'length' in obj) {
+      if (typeof obj.length !== 'number' || isnan(obj.length)) {
+        return createBuffer(that, 0)
+      }
+      return fromArrayLike(that, obj)
+    }
+
+    if (obj.type === 'Buffer' && isArray(obj.data)) {
+      return fromArrayLike(that, obj.data)
+    }
+  }
+
+  throw new TypeError('First argument must be a string, Buffer, ArrayBuffer, Array, or array-like object.')
+}
+
+function checked (length) {
+  // Note: cannot use `length < kMaxLength()` here because that fails when
+  // length is NaN (which is otherwise coerced to zero.)
+  if (length >= kMaxLength()) {
+    throw new RangeError('Attempt to allocate Buffer larger than maximum ' +
+                         'size: 0x' + kMaxLength().toString(16) + ' bytes')
+  }
+  return length | 0
+}
+
+function SlowBuffer (length) {
+  if (+length != length) { // eslint-disable-line eqeqeq
+    length = 0
+  }
+  return Buffer.alloc(+length)
+}
+
+Buffer.isBuffer = function isBuffer (b) {
+  return !!(b != null && b._isBuffer)
+}
+
+Buffer.compare = function compare (a, b) {
+  if (!Buffer.isBuffer(a) || !Buffer.isBuffer(b)) {
+    throw new TypeError('Arguments must be Buffers')
+  }
+
+  if (a === b) return 0
+
+  var x = a.length
+  var y = b.length
+
+  for (var i = 0, len = Math.min(x, y); i < len; ++i) {
+    if (a[i] !== b[i]) {
+      x = a[i]
+      y = b[i]
+      break
+    }
+  }
+
+  if (x < y) return -1
+  if (y < x) return 1
+  return 0
+}
+
+Buffer.isEncoding = function isEncoding (encoding) {
+  switch (String(encoding).toLowerCase()) {
+    case 'hex':
+    case 'utf8':
+    case 'utf-8':
+    case 'ascii':
+    case 'latin1':
+    case 'binary':
+    case 'base64':
+    case 'ucs2':
+    case 'ucs-2':
+    case 'utf16le':
+    case 'utf-16le':
+      return true
+    default:
+      return false
+  }
+}
+
+Buffer.concat = function concat (list, length) {
+  if (!isArray(list)) {
+    throw new TypeError('"list" argument must be an Array of Buffers')
+  }
+
+  if (list.length === 0) {
+    return Buffer.alloc(0)
+  }
+
+  var i
+  if (length === undefined) {
+    length = 0
+    for (i = 0; i < list.length; ++i) {
+      length += list[i].length
+    }
+  }
+
+  var buffer = Buffer.allocUnsafe(length)
+  var pos = 0
+  for (i = 0; i < list.length; ++i) {
+    var buf = list[i]
+    if (!Buffer.isBuffer(buf)) {
+      throw new TypeError('"list" argument must be an Array of Buffers')
+    }
+    buf.copy(buffer, pos)
+    pos += buf.length
+  }
+  return buffer
+}
+
+function byteLength (string, encoding) {
+  if (Buffer.isBuffer(string)) {
+    return string.length
+  }
+  if (typeof ArrayBuffer !== 'undefined' && typeof ArrayBuffer.isView === 'function' &&
+      (ArrayBuffer.isView(string) || string instanceof ArrayBuffer)) {
+    return string.byteLength
+  }
+  if (typeof string !== 'string') {
+    string = '' + string
+  }
+
+  var len = string.length
+  if (len === 0) return 0
+
+  // Use a for loop to avoid recursion
+  var loweredCase = false
+  for (;;) {
+    switch (encoding) {
+      case 'ascii':
+      case 'latin1':
+      case 'binary':
+        return len
+      case 'utf8':
+      case 'utf-8':
+      case undefined:
+        return utf8ToBytes(string).length
+      case 'ucs2':
+      case 'ucs-2':
+      case 'utf16le':
+      case 'utf-16le':
+        return len * 2
+      case 'hex':
+        return len >>> 1
+      case 'base64':
+        return base64ToBytes(string).length
+      default:
+        if (loweredCase) return utf8ToBytes(string).length // assume utf8
+        encoding = ('' + encoding).toLowerCase()
+        loweredCase = true
+    }
+  }
+}
+Buffer.byteLength = byteLength
+
+function slowToString (encoding, start, end) {
+  var loweredCase = false
+
+  // No need to verify that "this.length <= MAX_UINT32" since it's a read-only
+  // property of a typed array.
+
+  // This behaves neither like String nor Uint8Array in that we set start/end
+  // to their upper/lower bounds if the value passed is out of range.
+  // undefined is handled specially as per ECMA-262 6th Edition,
+  // Section 13.3.3.7 Runtime Semantics: KeyedBindingInitialization.
+  if (start === undefined || start < 0) {
+    start = 0
+  }
+  // Return early if start > this.length. Done here to prevent potential uint32
+  // coercion fail below.
+  if (start > this.length) {
+    return ''
+  }
+
+  if (end === undefined || end > this.length) {
+    end = this.length
+  }
+
+  if (end <= 0) {
+    return ''
+  }
+
+  // Force coersion to uint32. This will also coerce falsey/NaN values to 0.
+  end >>>= 0
+  start >>>= 0
+
+  if (end <= start) {
+    return ''
+  }
+
+  if (!encoding) encoding = 'utf8'
+
+  while (true) {
+    switch (encoding) {
+      case 'hex':
+        return hexSlice(this, start, end)
+
+      case 'utf8':
+      case 'utf-8':
+        return utf8Slice(this, start, end)
+
+      case 'ascii':
+        return asciiSlice(this, start, end)
+
+      case 'latin1':
+      case 'binary':
+        return latin1Slice(this, start, end)
+
+      case 'base64':
+        return base64Slice(this, start, end)
+
+      case 'ucs2':
+      case 'ucs-2':
+      case 'utf16le':
+      case 'utf-16le':
+        return utf16leSlice(this, start, end)
+
+      default:
+        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
+        encoding = (encoding + '').toLowerCase()
+        loweredCase = true
+    }
+  }
+}
+
+// The property is used by `Buffer.isBuffer` and `is-buffer` (in Safari 5-7) to detect
+// Buffer instances.
+Buffer.prototype._isBuffer = true
+
+function swap (b, n, m) {
+  var i = b[n]
+  b[n] = b[m]
+  b[m] = i
+}
+
+Buffer.prototype.swap16 = function swap16 () {
+  var len = this.length
+  if (len % 2 !== 0) {
+    throw new RangeError('Buffer size must be a multiple of 16-bits')
+  }
+  for (var i = 0; i < len; i += 2) {
+    swap(this, i, i + 1)
+  }
+  return this
+}
+
+Buffer.prototype.swap32 = function swap32 () {
+  var len = this.length
+  if (len % 4 !== 0) {
+    throw new RangeError('Buffer size must be a multiple of 32-bits')
+  }
+  for (var i = 0; i < len; i += 4) {
+    swap(this, i, i + 3)
+    swap(this, i + 1, i + 2)
+  }
+  return this
+}
+
+Buffer.prototype.swap64 = function swap64 () {
+  var len = this.length
+  if (len % 8 !== 0) {
+    throw new RangeError('Buffer size must be a multiple of 64-bits')
+  }
+  for (var i = 0; i < len; i += 8) {
+    swap(this, i, i + 7)
+    swap(this, i + 1, i + 6)
+    swap(this, i + 2, i + 5)
+    swap(this, i + 3, i + 4)
+  }
+  return this
+}
+
+Buffer.prototype.toString = function toString () {
+  var length = this.length | 0
+  if (length === 0) return ''
+  if (arguments.length === 0) return utf8Slice(this, 0, length)
+  return slowToString.apply(this, arguments)
+}
+
+Buffer.prototype.equals = function equals (b) {
+  if (!Buffer.isBuffer(b)) throw new TypeError('Argument must be a Buffer')
+  if (this === b) return true
+  return Buffer.compare(this, b) === 0
+}
+
+Buffer.prototype.inspect = function inspect () {
+  var str = ''
+  var max = exports.INSPECT_MAX_BYTES
+  if (this.length > 0) {
+    str = this.toString('hex', 0, max).match(/.{2}/g).join(' ')
+    if (this.length > max) str += ' ... '
+  }
+  return '<Buffer ' + str + '>'
+}
+
+Buffer.prototype.compare = function compare (target, start, end, thisStart, thisEnd) {
+  if (!Buffer.isBuffer(target)) {
+    throw new TypeError('Argument must be a Buffer')
+  }
+
+  if (start === undefined) {
+    start = 0
+  }
+  if (end === undefined) {
+    end = target ? target.length : 0
+  }
+  if (thisStart === undefined) {
+    thisStart = 0
+  }
+  if (thisEnd === undefined) {
+    thisEnd = this.length
+  }
+
+  if (start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) {
+    throw new RangeError('out of range index')
+  }
+
+  if (thisStart >= thisEnd && start >= end) {
+    return 0
+  }
+  if (thisStart >= thisEnd) {
+    return -1
+  }
+  if (start >= end) {
+    return 1
+  }
+
+  start >>>= 0
+  end >>>= 0
+  thisStart >>>= 0
+  thisEnd >>>= 0
+
+  if (this === target) return 0
+
+  var x = thisEnd - thisStart
+  var y = end - start
+  var len = Math.min(x, y)
+
+  var thisCopy = this.slice(thisStart, thisEnd)
+  var targetCopy = target.slice(start, end)
+
+  for (var i = 0; i < len; ++i) {
+    if (thisCopy[i] !== targetCopy[i]) {
+      x = thisCopy[i]
+      y = targetCopy[i]
+      break
+    }
+  }
+
+  if (x < y) return -1
+  if (y < x) return 1
+  return 0
+}
+
+// Finds either the first index of `val` in `buffer` at offset >= `byteOffset`,
+// OR the last index of `val` in `buffer` at offset <= `byteOffset`.
+//
+// Arguments:
+// - buffer - a Buffer to search
+// - val - a string, Buffer, or number
+// - byteOffset - an index into `buffer`; will be clamped to an int32
+// - encoding - an optional encoding, relevant is val is a string
+// - dir - true for indexOf, false for lastIndexOf
+function bidirectionalIndexOf (buffer, val, byteOffset, encoding, dir) {
+  // Empty buffer means no match
+  if (buffer.length === 0) return -1
+
+  // Normalize byteOffset
+  if (typeof byteOffset === 'string') {
+    encoding = byteOffset
+    byteOffset = 0
+  } else if (byteOffset > 0x7fffffff) {
+    byteOffset = 0x7fffffff
+  } else if (byteOffset < -0x80000000) {
+    byteOffset = -0x80000000
+  }
+  byteOffset = +byteOffset  // Coerce to Number.
+  if (isNaN(byteOffset)) {
+    // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
+    byteOffset = dir ? 0 : (buffer.length - 1)
+  }
+
+  // Normalize byteOffset: negative offsets start from the end of the buffer
+  if (byteOffset < 0) byteOffset = buffer.length + byteOffset
+  if (byteOffset >= buffer.length) {
+    if (dir) return -1
+    else byteOffset = buffer.length - 1
+  } else if (byteOffset < 0) {
+    if (dir) byteOffset = 0
+    else return -1
+  }
+
+  // Normalize val
+  if (typeof val === 'string') {
+    val = Buffer.from(val, encoding)
+  }
+
+  // Finally, search either indexOf (if dir is true) or lastIndexOf
+  if (Buffer.isBuffer(val)) {
+    // Special case: looking for empty string/buffer always fails
+    if (val.length === 0) {
+      return -1
+    }
+    return arrayIndexOf(buffer, val, byteOffset, encoding, dir)
+  } else if (typeof val === 'number') {
+    val = val & 0xFF // Search for a byte value [0-255]
+    if (Buffer.TYPED_ARRAY_SUPPORT &&
+        typeof Uint8Array.prototype.indexOf === 'function') {
+      if (dir) {
+        return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset)
+      } else {
+        return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset)
+      }
+    }
+    return arrayIndexOf(buffer, [ val ], byteOffset, encoding, dir)
+  }
+
+  throw new TypeError('val must be string, number or Buffer')
+}
+
+function arrayIndexOf (arr, val, byteOffset, encoding, dir) {
+  var indexSize = 1
+  var arrLength = arr.length
+  var valLength = val.length
+
+  if (encoding !== undefined) {
+    encoding = String(encoding).toLowerCase()
+    if (encoding === 'ucs2' || encoding === 'ucs-2' ||
+        encoding === 'utf16le' || encoding === 'utf-16le') {
+      if (arr.length < 2 || val.length < 2) {
+        return -1
+      }
+      indexSize = 2
+      arrLength /= 2
+      valLength /= 2
+      byteOffset /= 2
+    }
+  }
+
+  function read (buf, i) {
+    if (indexSize === 1) {
+      return buf[i]
+    } else {
+      return buf.readUInt16BE(i * indexSize)
+    }
+  }
+
+  var i
+  if (dir) {
+    var foundIndex = -1
+    for (i = byteOffset; i < arrLength; i++) {
+      if (read(arr, i) === read(val, foundIndex === -1 ? 0 : i - foundIndex)) {
+        if (foundIndex === -1) foundIndex = i
+        if (i - foundIndex + 1 === valLength) return foundIndex * indexSize
+      } else {
+        if (foundIndex !== -1) i -= i - foundIndex
+        foundIndex = -1
+      }
+    }
+  } else {
+    if (byteOffset + valLength > arrLength) byteOffset = arrLength - valLength
+    for (i = byteOffset; i >= 0; i--) {
+      var found = true
+      for (var j = 0; j < valLength; j++) {
+        if (read(arr, i + j) !== read(val, j)) {
+          found = false
+          break
+        }
+      }
+      if (found) return i
+    }
+  }
+
+  return -1
+}
+
+Buffer.prototype.includes = function includes (val, byteOffset, encoding) {
+  return this.indexOf(val, byteOffset, encoding) !== -1
+}
+
+Buffer.prototype.indexOf = function indexOf (val, byteOffset, encoding) {
+  return bidirectionalIndexOf(this, val, byteOffset, encoding, true)
+}
+
+Buffer.prototype.lastIndexOf = function lastIndexOf (val, byteOffset, encoding) {
+  return bidirectionalIndexOf(this, val, byteOffset, encoding, false)
+}
+
+function hexWrite (buf, string, offset, length) {
+  offset = Number(offset) || 0
+  var remaining = buf.length - offset
+  if (!length) {
+    length = remaining
+  } else {
+    length = Number(length)
+    if (length > remaining) {
+      length = remaining
+    }
+  }
+
+  // must be an even number of digits
+  var strLen = string.length
+  if (strLen % 2 !== 0) throw new TypeError('Invalid hex string')
+
+  if (length > strLen / 2) {
+    length = strLen / 2
+  }
+  for (var i = 0; i < length; ++i) {
+    var parsed = parseInt(string.substr(i * 2, 2), 16)
+    if (isNaN(parsed)) return i
+    buf[offset + i] = parsed
+  }
+  return i
+}
+
+function utf8Write (buf, string, offset, length) {
+  return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length)
+}
+
+function asciiWrite (buf, string, offset, length) {
+  return blitBuffer(asciiToBytes(string), buf, offset, length)
+}
+
+function latin1Write (buf, string, offset, length) {
+  return asciiWrite(buf, string, offset, length)
+}
+
+function base64Write (buf, string, offset, length) {
+  return blitBuffer(base64ToBytes(string), buf, offset, length)
+}
+
+function ucs2Write (buf, string, offset, length) {
+  return blitBuffer(utf16leToBytes(string, buf.length - offset), buf, offset, length)
+}
+
+Buffer.prototype.write = function write (string, offset, length, encoding) {
+  // Buffer#write(string)
+  if (offset === undefined) {
+    encoding = 'utf8'
+    length = this.length
+    offset = 0
+  // Buffer#write(string, encoding)
+  } else if (length === undefined && typeof offset === 'string') {
+    encoding = offset
+    length = this.length
+    offset = 0
+  // Buffer#write(string, offset[, length][, encoding])
+  } else if (isFinite(offset)) {
+    offset = offset | 0
+    if (isFinite(length)) {
+      length = length | 0
+      if (encoding === undefined) encoding = 'utf8'
+    } else {
+      encoding = length
+      length = undefined
+    }
+  // legacy write(string, encoding, offset, length) - remove in v0.13
+  } else {
+    throw new Error(
+      'Buffer.write(string, encoding, offset[, length]) is no longer supported'
+    )
+  }
+
+  var remaining = this.length - offset
+  if (length === undefined || length > remaining) length = remaining
+
+  if ((string.length > 0 && (length < 0 || offset < 0)) || offset > this.length) {
+    throw new RangeError('Attempt to write outside buffer bounds')
+  }
+
+  if (!encoding) encoding = 'utf8'
+
+  var loweredCase = false
+  for (;;) {
+    switch (encoding) {
+      case 'hex':
+        return hexWrite(this, string, offset, length)
+
+      case 'utf8':
+      case 'utf-8':
+        return utf8Write(this, string, offset, length)
+
+      case 'ascii':
+        return asciiWrite(this, string, offset, length)
+
+      case 'latin1':
+      case 'binary':
+        return latin1Write(this, string, offset, length)
+
+      case 'base64':
+        // Warning: maxLength not taken into account in base64Write
+        return base64Write(this, string, offset, length)
+
+      case 'ucs2':
+      case 'ucs-2':
+      case 'utf16le':
+      case 'utf-16le':
+        return ucs2Write(this, string, offset, length)
+
+      default:
+        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
+        encoding = ('' + encoding).toLowerCase()
+        loweredCase = true
+    }
+  }
+}
+
+Buffer.prototype.toJSON = function toJSON () {
+  return {
+    type: 'Buffer',
+    data: Array.prototype.slice.call(this._arr || this, 0)
+  }
+}
+
+function base64Slice (buf, start, end) {
+  if (start === 0 && end === buf.length) {
+    return base64.fromByteArray(buf)
+  } else {
+    return base64.fromByteArray(buf.slice(start, end))
+  }
+}
+
+function utf8Slice (buf, start, end) {
+  end = Math.min(buf.length, end)
+  var res = []
+
+  var i = start
+  while (i < end) {
+    var firstByte = buf[i]
+    var codePoint = null
+    var bytesPerSequence = (firstByte > 0xEF) ? 4
+      : (firstByte > 0xDF) ? 3
+      : (firstByte > 0xBF) ? 2
+      : 1
+
+    if (i + bytesPerSequence <= end) {
+      var secondByte, thirdByte, fourthByte, tempCodePoint
+
+      switch (bytesPerSequence) {
+        case 1:
+          if (firstByte < 0x80) {
+            codePoint = firstByte
+          }
+          break
+        case 2:
+          secondByte = buf[i + 1]
+          if ((secondByte & 0xC0) === 0x80) {
+            tempCodePoint = (firstByte & 0x1F) << 0x6 | (secondByte & 0x3F)
+            if (tempCodePoint > 0x7F) {
+              codePoint = tempCodePoint
+            }
+          }
+          break
+        case 3:
+          secondByte = buf[i + 1]
+          thirdByte = buf[i + 2]
+          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80) {
+            tempCodePoint = (firstByte & 0xF) << 0xC | (secondByte & 0x3F) << 0x6 | (thirdByte & 0x3F)
+            if (tempCodePoint > 0x7FF && (tempCodePoint < 0xD800 || tempCodePoint > 0xDFFF)) {
+              codePoint = tempCodePoint
+            }
+          }
+          break
+        case 4:
+          secondByte = buf[i + 1]
+          thirdByte = buf[i + 2]
+          fourthByte = buf[i + 3]
+          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80 && (fourthByte & 0xC0) === 0x80) {
+            tempCodePoint = (firstByte & 0xF) << 0x12 | (secondByte & 0x3F) << 0xC | (thirdByte & 0x3F) << 0x6 | (fourthByte & 0x3F)
+            if (tempCodePoint > 0xFFFF && tempCodePoint < 0x110000) {
+              codePoint = tempCodePoint
+            }
+          }
+      }
+    }
+
+    if (codePoint === null) {
+      // we did not generate a valid codePoint so insert a
+      // replacement char (U+FFFD) and advance only 1 byte
+      codePoint = 0xFFFD
+      bytesPerSequence = 1
+    } else if (codePoint > 0xFFFF) {
+      // encode to utf16 (surrogate pair dance)
+      codePoint -= 0x10000
+      res.push(codePoint >>> 10 & 0x3FF | 0xD800)
+      codePoint = 0xDC00 | codePoint & 0x3FF
+    }
+
+    res.push(codePoint)
+    i += bytesPerSequence
+  }
+
+  return decodeCodePointsArray(res)
+}
+
+// Based on http://stackoverflow.com/a/22747272/680742, the browser with
+// the lowest limit is Chrome, with 0x10000 args.
+// We go 1 magnitude less, for safety
+var MAX_ARGUMENTS_LENGTH = 0x1000
+
+function decodeCodePointsArray (codePoints) {
+  var len = codePoints.length
+  if (len <= MAX_ARGUMENTS_LENGTH) {
+    return String.fromCharCode.apply(String, codePoints) // avoid extra slice()
+  }
+
+  // Decode in chunks to avoid "call stack size exceeded".
+  var res = ''
+  var i = 0
+  while (i < len) {
+    res += String.fromCharCode.apply(
+      String,
+      codePoints.slice(i, i += MAX_ARGUMENTS_LENGTH)
+    )
+  }
+  return res
+}
+
+function asciiSlice (buf, start, end) {
+  var ret = ''
+  end = Math.min(buf.length, end)
+
+  for (var i = start; i < end; ++i) {
+    ret += String.fromCharCode(buf[i] & 0x7F)
+  }
+  return ret
+}
+
+function latin1Slice (buf, start, end) {
+  var ret = ''
+  end = Math.min(buf.length, end)
+
+  for (var i = start; i < end; ++i) {
+    ret += String.fromCharCode(buf[i])
+  }
+  return ret
+}
+
+function hexSlice (buf, start, end) {
+  var len = buf.length
+
+  if (!start || start < 0) start = 0
+  if (!end || end < 0 || end > len) end = len
+
+  var out = ''
+  for (var i = start; i < end; ++i) {
+    out += toHex(buf[i])
+  }
+  return out
+}
+
+function utf16leSlice (buf, start, end) {
+  var bytes = buf.slice(start, end)
+  var res = ''
+  for (var i = 0; i < bytes.length; i += 2) {
+    res += String.fromCharCode(bytes[i] + bytes[i + 1] * 256)
+  }
+  return res
+}
+
+Buffer.prototype.slice = function slice (start, end) {
+  var len = this.length
+  start = ~~start
+  end = end === undefined ? len : ~~end
+
+  if (start < 0) {
+    start += len
+    if (start < 0) start = 0
+  } else if (start > len) {
+    start = len
+  }
+
+  if (end < 0) {
+    end += len
+    if (end < 0) end = 0
+  } else if (end > len) {
+    end = len
+  }
+
+  if (end < start) end = start
+
+  var newBuf
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    newBuf = this.subarray(start, end)
+    newBuf.__proto__ = Buffer.prototype
+  } else {
+    var sliceLen = end - start
+    newBuf = new Buffer(sliceLen, undefined)
+    for (var i = 0; i < sliceLen; ++i) {
+      newBuf[i] = this[i + start]
+    }
+  }
+
+  return newBuf
+}
+
+/*
+ * Need to make sure that buffer isn't trying to write out of bounds.
+ */
+function checkOffset (offset, ext, length) {
+  if ((offset % 1) !== 0 || offset < 0) throw new RangeError('offset is not uint')
+  if (offset + ext > length) throw new RangeError('Trying to access beyond buffer length')
+}
+
+Buffer.prototype.readUIntLE = function readUIntLE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) checkOffset(offset, byteLength, this.length)
+
+  var val = this[offset]
+  var mul = 1
+  var i = 0
+  while (++i < byteLength && (mul *= 0x100)) {
+    val += this[offset + i] * mul
+  }
+
+  return val
+}
+
+Buffer.prototype.readUIntBE = function readUIntBE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) {
+    checkOffset(offset, byteLength, this.length)
+  }
+
+  var val = this[offset + --byteLength]
+  var mul = 1
+  while (byteLength > 0 && (mul *= 0x100)) {
+    val += this[offset + --byteLength] * mul
+  }
+
+  return val
+}
+
+Buffer.prototype.readUInt8 = function readUInt8 (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 1, this.length)
+  return this[offset]
+}
+
+Buffer.prototype.readUInt16LE = function readUInt16LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  return this[offset] | (this[offset + 1] << 8)
+}
+
+Buffer.prototype.readUInt16BE = function readUInt16BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  return (this[offset] << 8) | this[offset + 1]
+}
+
+Buffer.prototype.readUInt32LE = function readUInt32LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return ((this[offset]) |
+      (this[offset + 1] << 8) |
+      (this[offset + 2] << 16)) +
+      (this[offset + 3] * 0x1000000)
+}
+
+Buffer.prototype.readUInt32BE = function readUInt32BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return (this[offset] * 0x1000000) +
+    ((this[offset + 1] << 16) |
+    (this[offset + 2] << 8) |
+    this[offset + 3])
+}
+
+Buffer.prototype.readIntLE = function readIntLE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) checkOffset(offset, byteLength, this.length)
+
+  var val = this[offset]
+  var mul = 1
+  var i = 0
+  while (++i < byteLength && (mul *= 0x100)) {
+    val += this[offset + i] * mul
+  }
+  mul *= 0x80
+
+  if (val >= mul) val -= Math.pow(2, 8 * byteLength)
+
+  return val
+}
+
+Buffer.prototype.readIntBE = function readIntBE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) checkOffset(offset, byteLength, this.length)
+
+  var i = byteLength
+  var mul = 1
+  var val = this[offset + --i]
+  while (i > 0 && (mul *= 0x100)) {
+    val += this[offset + --i] * mul
+  }
+  mul *= 0x80
+
+  if (val >= mul) val -= Math.pow(2, 8 * byteLength)
+
+  return val
+}
+
+Buffer.prototype.readInt8 = function readInt8 (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 1, this.length)
+  if (!(this[offset] & 0x80)) return (this[offset])
+  return ((0xff - this[offset] + 1) * -1)
+}
+
+Buffer.prototype.readInt16LE = function readInt16LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  var val = this[offset] | (this[offset + 1] << 8)
+  return (val & 0x8000) ? val | 0xFFFF0000 : val
+}
+
+Buffer.prototype.readInt16BE = function readInt16BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  var val = this[offset + 1] | (this[offset] << 8)
+  return (val & 0x8000) ? val | 0xFFFF0000 : val
+}
+
+Buffer.prototype.readInt32LE = function readInt32LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return (this[offset]) |
+    (this[offset + 1] << 8) |
+    (this[offset + 2] << 16) |
+    (this[offset + 3] << 24)
+}
+
+Buffer.prototype.readInt32BE = function readInt32BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return (this[offset] << 24) |
+    (this[offset + 1] << 16) |
+    (this[offset + 2] << 8) |
+    (this[offset + 3])
+}
+
+Buffer.prototype.readFloatLE = function readFloatLE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+  return ieee754.read(this, offset, true, 23, 4)
+}
+
+Buffer.prototype.readFloatBE = function readFloatBE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+  return ieee754.read(this, offset, false, 23, 4)
+}
+
+Buffer.prototype.readDoubleLE = function readDoubleLE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 8, this.length)
+  return ieee754.read(this, offset, true, 52, 8)
+}
+
+Buffer.prototype.readDoubleBE = function readDoubleBE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 8, this.length)
+  return ieee754.read(this, offset, false, 52, 8)
+}
+
+function checkInt (buf, value, offset, ext, max, min) {
+  if (!Buffer.isBuffer(buf)) throw new TypeError('"buffer" argument must be a Buffer instance')
+  if (value > max || value < min) throw new RangeError('"value" argument is out of bounds')
+  if (offset + ext > buf.length) throw new RangeError('Index out of range')
+}
+
+Buffer.prototype.writeUIntLE = function writeUIntLE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) {
+    var maxBytes = Math.pow(2, 8 * byteLength) - 1
+    checkInt(this, value, offset, byteLength, maxBytes, 0)
+  }
+
+  var mul = 1
+  var i = 0
+  this[offset] = value & 0xFF
+  while (++i < byteLength && (mul *= 0x100)) {
+    this[offset + i] = (value / mul) & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeUIntBE = function writeUIntBE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) {
+    var maxBytes = Math.pow(2, 8 * byteLength) - 1
+    checkInt(this, value, offset, byteLength, maxBytes, 0)
+  }
+
+  var i = byteLength - 1
+  var mul = 1
+  this[offset + i] = value & 0xFF
+  while (--i >= 0 && (mul *= 0x100)) {
+    this[offset + i] = (value / mul) & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeUInt8 = function writeUInt8 (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 1, 0xff, 0)
+  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
+  this[offset] = (value & 0xff)
+  return offset + 1
+}
+
+function objectWriteUInt16 (buf, value, offset, littleEndian) {
+  if (value < 0) value = 0xffff + value + 1
+  for (var i = 0, j = Math.min(buf.length - offset, 2); i < j; ++i) {
+    buf[offset + i] = (value & (0xff << (8 * (littleEndian ? i : 1 - i)))) >>>
+      (littleEndian ? i : 1 - i) * 8
+  }
+}
+
+Buffer.prototype.writeUInt16LE = function writeUInt16LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value & 0xff)
+    this[offset + 1] = (value >>> 8)
+  } else {
+    objectWriteUInt16(this, value, offset, true)
+  }
+  return offset + 2
+}
+
+Buffer.prototype.writeUInt16BE = function writeUInt16BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 8)
+    this[offset + 1] = (value & 0xff)
+  } else {
+    objectWriteUInt16(this, value, offset, false)
+  }
+  return offset + 2
+}
+
+function objectWriteUInt32 (buf, value, offset, littleEndian) {
+  if (value < 0) value = 0xffffffff + value + 1
+  for (var i = 0, j = Math.min(buf.length - offset, 4); i < j; ++i) {
+    buf[offset + i] = (value >>> (littleEndian ? i : 3 - i) * 8) & 0xff
+  }
+}
+
+Buffer.prototype.writeUInt32LE = function writeUInt32LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset + 3] = (value >>> 24)
+    this[offset + 2] = (value >>> 16)
+    this[offset + 1] = (value >>> 8)
+    this[offset] = (value & 0xff)
+  } else {
+    objectWriteUInt32(this, value, offset, true)
+  }
+  return offset + 4
+}
+
+Buffer.prototype.writeUInt32BE = function writeUInt32BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 24)
+    this[offset + 1] = (value >>> 16)
+    this[offset + 2] = (value >>> 8)
+    this[offset + 3] = (value & 0xff)
+  } else {
+    objectWriteUInt32(this, value, offset, false)
+  }
+  return offset + 4
+}
+
+Buffer.prototype.writeIntLE = function writeIntLE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) {
+    var limit = Math.pow(2, 8 * byteLength - 1)
+
+    checkInt(this, value, offset, byteLength, limit - 1, -limit)
+  }
+
+  var i = 0
+  var mul = 1
+  var sub = 0
+  this[offset] = value & 0xFF
+  while (++i < byteLength && (mul *= 0x100)) {
+    if (value < 0 && sub === 0 && this[offset + i - 1] !== 0) {
+      sub = 1
+    }
+    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeIntBE = function writeIntBE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) {
+    var limit = Math.pow(2, 8 * byteLength - 1)
+
+    checkInt(this, value, offset, byteLength, limit - 1, -limit)
+  }
+
+  var i = byteLength - 1
+  var mul = 1
+  var sub = 0
+  this[offset + i] = value & 0xFF
+  while (--i >= 0 && (mul *= 0x100)) {
+    if (value < 0 && sub === 0 && this[offset + i + 1] !== 0) {
+      sub = 1
+    }
+    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeInt8 = function writeInt8 (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 1, 0x7f, -0x80)
+  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
+  if (value < 0) value = 0xff + value + 1
+  this[offset] = (value & 0xff)
+  return offset + 1
+}
+
+Buffer.prototype.writeInt16LE = function writeInt16LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value & 0xff)
+    this[offset + 1] = (value >>> 8)
+  } else {
+    objectWriteUInt16(this, value, offset, true)
+  }
+  return offset + 2
+}
+
+Buffer.prototype.writeInt16BE = function writeInt16BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 8)
+    this[offset + 1] = (value & 0xff)
+  } else {
+    objectWriteUInt16(this, value, offset, false)
+  }
+  return offset + 2
+}
+
+Buffer.prototype.writeInt32LE = function writeInt32LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value & 0xff)
+    this[offset + 1] = (value >>> 8)
+    this[offset + 2] = (value >>> 16)
+    this[offset + 3] = (value >>> 24)
+  } else {
+    objectWriteUInt32(this, value, offset, true)
+  }
+  return offset + 4
+}
+
+Buffer.prototype.writeInt32BE = function writeInt32BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
+  if (value < 0) value = 0xffffffff + value + 1
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 24)
+    this[offset + 1] = (value >>> 16)
+    this[offset + 2] = (value >>> 8)
+    this[offset + 3] = (value & 0xff)
+  } else {
+    objectWriteUInt32(this, value, offset, false)
+  }
+  return offset + 4
+}
+
+function checkIEEE754 (buf, value, offset, ext, max, min) {
+  if (offset + ext > buf.length) throw new RangeError('Index out of range')
+  if (offset < 0) throw new RangeError('Index out of range')
+}
+
+function writeFloat (buf, value, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -3.4028234663852886e+38)
+  }
+  ieee754.write(buf, value, offset, littleEndian, 23, 4)
+  return offset + 4
+}
+
+Buffer.prototype.writeFloatLE = function writeFloatLE (value, offset, noAssert) {
+  return writeFloat(this, value, offset, true, noAssert)
+}
+
+Buffer.prototype.writeFloatBE = function writeFloatBE (value, offset, noAssert) {
+  return writeFloat(this, value, offset, false, noAssert)
+}
+
+function writeDouble (buf, value, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -1.7976931348623157E+308)
+  }
+  ieee754.write(buf, value, offset, littleEndian, 52, 8)
+  return offset + 8
+}
+
+Buffer.prototype.writeDoubleLE = function writeDoubleLE (value, offset, noAssert) {
+  return writeDouble(this, value, offset, true, noAssert)
+}
+
+Buffer.prototype.writeDoubleBE = function writeDoubleBE (value, offset, noAssert) {
+  return writeDouble(this, value, offset, false, noAssert)
+}
+
+// copy(targetBuffer, targetStart=0, sourceStart=0, sourceEnd=buffer.length)
+Buffer.prototype.copy = function copy (target, targetStart, start, end) {
+  if (!start) start = 0
+  if (!end && end !== 0) end = this.length
+  if (targetStart >= target.length) targetStart = target.length
+  if (!targetStart) targetStart = 0
+  if (end > 0 && end < start) end = start
+
+  // Copy 0 bytes; we're done
+  if (end === start) return 0
+  if (target.length === 0 || this.length === 0) return 0
+
+  // Fatal error conditions
+  if (targetStart < 0) {
+    throw new RangeError('targetStart out of bounds')
+  }
+  if (start < 0 || start >= this.length) throw new RangeError('sourceStart out of bounds')
+  if (end < 0) throw new RangeError('sourceEnd out of bounds')
+
+  // Are we oob?
+  if (end > this.length) end = this.length
+  if (target.length - targetStart < end - start) {
+    end = target.length - targetStart + start
+  }
+
+  var len = end - start
+  var i
+
+  if (this === target && start < targetStart && targetStart < end) {
+    // descending copy from end
+    for (i = len - 1; i >= 0; --i) {
+      target[i + targetStart] = this[i + start]
+    }
+  } else if (len < 1000 || !Buffer.TYPED_ARRAY_SUPPORT) {
+    // ascending copy from start
+    for (i = 0; i < len; ++i) {
+      target[i + targetStart] = this[i + start]
+    }
+  } else {
+    Uint8Array.prototype.set.call(
+      target,
+      this.subarray(start, start + len),
+      targetStart
+    )
+  }
+
+  return len
+}
+
+// Usage:
+//    buffer.fill(number[, offset[, end]])
+//    buffer.fill(buffer[, offset[, end]])
+//    buffer.fill(string[, offset[, end]][, encoding])
+Buffer.prototype.fill = function fill (val, start, end, encoding) {
+  // Handle string cases:
+  if (typeof val === 'string') {
+    if (typeof start === 'string') {
+      encoding = start
+      start = 0
+      end = this.length
+    } else if (typeof end === 'string') {
+      encoding = end
+      end = this.length
+    }
+    if (val.length === 1) {
+      var code = val.charCodeAt(0)
+      if (code < 256) {
+        val = code
+      }
+    }
+    if (encoding !== undefined && typeof encoding !== 'string') {
+      throw new TypeError('encoding must be a string')
+    }
+    if (typeof encoding === 'string' && !Buffer.isEncoding(encoding)) {
+      throw new TypeError('Unknown encoding: ' + encoding)
+    }
+  } else if (typeof val === 'number') {
+    val = val & 255
+  }
+
+  // Invalid ranges are not set to a default, so can range check early.
+  if (start < 0 || this.length < start || this.length < end) {
+    throw new RangeError('Out of range index')
+  }
+
+  if (end <= start) {
+    return this
+  }
+
+  start = start >>> 0
+  end = end === undefined ? this.length : end >>> 0
+
+  if (!val) val = 0
+
+  var i
+  if (typeof val === 'number') {
+    for (i = start; i < end; ++i) {
+      this[i] = val
+    }
+  } else {
+    var bytes = Buffer.isBuffer(val)
+      ? val
+      : utf8ToBytes(new Buffer(val, encoding).toString())
+    var len = bytes.length
+    for (i = 0; i < end - start; ++i) {
+      this[i + start] = bytes[i % len]
+    }
+  }
+
+  return this
+}
+
+// HELPER FUNCTIONS
+// ================
+
+var INVALID_BASE64_RE = /[^+\/0-9A-Za-z-_]/g
+
+function base64clean (str) {
+  // Node strips out invalid characters like \n and \t from the string, base64-js does not
+  str = stringtrim(str).replace(INVALID_BASE64_RE, '')
+  // Node converts strings with length < 2 to ''
+  if (str.length < 2) return ''
+  // Node allows for non-padded base64 strings (missing trailing ===), base64-js does not
+  while (str.length % 4 !== 0) {
+    str = str + '='
+  }
+  return str
+}
+
+function stringtrim (str) {
+  if (str.trim) return str.trim()
+  return str.replace(/^\s+|\s+$/g, '')
+}
+
+function toHex (n) {
+  if (n < 16) return '0' + n.toString(16)
+  return n.toString(16)
+}
+
+function utf8ToBytes (string, units) {
+  units = units || Infinity
+  var codePoint
+  var length = string.length
+  var leadSurrogate = null
+  var bytes = []
+
+  for (var i = 0; i < length; ++i) {
+    codePoint = string.charCodeAt(i)
+
+    // is surrogate component
+    if (codePoint > 0xD7FF && codePoint < 0xE000) {
+      // last char was a lead
+      if (!leadSurrogate) {
+        // no lead yet
+        if (codePoint > 0xDBFF) {
+          // unexpected trail
+          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+          continue
+        } else if (i + 1 === length) {
+          // unpaired lead
+          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+          continue
+        }
+
+        // valid lead
+        leadSurrogate = codePoint
+
+        continue
+      }
+
+      // 2 leads in a row
+      if (codePoint < 0xDC00) {
+        if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+        leadSurrogate = codePoint
+        continue
+      }
+
+      // valid surrogate pair
+      codePoint = (leadSurrogate - 0xD800 << 10 | codePoint - 0xDC00) + 0x10000
+    } else if (leadSurrogate) {
+      // valid bmp char, but last char was a lead
+      if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+    }
+
+    leadSurrogate = null
+
+    // encode utf8
+    if (codePoint < 0x80) {
+      if ((units -= 1) < 0) break
+      bytes.push(codePoint)
+    } else if (codePoint < 0x800) {
+      if ((units -= 2) < 0) break
+      bytes.push(
+        codePoint >> 0x6 | 0xC0,
+        codePoint & 0x3F | 0x80
+      )
+    } else if (codePoint < 0x10000) {
+      if ((units -= 3) < 0) break
+      bytes.push(
+        codePoint >> 0xC | 0xE0,
+        codePoint >> 0x6 & 0x3F | 0x80,
+        codePoint & 0x3F | 0x80
+      )
+    } else if (codePoint < 0x110000) {
+      if ((units -= 4) < 0) break
+      bytes.push(
+        codePoint >> 0x12 | 0xF0,
+        codePoint >> 0xC & 0x3F | 0x80,
+        codePoint >> 0x6 & 0x3F | 0x80,
+        codePoint & 0x3F | 0x80
+      )
+    } else {
+      throw new Error('Invalid code point')
+    }
+  }
+
+  return bytes
+}
+
+function asciiToBytes (str) {
+  var byteArray = []
+  for (var i = 0; i < str.length; ++i) {
+    // Node's code seems to be doing this and not & 0x7F..
+    byteArray.push(str.charCodeAt(i) & 0xFF)
+  }
+  return byteArray
+}
+
+function utf16leToBytes (str, units) {
+  var c, hi, lo
+  var byteArray = []
+  for (var i = 0; i < str.length; ++i) {
+    if ((units -= 2) < 0) break
+
+    c = str.charCodeAt(i)
+    hi = c >> 8
+    lo = c % 256
+    byteArray.push(lo)
+    byteArray.push(hi)
+  }
+
+  return byteArray
+}
+
+function base64ToBytes (str) {
+  return base64.toByteArray(base64clean(str))
+}
+
+function blitBuffer (src, dst, offset, length) {
+  for (var i = 0; i < length; ++i) {
+    if ((i + offset >= dst.length) || (i >= src.length)) break
+    dst[i + offset] = src[i]
+  }
+  return i
+}
+
+function isnan (val) {
+  return val !== val // eslint-disable-line no-self-compare
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/classnames/index.js":
+/*!******************************************!*\
+  !*** ./node_modules/classnames/index.js ***!
+  \******************************************/
+/***/ ((module, exports) => {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+  Copyright (c) 2017 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+/* global define */
+
+(function () {
+	'use strict';
+
+	var hasOwn = {}.hasOwnProperty;
+
+	function classNames () {
+		var classes = [];
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if (argType === 'string' || argType === 'number') {
+				classes.push(arg);
+			} else if (Array.isArray(arg) && arg.length) {
+				var inner = classNames.apply(null, arg);
+				if (inner) {
+					classes.push(inner);
+				}
+			} else if (argType === 'object') {
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes.push(key);
+					}
+				}
+			}
+		}
+
+		return classes.join(' ');
+	}
+
+	if ( true && module.exports) {
+		classNames.default = classNames;
+		module.exports = classNames;
+	} else if (true) {
+		// register as 'classnames', consistent with npm package name
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+			return classNames;
+		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {}
+}());
+
+
+/***/ }),
+
 /***/ "./node_modules/cuid/index.js":
 /*!************************************!*\
   !*** ./node_modules/cuid/index.js ***!
@@ -14156,6 +21861,19 @@ module.exports = function pad (num, size) {
   var s = '000000000' + num;
   return s.substr(s.length - size);
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/exifr/dist/mini.legacy.umd.js":
+/*!****************************************************!*\
+  !*** ./node_modules/exifr/dist/mini.legacy.umd.js ***!
+  \****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+/* provided dependency */ var process = __webpack_require__(/*! process/browser */ "./node_modules/process/browser.js");
+/* provided dependency */ var Buffer = __webpack_require__(/*! buffer */ "./node_modules/buffer/index.js")["Buffer"];
+!function(e,t){ true?t(exports):0}(this,(function(e){"use strict";function t(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function n(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}function r(e,t,r){return t&&n(e.prototype,t),r&&n(e,r),e}function i(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function a(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}});var n=["prototype","__proto__","caller","arguments","length","name"];Object.getOwnPropertyNames(t).forEach((function(r){-1===n.indexOf(r)&&e[r]!==t[r]&&(e[r]=t[r])})),t&&u(e,t)}function s(e){return(s=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}function u(e,t){return(u=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e})(e,t)}function o(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],(function(){}))),!0}catch(e){return!1}}function f(e,t,n){return(f=o()?Reflect.construct:function(e,t,n){var r=[null];r.push.apply(r,t);var i=new(Function.bind.apply(e,r));return n&&u(i,n.prototype),i}).apply(null,arguments)}function c(e){var t="function"==typeof Map?new Map:void 0;return(c=function(e){if(null===e||(n=e,-1===Function.toString.call(n).indexOf("[native code]")))return e;var n;if("function"!=typeof e)throw new TypeError("Super expression must either be null or a function");if(void 0!==t){if(t.has(e))return t.get(e);t.set(e,r)}function r(){return f(e,arguments,s(this).constructor)}return r.prototype=Object.create(e.prototype,{constructor:{value:r,enumerable:!1,writable:!0,configurable:!0}}),u(r,e)})(e)}function h(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function l(e,t){return!t||"object"!=typeof t&&"function"!=typeof t?h(e):t}function d(e,t,n){return(d="undefined"!=typeof Reflect&&Reflect.get?Reflect.get:function(e,t,n){var r=function(e,t){for(;!Object.prototype.hasOwnProperty.call(e,t)&&null!==(e=s(e)););return e}(e,t);if(r){var i=Object.getOwnPropertyDescriptor(r,t);return i.get?i.get.call(n):i.value}})(e,t,n||e)}var v=Object.values||function(e){var t=[];for(var n in e)t.push(e[n]);return t},p=Object.entries||function(e){var t=[];for(var n in e)t.push([n,e[n]]);return t},y=Object.assign||function(e){for(var t=arguments.length,n=new Array(t>1?t-1:0),r=1;r<t;r++)n[r-1]=arguments[r];return n.forEach((function(t){for(var n in t)e[n]=t[n]})),e},g=Object.fromEntries||function(e){var t={};return k(e).forEach((function(e){var n=e[0],r=e[1];t[n]=r})),t},k=Array.from||function(e){if(e instanceof P){var t=[];return e.forEach((function(e,n){return t.push([n,e])})),t}return Array.prototype.slice.call(e)};function m(e){return-1!==this.indexOf(e)}Array.prototype.includes||(Array.prototype.includes=m),String.prototype.includes||(String.prototype.includes=m),String.prototype.startsWith||(String.prototype.startsWith=function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0;return this.substring(t,t+e.length)===e}),String.prototype.endsWith||(String.prototype.endsWith=function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:this.length;return this.substring(t-e.length,t)===e});var b="undefined"!=typeof self?self:__webpack_require__.g,A=b.fetch||function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return new Promise((function(n,r){var i=new XMLHttpRequest;if(i.open("get",e,!0),i.responseType="arraybuffer",i.onerror=r,t.headers)for(var a in t.headers)i.setRequestHeader(a,t.headers[a]);i.onload=function(){n({ok:i.status>=200&&i.status<300,status:i.status,arrayBuffer:function(){return Promise.resolve(i.response)}})},i.send(null)}))},w=function(e){var t=[];if(Object.defineProperties(t,{size:{get:function(){return this.length}},has:{value:function(e){return-1!==this.indexOf(e)}},add:{value:function(e){this.has(e)||this.push(e)}},delete:{value:function(e){if(this.has(e)){var t=this.indexOf(e);this.splice(t,1)}}}}),Array.isArray(e))for(var n=0;n<e.length;n++)t.add(e[n]);return t},O=function(e){return new P(e)},P=void 0!==b.Map&&void 0!==b.Map.prototype.keys?b.Map:function(){function e(n){if(t(this,e),this.clear(),n)for(var r=0;r<n.length;r++)this.set(n[r][0],n[r][1])}return r(e,[{key:"clear",value:function(){this._map={},this._keys=[]}},{key:"get",value:function(e){return this._map["map_"+e]}},{key:"set",value:function(e,t){return this._map["map_"+e]=t,this._keys.indexOf(e)<0&&this._keys.push(e),this}},{key:"has",value:function(e){return this._keys.indexOf(e)>=0}},{key:"delete",value:function(e){var t=this._keys.indexOf(e);return!(t<0)&&(delete this._map["map_"+e],this._keys.splice(t,1),!0)}},{key:"keys",value:function(){return this._keys.slice(0)}},{key:"values",value:function(){var e=this;return this._keys.map((function(t){return e.get(t)}))}},{key:"entries",value:function(){var e=this;return this._keys.map((function(t){return[t,e.get(t)]}))}},{key:"forEach",value:function(e,t){for(var n=0;n<this._keys.length;n++)e.call(t,this._map["map_"+this._keys[n]],this._keys[n],this)}},{key:"size",get:function(){return this._keys.length}}]),e}(),S="undefined"!=typeof self?self:__webpack_require__.g,U="undefined"!=typeof navigator,x=U&&"undefined"==typeof HTMLImageElement,C=!("undefined"==typeof __webpack_require__.g||"undefined"==typeof process||!process.versions||!process.versions.node),j=S.Buffer,B=!!j;var _=function(e){return void 0!==e};function V(e){return void 0===e||(e instanceof P?0===e.size:0===v(e).filter(_).length)}function I(e){var t=new Error(e);throw delete t.stack,t}function L(e){var t=function(e){var t=0;return e.ifd0.enabled&&(t+=1024),e.exif.enabled&&(t+=2048),e.makerNote&&(t+=2048),e.userComment&&(t+=1024),e.gps.enabled&&(t+=512),e.interop.enabled&&(t+=100),e.ifd1.enabled&&(t+=1024),t+2048}(e);return e.jfif.enabled&&(t+=50),e.xmp.enabled&&(t+=2e4),e.iptc.enabled&&(t+=14e3),e.icc.enabled&&(t+=6e3),t}var T="undefined"!=typeof TextDecoder?new TextDecoder("utf-8"):void 0;function z(e){return T?T.decode(e):B?Buffer.from(e).toString("utf8"):decodeURIComponent(escape(String.fromCharCode.apply(null,e)))}var F=function(){function e(n){var r=arguments.length>1&&void 0!==arguments[1]?arguments[1]:0,i=arguments.length>2?arguments[2]:void 0,a=arguments.length>3?arguments[3]:void 0;if(t(this,e),"boolean"==typeof a&&(this.le=a),Array.isArray(n)&&(n=new Uint8Array(n)),0===n)this.byteOffset=0,this.byteLength=0;else if(n instanceof ArrayBuffer){void 0===i&&(i=n.byteLength-r);var s=new DataView(n,r,i);this._swapDataView(s)}else if(n instanceof Uint8Array||n instanceof DataView||n instanceof e){void 0===i&&(i=n.byteLength-r),(r+=n.byteOffset)+i>n.byteOffset+n.byteLength&&I("Creating view outside of available memory in ArrayBuffer");var u=new DataView(n.buffer,r,i);this._swapDataView(u)}else if("number"==typeof n){var o=new DataView(new ArrayBuffer(n));this._swapDataView(o)}else I("Invalid input argument for BufferView: "+n)}return r(e,null,[{key:"from",value:function(t,n){return t instanceof this&&t.le===n?t:new e(t,void 0,void 0,n)}}]),r(e,[{key:"_swapArrayBuffer",value:function(e){this._swapDataView(new DataView(e))}},{key:"_swapBuffer",value:function(e){this._swapDataView(new DataView(e.buffer,e.byteOffset,e.byteLength))}},{key:"_swapDataView",value:function(e){this.dataView=e,this.buffer=e.buffer,this.byteOffset=e.byteOffset,this.byteLength=e.byteLength}},{key:"_lengthToEnd",value:function(e){return this.byteLength-e}},{key:"set",value:function(t,n){var r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:e;t instanceof DataView||t instanceof e?t=new Uint8Array(t.buffer,t.byteOffset,t.byteLength):t instanceof ArrayBuffer&&(t=new Uint8Array(t)),t instanceof Uint8Array||I("BufferView.set(): Invalid data argument.");var i=this.toUint8();return i.set(t,n),new r(this,n,t.byteLength)}},{key:"subarray",value:function(t,n){return new e(this,t,n=n||this._lengthToEnd(t))}},{key:"toUint8",value:function(){return new Uint8Array(this.buffer,this.byteOffset,this.byteLength)}},{key:"getUint8Array",value:function(e,t){return new Uint8Array(this.buffer,this.byteOffset+e,t)}},{key:"getString",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:this.byteLength,n=this.getUint8Array(e,t);return z(n)}},{key:"getUnicodeString",value:function(){for(var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:this.byteLength,n=[],r=0;r<t&&e+r<this.byteLength;r+=2)n.push(this.getUint16(e+r));return n.map((function(e){return String.fromCharCode(e)})).join("")}},{key:"getInt8",value:function(e){return this.dataView.getInt8(e)}},{key:"getUint8",value:function(e){return this.dataView.getUint8(e)}},{key:"getInt16",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:this.le;return this.dataView.getInt16(e,t)}},{key:"getInt32",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:this.le;return this.dataView.getInt32(e,t)}},{key:"getUint16",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:this.le;return this.dataView.getUint16(e,t)}},{key:"getUint32",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:this.le;return this.dataView.getUint32(e,t)}},{key:"getFloat32",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:this.le;return this.dataView.getFloat32(e,t)}},{key:"getFloat64",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:this.le;return this.dataView.getFloat64(e,t)}},{key:"getFloat",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:this.le;return this.dataView.getFloat32(e,t)}},{key:"getDouble",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:this.le;return this.dataView.getFloat64(e,t)}},{key:"getUintBytes",value:function(e,t,n){switch(t){case 1:return this.getUint8(e,n);case 2:return this.getUint16(e,n);case 4:return this.getUint32(e,n);case 8:return this.getUint64&&this.getUint64(e,n)}}},{key:"getUint",value:function(e,t,n){switch(t){case 8:return this.getUint8(e,n);case 16:return this.getUint16(e,n);case 32:return this.getUint32(e,n);case 64:return this.getUint64&&this.getUint64(e,n)}}},{key:"toString",value:function(e){return this.dataView.toString(e,this.constructor.name)}},{key:"ensureChunk",value:function(){}}]),e}();function E(e,t){I("".concat(e," '").concat(t,"' was not loaded, try using full build of exifr."))}var D=function(e){function n(e){var r;return t(this,n),(r=l(this,s(n).call(this))).kind=e,r}return a(n,e),r(n,[{key:"get",value:function(e,t){return this.has(e)||E(this.kind,e),t&&(e in t||function(e,t){I("Unknown ".concat(e," '").concat(t,"'."))}(this.kind,e),t[e].enabled||E(this.kind,e)),d(s(n.prototype),"get",this).call(this,e)}},{key:"keyList",value:function(){return k(this.keys())}}]),n}(c(P)),R=new D("file parser"),M=new D("segment parser"),N=new D("file reader");function W(e){return function(){for(var t=[],n=0;n<arguments.length;n++)t[n]=arguments[n];try{return Promise.resolve(e.apply(this,t))}catch(e){return Promise.reject(e)}}}function K(e,t,n){return n?t?t(e):e:(e&&e.then||(e=Promise.resolve(e)),t?e.then(t):e)}var H=W((function(e){return new Promise((function(t,n){var r=new FileReader;r.onloadend=function(){return t(r.result||new ArrayBuffer)},r.onerror=n,r.readAsArrayBuffer(e)}))})),X=W((function(e){return A(e).then((function(e){return e.arrayBuffer()}))})),Y=W((function(e,t){return K(t(e),(function(e){return new F(e)}))})),G=W((function(e,t,n){var r=new(N.get(n))(e,t);return K(r.read(),(function(){return r}))})),J=W((function(e,t,n,r){return N.has(n)?G(e,t,n):r?Y(e,r):(I("Parser ".concat(n," is not loaded")),K())}));function q(e,t){return(n=e).startsWith("data:")||n.length>1e4?G(e,t,"base64"):U?J(e,t,"url",X):C?G(e,t,"fs"):void I("Invalid input argument");var n}var Q=function(e){function n(){return t(this,n),l(this,s(n).apply(this,arguments))}return a(n,e),r(n,[{key:"tagKeys",get:function(){return this.allKeys||(this.allKeys=k(this.keys())),this.allKeys}},{key:"tagValues",get:function(){return this.allValues||(this.allValues=k(this.values())),this.allValues}}]),n}(c(P));function Z(e,t,n){var r=new Q,i=n;Array.isArray(i)||("function"==typeof i.entries&&(i=i.entries()),i=k(i));for(var a=0;a<i.length;a++){var s=i[a],u=s[0],o=s[1];r.set(u,o)}if(Array.isArray(t)){var f=t;Array.isArray(f)||("function"==typeof f.entries&&(f=f.entries()),f=k(f));for(var c=0;c<f.length;c++){var h=f[c];e.set(h,r)}}else e.set(t,r);return r}function $(e,t,n){var r,i=e.get(t),a=n;Array.isArray(a)||("function"==typeof a.entries&&(a=a.entries()),a=k(a));for(var s=0;s<a.length;s++)r=a[s],i.set(r[0],r[1])}var ee=O(),te=O(),ne=O(),re=["chunked","firstChunkSize","firstChunkSizeNode","firstChunkSizeBrowser","chunkSize","chunkLimit"],ie=["jfif","xmp","icc","iptc","ihdr"],ae=["tiff"].concat(ie),se=["ifd0","ifd1","exif","gps","interop"],ue=[].concat(ae,se),oe=["makerNote","userComment"],fe=["translateKeys","translateValues","reviveValues","multiSegment"],ce=[].concat(fe,["sanitize","mergeOutput","silentErrors"]),he=function(){function e(){t(this,e)}return r(e,[{key:"translate",get:function(){return this.translateKeys||this.translateValues||this.reviveValues}}]),e}(),le=function(e){function n(e,r,a,u){var o;if(t(this,n),i(h(o=l(this,s(n).call(this))),"enabled",!1),i(h(o),"skip",w()),i(h(o),"pick",w()),i(h(o),"deps",w()),i(h(o),"translateKeys",!1),i(h(o),"translateValues",!1),i(h(o),"reviveValues",!1),o.key=e,o.enabled=r,o.parse=o.enabled,o.applyInheritables(u),o.canBeFiltered=se.includes(e),o.canBeFiltered&&(o.dict=ee.get(e)),void 0!==a)if(Array.isArray(a))o.parse=o.enabled=!0,o.canBeFiltered&&a.length>0&&o.translateTagSet(a,o.pick);else if("object"==typeof a){if(o.enabled=!0,o.parse=!1!==a.parse,o.canBeFiltered){var f=a.pick,c=a.skip;f&&f.length>0&&o.translateTagSet(f,o.pick),c&&c.length>0&&o.translateTagSet(c,o.skip)}o.applyInheritables(a)}else!0===a||!1===a?o.parse=o.enabled=a:I("Invalid options argument: ".concat(a));return o}return a(n,e),r(n,[{key:"needed",get:function(){return this.enabled||this.deps.size>0}}]),r(n,[{key:"applyInheritables",value:function(e){var t,n,r=fe;Array.isArray(r)||("function"==typeof r.entries&&(r=r.entries()),r=k(r));for(var i=0;i<r.length;i++)void 0!==(n=e[t=r[i]])&&(this[t]=n)}},{key:"translateTagSet",value:function(e,t){if(this.dict){var n,r,i=this.dict,a=i.tagKeys,s=i.tagValues,u=e;Array.isArray(u)||("function"==typeof u.entries&&(u=u.entries()),u=k(u));for(var o=0;o<u.length;o++)"string"==typeof(n=u[o])?(-1===(r=s.indexOf(n))&&(r=a.indexOf(Number(n))),-1!==r&&t.add(Number(a[r]))):t.add(n)}else{var f=e;Array.isArray(f)||("function"==typeof f.entries&&(f=f.entries()),f=k(f));for(var c=0;c<f.length;c++){var h=f[c];t.add(h)}}}},{key:"finalizeFilters",value:function(){!this.enabled&&this.deps.size>0?(this.enabled=!0,ke(this.pick,this.deps)):this.enabled&&this.pick.size>0&&ke(this.pick,this.deps)}}]),n}(he),de={jfif:!1,tiff:!0,xmp:!1,icc:!1,iptc:!1,ifd0:!0,ifd1:!1,exif:!0,gps:!0,interop:!1,ihdr:void 0,makerNote:!1,userComment:!1,multiSegment:!1,skip:[],pick:[],translateKeys:!0,translateValues:!0,reviveValues:!0,sanitize:!0,mergeOutput:!0,silentErrors:!0,chunked:!0,firstChunkSize:void 0,firstChunkSizeNode:512,firstChunkSizeBrowser:65536,chunkSize:65536,chunkLimit:5},ve=O(),pe=function(e){function n(e){var r;return t(this,n),r=l(this,s(n).call(this)),!0===e?r.setupFromTrue():void 0===e?r.setupFromUndefined():Array.isArray(e)?r.setupFromArray(e):"object"==typeof e?r.setupFromObject(e):I("Invalid options argument ".concat(e)),void 0===r.firstChunkSize&&(r.firstChunkSize=U?r.firstChunkSizeBrowser:r.firstChunkSizeNode),r.mergeOutput&&(r.ifd1.enabled=!1),r.filterNestedSegmentTags(),r.traverseTiffDependencyTree(),r.checkLoadedPlugins(),r}return a(n,e),r(n,null,[{key:"useCached",value:function(e){var t=ve.get(e);return void 0!==t?t:(t=new this(e),ve.set(e,t),t)}}]),r(n,[{key:"setupFromUndefined",value:function(){var e,t=re;Array.isArray(t)||("function"==typeof t.entries&&(t=t.entries()),t=k(t));for(var n=0;n<t.length;n++)this[e=t[n]]=de[e];var r=ce;Array.isArray(r)||("function"==typeof r.entries&&(r=r.entries()),r=k(r));for(var i=0;i<r.length;i++)this[e=r[i]]=de[e];var a=oe;Array.isArray(a)||("function"==typeof a.entries&&(a=a.entries()),a=k(a));for(var s=0;s<a.length;s++)this[e=a[s]]=de[e];var u=ue;Array.isArray(u)||("function"==typeof u.entries&&(u=u.entries()),u=k(u));for(var o=0;o<u.length;o++)this[e=u[o]]=new le(e,de[e],void 0,this)}},{key:"setupFromTrue",value:function(){var e,t=re;Array.isArray(t)||("function"==typeof t.entries&&(t=t.entries()),t=k(t));for(var n=0;n<t.length;n++)this[e=t[n]]=de[e];var r=ce;Array.isArray(r)||("function"==typeof r.entries&&(r=r.entries()),r=k(r));for(var i=0;i<r.length;i++)this[e=r[i]]=de[e];var a=oe;Array.isArray(a)||("function"==typeof a.entries&&(a=a.entries()),a=k(a));for(var s=0;s<a.length;s++)this[e=a[s]]=!0;var u=ue;Array.isArray(u)||("function"==typeof u.entries&&(u=u.entries()),u=k(u));for(var o=0;o<u.length;o++)this[e=u[o]]=new le(e,!0,void 0,this)}},{key:"setupFromArray",value:function(e){var t,n=re;Array.isArray(n)||("function"==typeof n.entries&&(n=n.entries()),n=k(n));for(var r=0;r<n.length;r++)this[t=n[r]]=de[t];var i=ce;Array.isArray(i)||("function"==typeof i.entries&&(i=i.entries()),i=k(i));for(var a=0;a<i.length;a++)this[t=i[a]]=de[t];var s=oe;Array.isArray(s)||("function"==typeof s.entries&&(s=s.entries()),s=k(s));for(var u=0;u<s.length;u++)this[t=s[u]]=de[t];var o=ue;Array.isArray(o)||("function"==typeof o.entries&&(o=o.entries()),o=k(o));for(var f=0;f<o.length;f++)this[t=o[f]]=new le(t,!1,void 0,this);this.setupGlobalFilters(e,void 0,se)}},{key:"setupFromObject",value:function(e){var t;se.ifd0=se.ifd0||se.image,se.ifd1=se.ifd1||se.thumbnail,y(this,e);var n=re;Array.isArray(n)||("function"==typeof n.entries&&(n=n.entries()),n=k(n));for(var r=0;r<n.length;r++)this[t=n[r]]=ge(e[t],de[t]);var i=ce;Array.isArray(i)||("function"==typeof i.entries&&(i=i.entries()),i=k(i));for(var a=0;a<i.length;a++)this[t=i[a]]=ge(e[t],de[t]);var s=oe;Array.isArray(s)||("function"==typeof s.entries&&(s=s.entries()),s=k(s));for(var u=0;u<s.length;u++)this[t=s[u]]=ge(e[t],de[t]);var o=ae;Array.isArray(o)||("function"==typeof o.entries&&(o=o.entries()),o=k(o));for(var f=0;f<o.length;f++)this[t=o[f]]=new le(t,de[t],e[t],this);var c=se;Array.isArray(c)||("function"==typeof c.entries&&(c=c.entries()),c=k(c));for(var h=0;h<c.length;h++)this[t=c[h]]=new le(t,de[t],e[t],this.tiff);this.setupGlobalFilters(e.pick,e.skip,se,ue),!0===e.tiff?this.batchEnableWithBool(se,!0):!1===e.tiff?this.batchEnableWithUserValue(se,e):Array.isArray(e.tiff)?this.setupGlobalFilters(e.tiff,void 0,se):"object"==typeof e.tiff&&this.setupGlobalFilters(e.tiff.pick,e.tiff.skip,se)}},{key:"batchEnableWithBool",value:function(e,t){var n=e;Array.isArray(n)||("function"==typeof n.entries&&(n=n.entries()),n=k(n));for(var r=0;r<n.length;r++){this[n[r]].enabled=t}}},{key:"batchEnableWithUserValue",value:function(e,t){var n=e;Array.isArray(n)||("function"==typeof n.entries&&(n=n.entries()),n=k(n));for(var r=0;r<n.length;r++){var i=n[r],a=t[i];this[i].enabled=!1!==a&&void 0!==a}}},{key:"setupGlobalFilters",value:function(e,t,n){var r=arguments.length>3&&void 0!==arguments[3]?arguments[3]:n;if(e&&e.length){var i=r;Array.isArray(i)||("function"==typeof i.entries&&(i=i.entries()),i=k(i));for(var a=0;a<i.length;a++){var s=i[a];this[s].enabled=!1}var u=ye(e,n),o=u;Array.isArray(o)||("function"==typeof o.entries&&(o=o.entries()),o=k(o));for(var f=0;f<o.length;f++){var c=o[f],h=c[0],l=c[1];ke(this[h].pick,l),this[h].enabled=!0}}else if(t&&t.length){var d=ye(t,n),v=d;Array.isArray(v)||("function"==typeof v.entries&&(v=v.entries()),v=k(v));for(var p=0;p<v.length;p++){var y=v[p],g=y[0],m=y[1];ke(this[g].skip,m)}}}},{key:"filterNestedSegmentTags",value:function(){var e=this.ifd0,t=this.exif,n=this.xmp,r=this.iptc,i=this.icc;this.makerNote?t.deps.add(37500):t.skip.add(37500),this.userComment?t.deps.add(37510):t.skip.add(37510),n.enabled||e.skip.add(700),r.enabled||e.skip.add(33723),i.enabled||e.skip.add(34675)}},{key:"traverseTiffDependencyTree",value:function(){var e=this,t=this.ifd0,n=this.exif,r=this.gps;this.interop.needed&&(n.deps.add(40965),t.deps.add(40965)),n.needed&&t.deps.add(34665),r.needed&&t.deps.add(34853),this.tiff.enabled=se.some((function(t){return!0===e[t].enabled}))||this.makerNote||this.userComment;var i=se;Array.isArray(i)||("function"==typeof i.entries&&(i=i.entries()),i=k(i));for(var a=0;a<i.length;a++){this[i[a]].finalizeFilters()}}},{key:"checkLoadedPlugins",value:function(){var e=ae;Array.isArray(e)||("function"==typeof e.entries&&(e=e.entries()),e=k(e));for(var t=0;t<e.length;t++){var n=e[t];this[n].enabled&&!M.has(n)&&E("segment parser",n)}}},{key:"onlyTiff",get:function(){var e=this;return!ie.map((function(t){return e[t].enabled})).some((function(e){return!0===e}))&&this.tiff.enabled}}]),n}(he);function ye(e,t){var n,r,i,a=[],s=t;Array.isArray(s)||("function"==typeof s.entries&&(s=s.entries()),s=k(s));for(var u=0;u<s.length;u++){r=s[u],n=[];var o=ee.get(r);Array.isArray(o)||("function"==typeof o.entries&&(o=o.entries()),o=k(o));for(var f=0;f<o.length;f++)i=o[f],(e.includes(i[0])||e.includes(i[1]))&&n.push(i[0]);n.length&&a.push([r,n])}return a}function ge(e,t){return void 0!==e?e:void 0!==t?t:void 0}function ke(e,t){var n=t;Array.isArray(n)||("function"==typeof n.entries&&(n=n.entries()),n=k(n));for(var r=0;r<n.length;r++){var i=n[r];e.add(i)}}function me(e,t,n){return n?t?t(e):e:(e&&e.then||(e=Promise.resolve(e)),t?e.then(t):e)}function be(){}function Ae(e,t){if(!t)return e&&e.then?e.then(be):Promise.resolve()}function we(e,t){var n=e();return n&&n.then?n.then(t):t(n)}i(pe,"default",de);var Oe=function(){function e(n){t(this,e),i(this,"parsers",{}),this.options=pe.useCached(n)}return r(e,[{key:"setup",value:function(){if(!this.fileParser){var e=this.file,t=e.getUint16(0),n=R;Array.isArray(n)||("function"==typeof n.entries&&(n=n.entries()),n=k(n));for(var r=0;r<n.length;r++){var i=n[r],a=i[0],s=i[1];if(s.canHandle(e,t))return this.fileParser=new s(this.options,this.file,this.parsers),e[a]=!0}I("Unknown file format")}}},{key:"read",value:function(e){try{var t=this;return me(function(e,t){return"string"==typeof e?q(e,t):U&&!x&&e instanceof HTMLImageElement?q(e.src,t):e instanceof Uint8Array||e instanceof ArrayBuffer||e instanceof DataView?new F(e):U&&e instanceof Blob?J(e,t,"blob",H):void I("Invalid input argument")}(e,t.options),(function(e){t.file=e}))}catch(e){return Promise.reject(e)}}},{key:"parse",value:function(){try{var e=this;e.setup();var t={},n=[];return we((function(){return e.options.silentErrors?me(e.doParse(t,n).catch((function(e){return n.push(e)})),(function(){n.push.apply(n,e.fileParser.errors)})):Ae(e.doParse(t,n))}),(function(){return e.file.close&&e.file.close(),e.options.silentErrors&&n.length>0&&(t.errors=n),V(r=t)?void 0:r;var r}))}catch(e){return Promise.reject(e)}}},{key:"doParse",value:function(e,t){try{var n=this;return me(n.fileParser.parse(),(function(){var r,i=v(n.parsers).map((r=function(t){return me(t.parse(),(function(n){t.assignToOutput(e,n)}))},function(){for(var e=[],t=0;t<arguments.length;t++)e[t]=arguments[t];try{return Promise.resolve(r.apply(this,e))}catch(e){return Promise.reject(e)}}));if(n.options.silentErrors){var a=function(e){return t.push(e)};i=i.map((function(e){return e.catch(a)}))}return Ae(Promise.all(i))}))}catch(e){return Promise.reject(e)}}},{key:"extractThumbnail",value:function(){try{var e=this;e.setup();var t,n=e.options,r=e.file,i=M.get("tiff",n);return we((function(){if(!r.tiff)return function(e){var t=e();if(t&&t.then)return t.then(be)}((function(){if(r.jpeg)return me(e.fileParser.getOrFindSegment("tiff"),(function(e){t=e}))}));t={start:0,type:"tiff"}}),(function(){if(void 0!==t)return me(e.fileParser.ensureSegmentChunk(t),(function(t){return me((e.parsers.tiff=new i(t,n,r)).extractThumbnail(),(function(e){return r.close&&r.close(),e}))}))}))}catch(e){return Promise.reject(e)}}}]),e}();var Pe,Se=(Pe=function(e,t){var n,r,i,a=new Oe(t);return n=a.read(e),r=function(){return a.parse()},i?r?r(n):n:(n&&n.then||(n=Promise.resolve(n)),r?n.then(r):n)},function(){for(var e=[],t=0;t<arguments.length;t++)e[t]=arguments[t];try{return Promise.resolve(Pe.apply(this,e))}catch(e){return Promise.reject(e)}}),Ue=Object.freeze({__proto__:null,parse:Se,Exifr:Oe,fileParsers:R,segmentParsers:M,fileReaders:N,tagKeys:ee,tagValues:te,tagRevivers:ne,createDictionary:Z,extendDictionary:$,fetchUrlAsArrayBuffer:X,readBlobAsArrayBuffer:H,chunkedProps:re,otherSegments:ie,segments:ae,tiffBlocks:se,segmentsAndBlocks:ue,tiffExtractables:oe,inheritables:fe,allFormatters:ce,Options:pe});function xe(){}var Ce=function(){function e(n,r,a){var s=this;t(this,e),i(this,"errors",[]),i(this,"ensureSegmentChunk",function(e){return function(){for(var t=[],n=0;n<arguments.length;n++)t[n]=arguments[n];try{return Promise.resolve(e.apply(this,t))}catch(e){return Promise.reject(e)}}}((function(e){var t,n,r,i=e.start,a=e.size||65536;return t=function(){if(s.file.chunked)return function(e){var t=e();if(t&&t.then)return t.then(xe)}((function(){if(!s.file.available(i,a))return function(e){if(e&&e.then)return e.then(xe)}(function(e,t){try{var n=e()}catch(e){return t(e)}return n&&n.then?n.then(void 0,t):n}((function(){return t=s.file.readChunk(i,a),n=function(t){e.chunk=t},r?n?n(t):t:(t&&t.then||(t=Promise.resolve(t)),n?t.then(n):t);var t,n,r}),(function(t){I("Couldn't read segment: ".concat(JSON.stringify(e),". ").concat(t.message))})));e.chunk=s.file.subarray(i,a)}));s.file.byteLength>i+a?e.chunk=s.file.subarray(i,a):void 0===e.size?e.chunk=s.file.subarray(i):I("Segment unreachable: "+JSON.stringify(e))},n=function(){return e.chunk},(r=t())&&r.then?r.then(n):n(r)}))),this.extendOptions&&this.extendOptions(n),this.options=n,this.file=r,this.parsers=a}return r(e,[{key:"injectSegment",value:function(e,t){this.options[e].enabled&&this.createParser(e,t)}},{key:"createParser",value:function(e,t){var n=new(M.get(e))(t,this.options,this.file);return this.parsers[e]=n}},{key:"createParsers",value:function(e){var t=e;Array.isArray(t)||("function"==typeof t.entries&&(t=t.entries()),t=k(t));for(var n=0;n<t.length;n++){var r=t[n],i=r.type,a=r.chunk,s=this.options[i];if(s&&s.enabled){var u=this.parsers[i];u&&u.append||u||this.createParser(i,a)}}}},{key:"readSegments",value:function(e){try{var t=e.map(this.ensureSegmentChunk);return function(e,t){if(!t)return e&&e.then?e.then(xe):Promise.resolve()}(Promise.all(t))}catch(e){return Promise.reject(e)}}}]),e}(),je=function(){function e(n){var r=this,a=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},s=arguments.length>2?arguments[2]:void 0;t(this,e),i(this,"errors",[]),i(this,"raw",O()),i(this,"handleError",(function(e){if(!r.options.silentErrors)throw e;r.errors.push(e.message)})),this.chunk=this.normalizeInput(n),this.file=s,this.type=this.constructor.type,this.globalOptions=this.options=a,this.localOptions=a[this.type],this.canTranslate=this.localOptions&&this.localOptions.translate}return r(e,[{key:"normalizeInput",value:function(e){return e instanceof F?e:new F(e)}}],[{key:"findPosition",value:function(e,t){var n=e.getUint16(t+2)+2,r="function"==typeof this.headerLength?this.headerLength(e,t,n):this.headerLength,i=t+r,a=n-r;return{offset:t,length:n,headerLength:r,start:i,size:a,end:i+a}}},{key:"parse",value:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},n=new pe(i({},this.type,t)),r=new this(e,n);return r.parse()}}]),r(e,[{key:"translate",value:function(){this.canTranslate&&(this.translated=this.translateBlock(this.raw,this.type))}},{key:"translateBlock",value:function(e,t){var n=ne.get(t),r=te.get(t),i=ee.get(t),a=this.options[t],s=a.reviveValues&&!!n,u=a.translateValues&&!!r,o=a.translateKeys&&!!i,f={},c=e;Array.isArray(c)||("function"==typeof c.entries&&(c=c.entries()),c=k(c));for(var h=0;h<c.length;h++){var l=c[h],d=l[0],v=l[1];s&&n.has(d)?v=n.get(d)(v):u&&r.has(d)&&(v=this.translateValue(v,r.get(d))),o&&i.has(d)&&(d=i.get(d)||d),f[d]=v}return f}},{key:"translateValue",value:function(e,t){return t[e]||t.DEFAULT||e}},{key:"assignToOutput",value:function(e,t){this.assignObjectToOutput(e,this.constructor.type,t)}},{key:"assignObjectToOutput",value:function(e,t,n){if(this.globalOptions.mergeOutput)return y(e,n);e[t]?y(e[t],n):e[t]=n}},{key:"output",get:function(){return this.translated?this.translated:this.raw?g(this.raw):void 0}}]),e}();function Be(e,t,n){return n?t?t(e):e:(e&&e.then||(e=Promise.resolve(e)),t?e.then(t):e)}i(je,"headerLength",4),i(je,"type",void 0),i(je,"multiSegment",!1),i(je,"canHandle",(function(){return!1}));function _e(){}function Ve(e,t){if(!t)return e&&e.then?e.then(_e):Promise.resolve()}function Ie(e){var t=e();if(t&&t.then)return t.then(_e)}function Le(e,t){var n=e();return n&&n.then?n.then(t):t(n)}function Te(e,t,n){if(!e.s){if(n instanceof ze){if(!n.s)return void(n.o=Te.bind(null,e,t));1&t&&(t=n.s),n=n.v}if(n&&n.then)return void n.then(Te.bind(null,e,t),Te.bind(null,e,2));e.s=t,e.v=n;var r=e.o;r&&r(e)}}var ze=function(){function e(){}return e.prototype.then=function(t,n){var r=new e,i=this.s;if(i){var a=1&i?t:n;if(a){try{Te(r,1,a(this.v))}catch(e){Te(r,2,e)}return r}return this}return this.o=function(e){try{var i=e.v;1&e.s?Te(r,1,t?t(i):i):n?Te(r,1,n(i)):Te(r,2,i)}catch(e){Te(r,2,e)}},r},e}();function Fe(e){return e instanceof ze&&1&e.s}function Ee(e,t,n){for(var r;;){var i=e();if(Fe(i)&&(i=i.v),!i)return a;if(i.then){r=0;break}var a=n();if(a&&a.then){if(!Fe(a)){r=1;break}a=a.s}if(t){var s=t();if(s&&s.then&&!Fe(s)){r=2;break}}}var u=new ze,o=Te.bind(null,u,2);return(0===r?i.then(c):1===r?a.then(f):s.then(h)).then(void 0,o),u;function f(r){a=r;do{if(t&&(s=t())&&s.then&&!Fe(s))return void s.then(h).then(void 0,o);if(!(i=e())||Fe(i)&&!i.v)return void Te(u,1,a);if(i.then)return void i.then(c).then(void 0,o);Fe(a=n())&&(a=a.v)}while(!a||!a.then);a.then(f).then(void 0,o)}function c(e){e?(a=n())&&a.then?a.then(f).then(void 0,o):f(a):Te(u,1,a)}function h(){(i=e())?i.then?i.then(c).then(void 0,o):c(i):Te(u,1,a)}}function De(e){return 192===e||194===e||196===e||219===e||221===e||218===e||254===e}function Re(e){return e>=224&&e<=239}function Me(e,t,n){var r=M;Array.isArray(r)||("function"==typeof r.entries&&(r=r.entries()),r=k(r));for(var i=0;i<r.length;i++){var a=r[i],s=a[0];if(a[1].canHandle(e,t,n))return s}}var Ne=function(e){function n(){var e,r;t(this,n);for(var a=arguments.length,u=new Array(a),o=0;o<a;o++)u[o]=arguments[o];return i(h(r=l(this,(e=s(n)).call.apply(e,[this].concat(u)))),"appSegments",[]),i(h(r),"jpegSegments",[]),i(h(r),"unknownSegments",[]),r}return a(n,e),r(n,[{key:"parse",value:function(){try{var e=this;return Be(e.findAppSegments(),(function(){return Be(e.readSegments(e.appSegments),(function(){e.mergeMultiSegments(),e.createParsers(e.mergedAppSegments||e.appSegments)}))}))}catch(e){return Promise.reject(e)}}},{key:"setupSegmentFinderArgs",value:function(e){var t=this;!0===e?(this.findAll=!0,this.wanted=w(M.keyList())):(e=void 0===e?M.keyList().filter((function(e){return t.options[e].enabled})):e.filter((function(e){return t.options[e].enabled&&M.has(e)})),this.findAll=!1,this.remaining=w(e),this.wanted=w(e)),this.unfinishedMultiSegment=!1}},{key:"findAppSegments",value:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:0,t=arguments.length>1?arguments[1]:void 0;try{var n=this;n.setupSegmentFinderArgs(t);var r=n.file,i=n.findAll,a=n.wanted,s=n.remaining;return Le((function(){if(!i&&n.file.chunked)return i=k(a).some((function(e){var t=M.get(e),r=n.options[e];return t.multiSegment&&r.multiSegment})),Ie((function(){if(i)return Ve(n.file.readWhole())}))}),(function(){var t=!1;if(e=n.findAppSegmentsInRange(e,r.byteLength),!n.options.onlyTiff)return function(){if(r.chunked){var i=!1;return Ee((function(){return!t&&s.size>0&&!i&&(!!r.canReadNextChunk||!!n.unfinishedMultiSegment)}),void 0,(function(){var a=r.nextChunkOffset,s=n.appSegments.some((function(e){return!n.file.available(e.offset||e.start,e.length||e.size)}));return Le((function(){return e>a&&!s?Be(r.readNextChunk(e),(function(e){i=!e})):Be(r.readNextChunk(a),(function(e){i=!e}))}),(function(){void 0===(e=n.findAppSegmentsInRange(e,r.byteLength))&&(t=!0)}))}))}}()}))}catch(e){return Promise.reject(e)}}},{key:"findAppSegmentsInRange",value:function(e,t){t-=2;for(var n,r,i,a,s,u,o=this.file,f=this.findAll,c=this.wanted,h=this.remaining,l=this.options;e<t;e++)if(255===o.getUint8(e))if(Re(n=o.getUint8(e+1))){if(r=o.getUint16(e+2),(i=Me(o,e,r))&&c.has(i)&&(s=(a=M.get(i)).findPosition(o,e),u=l[i],s.type=i,this.appSegments.push(s),!f&&(a.multiSegment&&u.multiSegment?(this.unfinishedMultiSegment=s.chunkNumber<s.chunkCount,this.unfinishedMultiSegment||h.delete(i)):h.delete(i),0===h.size)))break;l.recordUnknownSegments&&((s=je.findPosition(o,e)).marker=n,this.unknownSegments.push(s)),e+=r+1}else if(De(n)){if(r=o.getUint16(e+2),218===n&&!1!==l.stopAfterSos)return;l.recordJpegSegments&&this.jpegSegments.push({offset:e,length:r,marker:n}),e+=r+1}return e}},{key:"mergeMultiSegments",value:function(){var e=this;if(this.appSegments.some((function(e){return e.multiSegment}))){var t=function(e,t){for(var n,r,i,a=O(),s=0;s<e.length;s++)n=e[s],r=n[t],a.has(r)?i=a.get(r):a.set(r,i=[]),i.push(n);return k(a)}(this.appSegments,"type");this.mergedAppSegments=t.map((function(t){var n=t[0],r=t[1],i=M.get(n,e.options);return i.handleMultiSegments?{type:n,chunk:i.handleMultiSegments(r)}:r[0]}))}}},{key:"getSegment",value:function(e){return this.appSegments.find((function(t){return t.type===e}))}},{key:"getOrFindSegment",value:function(e){try{var t=this,n=t.getSegment(e);return Le((function(){if(void 0===n)return Be(t.findAppSegments(0,[e]),(function(){n=t.getSegment(e)}))}),(function(){return n}))}catch(e){return Promise.reject(e)}}}],[{key:"canHandle",value:function(e,t){return 65496===t}}]),n}(Ce);function We(){}i(Ne,"type","jpeg"),R.set("jpeg",Ne);function Ke(e,t){if(!t)return e&&e.then?e.then(We):Promise.resolve()}function He(e,t){var n=e();return n&&n.then?n.then(t):t(n)}var Xe=[void 0,1,1,2,4,8,1,1,2,4,8,4,8,4];var Ye=function(e){function n(){return t(this,n),l(this,s(n).apply(this,arguments))}return a(n,e),r(n,[{key:"parse",value:function(){try{var e=this;e.parseHeader();var t=e.options;return He((function(){if(t.ifd0.enabled)return Ke(e.parseIfd0Block())}),(function(){return He((function(){if(t.exif.enabled)return Ke(e.safeParse("parseExifBlock"))}),(function(){return He((function(){if(t.gps.enabled)return Ke(e.safeParse("parseGpsBlock"))}),(function(){return He((function(){if(t.interop.enabled)return Ke(e.safeParse("parseInteropBlock"))}),(function(){return He((function(){if(t.ifd1.enabled)return Ke(e.safeParse("parseThumbnailBlock"))}),(function(){return e.createOutput()}))}))}))}))}))}catch(e){return Promise.reject(e)}}},{key:"safeParse",value:function(e){var t=this[e]();return void 0!==t.catch&&(t=t.catch(this.handleError)),t}},{key:"findIfd0Offset",value:function(){void 0===this.ifd0Offset&&(this.ifd0Offset=this.chunk.getUint32(4))}},{key:"findIfd1Offset",value:function(){if(void 0===this.ifd1Offset){this.findIfd0Offset();var e=this.chunk.getUint16(this.ifd0Offset),t=this.ifd0Offset+2+12*e;this.ifd1Offset=this.chunk.getUint32(t)}}},{key:"parseBlock",value:function(e,t){var n=O();return this[t]=n,this.parseTags(e,t,n),n}},{key:"parseIfd0Block",value:function(){try{var e=this;if(e.ifd0)return;var t=e.file;return e.findIfd0Offset(),e.ifd0Offset<8&&I("Malformed EXIF data"),!t.chunked&&e.ifd0Offset>t.byteLength&&I("IFD0 offset points to outside of file.\nthis.ifd0Offset: ".concat(e.ifd0Offset,", file.byteLength: ").concat(t.byteLength)),He((function(){if(t.tiff)return Ke(t.ensureChunk(e.ifd0Offset,L(e.options)))}),(function(){var t=e.parseBlock(e.ifd0Offset,"ifd0");if(0!==t.size)return e.exifOffset=t.get(34665),e.interopOffset=t.get(40965),e.gpsOffset=t.get(34853),e.xmp=t.get(700),e.iptc=t.get(33723),e.icc=t.get(34675),e.options.sanitize&&(t.delete(34665),t.delete(40965),t.delete(34853),t.delete(700),t.delete(33723),t.delete(34675)),t}))}catch(e){return Promise.reject(e)}}},{key:"parseExifBlock",value:function(){try{var e=this;if(e.exif)return;return He((function(){if(!e.ifd0)return Ke(e.parseIfd0Block())}),(function(){if(void 0!==e.exifOffset)return He((function(){if(e.file.tiff)return Ke(e.file.ensureChunk(e.exifOffset,L(e.options)))}),(function(){var t=e.parseBlock(e.exifOffset,"exif");return e.interopOffset||(e.interopOffset=t.get(40965)),e.makerNote=t.get(37500),e.userComment=t.get(37510),e.options.sanitize&&(t.delete(40965),t.delete(37500),t.delete(37510)),e.unpack(t,41728),e.unpack(t,41729),t}))}))}catch(e){return Promise.reject(e)}}},{key:"unpack",value:function(e,t){var n=e.get(t);n&&1===n.length&&e.set(t,n[0])}},{key:"parseGpsBlock",value:function(){try{var e=this;if(e.gps)return;return He((function(){if(!e.ifd0)return Ke(e.parseIfd0Block())}),(function(){if(void 0!==e.gpsOffset){var t=e.parseBlock(e.gpsOffset,"gps");return t&&t.has(2)&&t.has(4)&&(t.set("latitude",Ge.apply(void 0,t.get(2).concat([t.get(1)]))),t.set("longitude",Ge.apply(void 0,t.get(4).concat([t.get(3)])))),t}}))}catch(e){return Promise.reject(e)}}},{key:"parseInteropBlock",value:function(){try{var e=this;if(e.interop)return;return He((function(){if(!e.ifd0)return Ke(e.parseIfd0Block())}),(function(){return He((function(){if(void 0===e.interopOffset&&!e.exif)return Ke(e.parseExifBlock())}),(function(){if(void 0!==e.interopOffset)return e.parseBlock(e.interopOffset,"interop")}))}))}catch(e){return Promise.reject(e)}}},{key:"parseThumbnailBlock",value:function(){var e=arguments.length>0&&void 0!==arguments[0]&&arguments[0];try{var t=this;if(t.ifd1||t.ifd1Parsed)return;if(t.options.mergeOutput&&!e)return;return t.findIfd1Offset(),t.ifd1Offset>0&&(t.parseBlock(t.ifd1Offset,"ifd1"),t.ifd1Parsed=!0),t.ifd1}catch(e){return Promise.reject(e)}}},{key:"extractThumbnail",value:function(){try{var e=this;return e.headerParsed||e.parseHeader(),He((function(){if(!e.ifd1Parsed)return Ke(e.parseThumbnailBlock(!0))}),(function(){if(void 0!==e.ifd1){var t=e.ifd1.get(513),n=e.ifd1.get(514);return e.chunk.getUint8Array(t,n)}}))}catch(e){return Promise.reject(e)}}},{key:"createOutput",value:function(){var e,t,n,r={},i=se;Array.isArray(i)||("function"==typeof i.entries&&(i=i.entries()),i=k(i));for(var a=0;a<i.length;a++)if(!V(e=this[t=i[a]]))if(n=this.canTranslate?this.translateBlock(e,t):g(e),this.options.mergeOutput){if("ifd1"===t)continue;y(r,n)}else r[t]=n;return this.makerNote&&(r.makerNote=this.makerNote),this.userComment&&(r.userComment=this.userComment),r}},{key:"assignToOutput",value:function(e,t){if(this.globalOptions.mergeOutput)y(e,t);else{var n=p(t);Array.isArray(n)||("function"==typeof n.entries&&(n=n.entries()),n=k(n));for(var r=0;r<n.length;r++){var i=n[r],a=i[0],s=i[1];this.assignObjectToOutput(e,a,s)}}}},{key:"image",get:function(){return this.ifd0}},{key:"thumbnail",get:function(){return this.ifd1}}],[{key:"canHandle",value:function(e,t){return 225===e.getUint8(t+1)&&1165519206===e.getUint32(t+4)&&0===e.getUint16(t+8)}}]),n}(function(e){function n(){return t(this,n),l(this,s(n).apply(this,arguments))}return a(n,e),r(n,[{key:"parseHeader",value:function(){var e=this.chunk.getUint16();18761===e?this.le=!0:19789===e&&(this.le=!1),this.chunk.le=this.le,this.headerParsed=!0}},{key:"parseTags",value:function(e,t){var n=arguments.length>2&&void 0!==arguments[2]?arguments[2]:O(),r=this.options[t],i=r.pick,a=r.skip,s=(i=w(i)).size>0,u=0===a.size,o=this.chunk.getUint16(e);e+=2;for(var f=0;f<o;f++){var c=this.chunk.getUint16(e);if(s){if(i.has(c)&&(n.set(c,this.parseTag(e,c,t)),i.delete(c),0===i.size))break}else!u&&a.has(c)||n.set(c,this.parseTag(e,c,t));e+=12}return n}},{key:"parseTag",value:function(e,t,n){var r,i=this.chunk,a=i.getUint16(e+2),s=i.getUint32(e+4),u=Xe[a];if(u*s<=4?e+=8:e=i.getUint32(e+8),(a<1||a>13)&&I("Invalid TIFF value type. block: ".concat(n.toUpperCase(),", tag: ").concat(t.toString(16),", type: ").concat(a,", offset ").concat(e)),e>i.byteLength&&I("Invalid TIFF value offset. block: ".concat(n.toUpperCase(),", tag: ").concat(t.toString(16),", type: ").concat(a,", offset ").concat(e," is outside of chunk size ").concat(i.byteLength)),1===a)return i.getUint8Array(e,s);if(2===a)return""===(r=function(e){for(;e.endsWith("\0");)e=e.slice(0,-1);return e}(r=i.getString(e,s)).trim())?void 0:r;if(7===a)return i.getUint8Array(e,s);if(1===s)return this.parseTagValue(a,e);for(var o=new(function(e){switch(e){case 1:return Uint8Array;case 3:return Uint16Array;case 4:return Uint32Array;case 5:return Array;case 6:return Int8Array;case 8:return Int16Array;case 9:return Int32Array;case 10:return Array;case 11:return Float32Array;case 12:return Float64Array;default:return Array}}(a))(s),f=u,c=0;c<s;c++)o[c]=this.parseTagValue(a,e),e+=f;return o}},{key:"parseTagValue",value:function(e,t){var n=this.chunk;switch(e){case 1:return n.getUint8(t);case 3:return n.getUint16(t);case 4:return n.getUint32(t);case 5:return n.getUint32(t)/n.getUint32(t+4);case 6:return n.getInt8(t);case 8:return n.getInt16(t);case 9:return n.getInt32(t);case 10:return n.getInt32(t)/n.getInt32(t+4);case 11:return n.getFloat(t);case 12:return n.getDouble(t);case 13:return n.getUint32(t);default:I("Invalid tiff type ".concat(e))}}}]),n}(je));function Ge(e,t,n,r){var i=e+t/60+n/3600;return"S"!==r&&"W"!==r||(i*=-1),i}i(Ye,"type","tiff"),i(Ye,"headerLength",10),M.set("tiff",Ye);var Je=Object.freeze({__proto__:null,default:Ue,parse:Se,Exifr:Oe,fileParsers:R,segmentParsers:M,fileReaders:N,tagKeys:ee,tagValues:te,tagRevivers:ne,createDictionary:Z,extendDictionary:$,fetchUrlAsArrayBuffer:X,readBlobAsArrayBuffer:H,chunkedProps:re,otherSegments:ie,segments:ae,tiffBlocks:se,segmentsAndBlocks:ue,tiffExtractables:oe,inheritables:fe,allFormatters:ce,Options:pe});function qe(e,t,n){return n?t?t(e):e:(e&&e.then||(e=Promise.resolve(e)),t?e.then(t):e)}function Qe(e){return function(){for(var t=[],n=0;n<arguments.length;n++)t[n]=arguments[n];try{return Promise.resolve(e.apply(this,t))}catch(e){return Promise.reject(e)}}}var Ze=Qe((function(e){var t=new Oe(it);return qe(t.read(e),(function(){return qe(t.parse(),(function(e){if(e&&e.ifd0)return e.ifd0[274]}))}))})),$e=Qe((function(e){var t=new Oe(rt);return qe(t.read(e),(function(){return qe(t.parse(),(function(e){if(e&&e.gps){var t=e.gps;return{latitude:t.latitude,longitude:t.longitude}}}))}))})),et=Qe((function(e){return qe(this.thumbnail(e),(function(e){if(void 0!==e){var t=new Blob([e]);return URL.createObjectURL(t)}}))})),tt=Qe((function(e){var t=new Oe(at);return qe(t.read(e),(function(){return qe(t.extractThumbnail(),(function(e){return e&&B?j.from(e):e}))}))})),nt={ifd0:!1,ifd1:!1,exif:!1,gps:!1,interop:!1,sanitize:!1,reviveValues:!0,translateKeys:!1,translateValues:!1,mergeOutput:!1},rt=y({},nt,{firstChunkSize:4e4,gps:[1,2,3,4]}),it=y({},nt,{firstChunkSize:4e4,ifd0:[274]}),at=y({},nt,{tiff:!1,ifd1:!0,mergeOutput:!1}),st={1:{dimensionSwapped:!1,scaleX:1,scaleY:1,deg:0,rad:0},2:{dimensionSwapped:!1,scaleX:-1,scaleY:1,deg:0,rad:0},3:{dimensionSwapped:!1,scaleX:1,scaleY:1,deg:180,rad:180*Math.PI/180},4:{dimensionSwapped:!1,scaleX:-1,scaleY:1,deg:180,rad:180*Math.PI/180},5:{dimensionSwapped:!0,scaleX:1,scaleY:-1,deg:90,rad:90*Math.PI/180},6:{dimensionSwapped:!0,scaleX:1,scaleY:1,deg:90,rad:90*Math.PI/180},7:{dimensionSwapped:!0,scaleX:1,scaleY:-1,deg:270,rad:270*Math.PI/180},8:{dimensionSwapped:!0,scaleX:1,scaleY:1,deg:270,rad:270*Math.PI/180}};if(e.rotateCanvas=!0,e.rotateCss=!0,"object"==typeof navigator){var ut=navigator.userAgent;if(ut.includes("iPad")||ut.includes("iPhone")){var ot=ut.match(/OS (\d+)_(\d+)/);if(ot){ot[0];var ft=ot[1],ct=ot[2],ht=Number(ft)+.1*Number(ct);e.rotateCanvas=ht<13.4,e.rotateCss=!1}}if(ut.includes("Chrome/")){var lt=ut.match(/Chrome\/(\d+)/),dt=(lt[0],lt[1]);Number(dt)>=81&&(e.rotateCanvas=e.rotateCss=!1)}else if(ut.includes("Firefox/")){var vt=ut.match(/Firefox\/(\d+)/),pt=(vt[0],vt[1]);Number(pt)>=77&&(e.rotateCanvas=e.rotateCss=!1)}}function yt(){}var gt=function(e){function n(){var e,r;t(this,n);for(var a=arguments.length,u=new Array(a),o=0;o<a;o++)u[o]=arguments[o];return i(h(r=l(this,(e=s(n)).call.apply(e,[this].concat(u)))),"ranges",new kt),0!==r.byteLength&&r.ranges.add(0,r.byteLength),r}return a(n,e),r(n,[{key:"_tryExtend",value:function(e,t,n){if(0===e&&0===this.byteLength&&n){var r=new DataView(n.buffer||n,n.byteOffset,n.byteLength);this._swapDataView(r)}else{var i=e+t;if(i>this.byteLength){var a=this._extend(i).dataView;this._swapDataView(a)}}}},{key:"_extend",value:function(e){var t;t=B?j.allocUnsafe(e):new Uint8Array(e);var n=new DataView(t.buffer,t.byteOffset,t.byteLength);return t.set(new Uint8Array(this.buffer,this.byteOffset,this.byteLength),0),{uintView:t,dataView:n}}},{key:"subarray",value:function(e,t){var r=arguments.length>2&&void 0!==arguments[2]&&arguments[2];return t=t||this._lengthToEnd(e),r&&this._tryExtend(e,t),this.ranges.add(e,t),d(s(n.prototype),"subarray",this).call(this,e,t)}},{key:"set",value:function(e,t){var r=arguments.length>2&&void 0!==arguments[2]&&arguments[2];r&&this._tryExtend(t,e.byteLength,e);var i=d(s(n.prototype),"set",this).call(this,e,t);return this.ranges.add(t,i.byteLength),i}},{key:"ensureChunk",value:function(e,t){try{if(!this.chunked)return;if(this.ranges.available(e,t))return;return function(e,t){if(!t)return e&&e.then?e.then(yt):Promise.resolve()}(this.readChunk(e,t))}catch(e){return Promise.reject(e)}}},{key:"available",value:function(e,t){return this.ranges.available(e,t)}}]),n}(F),kt=function(){function e(){t(this,e),i(this,"list",[])}return r(e,[{key:"add",value:function(e,t){var n=e+t,r=this.list.filter((function(t){return mt(e,t.offset,n)||mt(e,t.end,n)}));if(r.length>0){e=Math.min.apply(Math,[e].concat(r.map((function(e){return e.offset})))),t=(n=Math.max.apply(Math,[n].concat(r.map((function(e){return e.end})))))-e;var i=r.shift();i.offset=e,i.length=t,i.end=n,this.list=this.list.filter((function(e){return!r.includes(e)}))}else this.list.push({offset:e,length:t,end:n})}},{key:"available",value:function(e,t){var n=e+t;return this.list.some((function(t){return t.offset<=e&&n<=t.end}))}},{key:"length",get:function(){return this.list.length}}]),e}();function mt(e,t,n){return e<=t&&t<=n}function bt(){}function At(e,t){if(!t)return e&&e.then?e.then(bt):Promise.resolve()}function wt(e,t,n){return n?t?t(e):e:(e&&e.then||(e=Promise.resolve(e)),t?e.then(t):e)}var Ot=function(e){function n(){return t(this,n),l(this,s(n).apply(this,arguments))}return a(n,e),r(n,[{key:"readWhole",value:function(){try{var e=this;return e.chunked=!1,wt(H(e.input),(function(t){e._swapArrayBuffer(t)}))}catch(e){return Promise.reject(e)}}},{key:"readChunked",value:function(){return this.chunked=!0,this.size=this.input.size,d(s(n.prototype),"readChunked",this).call(this)}},{key:"_readChunk",value:function(e,t){try{var n=this,r=t?e+t:void 0,i=n.input.slice(e,r);return wt(H(i),(function(t){return n.set(t,e,!0)}))}catch(e){return Promise.reject(e)}}}]),n}(function(e){function n(e,r){var a;return t(this,n),i(h(a=l(this,s(n).call(this,0))),"chunksRead",0),a.input=e,a.options=r,a}return a(n,e),r(n,[{key:"readWhole",value:function(){try{return this.chunked=!1,At(this.readChunk(this.nextChunkOffset))}catch(e){return Promise.reject(e)}}},{key:"readChunked",value:function(){try{return this.chunked=!0,At(this.readChunk(0,this.options.firstChunkSize))}catch(e){return Promise.reject(e)}}},{key:"readNextChunk",value:function(e){try{if(void 0===e&&(e=this.nextChunkOffset),this.fullyRead)return this.chunksRead++,!1;var t=this.options.chunkSize;return n=this.readChunk(e,t),r=function(e){return!!e&&e.byteLength===t},i?r?r(n):n:(n&&n.then||(n=Promise.resolve(n)),r?n.then(r):n)}catch(e){return Promise.reject(e)}var n,r,i}},{key:"readChunk",value:function(e,t){try{if(this.chunksRead++,0===(t=this.safeWrapAddress(e,t)))return;return this._readChunk(e,t)}catch(e){return Promise.reject(e)}}},{key:"safeWrapAddress",value:function(e,t){return void 0!==this.size&&e+t>this.size?Math.max(0,this.size-e):t}},{key:"read",value:function(){return this.options.chunked?this.readChunked():this.readWhole()}},{key:"close",value:function(){}},{key:"nextChunkOffset",get:function(){if(0!==this.ranges.list.length)return this.ranges.list[0].length}},{key:"canReadNextChunk",get:function(){return this.chunksRead<this.options.chunkLimit}},{key:"fullyRead",get:function(){return void 0!==this.size&&this.nextChunkOffset===this.size}}]),n}(gt));N.set("blob",Ot),e.Exifr=Oe,e.Options=pe,e.allFormatters=ce,e.chunkedProps=re,e.createDictionary=Z,e.default=Je,e.disableAllOptions=nt,e.extendDictionary=$,e.fetchUrlAsArrayBuffer=X,e.fileParsers=R,e.fileReaders=N,e.gps=$e,e.gpsOnlyOptions=rt,e.inheritables=fe,e.orientation=Ze,e.orientationOnlyOptions=it,e.otherSegments=ie,e.parse=Se,e.readBlobAsArrayBuffer=H,e.rotation=function(t){return qe(Ze(t),(function(t){return y({canvas:e.rotateCanvas,css:e.rotateCss},st[t])}))},e.rotations=st,e.segmentParsers=M,e.segments=ae,e.segmentsAndBlocks=ue,e.tagKeys=ee,e.tagRevivers=ne,e.tagValues=te,e.thumbnail=tt,e.thumbnailOnlyOptions=at,e.thumbnailUrl=et,e.tiffBlocks=se,e.tiffExtractables=oe,Object.defineProperty(e,"__esModule",{value:!0})}));
 
 
 /***/ }),
@@ -16574,6 +24292,132 @@ module.exports = __nested_webpack_require_158389__(/*! /home/travis/build/feathe
 /******/ });
 });
 //# sourceMappingURL=feather.js.map
+
+/***/ }),
+
+/***/ "./node_modules/ieee754/index.js":
+/*!***************************************!*\
+  !*** ./node_modules/ieee754/index.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
+exports.read = function (buffer, offset, isLE, mLen, nBytes) {
+  var e, m
+  var eLen = (nBytes * 8) - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var nBits = -7
+  var i = isLE ? (nBytes - 1) : 0
+  var d = isLE ? -1 : 1
+  var s = buffer[offset + i]
+
+  i += d
+
+  e = s & ((1 << (-nBits)) - 1)
+  s >>= (-nBits)
+  nBits += eLen
+  for (; nBits > 0; e = (e * 256) + buffer[offset + i], i += d, nBits -= 8) {}
+
+  m = e & ((1 << (-nBits)) - 1)
+  e >>= (-nBits)
+  nBits += mLen
+  for (; nBits > 0; m = (m * 256) + buffer[offset + i], i += d, nBits -= 8) {}
+
+  if (e === 0) {
+    e = 1 - eBias
+  } else if (e === eMax) {
+    return m ? NaN : ((s ? -1 : 1) * Infinity)
+  } else {
+    m = m + Math.pow(2, mLen)
+    e = e - eBias
+  }
+  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
+}
+
+exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
+  var e, m, c
+  var eLen = (nBytes * 8) - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
+  var i = isLE ? 0 : (nBytes - 1)
+  var d = isLE ? 1 : -1
+  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
+
+  value = Math.abs(value)
+
+  if (isNaN(value) || value === Infinity) {
+    m = isNaN(value) ? 1 : 0
+    e = eMax
+  } else {
+    e = Math.floor(Math.log(value) / Math.LN2)
+    if (value * (c = Math.pow(2, -e)) < 1) {
+      e--
+      c *= 2
+    }
+    if (e + eBias >= 1) {
+      value += rt / c
+    } else {
+      value += rt * Math.pow(2, 1 - eBias)
+    }
+    if (value * c >= 2) {
+      e++
+      c /= 2
+    }
+
+    if (e + eBias >= eMax) {
+      m = 0
+      e = eMax
+    } else if (e + eBias >= 1) {
+      m = ((value * c) - 1) * Math.pow(2, mLen)
+      e = e + eBias
+    } else {
+      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
+      e = 0
+    }
+  }
+
+  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
+
+  e = (e << mLen) | m
+  eLen += mLen
+  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
+
+  buffer[offset + i - d] |= s * 128
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/is-shallow-equal/index.js":
+/*!************************************************!*\
+  !*** ./node_modules/is-shallow-equal/index.js ***!
+  \************************************************/
+/***/ ((module) => {
+
+module.exports = function isShallowEqual (a, b) {
+  if (a === b) return true
+  for (var i in a) if (!(i in b)) return false
+  for (var i in b) if (a[i] !== b[i]) return false
+  return true
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/isarray/index.js":
+/*!***************************************!*\
+  !*** ./node_modules/isarray/index.js ***!
+  \***************************************/
+/***/ ((module) => {
+
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
 
 /***/ }),
 
@@ -27456,6 +35300,633 @@ if ( typeof noGlobal === "undefined" ) {
 
 return jQuery;
 } );
+
+
+/***/ }),
+
+/***/ "./node_modules/js-base64/base64.js":
+/*!******************************************!*\
+  !*** ./node_modules/js-base64/base64.js ***!
+  \******************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
+ *  base64.js
+ *
+ *  Licensed under the BSD 3-Clause License.
+ *    http://opensource.org/licenses/BSD-3-Clause
+ *
+ *  References:
+ *    http://en.wikipedia.org/wiki/Base64
+ */
+;(function (global, factory) {
+     true
+        ? module.exports = factory(global)
+        : 0
+}((
+    typeof self !== 'undefined' ? self
+        : typeof window !== 'undefined' ? window
+        : typeof __webpack_require__.g !== 'undefined' ? __webpack_require__.g
+: this
+), function(global) {
+    'use strict';
+    // existing version for noConflict()
+    global = global || {};
+    var _Base64 = global.Base64;
+    var version = "2.6.4";
+    // constants
+    var b64chars
+        = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+    var b64tab = function(bin) {
+        var t = {};
+        for (var i = 0, l = bin.length; i < l; i++) t[bin.charAt(i)] = i;
+        return t;
+    }(b64chars);
+    var fromCharCode = String.fromCharCode;
+    // encoder stuff
+    var cb_utob = function(c) {
+        if (c.length < 2) {
+            var cc = c.charCodeAt(0);
+            return cc < 0x80 ? c
+                : cc < 0x800 ? (fromCharCode(0xc0 | (cc >>> 6))
+                                + fromCharCode(0x80 | (cc & 0x3f)))
+                : (fromCharCode(0xe0 | ((cc >>> 12) & 0x0f))
+                    + fromCharCode(0x80 | ((cc >>>  6) & 0x3f))
+                    + fromCharCode(0x80 | ( cc         & 0x3f)));
+        } else {
+            var cc = 0x10000
+                + (c.charCodeAt(0) - 0xD800) * 0x400
+                + (c.charCodeAt(1) - 0xDC00);
+            return (fromCharCode(0xf0 | ((cc >>> 18) & 0x07))
+                    + fromCharCode(0x80 | ((cc >>> 12) & 0x3f))
+                    + fromCharCode(0x80 | ((cc >>>  6) & 0x3f))
+                    + fromCharCode(0x80 | ( cc         & 0x3f)));
+        }
+    };
+    var re_utob = /[\uD800-\uDBFF][\uDC00-\uDFFFF]|[^\x00-\x7F]/g;
+    var utob = function(u) {
+        return u.replace(re_utob, cb_utob);
+    };
+    var cb_encode = function(ccc) {
+        var padlen = [0, 2, 1][ccc.length % 3],
+        ord = ccc.charCodeAt(0) << 16
+            | ((ccc.length > 1 ? ccc.charCodeAt(1) : 0) << 8)
+            | ((ccc.length > 2 ? ccc.charCodeAt(2) : 0)),
+        chars = [
+            b64chars.charAt( ord >>> 18),
+            b64chars.charAt((ord >>> 12) & 63),
+            padlen >= 2 ? '=' : b64chars.charAt((ord >>> 6) & 63),
+            padlen >= 1 ? '=' : b64chars.charAt(ord & 63)
+        ];
+        return chars.join('');
+    };
+    var btoa = global.btoa && typeof global.btoa == 'function'
+        ? function(b){ return global.btoa(b) } : function(b) {
+        if (b.match(/[^\x00-\xFF]/)) throw new RangeError(
+            'The string contains invalid characters.'
+        );
+        return b.replace(/[\s\S]{1,3}/g, cb_encode);
+    };
+    var _encode = function(u) {
+        return btoa(utob(String(u)));
+    };
+    var mkUriSafe = function (b64) {
+        return b64.replace(/[+\/]/g, function(m0) {
+            return m0 == '+' ? '-' : '_';
+        }).replace(/=/g, '');
+    };
+    var encode = function(u, urisafe) {
+        return urisafe ? mkUriSafe(_encode(u)) : _encode(u);
+    };
+    var encodeURI = function(u) { return encode(u, true) };
+    var fromUint8Array;
+    if (global.Uint8Array) fromUint8Array = function(a, urisafe) {
+        // return btoa(fromCharCode.apply(null, a));
+        var b64 = '';
+        for (var i = 0, l = a.length; i < l; i += 3) {
+            var a0 = a[i], a1 = a[i+1], a2 = a[i+2];
+            var ord = a0 << 16 | a1 << 8 | a2;
+            b64 +=    b64chars.charAt( ord >>> 18)
+                +     b64chars.charAt((ord >>> 12) & 63)
+                + ( typeof a1 != 'undefined'
+                    ? b64chars.charAt((ord >>>  6) & 63) : '=')
+                + ( typeof a2 != 'undefined'
+                    ? b64chars.charAt( ord         & 63) : '=');
+        }
+        return urisafe ? mkUriSafe(b64) : b64;
+    };
+    // decoder stuff
+    var re_btou = /[\xC0-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF]{2}|[\xF0-\xF7][\x80-\xBF]{3}/g;
+    var cb_btou = function(cccc) {
+        switch(cccc.length) {
+        case 4:
+            var cp = ((0x07 & cccc.charCodeAt(0)) << 18)
+                |    ((0x3f & cccc.charCodeAt(1)) << 12)
+                |    ((0x3f & cccc.charCodeAt(2)) <<  6)
+                |     (0x3f & cccc.charCodeAt(3)),
+            offset = cp - 0x10000;
+            return (fromCharCode((offset  >>> 10) + 0xD800)
+                    + fromCharCode((offset & 0x3FF) + 0xDC00));
+        case 3:
+            return fromCharCode(
+                ((0x0f & cccc.charCodeAt(0)) << 12)
+                    | ((0x3f & cccc.charCodeAt(1)) << 6)
+                    |  (0x3f & cccc.charCodeAt(2))
+            );
+        default:
+            return  fromCharCode(
+                ((0x1f & cccc.charCodeAt(0)) << 6)
+                    |  (0x3f & cccc.charCodeAt(1))
+            );
+        }
+    };
+    var btou = function(b) {
+        return b.replace(re_btou, cb_btou);
+    };
+    var cb_decode = function(cccc) {
+        var len = cccc.length,
+        padlen = len % 4,
+        n = (len > 0 ? b64tab[cccc.charAt(0)] << 18 : 0)
+            | (len > 1 ? b64tab[cccc.charAt(1)] << 12 : 0)
+            | (len > 2 ? b64tab[cccc.charAt(2)] <<  6 : 0)
+            | (len > 3 ? b64tab[cccc.charAt(3)]       : 0),
+        chars = [
+            fromCharCode( n >>> 16),
+            fromCharCode((n >>>  8) & 0xff),
+            fromCharCode( n         & 0xff)
+        ];
+        chars.length -= [0, 0, 2, 1][padlen];
+        return chars.join('');
+    };
+    var _atob = global.atob && typeof global.atob == 'function'
+        ? function(a){ return global.atob(a) } : function(a){
+        return a.replace(/\S{1,4}/g, cb_decode);
+    };
+    var atob = function(a) {
+        return _atob(String(a).replace(/[^A-Za-z0-9\+\/]/g, ''));
+    };
+    var _decode = function(a) { return btou(_atob(a)) };
+    var _fromURI = function(a) {
+        return String(a).replace(/[-_]/g, function(m0) {
+            return m0 == '-' ? '+' : '/'
+        }).replace(/[^A-Za-z0-9\+\/]/g, '');
+    };
+    var decode = function(a){
+        return _decode(_fromURI(a));
+    };
+    var toUint8Array;
+    if (global.Uint8Array) toUint8Array = function(a) {
+        return Uint8Array.from(atob(_fromURI(a)), function(c) {
+            return c.charCodeAt(0);
+        });
+    };
+    var noConflict = function() {
+        var Base64 = global.Base64;
+        global.Base64 = _Base64;
+        return Base64;
+    };
+    // export Base64
+    global.Base64 = {
+        VERSION: version,
+        atob: atob,
+        btoa: btoa,
+        fromBase64: decode,
+        toBase64: encode,
+        utob: utob,
+        encode: encode,
+        encodeURI: encodeURI,
+        btou: btou,
+        decode: decode,
+        noConflict: noConflict,
+        fromUint8Array: fromUint8Array,
+        toUint8Array: toUint8Array
+    };
+    // if ES5 is available, make Base64.extendString() available
+    if (typeof Object.defineProperty === 'function') {
+        var noEnum = function(v){
+            return {value:v,enumerable:false,writable:true,configurable:true};
+        };
+        global.Base64.extendString = function () {
+            Object.defineProperty(
+                String.prototype, 'fromBase64', noEnum(function () {
+                    return decode(this)
+                }));
+            Object.defineProperty(
+                String.prototype, 'toBase64', noEnum(function (urisafe) {
+                    return encode(this, urisafe)
+                }));
+            Object.defineProperty(
+                String.prototype, 'toBase64URI', noEnum(function () {
+                    return encode(this, true)
+                }));
+        };
+    }
+    //
+    // export Base64 to the namespace
+    //
+    if (global['Meteor']) { // Meteor.js
+        Base64 = global.Base64;
+    }
+    // module.exports and AMD are mutually exclusive.
+    // module.exports has precedence.
+    if ( true && module.exports) {
+        module.exports.Base64 = global.Base64;
+    }
+    else if (true) {
+        // AMD. Register as an anonymous module.
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function(){ return global.Base64 }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    }
+    // that's it!
+    return {Base64: global.Base64}
+}));
+
+
+/***/ }),
+
+/***/ "./node_modules/lodash.debounce/index.js":
+/*!***********************************************!*\
+  !*** ./node_modules/lodash.debounce/index.js ***!
+  \***********************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/** Used to match leading and trailing whitespace. */
+var reTrim = /^\s+|\s+$/g;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof __webpack_require__.g == 'object' && __webpack_require__.g && __webpack_require__.g.Object === Object && __webpack_require__.g;
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => Logs the number of milliseconds it took for the deferred invocation.
+ */
+var now = function() {
+  return root.Date.now();
+};
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide `options` to indicate whether `func` should be invoked on the
+ * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent
+ * calls to the debounced function return the result of the last `func`
+ * invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce(func, wait, options) {
+  var lastArgs,
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    var args = lastArgs,
+        thisArg = lastThis;
+
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime,
+        result = wait - timeSinceLastCall;
+
+    return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+  }
+
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+
+  function trailingEdge(time) {
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = undefined;
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+
+  function debounced() {
+    var time = now(),
+        isInvoking = shouldInvoke(time);
+
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+}
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = value.replace(reTrim, '');
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+module.exports = debounce;
 
 
 /***/ }),
@@ -45073,6 +53544,72 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
 
 /***/ }),
 
+/***/ "./node_modules/math-log2/index.js":
+/*!*****************************************!*\
+  !*** ./node_modules/math-log2/index.js ***!
+  \*****************************************/
+/***/ ((module) => {
+
+"use strict";
+
+module.exports = Math.log2 || function (x) {
+	return Math.log(x) * Math.LOG2E;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/memoize-one/dist/memoize-one.esm.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/memoize-one/dist/memoize-one.esm.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function areInputsEqual(newInputs, lastInputs) {
+    if (newInputs.length !== lastInputs.length) {
+        return false;
+    }
+    for (var i = 0; i < newInputs.length; i++) {
+        if (newInputs[i] !== lastInputs[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function memoizeOne(resultFn, isEqual) {
+    if (isEqual === void 0) { isEqual = areInputsEqual; }
+    var lastThis;
+    var lastArgs = [];
+    var lastResult;
+    var calledOnce = false;
+    function memoized() {
+        var newArgs = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            newArgs[_i] = arguments[_i];
+        }
+        if (calledOnce && lastThis === this && isEqual(newArgs, lastArgs)) {
+            return lastResult;
+        }
+        lastResult = resultFn.apply(this, newArgs);
+        calledOnce = true;
+        lastThis = this;
+        lastArgs = newArgs;
+        return lastResult;
+    }
+    return memoized;
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (memoizeOne);
+
+
+/***/ }),
+
 /***/ "./node_modules/mime-match/index.js":
 /*!******************************************!*\
   !*** ./node_modules/mime-match/index.js ***!
@@ -46628,6 +55165,3646 @@ module.exports = function queryStringify (obj, prefix) {
   }
   return pairs.join('&')
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/querystringify/index.js":
+/*!**********************************************!*\
+  !*** ./node_modules/querystringify/index.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+
+var has = Object.prototype.hasOwnProperty
+  , undef;
+
+/**
+ * Decode a URI encoded string.
+ *
+ * @param {String} input The URI encoded string.
+ * @returns {String|Null} The decoded string.
+ * @api private
+ */
+function decode(input) {
+  try {
+    return decodeURIComponent(input.replace(/\+/g, ' '));
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ * Attempts to encode a given input.
+ *
+ * @param {String} input The string that needs to be encoded.
+ * @returns {String|Null} The encoded string.
+ * @api private
+ */
+function encode(input) {
+  try {
+    return encodeURIComponent(input);
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ * Simple query string parser.
+ *
+ * @param {String} query The query string that needs to be parsed.
+ * @returns {Object}
+ * @api public
+ */
+function querystring(query) {
+  var parser = /([^=?#&]+)=?([^&]*)/g
+    , result = {}
+    , part;
+
+  while (part = parser.exec(query)) {
+    var key = decode(part[1])
+      , value = decode(part[2]);
+
+    //
+    // Prevent overriding of existing properties. This ensures that build-in
+    // methods like `toString` or __proto__ are not overriden by malicious
+    // querystrings.
+    //
+    // In the case if failed decoding, we want to omit the key/value pairs
+    // from the result.
+    //
+    if (key === null || value === null || key in result) continue;
+    result[key] = value;
+  }
+
+  return result;
+}
+
+/**
+ * Transform a query string to an object.
+ *
+ * @param {Object} obj Object that should be transformed.
+ * @param {String} prefix Optional prefix.
+ * @returns {String}
+ * @api public
+ */
+function querystringify(obj, prefix) {
+  prefix = prefix || '';
+
+  var pairs = []
+    , value
+    , key;
+
+  //
+  // Optionally prefix with a '?' if needed
+  //
+  if ('string' !== typeof prefix) prefix = '?';
+
+  for (key in obj) {
+    if (has.call(obj, key)) {
+      value = obj[key];
+
+      //
+      // Edge cases where we actually want to encode the value to an empty
+      // string instead of the stringified value.
+      //
+      if (!value && (value === null || value === undef || isNaN(value))) {
+        value = '';
+      }
+
+      key = encode(key);
+      value = encode(value);
+
+      //
+      // If we failed to encode the strings, we should bail out as we don't
+      // want to add invalid strings to the query.
+      //
+      if (key === null || value === null) continue;
+      pairs.push(key +'='+ value);
+    }
+  }
+
+  return pairs.length ? prefix + pairs.join('&') : '';
+}
+
+//
+// Expose the module.
+//
+exports.stringify = querystringify;
+exports.parse = querystring;
+
+
+/***/ }),
+
+/***/ "./node_modules/requires-port/index.js":
+/*!*********************************************!*\
+  !*** ./node_modules/requires-port/index.js ***!
+  \*********************************************/
+/***/ ((module) => {
+
+"use strict";
+
+
+/**
+ * Check if we're required to add a port number.
+ *
+ * @see https://url.spec.whatwg.org/#default-port
+ * @param {Number|String} port Port number we need to check
+ * @param {String} protocol Protocol we need to check against.
+ * @returns {Boolean} Is it a default port for the given protocol
+ * @api private
+ */
+module.exports = function required(port, protocol) {
+  protocol = protocol.split(':')[0];
+  port = +port;
+
+  if (!port) return false;
+
+  switch (protocol) {
+    case 'http':
+    case 'ws':
+    return port !== 80;
+
+    case 'https':
+    case 'wss':
+    return port !== 443;
+
+    case 'ftp':
+    return port !== 21;
+
+    case 'gopher':
+    return port !== 70;
+
+    case 'file':
+    return false;
+  }
+
+  return port !== 0;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/resize-observer-polyfill/dist/ResizeObserver.es.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/resize-observer-polyfill/dist/ResizeObserver.es.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/**
+ * A collection of shims that provide minimal functionality of the ES6 collections.
+ *
+ * These implementations are not meant to be used outside of the ResizeObserver
+ * modules as they cover only a limited range of use cases.
+ */
+/* eslint-disable require-jsdoc, valid-jsdoc */
+var MapShim = (function () {
+    if (typeof Map !== 'undefined') {
+        return Map;
+    }
+    /**
+     * Returns index in provided array that matches the specified key.
+     *
+     * @param {Array<Array>} arr
+     * @param {*} key
+     * @returns {number}
+     */
+    function getIndex(arr, key) {
+        var result = -1;
+        arr.some(function (entry, index) {
+            if (entry[0] === key) {
+                result = index;
+                return true;
+            }
+            return false;
+        });
+        return result;
+    }
+    return /** @class */ (function () {
+        function class_1() {
+            this.__entries__ = [];
+        }
+        Object.defineProperty(class_1.prototype, "size", {
+            /**
+             * @returns {boolean}
+             */
+            get: function () {
+                return this.__entries__.length;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * @param {*} key
+         * @returns {*}
+         */
+        class_1.prototype.get = function (key) {
+            var index = getIndex(this.__entries__, key);
+            var entry = this.__entries__[index];
+            return entry && entry[1];
+        };
+        /**
+         * @param {*} key
+         * @param {*} value
+         * @returns {void}
+         */
+        class_1.prototype.set = function (key, value) {
+            var index = getIndex(this.__entries__, key);
+            if (~index) {
+                this.__entries__[index][1] = value;
+            }
+            else {
+                this.__entries__.push([key, value]);
+            }
+        };
+        /**
+         * @param {*} key
+         * @returns {void}
+         */
+        class_1.prototype.delete = function (key) {
+            var entries = this.__entries__;
+            var index = getIndex(entries, key);
+            if (~index) {
+                entries.splice(index, 1);
+            }
+        };
+        /**
+         * @param {*} key
+         * @returns {void}
+         */
+        class_1.prototype.has = function (key) {
+            return !!~getIndex(this.__entries__, key);
+        };
+        /**
+         * @returns {void}
+         */
+        class_1.prototype.clear = function () {
+            this.__entries__.splice(0);
+        };
+        /**
+         * @param {Function} callback
+         * @param {*} [ctx=null]
+         * @returns {void}
+         */
+        class_1.prototype.forEach = function (callback, ctx) {
+            if (ctx === void 0) { ctx = null; }
+            for (var _i = 0, _a = this.__entries__; _i < _a.length; _i++) {
+                var entry = _a[_i];
+                callback.call(ctx, entry[1], entry[0]);
+            }
+        };
+        return class_1;
+    }());
+})();
+
+/**
+ * Detects whether window and document objects are available in current environment.
+ */
+var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined' && window.document === document;
+
+// Returns global object of a current environment.
+var global$1 = (function () {
+    if (typeof __webpack_require__.g !== 'undefined' && __webpack_require__.g.Math === Math) {
+        return __webpack_require__.g;
+    }
+    if (typeof self !== 'undefined' && self.Math === Math) {
+        return self;
+    }
+    if (typeof window !== 'undefined' && window.Math === Math) {
+        return window;
+    }
+    // eslint-disable-next-line no-new-func
+    return Function('return this')();
+})();
+
+/**
+ * A shim for the requestAnimationFrame which falls back to the setTimeout if
+ * first one is not supported.
+ *
+ * @returns {number} Requests' identifier.
+ */
+var requestAnimationFrame$1 = (function () {
+    if (typeof requestAnimationFrame === 'function') {
+        // It's required to use a bounded function because IE sometimes throws
+        // an "Invalid calling object" error if rAF is invoked without the global
+        // object on the left hand side.
+        return requestAnimationFrame.bind(global$1);
+    }
+    return function (callback) { return setTimeout(function () { return callback(Date.now()); }, 1000 / 60); };
+})();
+
+// Defines minimum timeout before adding a trailing call.
+var trailingTimeout = 2;
+/**
+ * Creates a wrapper function which ensures that provided callback will be
+ * invoked only once during the specified delay period.
+ *
+ * @param {Function} callback - Function to be invoked after the delay period.
+ * @param {number} delay - Delay after which to invoke callback.
+ * @returns {Function}
+ */
+function throttle (callback, delay) {
+    var leadingCall = false, trailingCall = false, lastCallTime = 0;
+    /**
+     * Invokes the original callback function and schedules new invocation if
+     * the "proxy" was called during current request.
+     *
+     * @returns {void}
+     */
+    function resolvePending() {
+        if (leadingCall) {
+            leadingCall = false;
+            callback();
+        }
+        if (trailingCall) {
+            proxy();
+        }
+    }
+    /**
+     * Callback invoked after the specified delay. It will further postpone
+     * invocation of the original function delegating it to the
+     * requestAnimationFrame.
+     *
+     * @returns {void}
+     */
+    function timeoutCallback() {
+        requestAnimationFrame$1(resolvePending);
+    }
+    /**
+     * Schedules invocation of the original function.
+     *
+     * @returns {void}
+     */
+    function proxy() {
+        var timeStamp = Date.now();
+        if (leadingCall) {
+            // Reject immediately following calls.
+            if (timeStamp - lastCallTime < trailingTimeout) {
+                return;
+            }
+            // Schedule new call to be in invoked when the pending one is resolved.
+            // This is important for "transitions" which never actually start
+            // immediately so there is a chance that we might miss one if change
+            // happens amids the pending invocation.
+            trailingCall = true;
+        }
+        else {
+            leadingCall = true;
+            trailingCall = false;
+            setTimeout(timeoutCallback, delay);
+        }
+        lastCallTime = timeStamp;
+    }
+    return proxy;
+}
+
+// Minimum delay before invoking the update of observers.
+var REFRESH_DELAY = 20;
+// A list of substrings of CSS properties used to find transition events that
+// might affect dimensions of observed elements.
+var transitionKeys = ['top', 'right', 'bottom', 'left', 'width', 'height', 'size', 'weight'];
+// Check if MutationObserver is available.
+var mutationObserverSupported = typeof MutationObserver !== 'undefined';
+/**
+ * Singleton controller class which handles updates of ResizeObserver instances.
+ */
+var ResizeObserverController = /** @class */ (function () {
+    /**
+     * Creates a new instance of ResizeObserverController.
+     *
+     * @private
+     */
+    function ResizeObserverController() {
+        /**
+         * Indicates whether DOM listeners have been added.
+         *
+         * @private {boolean}
+         */
+        this.connected_ = false;
+        /**
+         * Tells that controller has subscribed for Mutation Events.
+         *
+         * @private {boolean}
+         */
+        this.mutationEventsAdded_ = false;
+        /**
+         * Keeps reference to the instance of MutationObserver.
+         *
+         * @private {MutationObserver}
+         */
+        this.mutationsObserver_ = null;
+        /**
+         * A list of connected observers.
+         *
+         * @private {Array<ResizeObserverSPI>}
+         */
+        this.observers_ = [];
+        this.onTransitionEnd_ = this.onTransitionEnd_.bind(this);
+        this.refresh = throttle(this.refresh.bind(this), REFRESH_DELAY);
+    }
+    /**
+     * Adds observer to observers list.
+     *
+     * @param {ResizeObserverSPI} observer - Observer to be added.
+     * @returns {void}
+     */
+    ResizeObserverController.prototype.addObserver = function (observer) {
+        if (!~this.observers_.indexOf(observer)) {
+            this.observers_.push(observer);
+        }
+        // Add listeners if they haven't been added yet.
+        if (!this.connected_) {
+            this.connect_();
+        }
+    };
+    /**
+     * Removes observer from observers list.
+     *
+     * @param {ResizeObserverSPI} observer - Observer to be removed.
+     * @returns {void}
+     */
+    ResizeObserverController.prototype.removeObserver = function (observer) {
+        var observers = this.observers_;
+        var index = observers.indexOf(observer);
+        // Remove observer if it's present in registry.
+        if (~index) {
+            observers.splice(index, 1);
+        }
+        // Remove listeners if controller has no connected observers.
+        if (!observers.length && this.connected_) {
+            this.disconnect_();
+        }
+    };
+    /**
+     * Invokes the update of observers. It will continue running updates insofar
+     * it detects changes.
+     *
+     * @returns {void}
+     */
+    ResizeObserverController.prototype.refresh = function () {
+        var changesDetected = this.updateObservers_();
+        // Continue running updates if changes have been detected as there might
+        // be future ones caused by CSS transitions.
+        if (changesDetected) {
+            this.refresh();
+        }
+    };
+    /**
+     * Updates every observer from observers list and notifies them of queued
+     * entries.
+     *
+     * @private
+     * @returns {boolean} Returns "true" if any observer has detected changes in
+     *      dimensions of it's elements.
+     */
+    ResizeObserverController.prototype.updateObservers_ = function () {
+        // Collect observers that have active observations.
+        var activeObservers = this.observers_.filter(function (observer) {
+            return observer.gatherActive(), observer.hasActive();
+        });
+        // Deliver notifications in a separate cycle in order to avoid any
+        // collisions between observers, e.g. when multiple instances of
+        // ResizeObserver are tracking the same element and the callback of one
+        // of them changes content dimensions of the observed target. Sometimes
+        // this may result in notifications being blocked for the rest of observers.
+        activeObservers.forEach(function (observer) { return observer.broadcastActive(); });
+        return activeObservers.length > 0;
+    };
+    /**
+     * Initializes DOM listeners.
+     *
+     * @private
+     * @returns {void}
+     */
+    ResizeObserverController.prototype.connect_ = function () {
+        // Do nothing if running in a non-browser environment or if listeners
+        // have been already added.
+        if (!isBrowser || this.connected_) {
+            return;
+        }
+        // Subscription to the "Transitionend" event is used as a workaround for
+        // delayed transitions. This way it's possible to capture at least the
+        // final state of an element.
+        document.addEventListener('transitionend', this.onTransitionEnd_);
+        window.addEventListener('resize', this.refresh);
+        if (mutationObserverSupported) {
+            this.mutationsObserver_ = new MutationObserver(this.refresh);
+            this.mutationsObserver_.observe(document, {
+                attributes: true,
+                childList: true,
+                characterData: true,
+                subtree: true
+            });
+        }
+        else {
+            document.addEventListener('DOMSubtreeModified', this.refresh);
+            this.mutationEventsAdded_ = true;
+        }
+        this.connected_ = true;
+    };
+    /**
+     * Removes DOM listeners.
+     *
+     * @private
+     * @returns {void}
+     */
+    ResizeObserverController.prototype.disconnect_ = function () {
+        // Do nothing if running in a non-browser environment or if listeners
+        // have been already removed.
+        if (!isBrowser || !this.connected_) {
+            return;
+        }
+        document.removeEventListener('transitionend', this.onTransitionEnd_);
+        window.removeEventListener('resize', this.refresh);
+        if (this.mutationsObserver_) {
+            this.mutationsObserver_.disconnect();
+        }
+        if (this.mutationEventsAdded_) {
+            document.removeEventListener('DOMSubtreeModified', this.refresh);
+        }
+        this.mutationsObserver_ = null;
+        this.mutationEventsAdded_ = false;
+        this.connected_ = false;
+    };
+    /**
+     * "Transitionend" event handler.
+     *
+     * @private
+     * @param {TransitionEvent} event
+     * @returns {void}
+     */
+    ResizeObserverController.prototype.onTransitionEnd_ = function (_a) {
+        var _b = _a.propertyName, propertyName = _b === void 0 ? '' : _b;
+        // Detect whether transition may affect dimensions of an element.
+        var isReflowProperty = transitionKeys.some(function (key) {
+            return !!~propertyName.indexOf(key);
+        });
+        if (isReflowProperty) {
+            this.refresh();
+        }
+    };
+    /**
+     * Returns instance of the ResizeObserverController.
+     *
+     * @returns {ResizeObserverController}
+     */
+    ResizeObserverController.getInstance = function () {
+        if (!this.instance_) {
+            this.instance_ = new ResizeObserverController();
+        }
+        return this.instance_;
+    };
+    /**
+     * Holds reference to the controller's instance.
+     *
+     * @private {ResizeObserverController}
+     */
+    ResizeObserverController.instance_ = null;
+    return ResizeObserverController;
+}());
+
+/**
+ * Defines non-writable/enumerable properties of the provided target object.
+ *
+ * @param {Object} target - Object for which to define properties.
+ * @param {Object} props - Properties to be defined.
+ * @returns {Object} Target object.
+ */
+var defineConfigurable = (function (target, props) {
+    for (var _i = 0, _a = Object.keys(props); _i < _a.length; _i++) {
+        var key = _a[_i];
+        Object.defineProperty(target, key, {
+            value: props[key],
+            enumerable: false,
+            writable: false,
+            configurable: true
+        });
+    }
+    return target;
+});
+
+/**
+ * Returns the global object associated with provided element.
+ *
+ * @param {Object} target
+ * @returns {Object}
+ */
+var getWindowOf = (function (target) {
+    // Assume that the element is an instance of Node, which means that it
+    // has the "ownerDocument" property from which we can retrieve a
+    // corresponding global object.
+    var ownerGlobal = target && target.ownerDocument && target.ownerDocument.defaultView;
+    // Return the local global object if it's not possible extract one from
+    // provided element.
+    return ownerGlobal || global$1;
+});
+
+// Placeholder of an empty content rectangle.
+var emptyRect = createRectInit(0, 0, 0, 0);
+/**
+ * Converts provided string to a number.
+ *
+ * @param {number|string} value
+ * @returns {number}
+ */
+function toFloat(value) {
+    return parseFloat(value) || 0;
+}
+/**
+ * Extracts borders size from provided styles.
+ *
+ * @param {CSSStyleDeclaration} styles
+ * @param {...string} positions - Borders positions (top, right, ...)
+ * @returns {number}
+ */
+function getBordersSize(styles) {
+    var positions = [];
+    for (var _i = 1; _i < arguments.length; _i++) {
+        positions[_i - 1] = arguments[_i];
+    }
+    return positions.reduce(function (size, position) {
+        var value = styles['border-' + position + '-width'];
+        return size + toFloat(value);
+    }, 0);
+}
+/**
+ * Extracts paddings sizes from provided styles.
+ *
+ * @param {CSSStyleDeclaration} styles
+ * @returns {Object} Paddings box.
+ */
+function getPaddings(styles) {
+    var positions = ['top', 'right', 'bottom', 'left'];
+    var paddings = {};
+    for (var _i = 0, positions_1 = positions; _i < positions_1.length; _i++) {
+        var position = positions_1[_i];
+        var value = styles['padding-' + position];
+        paddings[position] = toFloat(value);
+    }
+    return paddings;
+}
+/**
+ * Calculates content rectangle of provided SVG element.
+ *
+ * @param {SVGGraphicsElement} target - Element content rectangle of which needs
+ *      to be calculated.
+ * @returns {DOMRectInit}
+ */
+function getSVGContentRect(target) {
+    var bbox = target.getBBox();
+    return createRectInit(0, 0, bbox.width, bbox.height);
+}
+/**
+ * Calculates content rectangle of provided HTMLElement.
+ *
+ * @param {HTMLElement} target - Element for which to calculate the content rectangle.
+ * @returns {DOMRectInit}
+ */
+function getHTMLElementContentRect(target) {
+    // Client width & height properties can't be
+    // used exclusively as they provide rounded values.
+    var clientWidth = target.clientWidth, clientHeight = target.clientHeight;
+    // By this condition we can catch all non-replaced inline, hidden and
+    // detached elements. Though elements with width & height properties less
+    // than 0.5 will be discarded as well.
+    //
+    // Without it we would need to implement separate methods for each of
+    // those cases and it's not possible to perform a precise and performance
+    // effective test for hidden elements. E.g. even jQuery's ':visible' filter
+    // gives wrong results for elements with width & height less than 0.5.
+    if (!clientWidth && !clientHeight) {
+        return emptyRect;
+    }
+    var styles = getWindowOf(target).getComputedStyle(target);
+    var paddings = getPaddings(styles);
+    var horizPad = paddings.left + paddings.right;
+    var vertPad = paddings.top + paddings.bottom;
+    // Computed styles of width & height are being used because they are the
+    // only dimensions available to JS that contain non-rounded values. It could
+    // be possible to utilize the getBoundingClientRect if only it's data wasn't
+    // affected by CSS transformations let alone paddings, borders and scroll bars.
+    var width = toFloat(styles.width), height = toFloat(styles.height);
+    // Width & height include paddings and borders when the 'border-box' box
+    // model is applied (except for IE).
+    if (styles.boxSizing === 'border-box') {
+        // Following conditions are required to handle Internet Explorer which
+        // doesn't include paddings and borders to computed CSS dimensions.
+        //
+        // We can say that if CSS dimensions + paddings are equal to the "client"
+        // properties then it's either IE, and thus we don't need to subtract
+        // anything, or an element merely doesn't have paddings/borders styles.
+        if (Math.round(width + horizPad) !== clientWidth) {
+            width -= getBordersSize(styles, 'left', 'right') + horizPad;
+        }
+        if (Math.round(height + vertPad) !== clientHeight) {
+            height -= getBordersSize(styles, 'top', 'bottom') + vertPad;
+        }
+    }
+    // Following steps can't be applied to the document's root element as its
+    // client[Width/Height] properties represent viewport area of the window.
+    // Besides, it's as well not necessary as the <html> itself neither has
+    // rendered scroll bars nor it can be clipped.
+    if (!isDocumentElement(target)) {
+        // In some browsers (only in Firefox, actually) CSS width & height
+        // include scroll bars size which can be removed at this step as scroll
+        // bars are the only difference between rounded dimensions + paddings
+        // and "client" properties, though that is not always true in Chrome.
+        var vertScrollbar = Math.round(width + horizPad) - clientWidth;
+        var horizScrollbar = Math.round(height + vertPad) - clientHeight;
+        // Chrome has a rather weird rounding of "client" properties.
+        // E.g. for an element with content width of 314.2px it sometimes gives
+        // the client width of 315px and for the width of 314.7px it may give
+        // 314px. And it doesn't happen all the time. So just ignore this delta
+        // as a non-relevant.
+        if (Math.abs(vertScrollbar) !== 1) {
+            width -= vertScrollbar;
+        }
+        if (Math.abs(horizScrollbar) !== 1) {
+            height -= horizScrollbar;
+        }
+    }
+    return createRectInit(paddings.left, paddings.top, width, height);
+}
+/**
+ * Checks whether provided element is an instance of the SVGGraphicsElement.
+ *
+ * @param {Element} target - Element to be checked.
+ * @returns {boolean}
+ */
+var isSVGGraphicsElement = (function () {
+    // Some browsers, namely IE and Edge, don't have the SVGGraphicsElement
+    // interface.
+    if (typeof SVGGraphicsElement !== 'undefined') {
+        return function (target) { return target instanceof getWindowOf(target).SVGGraphicsElement; };
+    }
+    // If it's so, then check that element is at least an instance of the
+    // SVGElement and that it has the "getBBox" method.
+    // eslint-disable-next-line no-extra-parens
+    return function (target) { return (target instanceof getWindowOf(target).SVGElement &&
+        typeof target.getBBox === 'function'); };
+})();
+/**
+ * Checks whether provided element is a document element (<html>).
+ *
+ * @param {Element} target - Element to be checked.
+ * @returns {boolean}
+ */
+function isDocumentElement(target) {
+    return target === getWindowOf(target).document.documentElement;
+}
+/**
+ * Calculates an appropriate content rectangle for provided html or svg element.
+ *
+ * @param {Element} target - Element content rectangle of which needs to be calculated.
+ * @returns {DOMRectInit}
+ */
+function getContentRect(target) {
+    if (!isBrowser) {
+        return emptyRect;
+    }
+    if (isSVGGraphicsElement(target)) {
+        return getSVGContentRect(target);
+    }
+    return getHTMLElementContentRect(target);
+}
+/**
+ * Creates rectangle with an interface of the DOMRectReadOnly.
+ * Spec: https://drafts.fxtf.org/geometry/#domrectreadonly
+ *
+ * @param {DOMRectInit} rectInit - Object with rectangle's x/y coordinates and dimensions.
+ * @returns {DOMRectReadOnly}
+ */
+function createReadOnlyRect(_a) {
+    var x = _a.x, y = _a.y, width = _a.width, height = _a.height;
+    // If DOMRectReadOnly is available use it as a prototype for the rectangle.
+    var Constr = typeof DOMRectReadOnly !== 'undefined' ? DOMRectReadOnly : Object;
+    var rect = Object.create(Constr.prototype);
+    // Rectangle's properties are not writable and non-enumerable.
+    defineConfigurable(rect, {
+        x: x, y: y, width: width, height: height,
+        top: y,
+        right: x + width,
+        bottom: height + y,
+        left: x
+    });
+    return rect;
+}
+/**
+ * Creates DOMRectInit object based on the provided dimensions and the x/y coordinates.
+ * Spec: https://drafts.fxtf.org/geometry/#dictdef-domrectinit
+ *
+ * @param {number} x - X coordinate.
+ * @param {number} y - Y coordinate.
+ * @param {number} width - Rectangle's width.
+ * @param {number} height - Rectangle's height.
+ * @returns {DOMRectInit}
+ */
+function createRectInit(x, y, width, height) {
+    return { x: x, y: y, width: width, height: height };
+}
+
+/**
+ * Class that is responsible for computations of the content rectangle of
+ * provided DOM element and for keeping track of it's changes.
+ */
+var ResizeObservation = /** @class */ (function () {
+    /**
+     * Creates an instance of ResizeObservation.
+     *
+     * @param {Element} target - Element to be observed.
+     */
+    function ResizeObservation(target) {
+        /**
+         * Broadcasted width of content rectangle.
+         *
+         * @type {number}
+         */
+        this.broadcastWidth = 0;
+        /**
+         * Broadcasted height of content rectangle.
+         *
+         * @type {number}
+         */
+        this.broadcastHeight = 0;
+        /**
+         * Reference to the last observed content rectangle.
+         *
+         * @private {DOMRectInit}
+         */
+        this.contentRect_ = createRectInit(0, 0, 0, 0);
+        this.target = target;
+    }
+    /**
+     * Updates content rectangle and tells whether it's width or height properties
+     * have changed since the last broadcast.
+     *
+     * @returns {boolean}
+     */
+    ResizeObservation.prototype.isActive = function () {
+        var rect = getContentRect(this.target);
+        this.contentRect_ = rect;
+        return (rect.width !== this.broadcastWidth ||
+            rect.height !== this.broadcastHeight);
+    };
+    /**
+     * Updates 'broadcastWidth' and 'broadcastHeight' properties with a data
+     * from the corresponding properties of the last observed content rectangle.
+     *
+     * @returns {DOMRectInit} Last observed content rectangle.
+     */
+    ResizeObservation.prototype.broadcastRect = function () {
+        var rect = this.contentRect_;
+        this.broadcastWidth = rect.width;
+        this.broadcastHeight = rect.height;
+        return rect;
+    };
+    return ResizeObservation;
+}());
+
+var ResizeObserverEntry = /** @class */ (function () {
+    /**
+     * Creates an instance of ResizeObserverEntry.
+     *
+     * @param {Element} target - Element that is being observed.
+     * @param {DOMRectInit} rectInit - Data of the element's content rectangle.
+     */
+    function ResizeObserverEntry(target, rectInit) {
+        var contentRect = createReadOnlyRect(rectInit);
+        // According to the specification following properties are not writable
+        // and are also not enumerable in the native implementation.
+        //
+        // Property accessors are not being used as they'd require to define a
+        // private WeakMap storage which may cause memory leaks in browsers that
+        // don't support this type of collections.
+        defineConfigurable(this, { target: target, contentRect: contentRect });
+    }
+    return ResizeObserverEntry;
+}());
+
+var ResizeObserverSPI = /** @class */ (function () {
+    /**
+     * Creates a new instance of ResizeObserver.
+     *
+     * @param {ResizeObserverCallback} callback - Callback function that is invoked
+     *      when one of the observed elements changes it's content dimensions.
+     * @param {ResizeObserverController} controller - Controller instance which
+     *      is responsible for the updates of observer.
+     * @param {ResizeObserver} callbackCtx - Reference to the public
+     *      ResizeObserver instance which will be passed to callback function.
+     */
+    function ResizeObserverSPI(callback, controller, callbackCtx) {
+        /**
+         * Collection of resize observations that have detected changes in dimensions
+         * of elements.
+         *
+         * @private {Array<ResizeObservation>}
+         */
+        this.activeObservations_ = [];
+        /**
+         * Registry of the ResizeObservation instances.
+         *
+         * @private {Map<Element, ResizeObservation>}
+         */
+        this.observations_ = new MapShim();
+        if (typeof callback !== 'function') {
+            throw new TypeError('The callback provided as parameter 1 is not a function.');
+        }
+        this.callback_ = callback;
+        this.controller_ = controller;
+        this.callbackCtx_ = callbackCtx;
+    }
+    /**
+     * Starts observing provided element.
+     *
+     * @param {Element} target - Element to be observed.
+     * @returns {void}
+     */
+    ResizeObserverSPI.prototype.observe = function (target) {
+        if (!arguments.length) {
+            throw new TypeError('1 argument required, but only 0 present.');
+        }
+        // Do nothing if current environment doesn't have the Element interface.
+        if (typeof Element === 'undefined' || !(Element instanceof Object)) {
+            return;
+        }
+        if (!(target instanceof getWindowOf(target).Element)) {
+            throw new TypeError('parameter 1 is not of type "Element".');
+        }
+        var observations = this.observations_;
+        // Do nothing if element is already being observed.
+        if (observations.has(target)) {
+            return;
+        }
+        observations.set(target, new ResizeObservation(target));
+        this.controller_.addObserver(this);
+        // Force the update of observations.
+        this.controller_.refresh();
+    };
+    /**
+     * Stops observing provided element.
+     *
+     * @param {Element} target - Element to stop observing.
+     * @returns {void}
+     */
+    ResizeObserverSPI.prototype.unobserve = function (target) {
+        if (!arguments.length) {
+            throw new TypeError('1 argument required, but only 0 present.');
+        }
+        // Do nothing if current environment doesn't have the Element interface.
+        if (typeof Element === 'undefined' || !(Element instanceof Object)) {
+            return;
+        }
+        if (!(target instanceof getWindowOf(target).Element)) {
+            throw new TypeError('parameter 1 is not of type "Element".');
+        }
+        var observations = this.observations_;
+        // Do nothing if element is not being observed.
+        if (!observations.has(target)) {
+            return;
+        }
+        observations.delete(target);
+        if (!observations.size) {
+            this.controller_.removeObserver(this);
+        }
+    };
+    /**
+     * Stops observing all elements.
+     *
+     * @returns {void}
+     */
+    ResizeObserverSPI.prototype.disconnect = function () {
+        this.clearActive();
+        this.observations_.clear();
+        this.controller_.removeObserver(this);
+    };
+    /**
+     * Collects observation instances the associated element of which has changed
+     * it's content rectangle.
+     *
+     * @returns {void}
+     */
+    ResizeObserverSPI.prototype.gatherActive = function () {
+        var _this = this;
+        this.clearActive();
+        this.observations_.forEach(function (observation) {
+            if (observation.isActive()) {
+                _this.activeObservations_.push(observation);
+            }
+        });
+    };
+    /**
+     * Invokes initial callback function with a list of ResizeObserverEntry
+     * instances collected from active resize observations.
+     *
+     * @returns {void}
+     */
+    ResizeObserverSPI.prototype.broadcastActive = function () {
+        // Do nothing if observer doesn't have active observations.
+        if (!this.hasActive()) {
+            return;
+        }
+        var ctx = this.callbackCtx_;
+        // Create ResizeObserverEntry instance for every active observation.
+        var entries = this.activeObservations_.map(function (observation) {
+            return new ResizeObserverEntry(observation.target, observation.broadcastRect());
+        });
+        this.callback_.call(ctx, entries, ctx);
+        this.clearActive();
+    };
+    /**
+     * Clears the collection of active observations.
+     *
+     * @returns {void}
+     */
+    ResizeObserverSPI.prototype.clearActive = function () {
+        this.activeObservations_.splice(0);
+    };
+    /**
+     * Tells whether observer has active observations.
+     *
+     * @returns {boolean}
+     */
+    ResizeObserverSPI.prototype.hasActive = function () {
+        return this.activeObservations_.length > 0;
+    };
+    return ResizeObserverSPI;
+}());
+
+// Registry of internal observers. If WeakMap is not available use current shim
+// for the Map collection as it has all required methods and because WeakMap
+// can't be fully polyfilled anyway.
+var observers = typeof WeakMap !== 'undefined' ? new WeakMap() : new MapShim();
+/**
+ * ResizeObserver API. Encapsulates the ResizeObserver SPI implementation
+ * exposing only those methods and properties that are defined in the spec.
+ */
+var ResizeObserver = /** @class */ (function () {
+    /**
+     * Creates a new instance of ResizeObserver.
+     *
+     * @param {ResizeObserverCallback} callback - Callback that is invoked when
+     *      dimensions of the observed elements change.
+     */
+    function ResizeObserver(callback) {
+        if (!(this instanceof ResizeObserver)) {
+            throw new TypeError('Cannot call a class as a function.');
+        }
+        if (!arguments.length) {
+            throw new TypeError('1 argument required, but only 0 present.');
+        }
+        var controller = ResizeObserverController.getInstance();
+        var observer = new ResizeObserverSPI(callback, controller, this);
+        observers.set(this, observer);
+    }
+    return ResizeObserver;
+}());
+// Expose public methods of ResizeObserver.
+[
+    'observe',
+    'unobserve',
+    'disconnect'
+].forEach(function (method) {
+    ResizeObserver.prototype[method] = function () {
+        var _a;
+        return (_a = observers.get(this))[method].apply(_a, arguments);
+    };
+});
+
+var index = (function () {
+    // Export existing implementation if available.
+    if (typeof global$1.ResizeObserver !== 'undefined') {
+        return global$1.ResizeObserver;
+    }
+    return ResizeObserver;
+})();
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (index);
+
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.esm/browser/fileReader.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.esm/browser/fileReader.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ FileReader)
+/* harmony export */ });
+/* harmony import */ var _isReactNative__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./isReactNative */ "./node_modules/tus-js-client/lib.esm/browser/isReactNative.js");
+/* harmony import */ var _uriToBlob__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./uriToBlob */ "./node_modules/tus-js-client/lib.esm/browser/uriToBlob.js");
+/* harmony import */ var _isCordova__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./isCordova */ "./node_modules/tus-js-client/lib.esm/browser/isCordova.js");
+/* harmony import */ var _readAsByteArray__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./readAsByteArray */ "./node_modules/tus-js-client/lib.esm/browser/readAsByteArray.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+
+
+var FileSource = /*#__PURE__*/function () {
+  // Make this.size a method
+  function FileSource(file) {
+    _classCallCheck(this, FileSource);
+
+    this._file = file;
+    this.size = file.size;
+  }
+
+  _createClass(FileSource, [{
+    key: "slice",
+    value: function slice(start, end) {
+      // In Apache Cordova applications, a File must be resolved using
+      // FileReader instances, see
+      // https://cordova.apache.org/docs/en/8.x/reference/cordova-plugin-file/index.html#read-a-file
+      if ((0,_isCordova__WEBPACK_IMPORTED_MODULE_2__.default)()) {
+        return (0,_readAsByteArray__WEBPACK_IMPORTED_MODULE_3__.default)(this._file.slice(start, end));
+      }
+
+      var value = this._file.slice(start, end);
+
+      return Promise.resolve({
+        value: value
+      });
+    }
+  }, {
+    key: "close",
+    value: function close() {// Nothing to do here since we don't need to release any resources.
+    }
+  }]);
+
+  return FileSource;
+}();
+
+var StreamSource = /*#__PURE__*/function () {
+  function StreamSource(reader, chunkSize) {
+    _classCallCheck(this, StreamSource);
+
+    this._chunkSize = chunkSize;
+    this._buffer = undefined;
+    this._bufferOffset = 0;
+    this._reader = reader;
+    this._done = false;
+  }
+
+  _createClass(StreamSource, [{
+    key: "slice",
+    value: function slice(start, end) {
+      if (start < this._bufferOffset) {
+        return Promise.reject(new Error("Requested data is before the reader's current offset"));
+      }
+
+      return this._readUntilEnoughDataOrDone(start, end);
+    }
+  }, {
+    key: "_readUntilEnoughDataOrDone",
+    value: function _readUntilEnoughDataOrDone(start, end) {
+      var _this = this;
+
+      var hasEnoughData = end <= this._bufferOffset + len(this._buffer);
+
+      if (this._done || hasEnoughData) {
+        var value = this._getDataFromBuffer(start, end);
+
+        var done = value == null ? this._done : false;
+        return Promise.resolve({
+          value: value,
+          done: done
+        });
+      }
+
+      return this._reader.read().then(function (_ref) {
+        var value = _ref.value,
+            done = _ref.done;
+
+        if (done) {
+          _this._done = true;
+        } else if (_this._buffer === undefined) {
+          _this._buffer = value;
+        } else {
+          _this._buffer = concat(_this._buffer, value);
+        }
+
+        return _this._readUntilEnoughDataOrDone(start, end);
+      });
+    }
+  }, {
+    key: "_getDataFromBuffer",
+    value: function _getDataFromBuffer(start, end) {
+      // Remove data from buffer before `start`.
+      // Data might be reread from the buffer if an upload fails, so we can only
+      // safely delete data when it comes *before* what is currently being read.
+      if (start > this._bufferOffset) {
+        this._buffer = this._buffer.slice(start - this._bufferOffset);
+        this._bufferOffset = start;
+      } // If the buffer is empty after removing old data, all data has been read.
+
+
+      var hasAllDataBeenRead = len(this._buffer) === 0;
+
+      if (this._done && hasAllDataBeenRead) {
+        return null;
+      } // We already removed data before `start`, so we just return the first
+      // chunk from the buffer.
+
+
+      return this._buffer.slice(0, end - start);
+    }
+  }, {
+    key: "close",
+    value: function close() {
+      if (this._reader.cancel) {
+        this._reader.cancel();
+      }
+    }
+  }]);
+
+  return StreamSource;
+}();
+
+function len(blobOrArray) {
+  if (blobOrArray === undefined) return 0;
+  if (blobOrArray.size !== undefined) return blobOrArray.size;
+  return blobOrArray.length;
+}
+/*
+  Typed arrays and blobs don't have a concat method.
+  This function helps StreamSource accumulate data to reach chunkSize.
+*/
+
+
+function concat(a, b) {
+  if (a.concat) {
+    // Is `a` an Array?
+    return a.concat(b);
+  }
+
+  if (a instanceof Blob) {
+    return new Blob([a, b], {
+      type: a.type
+    });
+  }
+
+  if (a.set) {
+    // Is `a` a typed array?
+    var c = new a.constructor(a.length + b.length);
+    c.set(a);
+    c.set(b, a.length);
+    return c;
+  }
+
+  throw new Error("Unknown data type");
+}
+
+var FileReader = /*#__PURE__*/function () {
+  function FileReader() {
+    _classCallCheck(this, FileReader);
+  }
+
+  _createClass(FileReader, [{
+    key: "openFile",
+    value: function openFile(input, chunkSize) {
+      // In React Native, when user selects a file, instead of a File or Blob,
+      // you usually get a file object {} with a uri property that contains
+      // a local path to the file. We use XMLHttpRequest to fetch
+      // the file blob, before uploading with tus.
+      if ((0,_isReactNative__WEBPACK_IMPORTED_MODULE_0__.default)() && input && typeof input.uri !== "undefined") {
+        return (0,_uriToBlob__WEBPACK_IMPORTED_MODULE_1__.default)(input.uri).then(function (blob) {
+          return new FileSource(blob);
+        })["catch"](function (err) {
+          throw new Error("tus: cannot fetch `file.uri` as Blob, make sure the uri is correct and accessible. " + err);
+        });
+      } // Since we emulate the Blob type in our tests (not all target browsers
+      // support it), we cannot use `instanceof` for testing whether the input value
+      // can be handled. Instead, we simply check is the slice() function and the
+      // size property are available.
+
+
+      if (typeof input.slice === "function" && typeof input.size !== "undefined") {
+        return Promise.resolve(new FileSource(input));
+      }
+
+      if (typeof input.read === "function") {
+        chunkSize = +chunkSize;
+
+        if (!isFinite(chunkSize)) {
+          return Promise.reject(new Error("cannot create source for stream without a finite value for the `chunkSize` option"));
+        }
+
+        return Promise.resolve(new StreamSource(input, chunkSize));
+      }
+
+      return Promise.reject(new Error("source object may only be an instance of File, Blob, or Reader in this environment"));
+    }
+  }]);
+
+  return FileReader;
+}();
+
+
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.esm/browser/fingerprint.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.esm/browser/fingerprint.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ fingerprint)
+/* harmony export */ });
+/* harmony import */ var _isReactNative__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./isReactNative */ "./node_modules/tus-js-client/lib.esm/browser/isReactNative.js");
+ // TODO: Differenciate between input types
+
+/**
+ * Generate a fingerprint for a file which will be used the store the endpoint
+ *
+ * @param {File} file
+ * @param {Object} options
+ * @param {Function} callback
+ */
+
+function fingerprint(file, options) {
+  if ((0,_isReactNative__WEBPACK_IMPORTED_MODULE_0__.default)()) {
+    return Promise.resolve(reactNativeFingerprint(file, options));
+  }
+
+  return Promise.resolve(["tus-br", file.name, file.type, file.size, file.lastModified, options.endpoint].join("-"));
+}
+
+function reactNativeFingerprint(file, options) {
+  var exifHash = file.exif ? hashCode(JSON.stringify(file.exif)) : "noexif";
+  return ["tus-rn", file.name || "noname", file.size || "nosize", exifHash, options.endpoint].join("/");
+}
+
+function hashCode(str) {
+  // from https://stackoverflow.com/a/8831937/151666
+  var hash = 0;
+
+  if (str.length === 0) {
+    return hash;
+  }
+
+  for (var i = 0; i < str.length; i++) {
+    var _char = str.charCodeAt(i);
+
+    hash = (hash << 5) - hash + _char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+
+  return hash;
+}
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.esm/browser/httpStack.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.esm/browser/httpStack.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ XHRHttpStack)
+/* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/* global window */
+var XHRHttpStack = /*#__PURE__*/function () {
+  function XHRHttpStack() {
+    _classCallCheck(this, XHRHttpStack);
+  }
+
+  _createClass(XHRHttpStack, [{
+    key: "createRequest",
+    value: function createRequest(method, url) {
+      return new Request(method, url);
+    }
+  }, {
+    key: "getName",
+    value: function getName() {
+      return "XHRHttpStack";
+    }
+  }]);
+
+  return XHRHttpStack;
+}();
+
+
+
+var Request = /*#__PURE__*/function () {
+  function Request(method, url) {
+    _classCallCheck(this, Request);
+
+    this._xhr = new XMLHttpRequest();
+
+    this._xhr.open(method, url, true);
+
+    this._method = method;
+    this._url = url;
+    this._headers = {};
+  }
+
+  _createClass(Request, [{
+    key: "getMethod",
+    value: function getMethod() {
+      return this._method;
+    }
+  }, {
+    key: "getURL",
+    value: function getURL() {
+      return this._url;
+    }
+  }, {
+    key: "setHeader",
+    value: function setHeader(header, value) {
+      this._xhr.setRequestHeader(header, value);
+
+      this._headers[header] = value;
+    }
+  }, {
+    key: "getHeader",
+    value: function getHeader(header) {
+      return this._headers[header];
+    }
+  }, {
+    key: "setProgressHandler",
+    value: function setProgressHandler(progressHandler) {
+      // Test support for progress events before attaching an event listener
+      if (!("upload" in this._xhr)) {
+        return;
+      }
+
+      this._xhr.upload.onprogress = function (e) {
+        if (!e.lengthComputable) {
+          return;
+        }
+
+        progressHandler(e.loaded);
+      };
+    }
+  }, {
+    key: "send",
+    value: function send() {
+      var _this = this;
+
+      var body = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      return new Promise(function (resolve, reject) {
+        _this._xhr.onload = function () {
+          resolve(new Response(_this._xhr));
+        };
+
+        _this._xhr.onerror = function (err) {
+          reject(err);
+        };
+
+        _this._xhr.send(body);
+      });
+    }
+  }, {
+    key: "abort",
+    value: function abort() {
+      this._xhr.abort();
+
+      return Promise.resolve();
+    }
+  }, {
+    key: "getUnderlyingObject",
+    value: function getUnderlyingObject() {
+      return this._xhr;
+    }
+  }]);
+
+  return Request;
+}();
+
+var Response = /*#__PURE__*/function () {
+  function Response(xhr) {
+    _classCallCheck(this, Response);
+
+    this._xhr = xhr;
+  }
+
+  _createClass(Response, [{
+    key: "getStatus",
+    value: function getStatus() {
+      return this._xhr.status;
+    }
+  }, {
+    key: "getHeader",
+    value: function getHeader(header) {
+      return this._xhr.getResponseHeader(header);
+    }
+  }, {
+    key: "getBody",
+    value: function getBody() {
+      return this._xhr.responseText;
+    }
+  }, {
+    key: "getUnderlyingObject",
+    value: function getUnderlyingObject() {
+      return this._xhr;
+    }
+  }]);
+
+  return Response;
+}();
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.esm/browser/index.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.esm/browser/index.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Upload": () => (/* binding */ Upload),
+/* harmony export */   "canStoreURLs": () => (/* reexport safe */ _urlStorage__WEBPACK_IMPORTED_MODULE_3__.canStoreURLs),
+/* harmony export */   "defaultOptions": () => (/* binding */ defaultOptions),
+/* harmony export */   "isSupported": () => (/* binding */ isSupported),
+/* harmony export */   "enableDebugLog": () => (/* reexport safe */ _logger__WEBPACK_IMPORTED_MODULE_2__.enableDebugLog),
+/* harmony export */   "HttpStack": () => (/* reexport safe */ _httpStack__WEBPACK_IMPORTED_MODULE_4__.default)
+/* harmony export */ });
+/* harmony import */ var _upload__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../upload */ "./node_modules/tus-js-client/lib.esm/upload.js");
+/* harmony import */ var _noopUrlStorage__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../noopUrlStorage */ "./node_modules/tus-js-client/lib.esm/noopUrlStorage.js");
+/* harmony import */ var _logger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../logger */ "./node_modules/tus-js-client/lib.esm/logger.js");
+/* harmony import */ var _urlStorage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./urlStorage */ "./node_modules/tus-js-client/lib.esm/browser/urlStorage.js");
+/* harmony import */ var _httpStack__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./httpStack */ "./node_modules/tus-js-client/lib.esm/browser/httpStack.js");
+/* harmony import */ var _fileReader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fileReader */ "./node_modules/tus-js-client/lib.esm/browser/fileReader.js");
+/* harmony import */ var _fingerprint__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./fingerprint */ "./node_modules/tus-js-client/lib.esm/browser/fingerprint.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/* global window */
+
+
+
+
+
+
+
+
+var defaultOptions = _objectSpread({}, _upload__WEBPACK_IMPORTED_MODULE_0__.default.defaultOptions, {
+  httpStack: new _httpStack__WEBPACK_IMPORTED_MODULE_4__.default(),
+  fileReader: new _fileReader__WEBPACK_IMPORTED_MODULE_5__.default(),
+  urlStorage: _urlStorage__WEBPACK_IMPORTED_MODULE_3__.canStoreURLs ? new _urlStorage__WEBPACK_IMPORTED_MODULE_3__.WebStorageUrlStorage() : new _noopUrlStorage__WEBPACK_IMPORTED_MODULE_1__.default(),
+  fingerprint: _fingerprint__WEBPACK_IMPORTED_MODULE_6__.default
+});
+
+var Upload = /*#__PURE__*/function (_BaseUpload) {
+  _inherits(Upload, _BaseUpload);
+
+  var _super = _createSuper(Upload);
+
+  function Upload() {
+    var file = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    _classCallCheck(this, Upload);
+
+    options = _objectSpread({}, defaultOptions, {}, options);
+    return _super.call(this, file, options);
+  }
+
+  _createClass(Upload, null, [{
+    key: "terminate",
+    value: function terminate(url, options, cb) {
+      options = _objectSpread({}, defaultOptions, {}, options);
+      return _upload__WEBPACK_IMPORTED_MODULE_0__.default.terminate(url, options, cb);
+    }
+  }]);
+
+  return Upload;
+}(_upload__WEBPACK_IMPORTED_MODULE_0__.default);
+
+var _window = window,
+    XMLHttpRequest = _window.XMLHttpRequest,
+    Blob = _window.Blob;
+var isSupported = XMLHttpRequest && Blob && typeof Blob.prototype.slice === "function";
+
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.esm/browser/isCordova.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.esm/browser/isCordova.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var isCordova = function isCordova() {
+  return typeof window != "undefined" && (typeof window.PhoneGap != "undefined" || typeof window.Cordova != "undefined" || typeof window.cordova != "undefined");
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (isCordova);
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.esm/browser/isReactNative.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.esm/browser/isReactNative.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+var isReactNative = function isReactNative() {
+  return typeof navigator !== "undefined" && typeof navigator.product === "string" && navigator.product.toLowerCase() === "reactnative";
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (isReactNative);
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.esm/browser/readAsByteArray.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.esm/browser/readAsByteArray.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ readAsByteArray)
+/* harmony export */ });
+/**
+ * readAsByteArray converts a File object to a Uint8Array.
+ * This function is only used on the Apache Cordova platform.
+ * See https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-file/index.html#read-a-file
+ */
+function readAsByteArray(chunk) {
+  return new Promise(function (resolve, reject) {
+    var reader = new FileReader();
+
+    reader.onload = function () {
+      var value = new Uint8Array(reader.result);
+      resolve({
+        value: value
+      });
+    };
+
+    reader.onerror = function (err) {
+      reject(err);
+    };
+
+    reader.readAsArrayBuffer(chunk);
+  });
+}
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.esm/browser/uriToBlob.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.esm/browser/uriToBlob.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ uriToBlob)
+/* harmony export */ });
+/**
+ * uriToBlob resolves a URI to a Blob object. This is used for
+ * React Native to retrieve a file (identified by a file://
+ * URI) as a blob.
+ */
+function uriToBlob(uri) {
+  return new Promise(function (resolve, reject) {
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = "blob";
+
+    xhr.onload = function () {
+      var blob = xhr.response;
+      resolve(blob);
+    };
+
+    xhr.onerror = function (err) {
+      reject(err);
+    };
+
+    xhr.open("GET", uri);
+    xhr.send();
+  });
+}
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.esm/browser/urlStorage.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.esm/browser/urlStorage.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "canStoreURLs": () => (/* binding */ canStoreURLs),
+/* harmony export */   "WebStorageUrlStorage": () => (/* binding */ WebStorageUrlStorage)
+/* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/* global window, localStorage */
+var hasStorage = false;
+
+try {
+  hasStorage = "localStorage" in window; // Attempt to store and read entries from the local storage to detect Private
+  // Mode on Safari on iOS (see #49)
+
+  var key = "tusSupport";
+  localStorage.setItem(key, localStorage.getItem(key));
+} catch (e) {
+  // If we try to access localStorage inside a sandboxed iframe, a SecurityError
+  // is thrown. When in private mode on iOS Safari, a QuotaExceededError is
+  // thrown (see #49)
+  if (e.code === e.SECURITY_ERR || e.code === e.QUOTA_EXCEEDED_ERR) {
+    hasStorage = false;
+  } else {
+    throw e;
+  }
+}
+
+var canStoreURLs = hasStorage;
+var WebStorageUrlStorage = /*#__PURE__*/function () {
+  function WebStorageUrlStorage() {
+    _classCallCheck(this, WebStorageUrlStorage);
+  }
+
+  _createClass(WebStorageUrlStorage, [{
+    key: "findAllUploads",
+    value: function findAllUploads() {
+      var results = this._findEntries("tus::");
+
+      return Promise.resolve(results);
+    }
+  }, {
+    key: "findUploadsByFingerprint",
+    value: function findUploadsByFingerprint(fingerprint) {
+      var results = this._findEntries("tus::".concat(fingerprint, "::"));
+
+      return Promise.resolve(results);
+    }
+  }, {
+    key: "removeUpload",
+    value: function removeUpload(urlStorageKey) {
+      localStorage.removeItem(urlStorageKey);
+      return Promise.resolve();
+    }
+  }, {
+    key: "addUpload",
+    value: function addUpload(fingerprint, upload) {
+      var id = Math.round(Math.random() * 1e12);
+      var key = "tus::".concat(fingerprint, "::").concat(id);
+      localStorage.setItem(key, JSON.stringify(upload));
+      return Promise.resolve(key);
+    }
+  }, {
+    key: "_findEntries",
+    value: function _findEntries(prefix) {
+      var results = [];
+
+      for (var i = 0; i < localStorage.length; i++) {
+        var _key = localStorage.key(i);
+
+        if (_key.indexOf(prefix) !== 0) continue;
+
+        try {
+          var upload = JSON.parse(localStorage.getItem(_key));
+          upload.urlStorageKey = _key;
+          results.push(upload);
+        } catch (e) {// The JSON parse error is intentionally ignored here, so a malformed
+          // entry in the storage cannot prevent an upload.
+        }
+      }
+
+      return results;
+    }
+  }]);
+
+  return WebStorageUrlStorage;
+}();
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.esm/error.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.esm/error.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
+
+function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _isNativeFunction(fn) { return Function.toString.call(fn).indexOf("[native code]") !== -1; }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var DetailedError = /*#__PURE__*/function (_Error) {
+  _inherits(DetailedError, _Error);
+
+  var _super = _createSuper(DetailedError);
+
+  function DetailedError(message) {
+    var _this;
+
+    var causingErr = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    var req = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    var res = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+
+    _classCallCheck(this, DetailedError);
+
+    _this = _super.call(this, message);
+    _this.originalRequest = req;
+    _this.originalResponse = res;
+    _this.causingError = causingErr;
+
+    if (causingErr != null) {
+      message += ", caused by ".concat(causingErr.toString());
+    }
+
+    if (req != null) {
+      var requestId = req.getHeader("X-Request-ID") || "n/a";
+      var method = req.getMethod();
+      var url = req.getURL();
+      var status = res ? res.getStatus() : "n/a";
+      var body = res ? res.getBody() || "" : "n/a";
+      message += ", originated from request (method: ".concat(method, ", url: ").concat(url, ", response code: ").concat(status, ", response text: ").concat(body, ", request id: ").concat(requestId, ")");
+    }
+
+    _this.message = message;
+    return _this;
+  }
+
+  return DetailedError;
+}( /*#__PURE__*/_wrapNativeSuper(Error));
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DetailedError);
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.esm/logger.js":
+/*!******************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.esm/logger.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "enableDebugLog": () => (/* binding */ enableDebugLog),
+/* harmony export */   "log": () => (/* binding */ log)
+/* harmony export */ });
+/* eslint no-console: "off" */
+var isEnabled = false;
+function enableDebugLog() {
+  isEnabled = true;
+}
+function log(msg) {
+  if (!isEnabled) return;
+  console.log(msg);
+}
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.esm/noopUrlStorage.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.esm/noopUrlStorage.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ NoopUrlStorage)
+/* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/* eslint no-unused-vars: "off" */
+var NoopUrlStorage = /*#__PURE__*/function () {
+  function NoopUrlStorage() {
+    _classCallCheck(this, NoopUrlStorage);
+  }
+
+  _createClass(NoopUrlStorage, [{
+    key: "listAllUploads",
+    value: function listAllUploads() {
+      return Promise.resolve([]);
+    }
+  }, {
+    key: "findUploadsByFingerprint",
+    value: function findUploadsByFingerprint(fingerprint) {
+      return Promise.resolve([]);
+    }
+  }, {
+    key: "removeUpload",
+    value: function removeUpload(urlStorageKey) {
+      return Promise.resolve();
+    }
+  }, {
+    key: "addUpload",
+    value: function addUpload(fingerprint, upload) {
+      return Promise.resolve(null);
+    }
+  }]);
+
+  return NoopUrlStorage;
+}();
+
+
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.esm/upload.js":
+/*!******************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.esm/upload.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var js_base64__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! js-base64 */ "./node_modules/js-base64/base64.js");
+/* harmony import */ var js_base64__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(js_base64__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var url_parse__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! url-parse */ "./node_modules/url-parse/index.js");
+/* harmony import */ var url_parse__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(url_parse__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _error__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./error */ "./node_modules/tus-js-client/lib.esm/error.js");
+/* harmony import */ var _logger__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./logger */ "./node_modules/tus-js-client/lib.esm/logger.js");
+/* harmony import */ var _uuid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./uuid */ "./node_modules/tus-js-client/lib.esm/uuid.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/* global window */
+
+
+
+
+
+var defaultOptions = {
+  endpoint: null,
+  uploadUrl: null,
+  metadata: {},
+  fingerprint: null,
+  uploadSize: null,
+  onProgress: null,
+  onChunkComplete: null,
+  onSuccess: null,
+  onError: null,
+  _onUploadUrlAvailable: null,
+  overridePatchMethod: false,
+  headers: {},
+  addRequestId: false,
+  onBeforeRequest: null,
+  onAfterResponse: null,
+  onShouldRetry: null,
+  chunkSize: Infinity,
+  retryDelays: [0, 1000, 3000, 5000],
+  parallelUploads: 1,
+  storeFingerprintForResuming: true,
+  removeFingerprintOnSuccess: false,
+  uploadLengthDeferred: false,
+  uploadDataDuringCreation: false,
+  urlStorage: null,
+  fileReader: null,
+  httpStack: null
+};
+
+var BaseUpload = /*#__PURE__*/function () {
+  function BaseUpload(file, options) {
+    _classCallCheck(this, BaseUpload);
+
+    // Warn about removed options from previous versions
+    if ("resume" in options) {
+      console.log("tus: The `resume` option has been removed in tus-js-client v2. Please use the URL storage API instead."); // eslint-disable-line no-console
+    } // The default options will already be added from the wrapper classes.
+
+
+    this.options = options; // The storage module used to store URLs
+
+    this._urlStorage = this.options.urlStorage; // The underlying File/Blob object
+
+    this.file = file; // The URL against which the file will be uploaded
+
+    this.url = null; // The underlying request object for the current PATCH request
+
+    this._req = null; // The fingerpinrt for the current file (set after start())
+
+    this._fingerprint = null; // The key that the URL storage returned when saving an URL with a fingerprint,
+
+    this._urlStorageKey = null; // The offset used in the current PATCH request
+
+    this._offset = null; // True if the current PATCH request has been aborted
+
+    this._aborted = false; // The file's size in bytes
+
+    this._size = null; // The Source object which will wrap around the given file and provides us
+    // with a unified interface for getting its size and slice chunks from its
+    // content allowing us to easily handle Files, Blobs, Buffers and Streams.
+
+    this._source = null; // The current count of attempts which have been made. Zero indicates none.
+
+    this._retryAttempt = 0; // The timeout's ID which is used to delay the next retry
+
+    this._retryTimeout = null; // The offset of the remote upload before the latest attempt was started.
+
+    this._offsetBeforeRetry = 0; // An array of BaseUpload instances which are used for uploading the different
+    // parts, if the parallelUploads option is used.
+
+    this._parallelUploads = null; // An array of upload URLs which are used for uploading the different
+    // parts, if the parallelUploads option is used.
+
+    this._parallelUploadUrls = null;
+  }
+  /**
+   * Use the Termination extension to delete an upload from the server by sending a DELETE
+   * request to the specified upload URL. This is only possible if the server supports the
+   * Termination extension. If the `options.retryDelays` property is set, the method will
+   * also retry if an error ocurrs.
+   *
+   * @param {String} url The upload's URL which will be terminated.
+   * @param {object} options Optional options for influencing HTTP requests.
+   * @return {Promise} The Promise will be resolved/rejected when the requests finish.
+   */
+
+
+  _createClass(BaseUpload, [{
+    key: "findPreviousUploads",
+    value: function findPreviousUploads() {
+      var _this = this;
+
+      return this.options.fingerprint(this.file, this.options).then(function (fingerprint) {
+        return _this._urlStorage.findUploadsByFingerprint(fingerprint);
+      });
+    }
+  }, {
+    key: "resumeFromPreviousUpload",
+    value: function resumeFromPreviousUpload(previousUpload) {
+      this.url = previousUpload.uploadUrl || null;
+      this._parallelUploadUrls = previousUpload.parallelUploadUrls || null;
+      this._urlStorageKey = previousUpload.urlStorageKey;
+    }
+  }, {
+    key: "start",
+    value: function start() {
+      var _this2 = this;
+
+      var file = this.file;
+
+      if (!file) {
+        this._emitError(new Error("tus: no file or stream to upload provided"));
+
+        return;
+      }
+
+      if (!this.options.endpoint && !this.options.uploadUrl) {
+        this._emitError(new Error("tus: neither an endpoint or an upload URL is provided"));
+
+        return;
+      }
+
+      var retryDelays = this.options.retryDelays;
+
+      if (retryDelays != null && Object.prototype.toString.call(retryDelays) !== "[object Array]") {
+        this._emitError(new Error("tus: the `retryDelays` option must either be an array or null"));
+
+        return;
+      }
+
+      if (this.options.parallelUploads > 1) {
+        // Test which options are incompatible with parallel uploads.
+        ["uploadUrl", "uploadSize", "uploadLengthDeferred"].forEach(function (optionName) {
+          if (_this2.options[optionName]) {
+            _this2._emitError(new Error("tus: cannot use the ".concat(optionName, " option when parallelUploads is enabled")));
+          }
+        });
+      }
+
+      this.options.fingerprint(file, this.options).then(function (fingerprint) {
+        if (fingerprint == null) {
+          (0,_logger__WEBPACK_IMPORTED_MODULE_3__.log)("No fingerprint was calculated meaning that the upload cannot be stored in the URL storage.");
+        } else {
+          (0,_logger__WEBPACK_IMPORTED_MODULE_3__.log)("Calculated fingerprint: ".concat(fingerprint));
+        }
+
+        _this2._fingerprint = fingerprint;
+
+        if (_this2._source) {
+          return _this2._source;
+        } else {
+          return _this2.options.fileReader.openFile(file, _this2.options.chunkSize);
+        }
+      }).then(function (source) {
+        _this2._source = source; // If the upload was configured to use multiple requests or if we resume from
+        // an upload which used multiple requests, we start a parallel upload.
+
+        if (_this2.options.parallelUploads > 1 || _this2._parallelUploadUrls != null) {
+          _this2._startParallelUpload();
+        } else {
+          _this2._startSingleUpload();
+        }
+      })["catch"](function (err) {
+        _this2._emitError(err);
+      });
+    }
+    /**
+     * Initiate the uploading procedure for a parallelized upload, where one file is split into
+     * multiple request which are run in parallel.
+     *
+     * @api private
+     */
+
+  }, {
+    key: "_startParallelUpload",
+    value: function _startParallelUpload() {
+      var _this3 = this;
+
+      var totalSize = this._size = this._source.size;
+      var totalProgress = 0;
+      this._parallelUploads = [];
+      var partCount = this._parallelUploadUrls != null ? this._parallelUploadUrls.length : this.options.parallelUploads; // The input file will be split into multiple slices which are uploaded in separate
+      // requests. Here we generate the start and end position for the slices.
+
+      var parts = splitSizeIntoParts(this._source.size, partCount, this._parallelUploadUrls); // Create an empty list for storing the upload URLs
+
+      this._parallelUploadUrls = new Array(parts.length); // Generate a promise for each slice that will be resolve if the respective
+      // upload is completed.
+
+      var uploads = parts.map(function (part, index) {
+        var lastPartProgress = 0;
+        return _this3._source.slice(part.start, part.end).then(function (_ref) {
+          var value = _ref.value;
+          return new Promise(function (resolve, reject) {
+            // Merge with the user supplied options but overwrite some values.
+            var options = _objectSpread({}, _this3.options, {
+              // If available, the partial upload should be resumed from a previous URL.
+              uploadUrl: part.uploadUrl || null,
+              // We take manually care of resuming for partial uploads, so they should
+              // not be stored in the URL storage.
+              storeFingerprintForResuming: false,
+              removeFingerprintOnSuccess: false,
+              // Reset the parallelUploads option to not cause recursion.
+              parallelUploads: 1,
+              metadata: {},
+              // Add the header to indicate the this is a partial upload.
+              headers: _objectSpread({}, _this3.options.headers, {
+                "Upload-Concat": "partial"
+              }),
+              // Reject or resolve the promise if the upload errors or completes.
+              onSuccess: resolve,
+              onError: reject,
+              // Based in the progress for this partial upload, calculate the progress
+              // for the entire final upload.
+              onProgress: function onProgress(newPartProgress) {
+                totalProgress = totalProgress - lastPartProgress + newPartProgress;
+                lastPartProgress = newPartProgress;
+
+                _this3._emitProgress(totalProgress, totalSize);
+              },
+              // Wait until every partial upload has an upload URL, so we can add
+              // them to the URL storage.
+              _onUploadUrlAvailable: function _onUploadUrlAvailable() {
+                _this3._parallelUploadUrls[index] = upload.url; // Test if all uploads have received an URL
+
+                if (_this3._parallelUploadUrls.filter(function (u) {
+                  return !!u;
+                }).length === parts.length) {
+                  _this3._saveUploadInUrlStorage();
+                }
+              }
+            });
+
+            var upload = new BaseUpload(value, options);
+            upload.start(); // Store the upload in an array, so we can later abort them if necessary.
+
+            _this3._parallelUploads.push(upload);
+          });
+        });
+      });
+      var req; // Wait until all partial uploads are finished and we can send the POST request for
+      // creating the final upload.
+
+      Promise.all(uploads).then(function () {
+        req = _this3._openRequest("POST", _this3.options.endpoint);
+        req.setHeader("Upload-Concat", "final;".concat(_this3._parallelUploadUrls.join(" "))); // Add metadata if values have been added
+
+        var metadata = encodeMetadata(_this3.options.metadata);
+
+        if (metadata !== "") {
+          req.setHeader("Upload-Metadata", metadata);
+        }
+
+        return _this3._sendRequest(req, null);
+      }).then(function (res) {
+        if (!inStatusCategory(res.getStatus(), 200)) {
+          _this3._emitHttpError(req, res, "tus: unexpected response while creating upload");
+
+          return;
+        }
+
+        var location = res.getHeader("Location");
+
+        if (location == null) {
+          _this3._emitHttpError(req, res, "tus: invalid or missing Location header");
+
+          return;
+        }
+
+        _this3.url = resolveUrl(_this3.options.endpoint, location);
+        (0,_logger__WEBPACK_IMPORTED_MODULE_3__.log)("Created upload at ".concat(_this3.url));
+
+        _this3._emitSuccess();
+      })["catch"](function (err) {
+        _this3._emitError(err);
+      });
+    }
+    /**
+     * Initiate the uploading procedure for a non-parallel upload. Here the entire file is
+     * uploaded in a sequential matter.
+     *
+     * @api private
+     */
+
+  }, {
+    key: "_startSingleUpload",
+    value: function _startSingleUpload() {
+      // First, we look at the uploadLengthDeferred option.
+      // Next, we check if the caller has supplied a manual upload size.
+      // Finally, we try to use the calculated size from the source object.
+      if (this.options.uploadLengthDeferred) {
+        this._size = null;
+      } else if (this.options.uploadSize != null) {
+        this._size = +this.options.uploadSize;
+
+        if (isNaN(this._size)) {
+          this._emitError(new Error("tus: cannot convert `uploadSize` option into a number"));
+
+          return;
+        }
+      } else {
+        this._size = this._source.size;
+
+        if (this._size == null) {
+          this._emitError(new Error("tus: cannot automatically derive upload's size from input and must be specified manually using the `uploadSize` option"));
+
+          return;
+        }
+      } // Reset the aborted flag when the upload is started or else the
+      // _performUpload will stop before sending a request if the upload has been
+      // aborted previously.
+
+
+      this._aborted = false; // The upload had been started previously and we should reuse this URL.
+
+      if (this.url != null) {
+        (0,_logger__WEBPACK_IMPORTED_MODULE_3__.log)("Resuming upload from previous URL: ".concat(this.url));
+
+        this._resumeUpload();
+
+        return;
+      } // A URL has manually been specified, so we try to resume
+
+
+      if (this.options.uploadUrl != null) {
+        (0,_logger__WEBPACK_IMPORTED_MODULE_3__.log)("Resuming upload from provided URL: ".concat(this.options.url));
+        this.url = this.options.uploadUrl;
+
+        this._resumeUpload();
+
+        return;
+      } // An upload has not started for the file yet, so we start a new one
+
+
+      (0,_logger__WEBPACK_IMPORTED_MODULE_3__.log)("Creating a new upload");
+
+      this._createUpload();
+    }
+    /**
+     * Abort any running request and stop the current upload. After abort is called, no event
+     * handler will be invoked anymore. You can use the `start` method to resume the upload
+     * again.
+     * If `shouldTerminate` is true, the `terminate` function will be called to remove the
+     * current upload from the server.
+     *
+     * @param {boolean} shouldTerminate True if the upload should be deleted from the server.
+     * @return {Promise} The Promise will be resolved/rejected when the requests finish.
+     */
+
+  }, {
+    key: "abort",
+    value: function abort(shouldTerminate, cb) {
+      var _this4 = this;
+
+      if (typeof cb === "function") {
+        throw new Error("tus: the abort function does not accept a callback since v2 anymore; please use the returned Promise instead");
+      } // Stop any parallel partial uploads, that have been started in _startParallelUploads.
+
+
+      if (this._parallelUploads != null) {
+        this._parallelUploads.forEach(function (upload) {
+          upload.abort(shouldTerminate);
+        });
+      } // Stop any current running request.
+
+
+      if (this._req !== null) {
+        this._req.abort();
+
+        this._source.close();
+      }
+
+      this._aborted = true; // Stop any timeout used for initiating a retry.
+
+      if (this._retryTimeout != null) {
+        clearTimeout(this._retryTimeout);
+        this._retryTimeout = null;
+      }
+
+      if (!shouldTerminate || this.url == null) {
+        return Promise.resolve();
+      }
+
+      return BaseUpload.terminate(this.url, this.options) // Remove entry from the URL storage since the upload URL is no longer valid.
+      .then(function () {
+        return _this4._removeFromUrlStorage();
+      });
+    }
+  }, {
+    key: "_emitHttpError",
+    value: function _emitHttpError(req, res, message, causingErr) {
+      this._emitError(new _error__WEBPACK_IMPORTED_MODULE_2__.default(message, causingErr, req, res));
+    }
+  }, {
+    key: "_emitError",
+    value: function _emitError(err) {
+      var _this5 = this;
+
+      // Do not emit errors, e.g. from aborted HTTP requests, if the upload has been stopped.
+      if (this._aborted) return; // Check if we should retry, when enabled, before sending the error to the user.
+
+      if (this.options.retryDelays != null) {
+        // We will reset the attempt counter if
+        // - we were already able to connect to the server (offset != null) and
+        // - we were able to upload a small chunk of data to the server
+        var shouldResetDelays = this._offset != null && this._offset > this._offsetBeforeRetry;
+
+        if (shouldResetDelays) {
+          this._retryAttempt = 0;
+        }
+
+        if (shouldRetry(err, this._retryAttempt, this.options)) {
+          var delay = this.options.retryDelays[this._retryAttempt++];
+          this._offsetBeforeRetry = this._offset;
+          this._retryTimeout = setTimeout(function () {
+            _this5.start();
+          }, delay);
+          return;
+        }
+      }
+
+      if (typeof this.options.onError === "function") {
+        this.options.onError(err);
+      } else {
+        throw err;
+      }
+    }
+    /**
+     * Publishes notification if the upload has been successfully completed.
+     *
+     * @api private
+     */
+
+  }, {
+    key: "_emitSuccess",
+    value: function _emitSuccess() {
+      if (this.options.removeFingerprintOnSuccess) {
+        // Remove stored fingerprint and corresponding endpoint. This causes
+        // new uploads of the same file to be treated as a different file.
+        this._removeFromUrlStorage();
+      }
+
+      if (typeof this.options.onSuccess === "function") {
+        this.options.onSuccess();
+      }
+    }
+    /**
+     * Publishes notification when data has been sent to the server. This
+     * data may not have been accepted by the server yet.
+     *
+     * @param {number} bytesSent  Number of bytes sent to the server.
+     * @param {number} bytesTotal Total number of bytes to be sent to the server.
+     * @api private
+     */
+
+  }, {
+    key: "_emitProgress",
+    value: function _emitProgress(bytesSent, bytesTotal) {
+      if (typeof this.options.onProgress === "function") {
+        this.options.onProgress(bytesSent, bytesTotal);
+      }
+    }
+    /**
+     * Publishes notification when a chunk of data has been sent to the server
+     * and accepted by the server.
+     * @param {number} chunkSize  Size of the chunk that was accepted by the server.
+     * @param {number} bytesAccepted Total number of bytes that have been
+     *                                accepted by the server.
+     * @param {number} bytesTotal Total number of bytes to be sent to the server.
+     * @api private
+     */
+
+  }, {
+    key: "_emitChunkComplete",
+    value: function _emitChunkComplete(chunkSize, bytesAccepted, bytesTotal) {
+      if (typeof this.options.onChunkComplete === "function") {
+        this.options.onChunkComplete(chunkSize, bytesAccepted, bytesTotal);
+      }
+    }
+    /**
+     * Create a new upload using the creation extension by sending a POST
+     * request to the endpoint. After successful creation the file will be
+     * uploaded
+     *
+     * @api private
+     */
+
+  }, {
+    key: "_createUpload",
+    value: function _createUpload() {
+      var _this6 = this;
+
+      if (!this.options.endpoint) {
+        this._emitError(new Error("tus: unable to create upload because no endpoint is provided"));
+
+        return;
+      }
+
+      var req = this._openRequest("POST", this.options.endpoint);
+
+      if (this.options.uploadLengthDeferred) {
+        req.setHeader("Upload-Defer-Length", 1);
+      } else {
+        req.setHeader("Upload-Length", this._size);
+      } // Add metadata if values have been added
+
+
+      var metadata = encodeMetadata(this.options.metadata);
+
+      if (metadata !== "") {
+        req.setHeader("Upload-Metadata", metadata);
+      }
+
+      var promise;
+
+      if (this.options.uploadDataDuringCreation && !this.options.uploadLengthDeferred) {
+        this._offset = 0;
+        promise = this._addChunkToRequest(req);
+      } else {
+        promise = this._sendRequest(req, null);
+      }
+
+      promise.then(function (res) {
+        if (!inStatusCategory(res.getStatus(), 200)) {
+          _this6._emitHttpError(req, res, "tus: unexpected response while creating upload");
+
+          return;
+        }
+
+        var location = res.getHeader("Location");
+
+        if (location == null) {
+          _this6._emitHttpError(req, res, "tus: invalid or missing Location header");
+
+          return;
+        }
+
+        _this6.url = resolveUrl(_this6.options.endpoint, location);
+        (0,_logger__WEBPACK_IMPORTED_MODULE_3__.log)("Created upload at ".concat(_this6.url));
+
+        if (typeof _this6.options._onUploadUrlAvailable === "function") {
+          _this6.options._onUploadUrlAvailable();
+        }
+
+        if (_this6._size === 0) {
+          // Nothing to upload and file was successfully created
+          _this6._emitSuccess();
+
+          _this6._source.close();
+
+          return;
+        }
+
+        _this6._saveUploadInUrlStorage();
+
+        if (_this6.options.uploadDataDuringCreation) {
+          _this6._handleUploadResponse(req, res);
+        } else {
+          _this6._offset = 0;
+
+          _this6._performUpload();
+        }
+      })["catch"](function (err) {
+        _this6._emitHttpError(req, null, "tus: failed to create upload", err);
+      });
+    }
+    /*
+     * Try to resume an existing upload. First a HEAD request will be sent
+     * to retrieve the offset. If the request fails a new upload will be
+     * created. In the case of a successful response the file will be uploaded.
+     *
+     * @api private
+     */
+
+  }, {
+    key: "_resumeUpload",
+    value: function _resumeUpload() {
+      var _this7 = this;
+
+      var req = this._openRequest("HEAD", this.url);
+
+      var promise = this._sendRequest(req, null);
+
+      promise.then(function (res) {
+        var status = res.getStatus();
+
+        if (!inStatusCategory(status, 200)) {
+          if (inStatusCategory(status, 400)) {
+            // Remove stored fingerprint and corresponding endpoint,
+            // on client errors since the file can not be found
+            _this7._removeFromUrlStorage();
+          } // If the upload is locked (indicated by the 423 Locked status code), we
+          // emit an error instead of directly starting a new upload. This way the
+          // retry logic can catch the error and will retry the upload. An upload
+          // is usually locked for a short period of time and will be available
+          // afterwards.
+
+
+          if (status === 423) {
+            _this7._emitHttpError(req, res, "tus: upload is currently locked; retry later");
+
+            return;
+          }
+
+          if (!_this7.options.endpoint) {
+            // Don't attempt to create a new upload if no endpoint is provided.
+            _this7._emitHttpError(req, res, "tus: unable to resume upload (new upload cannot be created without an endpoint)");
+
+            return;
+          } // Try to create a new upload
+
+
+          _this7.url = null;
+
+          _this7._createUpload();
+
+          return;
+        }
+
+        var offset = parseInt(res.getHeader("Upload-Offset"), 10);
+
+        if (isNaN(offset)) {
+          _this7._emitHttpError(req, res, "tus: invalid or missing offset value");
+
+          return;
+        }
+
+        var length = parseInt(res.getHeader("Upload-Length"), 10);
+
+        if (isNaN(length) && !_this7.options.uploadLengthDeferred) {
+          _this7._emitHttpError(req, res, "tus: invalid or missing length value");
+
+          return;
+        }
+
+        if (typeof _this7.options._onUploadUrlAvailable === "function") {
+          _this7.options._onUploadUrlAvailable();
+        } // Upload has already been completed and we do not need to send additional
+        // data to the server
+
+
+        if (offset === length) {
+          _this7._emitProgress(length, length);
+
+          _this7._emitSuccess();
+
+          return;
+        }
+
+        _this7._offset = offset;
+
+        _this7._performUpload();
+      })["catch"](function (err) {
+        _this7._emitHttpError(req, null, "tus: failed to resume upload", err);
+      });
+    }
+    /**
+     * Start uploading the file using PATCH requests. The file will be divided
+     * into chunks as specified in the chunkSize option. During the upload
+     * the onProgress event handler may be invoked multiple times.
+     *
+     * @api private
+     */
+
+  }, {
+    key: "_performUpload",
+    value: function _performUpload() {
+      var _this8 = this;
+
+      // If the upload has been aborted, we will not send the next PATCH request.
+      // This is important if the abort method was called during a callback, such
+      // as onChunkComplete or onProgress.
+      if (this._aborted) {
+        return;
+      }
+
+      var req; // Some browser and servers may not support the PATCH method. For those
+      // cases, you can tell tus-js-client to use a POST request with the
+      // X-HTTP-Method-Override header for simulating a PATCH request.
+
+      if (this.options.overridePatchMethod) {
+        req = this._openRequest("POST", this.url);
+        req.setHeader("X-HTTP-Method-Override", "PATCH");
+      } else {
+        req = this._openRequest("PATCH", this.url);
+      }
+
+      req.setHeader("Upload-Offset", this._offset);
+
+      var promise = this._addChunkToRequest(req);
+
+      promise.then(function (res) {
+        if (!inStatusCategory(res.getStatus(), 200)) {
+          _this8._emitHttpError(req, res, "tus: unexpected response while uploading chunk");
+
+          return;
+        }
+
+        _this8._handleUploadResponse(req, res);
+      })["catch"](function (err) {
+        // Don't emit an error if the upload was aborted manually
+        if (_this8._aborted) {
+          return;
+        }
+
+        _this8._emitHttpError(req, null, "tus: failed to upload chunk at offset " + _this8._offset, err);
+      });
+    }
+    /**
+     * _addChunktoRequest reads a chunk from the source and sends it using the
+     * supplied request object. It will not handle the response.
+     *
+     * @api private
+     */
+
+  }, {
+    key: "_addChunkToRequest",
+    value: function _addChunkToRequest(req) {
+      var _this9 = this;
+
+      var start = this._offset;
+      var end = this._offset + this.options.chunkSize;
+      req.setProgressHandler(function (bytesSent) {
+        _this9._emitProgress(start + bytesSent, _this9._size);
+      });
+      req.setHeader("Content-Type", "application/offset+octet-stream"); // The specified chunkSize may be Infinity or the calcluated end position
+      // may exceed the file's size. In both cases, we limit the end position to
+      // the input's total size for simpler calculations and correctness.
+
+      if ((end === Infinity || end > this._size) && !this.options.uploadLengthDeferred) {
+        end = this._size;
+      }
+
+      return this._source.slice(start, end).then(function (_ref2) {
+        var value = _ref2.value,
+            done = _ref2.done;
+
+        // If the upload length is deferred, the upload size was not specified during
+        // upload creation. So, if the file reader is done reading, we know the total
+        // upload size and can tell the tus server.
+        if (_this9.options.uploadLengthDeferred && done) {
+          _this9._size = _this9._offset + (value && value.size ? value.size : 0);
+          req.setHeader("Upload-Length", _this9._size);
+        }
+
+        if (value === null) {
+          return _this9._sendRequest(req);
+        } else {
+          _this9._emitProgress(_this9._offset, _this9._size);
+
+          return _this9._sendRequest(req, value);
+        }
+      });
+    }
+    /**
+     * _handleUploadResponse is used by requests that haven been sent using _addChunkToRequest
+     * and already have received a response.
+     *
+     * @api private
+     */
+
+  }, {
+    key: "_handleUploadResponse",
+    value: function _handleUploadResponse(req, res) {
+      var offset = parseInt(res.getHeader("Upload-Offset"), 10);
+
+      if (isNaN(offset)) {
+        this._emitHttpError(req, res, "tus: invalid or missing offset value");
+
+        return;
+      }
+
+      this._emitProgress(offset, this._size);
+
+      this._emitChunkComplete(offset - this._offset, offset, this._size);
+
+      this._offset = offset;
+
+      if (offset == this._size) {
+        // Yay, finally done :)
+        this._emitSuccess();
+
+        this._source.close();
+
+        return;
+      }
+
+      this._performUpload();
+    }
+    /**
+     * Create a new HTTP request object with the given method and URL.
+     *
+     * @api private
+     */
+
+  }, {
+    key: "_openRequest",
+    value: function _openRequest(method, url) {
+      var req = openRequest(method, url, this.options);
+      this._req = req;
+      return req;
+    }
+    /**
+     * Remove the entry in the URL storage, if it has been saved before.
+     *
+     * @api private
+     */
+
+  }, {
+    key: "_removeFromUrlStorage",
+    value: function _removeFromUrlStorage() {
+      var _this10 = this;
+
+      if (!this._urlStorageKey) return;
+
+      this._urlStorage.removeUpload(this._urlStorageKey)["catch"](function (err) {
+        _this10._emitError(err);
+      });
+
+      this._urlStorageKey = null;
+    }
+    /**
+     * Add the upload URL to the URL storage, if possible.
+     *
+     * @api private
+     */
+
+  }, {
+    key: "_saveUploadInUrlStorage",
+    value: function _saveUploadInUrlStorage() {
+      var _this11 = this;
+
+      // Only if a fingerprint was calculated for the input (i.e. not a stream), we can store the upload URL.
+      if (!this.options.storeFingerprintForResuming || !this._fingerprint) {
+        return;
+      }
+
+      var storedUpload = {
+        size: this._size,
+        metadata: this.options.metadata,
+        creationTime: new Date().toString()
+      };
+
+      if (this._parallelUploads) {
+        // Save multiple URLs if the parallelUploads option is used ...
+        storedUpload.parallelUploadUrls = this._parallelUploadUrls;
+      } else {
+        // ... otherwise we just save the one available URL.
+        storedUpload.uploadUrl = this.url;
+      }
+
+      this._urlStorage.addUpload(this._fingerprint, storedUpload).then(function (urlStorageKey) {
+        return _this11._urlStorageKey = urlStorageKey;
+      })["catch"](function (err) {
+        _this11._emitError(err);
+      });
+    }
+    /**
+     * Send a request with the provided body.
+     *
+     * @api private
+     */
+
+  }, {
+    key: "_sendRequest",
+    value: function _sendRequest(req) {
+      var body = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+      return sendRequest(req, body, this.options);
+    }
+  }], [{
+    key: "terminate",
+    value: function terminate(url) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var cb = arguments.length > 2 ? arguments[2] : undefined;
+
+      if (typeof options === "function" || typeof cb === "function") {
+        throw new Error("tus: the terminate function does not accept a callback since v2 anymore; please use the returned Promise instead");
+      }
+
+      var req = openRequest("DELETE", url, options);
+      return sendRequest(req, null, options).then(function (res) {
+        // A 204 response indicates a successfull request
+        if (res.getStatus() === 204) {
+          return;
+        }
+
+        throw new _error__WEBPACK_IMPORTED_MODULE_2__.default("tus: unexpected response while terminating upload", null, req, res);
+      })["catch"](function (err) {
+        if (!(err instanceof _error__WEBPACK_IMPORTED_MODULE_2__.default)) {
+          err = new _error__WEBPACK_IMPORTED_MODULE_2__.default("tus: failed to terminate upload", err, req, null);
+        }
+
+        if (!shouldRetry(err, 0, options)) {
+          throw err;
+        } // Instead of keeping track of the retry attempts, we remove the first element from the delays
+        // array. If the array is empty, all retry attempts are used up and we will bubble up the error.
+        // We recursively call the terminate function will removing elements from the retryDelays array.
+
+
+        var delay = options.retryDelays[0];
+        var remainingDelays = options.retryDelays.slice(1);
+
+        var newOptions = _objectSpread({}, options, {
+          retryDelays: remainingDelays
+        });
+
+        return new Promise(function (resolve) {
+          return setTimeout(resolve, delay);
+        }).then(function () {
+          return BaseUpload.terminate(url, newOptions);
+        });
+      });
+    }
+  }]);
+
+  return BaseUpload;
+}();
+
+function encodeMetadata(metadata) {
+  var encoded = [];
+
+  for (var key in metadata) {
+    encoded.push(key + " " + js_base64__WEBPACK_IMPORTED_MODULE_0__.Base64.encode(metadata[key]));
+  }
+
+  return encoded.join(",");
+}
+/**
+ * Checks whether a given status is in the range of the expected category.
+ * For example, only a status between 200 and 299 will satisfy the category 200.
+ *
+ * @api private
+ */
+
+
+function inStatusCategory(status, category) {
+  return status >= category && status < category + 100;
+}
+/**
+ * Create a new HTTP request with the specified method and URL.
+ * The necessary headers that are included in every request
+ * will be added, including the request ID.
+ *
+ * @api private
+ */
+
+
+function openRequest(method, url, options) {
+  var req = options.httpStack.createRequest(method, url);
+  req.setHeader("Tus-Resumable", "1.0.0");
+  var headers = options.headers || {};
+
+  for (var name in headers) {
+    req.setHeader(name, headers[name]);
+  }
+
+  if (options.addRequestId) {
+    var requestId = (0,_uuid__WEBPACK_IMPORTED_MODULE_4__.default)();
+    req.setHeader("X-Request-ID", requestId);
+  }
+
+  return req;
+}
+/**
+ * Send a request with the provided body while invoking the onBeforeRequest
+ * and onAfterResponse callbacks.
+ *
+ * @api private
+ */
+
+
+function sendRequest(req, body, options) {
+  var onBeforeRequestPromise = typeof options.onBeforeRequest === "function" ? Promise.resolve(options.onBeforeRequest(req)) : Promise.resolve();
+  return onBeforeRequestPromise.then(function () {
+    return req.send(body).then(function (res) {
+      var onAfterResponsePromise = typeof options.onAfterResponse === "function" ? Promise.resolve(options.onAfterResponse(req, res)) : Promise.resolve();
+      return onAfterResponsePromise.then(function () {
+        return res;
+      });
+    });
+  });
+}
+/**
+ * Checks whether the browser running this code has internet access.
+ * This function will always return true in the node.js environment
+ *
+ * @api private
+ */
+
+
+function isOnline() {
+  var online = true;
+
+  if (typeof window !== "undefined" && "navigator" in window && window.navigator.onLine === false) {
+    online = false;
+  }
+
+  return online;
+}
+/**
+ * Checks whether or not it is ok to retry a request.
+ * @param {Error} err the error returned from the last request
+ * @param {number} retryAttempt the number of times the request has already been retried
+ * @param {object} options tus Upload options
+ *
+ * @api private
+ */
+
+
+function shouldRetry(err, retryAttempt, options) {
+  // We only attempt a retry if
+  // - retryDelays option is set
+  // - we didn't exceed the maxium number of retries, yet, and
+  // - this error was caused by a request or it's response and
+  // - the error is server error (i.e. not a status 4xx except a 409 or 423) or
+  // a onShouldRetry is specified and returns true
+  // - the browser does not indicate that we are offline
+  if (options.retryDelays == null || retryAttempt >= options.retryDelays.length || err.originalRequest == null) {
+    return false;
+  }
+
+  if (options && typeof options.onShouldRetry === "function") {
+    return options.onShouldRetry(err, retryAttempt, options);
+  }
+
+  var status = err.originalResponse ? err.originalResponse.getStatus() : 0;
+  return (!inStatusCategory(status, 400) || status === 409 || status === 423) && isOnline();
+}
+/**
+ * Resolve a relative link given the origin as source. For example,
+ * if a HTTP request to http://example.com/files/ returns a Location
+ * header with the value /upload/abc, the resolved URL will be:
+ * http://example.com/upload/abc
+ */
+
+
+function resolveUrl(origin, link) {
+  return new (url_parse__WEBPACK_IMPORTED_MODULE_1___default())(link, origin).toString();
+}
+/**
+ * Calculate the start and end positions for the parts if an upload
+ * is split into multiple parallel requests.
+ *
+ * @param {number} totalSize The byte size of the upload, which will be split.
+ * @param {number} partCount The number in how many parts the upload will be split.
+ * @param {string[]} previousUrls The upload URLs for previous parts.
+ * @return {object[]}
+ * @api private
+ */
+
+
+function splitSizeIntoParts(totalSize, partCount, previousUrls) {
+  var partSize = Math.floor(totalSize / partCount);
+  var parts = [];
+
+  for (var i = 0; i < partCount; i++) {
+    parts.push({
+      start: partSize * i,
+      end: partSize * (i + 1)
+    });
+  }
+
+  parts[partCount - 1].end = totalSize; // Attach URLs from previous uploads, if available.
+
+  if (previousUrls) {
+    parts.forEach(function (part, index) {
+      part.uploadUrl = previousUrls[index] || null;
+    });
+  }
+
+  return parts;
+}
+
+BaseUpload.defaultOptions = defaultOptions;
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (BaseUpload);
+
+/***/ }),
+
+/***/ "./node_modules/tus-js-client/lib.esm/uuid.js":
+/*!****************************************************!*\
+  !*** ./node_modules/tus-js-client/lib.esm/uuid.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ uuid)
+/* harmony export */ });
+/**
+ * Generate a UUID v4 based on random numbers. We intentioanlly use the less
+ * secure Math.random function here since the more secure crypto.getRandomNumbers
+ * is not available on all platforms.
+ * This is not a problem for us since we use the UUID only for generating a
+ * request ID, so we can correlate server logs to client errors.
+ *
+ * This function is taken from following site:
+ * https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+ *
+ * @return {string} The generate UUID
+ */
+function uuid() {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+    var r = Math.random() * 16 | 0,
+        v = c == "x" ? r : r & 0x3 | 0x8;
+    return v.toString(16);
+  });
+}
+
+/***/ }),
+
+/***/ "./node_modules/url-parse/index.js":
+/*!*****************************************!*\
+  !*** ./node_modules/url-parse/index.js ***!
+  \*****************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var required = __webpack_require__(/*! requires-port */ "./node_modules/requires-port/index.js")
+  , qs = __webpack_require__(/*! querystringify */ "./node_modules/querystringify/index.js")
+  , slashes = /^[A-Za-z][A-Za-z0-9+-.]*:\/\//
+  , protocolre = /^([a-z][a-z0-9.+-]*:)?(\/\/)?([\S\s]*)/i
+  , whitespace = '[\\x09\\x0A\\x0B\\x0C\\x0D\\x20\\xA0\\u1680\\u180E\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200A\\u202F\\u205F\\u3000\\u2028\\u2029\\uFEFF]'
+  , left = new RegExp('^'+ whitespace +'+');
+
+/**
+ * Trim a given string.
+ *
+ * @param {String} str String to trim.
+ * @public
+ */
+function trimLeft(str) {
+  return (str ? str : '').toString().replace(left, '');
+}
+
+/**
+ * These are the parse rules for the URL parser, it informs the parser
+ * about:
+ *
+ * 0. The char it Needs to parse, if it's a string it should be done using
+ *    indexOf, RegExp using exec and NaN means set as current value.
+ * 1. The property we should set when parsing this value.
+ * 2. Indication if it's backwards or forward parsing, when set as number it's
+ *    the value of extra chars that should be split off.
+ * 3. Inherit from location if non existing in the parser.
+ * 4. `toLowerCase` the resulting value.
+ */
+var rules = [
+  ['#', 'hash'],                        // Extract from the back.
+  ['?', 'query'],                       // Extract from the back.
+  function sanitize(address) {          // Sanitize what is left of the address
+    return address.replace('\\', '/');
+  },
+  ['/', 'pathname'],                    // Extract from the back.
+  ['@', 'auth', 1],                     // Extract from the front.
+  [NaN, 'host', undefined, 1, 1],       // Set left over value.
+  [/:(\d+)$/, 'port', undefined, 1],    // RegExp the back.
+  [NaN, 'hostname', undefined, 1, 1]    // Set left over.
+];
+
+/**
+ * These properties should not be copied or inherited from. This is only needed
+ * for all non blob URL's as a blob URL does not include a hash, only the
+ * origin.
+ *
+ * @type {Object}
+ * @private
+ */
+var ignore = { hash: 1, query: 1 };
+
+/**
+ * The location object differs when your code is loaded through a normal page,
+ * Worker or through a worker using a blob. And with the blobble begins the
+ * trouble as the location object will contain the URL of the blob, not the
+ * location of the page where our code is loaded in. The actual origin is
+ * encoded in the `pathname` so we can thankfully generate a good "default"
+ * location from it so we can generate proper relative URL's again.
+ *
+ * @param {Object|String} loc Optional default location object.
+ * @returns {Object} lolcation object.
+ * @public
+ */
+function lolcation(loc) {
+  var globalVar;
+
+  if (typeof window !== 'undefined') globalVar = window;
+  else if (typeof __webpack_require__.g !== 'undefined') globalVar = __webpack_require__.g;
+  else if (typeof self !== 'undefined') globalVar = self;
+  else globalVar = {};
+
+  var location = globalVar.location || {};
+  loc = loc || location;
+
+  var finaldestination = {}
+    , type = typeof loc
+    , key;
+
+  if ('blob:' === loc.protocol) {
+    finaldestination = new Url(unescape(loc.pathname), {});
+  } else if ('string' === type) {
+    finaldestination = new Url(loc, {});
+    for (key in ignore) delete finaldestination[key];
+  } else if ('object' === type) {
+    for (key in loc) {
+      if (key in ignore) continue;
+      finaldestination[key] = loc[key];
+    }
+
+    if (finaldestination.slashes === undefined) {
+      finaldestination.slashes = slashes.test(loc.href);
+    }
+  }
+
+  return finaldestination;
+}
+
+/**
+ * @typedef ProtocolExtract
+ * @type Object
+ * @property {String} protocol Protocol matched in the URL, in lowercase.
+ * @property {Boolean} slashes `true` if protocol is followed by "//", else `false`.
+ * @property {String} rest Rest of the URL that is not part of the protocol.
+ */
+
+/**
+ * Extract protocol information from a URL with/without double slash ("//").
+ *
+ * @param {String} address URL we want to extract from.
+ * @return {ProtocolExtract} Extracted information.
+ * @private
+ */
+function extractProtocol(address) {
+  address = trimLeft(address);
+  var match = protocolre.exec(address);
+
+  return {
+    protocol: match[1] ? match[1].toLowerCase() : '',
+    slashes: !!match[2],
+    rest: match[3]
+  };
+}
+
+/**
+ * Resolve a relative URL pathname against a base URL pathname.
+ *
+ * @param {String} relative Pathname of the relative URL.
+ * @param {String} base Pathname of the base URL.
+ * @return {String} Resolved pathname.
+ * @private
+ */
+function resolve(relative, base) {
+  if (relative === '') return base;
+
+  var path = (base || '/').split('/').slice(0, -1).concat(relative.split('/'))
+    , i = path.length
+    , last = path[i - 1]
+    , unshift = false
+    , up = 0;
+
+  while (i--) {
+    if (path[i] === '.') {
+      path.splice(i, 1);
+    } else if (path[i] === '..') {
+      path.splice(i, 1);
+      up++;
+    } else if (up) {
+      if (i === 0) unshift = true;
+      path.splice(i, 1);
+      up--;
+    }
+  }
+
+  if (unshift) path.unshift('');
+  if (last === '.' || last === '..') path.push('');
+
+  return path.join('/');
+}
+
+/**
+ * The actual URL instance. Instead of returning an object we've opted-in to
+ * create an actual constructor as it's much more memory efficient and
+ * faster and it pleases my OCD.
+ *
+ * It is worth noting that we should not use `URL` as class name to prevent
+ * clashes with the global URL instance that got introduced in browsers.
+ *
+ * @constructor
+ * @param {String} address URL we want to parse.
+ * @param {Object|String} [location] Location defaults for relative paths.
+ * @param {Boolean|Function} [parser] Parser for the query string.
+ * @private
+ */
+function Url(address, location, parser) {
+  address = trimLeft(address);
+
+  if (!(this instanceof Url)) {
+    return new Url(address, location, parser);
+  }
+
+  var relative, extracted, parse, instruction, index, key
+    , instructions = rules.slice()
+    , type = typeof location
+    , url = this
+    , i = 0;
+
+  //
+  // The following if statements allows this module two have compatibility with
+  // 2 different API:
+  //
+  // 1. Node.js's `url.parse` api which accepts a URL, boolean as arguments
+  //    where the boolean indicates that the query string should also be parsed.
+  //
+  // 2. The `URL` interface of the browser which accepts a URL, object as
+  //    arguments. The supplied object will be used as default values / fall-back
+  //    for relative paths.
+  //
+  if ('object' !== type && 'string' !== type) {
+    parser = location;
+    location = null;
+  }
+
+  if (parser && 'function' !== typeof parser) parser = qs.parse;
+
+  location = lolcation(location);
+
+  //
+  // Extract protocol information before running the instructions.
+  //
+  extracted = extractProtocol(address || '');
+  relative = !extracted.protocol && !extracted.slashes;
+  url.slashes = extracted.slashes || relative && location.slashes;
+  url.protocol = extracted.protocol || location.protocol || '';
+  address = extracted.rest;
+
+  //
+  // When the authority component is absent the URL starts with a path
+  // component.
+  //
+  if (!extracted.slashes) instructions[3] = [/(.*)/, 'pathname'];
+
+  for (; i < instructions.length; i++) {
+    instruction = instructions[i];
+
+    if (typeof instruction === 'function') {
+      address = instruction(address);
+      continue;
+    }
+
+    parse = instruction[0];
+    key = instruction[1];
+
+    if (parse !== parse) {
+      url[key] = address;
+    } else if ('string' === typeof parse) {
+      if (~(index = address.indexOf(parse))) {
+        if ('number' === typeof instruction[2]) {
+          url[key] = address.slice(0, index);
+          address = address.slice(index + instruction[2]);
+        } else {
+          url[key] = address.slice(index);
+          address = address.slice(0, index);
+        }
+      }
+    } else if ((index = parse.exec(address))) {
+      url[key] = index[1];
+      address = address.slice(0, index.index);
+    }
+
+    url[key] = url[key] || (
+      relative && instruction[3] ? location[key] || '' : ''
+    );
+
+    //
+    // Hostname, host and protocol should be lowercased so they can be used to
+    // create a proper `origin`.
+    //
+    if (instruction[4]) url[key] = url[key].toLowerCase();
+  }
+
+  //
+  // Also parse the supplied query string in to an object. If we're supplied
+  // with a custom parser as function use that instead of the default build-in
+  // parser.
+  //
+  if (parser) url.query = parser(url.query);
+
+  //
+  // If the URL is relative, resolve the pathname against the base URL.
+  //
+  if (
+      relative
+    && location.slashes
+    && url.pathname.charAt(0) !== '/'
+    && (url.pathname !== '' || location.pathname !== '')
+  ) {
+    url.pathname = resolve(url.pathname, location.pathname);
+  }
+
+  //
+  // We should not add port numbers if they are already the default port number
+  // for a given protocol. As the host also contains the port number we're going
+  // override it with the hostname which contains no port number.
+  //
+  if (!required(url.port, url.protocol)) {
+    url.host = url.hostname;
+    url.port = '';
+  }
+
+  //
+  // Parse down the `auth` for the username and password.
+  //
+  url.username = url.password = '';
+  if (url.auth) {
+    instruction = url.auth.split(':');
+    url.username = instruction[0] || '';
+    url.password = instruction[1] || '';
+  }
+
+  url.origin = url.protocol && url.host && url.protocol !== 'file:'
+    ? url.protocol +'//'+ url.host
+    : 'null';
+
+  //
+  // The href is just the compiled result.
+  //
+  url.href = url.toString();
+}
+
+/**
+ * This is convenience method for changing properties in the URL instance to
+ * insure that they all propagate correctly.
+ *
+ * @param {String} part          Property we need to adjust.
+ * @param {Mixed} value          The newly assigned value.
+ * @param {Boolean|Function} fn  When setting the query, it will be the function
+ *                               used to parse the query.
+ *                               When setting the protocol, double slash will be
+ *                               removed from the final url if it is true.
+ * @returns {URL} URL instance for chaining.
+ * @public
+ */
+function set(part, value, fn) {
+  var url = this;
+
+  switch (part) {
+    case 'query':
+      if ('string' === typeof value && value.length) {
+        value = (fn || qs.parse)(value);
+      }
+
+      url[part] = value;
+      break;
+
+    case 'port':
+      url[part] = value;
+
+      if (!required(value, url.protocol)) {
+        url.host = url.hostname;
+        url[part] = '';
+      } else if (value) {
+        url.host = url.hostname +':'+ value;
+      }
+
+      break;
+
+    case 'hostname':
+      url[part] = value;
+
+      if (url.port) value += ':'+ url.port;
+      url.host = value;
+      break;
+
+    case 'host':
+      url[part] = value;
+
+      if (/:\d+$/.test(value)) {
+        value = value.split(':');
+        url.port = value.pop();
+        url.hostname = value.join(':');
+      } else {
+        url.hostname = value;
+        url.port = '';
+      }
+
+      break;
+
+    case 'protocol':
+      url.protocol = value.toLowerCase();
+      url.slashes = !fn;
+      break;
+
+    case 'pathname':
+    case 'hash':
+      if (value) {
+        var char = part === 'pathname' ? '/' : '#';
+        url[part] = value.charAt(0) !== char ? char + value : value;
+      } else {
+        url[part] = value;
+      }
+      break;
+
+    default:
+      url[part] = value;
+  }
+
+  for (var i = 0; i < rules.length; i++) {
+    var ins = rules[i];
+
+    if (ins[4]) url[ins[1]] = url[ins[1]].toLowerCase();
+  }
+
+  url.origin = url.protocol && url.host && url.protocol !== 'file:'
+    ? url.protocol +'//'+ url.host
+    : 'null';
+
+  url.href = url.toString();
+
+  return url;
+}
+
+/**
+ * Transform the properties back in to a valid and full URL string.
+ *
+ * @param {Function} stringify Optional query stringify function.
+ * @returns {String} Compiled version of the URL.
+ * @public
+ */
+function toString(stringify) {
+  if (!stringify || 'function' !== typeof stringify) stringify = qs.stringify;
+
+  var query
+    , url = this
+    , protocol = url.protocol;
+
+  if (protocol && protocol.charAt(protocol.length - 1) !== ':') protocol += ':';
+
+  var result = protocol + (url.slashes ? '//' : '');
+
+  if (url.username) {
+    result += url.username;
+    if (url.password) result += ':'+ url.password;
+    result += '@';
+  }
+
+  result += url.host + url.pathname;
+
+  query = 'object' === typeof url.query ? stringify(url.query) : url.query;
+  if (query) result += '?' !== query.charAt(0) ? '?'+ query : query;
+
+  if (url.hash) result += url.hash;
+
+  return result;
+}
+
+Url.prototype = { set: set, toString: toString };
+
+//
+// Expose the URL parser and some additional properties that might be useful for
+// others or testing.
+//
+Url.extractProtocol = extractProtocol;
+Url.location = lolcation;
+Url.trimLeft = trimLeft;
+Url.qs = qs;
+
+module.exports = Url;
 
 
 /***/ })

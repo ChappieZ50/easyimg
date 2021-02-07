@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 /* imgrob front-end */
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::post('/upload', function () {
+    return [
+        'url' => 'https://test.com/test.jpg',
+    ];
+});

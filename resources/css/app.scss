@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
 
 @import "~bootstrap";
+@import "~@uppy/core/src/style";
+@import "~@uppy/dashboard/src/style";
 
 $primary-color: #fff;
 $second-color: #2c7ce0;
@@ -43,32 +45,57 @@ html, body {
     }
 }
 
-.navbar {
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    border-bottom: 1px solid #e5e5e5;
+.header {
+    .navbar {
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        border-bottom: 1px solid #e5e5e5;
 
-    .logo {
-        height: 28px;
+        .logo {
+            height: 28px;
+        }
+
+        .navbar-nav {
+            .nav-item {
+                margin-left: 10px;
+
+                .nav-link {
+                    color: #131313;
+
+                    &:hover {
+                        color: #000;
+                    }
+
+                    &.rob-sign-up {
+                        padding: 6px 12px;
+                    }
+                }
+            }
+        }
     }
+}
 
-    .navbar-nav {
-        .nav-item {
-            margin-left: 10px;
+.page-wrapper {
+    .irob-dropzone {
+        margin-top: 100px;
 
-            .nav-link {
-                color: #131313;
+        .uppy-Dashboard-inner {
+            margin: 0 auto;
 
-                &:hover {
-                    color: #000;
-                }
+            .uppy-Dashboard-AddFiles {
+                border-color: $second-color;
+                border-width: 1.5px;
+            }
 
-                &.rob-sign-up {
-                    padding: 6px 12px;
-                }
+            .uppy-Dashboard-AddFiles-info a {
+                display: none !important;
+            }
+
+            .uppy-Dashboard-Item.is-complete {
+                display: inline-block;
             }
         }
     }
