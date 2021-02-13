@@ -8,15 +8,18 @@
     <title>Imgrob</title>
 
     <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
+    @yield('styles')
 </head>
 <body>
 
-@include('layouts.header')
+@includeWhen(!isset($no_header),'layouts.header')
 
 <div class="page-wrapper container-fluid">
     @yield('content')
 </div>
 
+
 <script src="{{asset('assets/js/app.js')}}"></script>
+@yield('scripts')
 </body>
 </html>

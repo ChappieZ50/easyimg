@@ -13218,6 +13218,108 @@ html ul, body ul {
   list-style-type: initial;
 }
 
+.return-to-homepage {
+  margin-top: 16px;
+}
+.return-to-homepage a {
+  color: #2c7ce0;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+}
+.return-to-homepage a:hover {
+  color: #000;
+}
+.return-to-homepage a:hover svg {
+  color: #000;
+}
+.return-to-homepage a svg {
+  margin-top: -3px;
+  width: 20px;
+  height: 20px;
+  color: #2c7ce0;
+}
+
+.irob-login-wrapper .irob-login-logo {
+  margin-top: 100px;
+  text-align: center;
+}
+.irob-login-wrapper .irob-login-logo img {
+  height: 46px;
+}
+.irob-login-wrapper .irob-login {
+  padding: 20px 30px;
+  border: 1px solid #e5e5e5;
+  margin-top: 80px;
+  text-align: center;
+}
+.irob-login-wrapper .irob-login .login-types-title {
+  margin: 14px 0;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  height: 1px;
+}
+.irob-login-wrapper .irob-login .login-types-title::before {
+  content: "";
+  margin-right: 0.5rem;
+}
+.irob-login-wrapper .irob-login .login-types-title::after {
+  content: "";
+  margin-left: 0.5rem;
+}
+.irob-login-wrapper .irob-login .login-types-title::after, .irob-login-wrapper .irob-login .login-types-title::before {
+  flex: 1 1 auto;
+  height: 1px;
+  background-color: #2c7ce0;
+  opacity: 0.16;
+}
+.irob-login-wrapper .irob-login .login-types {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.irob-login-wrapper .irob-login .login-types .login-type {
+  margin-top: 10px;
+  max-width: 100%;
+  width: 100%;
+  height: 40px;
+  border: 1px solid #2c7ce0;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  color: #000 !important;
+  text-decoration: none;
+}
+.irob-login-wrapper .irob-login .login-types .login-type .login-type-title {
+  text-align: center;
+  font-weight: bold;
+  width: 100%;
+}
+.irob-login-wrapper .irob-login .login-types .login-type .login-type-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 40px;
+  background-color: #2c7ce0;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.irob-login-wrapper .irob-login .login-types .login-type .login-type-icon svg {
+  width: 20px;
+  height: 20px;
+  color: #fff;
+}
+.irob-login-wrapper .irob-login .form-group {
+  text-align: left;
+}
+.irob-login-wrapper .irob-login .form-group label {
+  font-weight: 600;
+  font-size: 15px;
+}
+
 @media only screen and (max-width: 992px) {
   .navbar .page-items.login-items {
     display: none !important;

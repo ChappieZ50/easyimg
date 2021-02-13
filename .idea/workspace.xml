@@ -36,13 +36,14 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../yedekparca/opelyedekparca" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/views" />
       <recent name="$PROJECT_DIR$/resources/js/imgrob" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/resources/js/imgrop" />
@@ -71,7 +72,7 @@
       <workItem from="1612723159290" duration="6542000" />
       <workItem from="1612853579594" duration="4032000" />
       <workItem from="1613061282784" duration="69000" />
-      <workItem from="1613231531291" duration="3403000" />
+      <workItem from="1613231531291" duration="9406000" />
     </task>
     <servers />
   </component>
@@ -96,13 +97,17 @@
       <screen x="52" y="27" width="1868" height="1053" />
     </state>
     <state x="449" y="156" width="1022" height="737" key="SettingsEditor/52.27.1868.1053@52.27.1868.1053" timestamp="1612645435162" />
-    <state width="498" height="454" key="SwitcherDM" timestamp="1613234775395">
+    <state width="498" height="454" key="SwitcherDM" timestamp="1613240791407">
       <screen x="52" y="27" width="1868" height="1053" />
     </state>
-    <state width="498" height="454" key="SwitcherDM/52.27.1868.1053@52.27.1868.1053" timestamp="1613234775395" />
-    <state x="624" y="236" key="run.anything.popup" timestamp="1612728935668">
+    <state width="498" height="454" key="SwitcherDM/52.27.1868.1053@52.27.1868.1053" timestamp="1613240791407" />
+    <state x="624" y="236" key="run.anything.popup" timestamp="1613236209573">
       <screen x="52" y="27" width="1868" height="1053" />
     </state>
-    <state x="624" y="236" key="run.anything.popup/52.27.1868.1053@52.27.1868.1053" timestamp="1612728935668" />
+    <state x="624" y="236" key="run.anything.popup/52.27.1868.1053@52.27.1868.1053" timestamp="1613236209573" />
+    <state x="624" y="164" width="670" height="676" key="search.everywhere.popup" timestamp="1613235595228">
+      <screen x="52" y="27" width="1868" height="1053" />
+    </state>
+    <state x="624" y="164" width="670" height="676" key="search.everywhere.popup/52.27.1868.1053@52.27.1868.1053" timestamp="1613235595228" />
   </component>
 </project>

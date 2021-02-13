@@ -5,7 +5,8 @@
                 <i data-feather="upload"></i>
                 Upload image
             </a>
-            <button class="navbar-toggler collapsed border-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            <button class="navbar-toggler collapsed border-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
                     aria-label="Toggle navigation">
                 <span> </span>
                 <span> </span>
@@ -32,8 +33,8 @@
         </a>
 
         <div class="page-items login-items">
-            <a class="nav-link" href="#">Sign in</a>
-            <a class="nav-link rob-button rob-sign-up" href="#">
+            <a class="nav-link" href="{{route('login')}}">Sign in</a>
+            <a class="nav-link rob-button rob-sign-up" href="{{route('register')}}">
                 <i data-feather="user-plus"></i>
                 Sign up
             </a>

@@ -12,8 +12,9 @@
 
 if (process.env.section) {
     require(`${__dirname}/webpack.mix.${process.env.section}.js`);
-}else{
+} else {
     const mix = require('laravel-mix');
     mix.js('resources/js/app.js', 'public/assets/js/app.js')
+        .js('resources/js/dropzone.js', 'public/assets/js/dropzone.js')
         .sass('resources/css/app.scss', 'public/assets/css/app.css');
 }
