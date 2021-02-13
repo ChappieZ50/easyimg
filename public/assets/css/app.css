@@ -13094,11 +13094,70 @@ html ul, body ul {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: nowrap;
   padding: 0 20px;
   border-bottom: 1px solid #e5e5e5;
+  /* Define the shape and color of the hamburger lines */
+  /* top line needs a little padding */
+  /**
+   * Animate collapse into X.
+   */
+  /* top line rotates 45 degrees clockwise and moves up and in a bit to close the center of the X in the center of the button */
+  /* center line goes transparent */
+  /* bottom line rotates 45 degrees counter clockwise, in, and down a bit to close the center of the X in the center of the button  */
+  /**
+   * Animate collapse open into hamburger menu
+   */
+  /* top line moves back to initial position and rotates back to 0 degrees */
+  /* middle line goes back to regular color and opacity */
+  /* bottom line goes back to initial position and rotates back to 0 degrees */
+}
+.header .navbar .navbar-toggler span {
+  display: block;
+  background-color: #212121;
+  height: 2px;
+  width: 25px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  position: relative;
+  left: 0;
+  opacity: 1;
+  transition: all 0.35s ease-out;
+  transform-origin: center left;
+}
+.header .navbar .navbar-toggler span:nth-child(1) {
+  margin-top: 0.3em;
+}
+.header .navbar .navbar-toggler:not(.collapsed) span:nth-child(1) {
+  transform: translate(11%, -35%) rotate(45deg);
+}
+.header .navbar .navbar-toggler:not(.collapsed) span:nth-child(2) {
+  opacity: 0;
+}
+.header .navbar .navbar-toggler:not(.collapsed) span:nth-child(3) {
+  transform: translate(11%, 160%) rotate(-45deg);
+}
+.header .navbar .navbar-toggler span:nth-child(1) {
+  transform: translate(0%, 0%) rotate(0deg);
+}
+.header .navbar .navbar-toggler span:nth-child(2) {
+  opacity: 1;
+}
+.header .navbar .navbar-toggler span:nth-child(3) {
+  transform: translate(0%, 0%) rotate(0deg);
 }
 .header .navbar .logo {
   height: 28px;
+}
+.header .navbar .page-items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.header .navbar .page-items .nav-link {
+  color: #131313;
 }
 .header .navbar .navbar-nav .nav-item {
   margin-left: 10px;
@@ -13112,7 +13171,9 @@ html ul, body ul {
 .header .navbar .navbar-nav .nav-item .nav-link.rob-sign-up {
   padding: 6px 12px;
 }
-
+.header .navbar .navbar-nav .dropdown-toggle {
+  color: #131313;
+}
 .page-wrapper .irob-dropzone {
   margin-top: 100px;
 }
@@ -13126,6 +13187,60 @@ html ul, body ul {
 .page-wrapper .irob-dropzone .uppy-Dashboard-inner .uppy-Dashboard-AddFiles-info a {
   display: none !important;
 }
-.page-wrapper .irob-dropzone .uppy-Dashboard-inner .uppy-Dashboard-Item.is-complete {
+.page-wrapper .irob-dropzone .uppy-Dashboard-inner .uppy-Dashboard-Item, .page-wrapper .irob-dropzone .uppy-Dashboard-inner .uppyDashboard-Item.is-complete {
   display: inline-block;
+}
+.page-wrapper .irob-dropzone-terms {
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+  color: #212121;
+}
+.page-wrapper .irob-dropzone-terms .selected-page-item {
+  color: #2c7ce0;
+  -webkit-text-decoration-color: #2c7ce0;
+          text-decoration-color: #2c7ce0;
+  font-weight: bold;
+}
+.page-wrapper .page-container {
+  box-shadow: rgba(35, 46, 60, 0.04) 0 2px 4px 0;
+  border: 1px solid rgba(101, 109, 119, 0.16);
+  padding: 20px;
+  margin-top: 50px;
+}
+.page-wrapper .page-container h1, .page-wrapper .page-container h2, .page-wrapper .page-container h3, .page-wrapper .page-container h4, .page-wrapper .page-container h5, .page-wrapper .page-container h6 {
+  font-weight: bold;
+}
+.page-wrapper .page-container p {
+  font-size: 14px;
+}
+.page-wrapper .page-container ul {
+  list-style-type: initial;
+}
+
+@media only screen and (max-width: 992px) {
+  .navbar .page-items.login-items {
+    display: none !important;
+  }
+  .navbar .page-items .rob-button {
+    display: none !important;
+  }
+
+  .navbar-collapse {
+    position: absolute;
+    left: 0;
+    top: 60px;
+    z-index: 101 !important;
+    width: 100%;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .navbar-collapse .nav-item .nav-link {
+    padding: 0.5rem 1.5rem;
+    justify-content: flex-start;
+  }
+  .navbar-collapse .nav-item .nav-link.dropdown-toggle::after {
+    margin-top: 9px !important;
+    margin-right: 20px !important;
+    float: right;
+  }
 }

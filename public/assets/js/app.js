@@ -12566,8 +12566,8 @@ $(document).ready(function () {
   feather.replace();
   var uppy_note = $('#irob_dropzone').attr('data-note');
   var uppy = new Uppy({
-    debug: true,
-    autoProceed: false,
+    debug: false,
+    autoProceed: true,
     restrictions: {
       maxFileSize: 3000000,
       maxNumberOfFiles: 5,
@@ -12596,6 +12596,17 @@ $(document).ready(function () {
       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
   });
+  /* Windows Sizes */
+
+  $(window).on('resize', function () {
+    if (window.matchMedia('(max-width: 992px)').matches) {
+      $('.login-items .rob-sign-up').appendTo('.navbar');
+    } else {
+      if ($('.login-items .rob-sign-up').length === 0) {
+        $('.navbar .rob-sign-up').appendTo('.login-items');
+      }
+    }
+  }).resize();
 });
 
 /***/ }),
