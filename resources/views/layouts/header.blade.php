@@ -33,11 +33,24 @@
         </a>
 
         <div class="page-items login-items">
-            <a class="nav-link" href="{{route('login')}}">Sign in</a>
-            <a class="nav-link rob-button rob-sign-up" href="{{route('register')}}">
+            {{--<a class="nav-link" href="{{route('login')}}">Sign in</a>
+            <a class="nav-link rob-button rob-sign-up rob-move-btn" href="{{route('register')}}">
                 <i data-feather="user-plus"></i>
                 Sign up
-            </a>
+            </a>--}}
+            <ul class="navbar-nav rob-move-btn">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="javascript:;" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="{{asset('assets/images/avatar.png')}}" alt="avatar" class="nav-user-avatar">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right position-absolute shadow-lg" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{route('user.profile')}}">Profile</a>
+                        <a class="dropdown-item" href="#">My Images</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Logout</a>
+                    </div>
+                </li>
+            </ul>
         </div>
     </nav>
 </header>

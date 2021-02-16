@@ -1858,10 +1858,10 @@ $(document).ready(function () {
 
   $(window).on('resize', function () {
     if (window.matchMedia('(max-width: 992px)').matches) {
-      $('.login-items .rob-sign-up').appendTo('.navbar');
+      $('.login-items .rob-move-btn').appendTo('.navbar');
     } else {
-      if ($('.login-items .rob-sign-up').length === 0) {
-        $('.navbar .rob-sign-up').appendTo('.login-items');
+      if ($('.login-items .rob-move-btn').length === 0) {
+        $('.navbar .rob-move-btn').appendTo('.login-items');
       }
     }
   }).resize();
