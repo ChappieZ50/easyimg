@@ -10,7 +10,9 @@
 
     <div class="irob-login-wrapper container mt-5">
         <div class="irob-login-logo">
-            <img src="{{asset('logo.png')}}" alt="logo" class="img-fluid">
+            <a href="{{route('home')}}">
+                <img src="{{asset('logo.png')}}" alt="logo" class="img-fluid">
+            </a>
         </div>
         <div class="irob-login col-xl-5 col-lg-8 col-md-10 col-sm-12 mx-auto">
             <div class="login-types-title">
