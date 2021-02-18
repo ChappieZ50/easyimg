@@ -45,7 +45,8 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right position-absolute shadow-lg" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{route('user.profile')}}">Profile</a>
-                        <a class="dropdown-item" href="#">My Images</a>
+                        <a class="dropdown-item" href="{{route('user.images')}}">My Images</a>
+                        <a class="dropdown-item" href="{{route('home')}}">Upload Image</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Logout</a>
                     </div>

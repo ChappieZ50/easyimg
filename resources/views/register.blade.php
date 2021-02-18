@@ -55,7 +55,7 @@
                 </div>
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input type="text" class="form-control" name="email" id="email" placeholder="Email Address">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Email Address">
                     @error('email')
                     <span class="invalid-feedback d-block mt-2" role="alert">
                             <strong>{{$message}}</strong>

@@ -10,4 +10,9 @@ class UserController extends Controller
     {
         return view('user.profile');
     }
+
+    public function userImages()
+    {
+        return view('user.images');
+    }
 }

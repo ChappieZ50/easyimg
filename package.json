@@ -9,10 +9,10 @@
         "prod": "npm run production",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --config=node_modules/laravel-mix/setup/webpack.config.js",
         "admin-dev": "npm run admin-development",
-        "admin-development": "cross-env process.env.section=imgrob NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "admin-development": "cross-env process.env.section=irob NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
         "admin-watch": "npm run admin-development -- --watch",
         "admin-prod": "npm run admin-production",
-        "admin-production": "cross-env process.env.section=imgrob NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js"
+        "admin-production": "cross-env process.env.section=irob NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
         "axios": "^0.21",
@@ -30,7 +30,9 @@
         "@uppy/tus": "^1.8.4",
         "@uppy/xhr-upload": "^1.6.10",
         "bootstrap": "^4.6.0",
+        "clipboard": "^2.0.6",
         "feather-icons": "^4.28.0",
-        "jquery": "^3.5.1"
+        "jquery": "^3.5.1",
+        "sweetalert2": "^10.15.2"
     }
 }

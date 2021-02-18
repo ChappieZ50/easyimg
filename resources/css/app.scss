@@ -389,19 +389,19 @@ html, body {
             }
         }
     }
-    .irob-profile-wrapper {
+    .irob-user-wrapper {
         .irob-sidebar {
             max-width: 100% !important;
         }
 
-        .irob-profile-container {
+        .irob-user-container {
             padding-left: 0 !important;
             padding-top: 20px;
         }
     }
 }
 
-.irob-profile-wrapper {
+.irob-user-wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -465,29 +465,214 @@ html, body {
         }
     }
 
-    .irob-profile-container {
+    .irob-sidebar-title {
+        font-weight: 600;
+        font-size: 26px;
+        color: #333;
+    }
+
+    .irob-user-container {
         padding-left: 20px;
 
-        .irob-profile {
+        .irob-user {
             padding: 16px;
             border: 1px solid #e5e5e5;
             border-radius: 6px;
 
-            .user-profile-title {
-                font-weight: 600;
-                font-size: 26px;
-                color: #333;
-            }
-
-            .irob-profile-content {
+            .irob-user-content {
                 display: flex;
                 flex-wrap: wrap;
                 flex-direction: row;
                 justify-content: space-between;
 
+                .rob-button {
+                    font-size: 14px !important;
+                }
+
+                .irob-update-avatar {
+
+                    .irob-avatar-area {
+                        display: flex;
+                        justify-content: center;
+
+                        #avatar {
+                            display: none !important;
+                        }
+
+                        .irob-avatar {
+                            position: relative;
+                            width: 100px;
+                            height: 100px;
+
+                            label[for=avatar] {
+                                cursor: pointer;
+                                position: absolute;
+                                bottom: 0;
+                                right: 5px;
+                                width: 30px;
+                                height: 30px;
+                                border-radius: 50%;
+
+                                svg {
+                                    width: 100%;
+                                    height: auto;
+                                    margin: 0;
+                                }
+                            }
+
+                            .user-avatar {
+                                width: 100px;
+                                height: 100px;
+                                border-radius: 50%;
+                            }
+                        }
+
+                    }
+                }
+
+                .irob-images {
+                    display: flex;
+                    flex-wrap: wrap;
+                    flex-direction: row;
+                    justify-content: center;
+
+                    .empty-images {
+                        text-align: center;
+
+                        img {
+                            max-width: 250px;
+                        }
+
+                        h5 {
+                            font-weight: bold;
+                            margin-top: 30px;
+                        }
+
+                        p {
+                            font-size: 14px;
+                        }
+                    }
+
+                    .irob-user-image {
+                        margin: 5px;
+                        position: relative;
+                        height: 170px;
+                        width: 220px;
+
+                        &:hover {
+                            .irob-image-delete {
+                                opacity: 1;
+                                transition: opacity .3s;
+                            }
+
+                            .irob-image-link {
+                                opacity: 1;
+                                transition: opacity .3s;
+                            }
+
+                            .irob-image-bottom {
+                                height: 30px;
+                                transition: height .3s;
+                            }
+                        }
+
+                        a {
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                cursor: pointer;
+                            }
+                        }
+
+                        .irob-image-bottom {
+                            position: absolute;
+                            bottom: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 0;
+                            background-color: $primary-color;
+                            transition: height .3s;
+                            overflow-x: hidden;
+
+                            .bottom-content {
+                                width: 100%;
+                                height: 100%;
+                                padding: 0 3px;
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                flex-direction: row;
+                                font-size: 13px;
+                                color: #fff;
+                                overflow: hidden;
+
+                                .image-name {
+                                    width: 85%;
+                                    overflow: hidden;
+                                    white-space: nowrap;
+                                    text-overflow: ellipsis;
+                                }
+
+                                .image-info {
+                                    margin-right: 5px;
+
+                                    svg {
+                                        width: 18px;
+                                        height: 18px;
+                                        cursor: pointer;
+                                    }
+                                }
+                            }
+                        }
+
+                        .irob-image-delete {
+                            position: absolute;
+                            right: 5px;
+                            top: 5px;
+                            width: 30px;
+                            height: 30px;
+                            border-radius: 50%;
+                            cursor: pointer;
+                            background-color: #e34346;
+                            display: flex;
+                            justify-content: center;
+                            opacity: 0;
+                            transition: opacity .3s;
+
+                            svg {
+                                color: #fff;
+                                width: 20px;
+                                height: auto;
+                                margin: 0;
+                            }
+                        }
+
+                        .irob-image-link {
+                            position: absolute;
+                            left: 5px;
+                            top: 5px;
+                            width: 30px;
+                            height: 30px;
+                            border-radius: 50%;
+                            cursor: pointer;
+                            background-color: $primary-color;
+                            display: flex;
+                            justify-content: center;
+                            opacity: 0;
+                            transition: opacity .3s;
+
+                            svg {
+                                color: #fff;
+                                width: 16px;
+                                height: auto;
+                                margin: 0;
+                            }
+                        }
+                    }
+                }
             }
+
         }
     }
-
 }
 
