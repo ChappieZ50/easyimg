@@ -1,0 +1,27 @@
+$primary-color: #212121;
+$second-color: #2c7ce0;
+$third-color: #f2f5f5;
+
+.navbar-brand-wrapper {
+    background-color: $primary-color !important;
+}
+
+.sidebar {
+    background: linear-gradient(to top, $primary-color, $primary-color);
+
+    > .nav:not(.sub-menu) > .nav-item:hover:not(.nav-profile):not(.hover-open) > .nav-link:not([aria-expanded="true"]) {
+        background: $second-color;
+    }
+
+    > .nav .nav-item:not(.hover-open) .collapse .sub-menu .nav-item .nav-link:before,
+    > .nav .nav-item:not(.hover-open) .collapsing .sub-menu .nav-item .nav-link:before {
+        background: $second-color;
+    }
+}
+
+
+@media (max-width: 991px) {
+    .navbar.default-layout .navbar-brand-wrapper {
+        padding: 4px 10px;
+    }
+}

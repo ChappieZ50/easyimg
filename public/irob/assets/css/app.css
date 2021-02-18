@@ -1,0 +1,20 @@
+.navbar-brand-wrapper {
+  background-color: #212121 !important;
+}
+
+.sidebar {
+  background: linear-gradient(to top, #212121, #212121);
+}
+.sidebar > .nav:not(.sub-menu) > .nav-item:hover:not(.nav-profile):not(.hover-open) > .nav-link:not([aria-expanded=true]) {
+  background: #2c7ce0;
+}
+.sidebar > .nav .nav-item:not(.hover-open) .collapse .sub-menu .nav-item .nav-link:before,
+.sidebar > .nav .nav-item:not(.hover-open) .collapsing .sub-menu .nav-item .nav-link:before {
+  background: #2c7ce0;
+}
+
+@media (max-width: 991px) {
+  .navbar.default-layout .navbar-brand-wrapper {
+    padding: 4px 10px;
+  }
+}
