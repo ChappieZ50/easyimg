@@ -1860,7 +1860,7 @@ $(document).ready(function () {
   feather.replace();
   /* Ban / Unban */
 
-  $('#ban').on('click', function () {
+  $(document).on('click', '#ban', function () {
     var id = $(this).attr('data-id');
     sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
       title: "Are you sure?",
@@ -1895,7 +1895,7 @@ $(document).ready(function () {
       }
     });
   });
-  $('#unban').on('click', function () {
+  $(document).on('click', '#unban', function () {
     var id = $(this).attr('data-id');
     sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
       title: "Are you sure?",

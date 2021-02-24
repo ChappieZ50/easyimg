@@ -1,3 +1,4 @@
+@import url(https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap);
 .navbar-brand-wrapper {
   background-color: #212121 !important;
 }
@@ -15,8 +16,8 @@
 
 a.close {
   position: absolute;
-  right: 20px;
-  top: 1px;
+  right: 12px;
+  top: 6px;
 }
 
 .btn.btn-lg {
@@ -60,6 +61,51 @@ a.close {
 }
 .form-control::placeholder {
   color: #333;
+}
+
+.card-body {
+  padding-top: 0 !important;
+}
+
+.card-header {
+  padding: 14px !important;
+}
+.card-header .card-title {
+  margin: 0 !important;
+}
+
+.user-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px 0;
+}
+.user-info .user-avatar img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+}
+.user-info .username {
+  margin-top: 14px;
+  font-weight: bold;
+  font-size: 18px;
+  color: #2c7ce0;
+  letter-spacing: 0.5px;
+  font-family: "Nunito", sans-serif;
+}
+.user-info .email {
+  margin-top: 2px;
+  font-weight: bold;
+  color: #212121;
+  font-family: "Nunito", sans-serif;
+}
+.user-info .user-status {
+  margin-top: 8px;
+  display: flex;
+}
+.user-info .user-status label:not(:first-child) {
+  margin-left: 10px;
 }
 
 @media (max-width: 991px) {

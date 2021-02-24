@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
+
 $primary-color: #212121;
 $second-color: #2c7ce0;
 $third-color: #f2f5f5;
@@ -21,8 +23,8 @@ $third-color: #f2f5f5;
 
 a.close {
     position: absolute;
-    right: 20px;
-    top: 1px;
+    right: 12px;
+    top: 6px;
 }
 
 .btn.btn-lg {
@@ -64,6 +66,59 @@ a.close {
 
     &::placeholder {
         color: #333;
+    }
+}
+
+.card-body {
+    padding-top: 0 !important;
+}
+
+.card-header {
+    padding: 14px !important;
+
+    .card-title {
+        margin: 0 !important;
+    }
+}
+
+.user-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px 0;
+
+    .user-avatar {
+        img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+        }
+    }
+
+    .username {
+        margin-top: 14px;
+        font-weight: bold;
+        font-size: 18px;
+        color: $second-color;
+        letter-spacing: .5px;
+        font-family: 'Nunito', sans-serif;
+    }
+
+    .email {
+        margin-top: 2px;
+        font-weight: bold;
+        color: $primary-color;
+        font-family: 'Nunito', sans-serif;
+    }
+
+    .user-status {
+        margin-top: 8px;
+        display: flex;
+
+        label:not(:first-child) {
+            margin-left: 10px;
+        }
     }
 }
 

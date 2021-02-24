@@ -20,6 +20,13 @@ class UserController extends Controller
         return view('irob.users.users')->with('users', $users->paginate());
     }
 
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+
+        return view('irob.users.user')->with('user', $user);
+    }
+
     public function store(UserRequest $request)
     {
         $user = new User([

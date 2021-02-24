@@ -3,12 +3,12 @@
         <li class="nav-item nav-profile">
             <a href="#" class="nav-link">
                 <div class="profile-image">
-                    <img class="img-xs rounded-circle" src="{{asset('assets/images/avatar.png')}}" alt="profile image">
+                    <img class="img-xs rounded-circle" src="{{auth()->user()->avatar ? auth()->user()->avatar : asset('assets/images/avatar.png')}}" alt="profile image">
                     <div class="dot-indicator bg-success"></div>
                 </div>
                 <div class="text-wrapper">
                     <p class="profile-name">IMGROB</p>
-                    <p class="designation">Admin user</p>
+                    <p class="designation">{{auth()->user()->username}}</p>
                 </div>
             </a>
         </li>
@@ -20,7 +20,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{route('admin.users')}}">
+            <a class="nav-link" href="{{route('admin.user.index')}}">
                 <i class="menu-icon typcn typcn-document-text"></i>
                 <span class="menu-title">Users</span>
             </a>

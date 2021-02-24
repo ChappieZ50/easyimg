@@ -8,7 +8,7 @@ $(document).ready(function () {
     feather.replace();
 
     /* Ban / Unban */
-    $('#ban').on('click', function () {
+    $(document).on('click', '#ban', function () {
         let id = $(this).attr('data-id');
         Swal.fire({
             title: "Are you sure?",
@@ -43,7 +43,7 @@ $(document).ready(function () {
             }
         });
     });
-    $('#unban').on('click', function () {
+    $(document).on('click', '#unban', function () {
         let id = $(this).attr('data-id');
         Swal.fire({
             title: "Are you sure?",
