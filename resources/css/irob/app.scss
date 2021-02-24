@@ -19,6 +19,11 @@ $third-color: #f2f5f5;
     }
 }
 
+a.close{
+    position:absolute;
+    right:20px;
+    top:1px;
+}
 
 @media (max-width: 991px) {
     .navbar.default-layout .navbar-brand-wrapper {

@@ -13,6 +13,12 @@
   background: #2c7ce0;
 }
 
+a.close {
+  position: absolute;
+  right: 20px;
+  top: 1px;
+}
+
 @media (max-width: 991px) {
   .navbar.default-layout .navbar-brand-wrapper {
     padding: 4px 10px;

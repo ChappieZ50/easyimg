@@ -15,8 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 
 /* imgrob admin */
-Route::group(['prefix' => '/admin/', 'as' => 'admin.'], function () {
-    Route::get('', 'Admin\HomeController@index')->name('home');
+Route::group(['prefix' => '/admin/', 'as' => 'admin.','namespace' => 'Admin','middleware' => 'admin-auth'], function () {
+    Route::get('', 'HomeController@index')->name('home');
+    Route::group(['namespace' => 'User'],function(){
+        Route::get('users','UserController@index')->name('users');
+        Route::post('users/status','UserController@status')->name('user.status');
+    });
 });
 
 /* imgrob web */
@@ -24,7 +28,7 @@ Route::group(['prefix' => '/admin/', 'as' => 'admin.'], function () {
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/p', 'PageController@index')->name('page');
 
-Route::group(['as' => 'user.','namespace' => 'User'],function(){
+Route::group(['as' => 'user.','namespace' => 'User','middleware' => 'user-status'],function(){
     Route::resource('login','LoginController')->only('index','store')->middleware('guest');
     Route::resource('register','RegisterController')->only('index','store')->middleware('guest');
     Route::get('logout','LoginController@logout')->name('logout');

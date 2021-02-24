@@ -29,6 +29,12 @@
     </div>
 
 </div>
+
+<script>
+    window.routes = {
+        'user_status': '{{route('admin.user.status')}}',
+    };
+</script>
 <script src="{{asset('irob/assets/vendors/js/vendor.bundle.base.js')}}"></script>
 <script src="{{asset('irob/assets/vendors/js/vendor.bundle.addons.js')}}"></script>
 <script src="{{asset('irob/assets/js/shared/off-canvas.js')}}"></script>
