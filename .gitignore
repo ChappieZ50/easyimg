@@ -26,3 +26,4 @@ Homestead.json
 
 public/assets/js/*.js
 public/assets/css/*.css
+public/mix-manifest.json
