@@ -8,31 +8,31 @@ $(document).ready(function () {
     feather.replace();
 
     /* Ban / Unban */
-    $('#ban').on('click',function(){
+    $('#ban').on('click', function () {
         let id = $(this).attr('data-id');
         Swal.fire({
-            title:"Are you sure?",
-            text:"This user will be banned",
-            icon:"error",
+            title: "Are you sure?",
+            text: "This user will be banned",
+            icon: "error",
             confirmButtonText: "Yes,Ban",
             cancelButtonText: "Cancel",
             showCancelButton: true,
             confirmButtonColor: '#ff6258',
-        }).then(function(result){
-            if(result.isConfirmed){
-                axios.post(window.routes.user_status,{
-                    status:false,
-                    user:id,
+        }).then(function (result) {
+            if (result.isConfirmed) {
+                axios.post(window.routes.user_status, {
+                    status: false,
+                    user: id,
                 }).then(response => {
                     if (response.data.status) {
                         Swal.fire({
                             title: "User Banned",
                             icon: "success",
                             cancelButtonText: 'Close',
-                        }).then(function(){
+                        }).then(function () {
                             window.location.reload();
                         });
-                    }else{
+                    } else {
                         Swal.fire({
                             title: "Something wrong",
                             icon: "error",
@@ -59,15 +59,15 @@ $(document).ready(function () {
                     status: true,
                     user: id,
                 }).then(response => {
-                    if(response.data.status){
+                    if (response.data.status) {
                         Swal.fire({
-                            title:"User Unbanned",
-                            icon:"success",
-                            cancelButtonText:'Close',
-                        }).then(function(){
+                            title: "User Unbanned",
+                            icon: "success",
+                            cancelButtonText: 'Close',
+                        }).then(function () {
                             window.location.reload();
                         });
-                    }else{
+                    } else {
                         Swal.fire({
                             title: "Something wrong",
                             icon: "error",
@@ -77,5 +77,71 @@ $(document).ready(function () {
                 });
             }
         });
+    });
+
+    /* Add New User Modal */
+    $('#new_user_modal #add_new_user').on('click', function () {
+        let this_button = $(this),
+            button_text = this_button.text(),
+            alert = $('#new_user_modal #non_error');
+
+        alert.hide();
+        this_button.prop('disabled', true);
+        this_button.html('<i class="mdi mdi-loading mdi-spin"></i>');
+
+        $('#new_user_modal input').removeClass('is-invalid');
+        $('#new_user_modal .invalid-feedback').remove();
+
+        setTimeout(function () {
+            let username = $('#new_user_modal input#username').val(),
+                email = $('#new_user_modal input#email').val(),
+                password = $('#new_user_modal input#password').val(),
+                password_confirmation = $('#new_user_modal input#confirm_password').val(),
+                is_admin = !!$('#new_user_modal input#is_admin').is(':checked');
+
+            axios.post(window.routes.user_store, {
+                username,
+                email,
+                password,
+                password_confirmation,
+                is_admin
+            }).then(response => {
+                if (response.data.status) {
+                    $('#newUserModal').modal('toggle');
+                    Swal.fire({
+                        title: "New User Added",
+                        icon: "success",
+                        cancelButtonText: 'Close',
+                    }).then(function () {
+                        window.location.reload();
+                    });
+                }
+            }, error => {
+                if (error.response.data.errors) {
+                    let {errors} = error.response.data;
+
+                    Object.keys(errors).forEach(key => {
+                        let value = errors[key][0],
+                            element = $('#new_user_modal input#' + key);
+
+                        element.after(
+                            '<span class="invalid-feedback d-block mt-1 ml-2" role="alert">\n' +
+                            '    <strong>' + value + '</strong>\n' +
+                            '</span>'
+                        );
+                        element.addClass('is-invalid');
+
+                    });
+                } else if (!error.response.data.status) {
+                    alert.html(error.response.data.message);
+                    alert.show();
+                }
+
+            }).finally(function () {
+                this_button.html(button_text);
+                this_button.prop('disabled', false);
+                console.clear();
+            });
+        }, 500);
     });
 });

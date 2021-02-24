@@ -1930,6 +1930,60 @@ $(document).ready(function () {
       }
     });
   });
+  /* Add New User Modal */
+
+  $('#new_user_modal #add_new_user').on('click', function () {
+    var this_button = $(this),
+        button_text = this_button.text(),
+        alert = $('#new_user_modal #non_error');
+    alert.hide();
+    this_button.prop('disabled', true);
+    this_button.html('<i class="mdi mdi-loading mdi-spin"></i>');
+    $('#new_user_modal input').removeClass('is-invalid');
+    $('#new_user_modal .invalid-feedback').remove();
+    setTimeout(function () {
+      var username = $('#new_user_modal input#username').val(),
+          email = $('#new_user_modal input#email').val(),
+          password = $('#new_user_modal input#password').val(),
+          password_confirmation = $('#new_user_modal input#confirm_password').val(),
+          is_admin = !!$('#new_user_modal input#is_admin').is(':checked');
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post(window.routes.user_store, {
+        username: username,
+        email: email,
+        password: password,
+        password_confirmation: password_confirmation,
+        is_admin: is_admin
+      }).then(function (response) {
+        if (response.data.status) {
+          $('#newUserModal').modal('toggle');
+          sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
+            title: "New User Added",
+            icon: "success",
+            cancelButtonText: 'Close'
+          }).then(function () {
+            window.location.reload();
+          });
+        }
+      }, function (error) {
+        if (error.response.data.errors) {
+          var errors = error.response.data.errors;
+          Object.keys(errors).forEach(function (key) {
+            var value = errors[key][0],
+                element = $('#new_user_modal input#' + key);
+            element.after('<span class="invalid-feedback d-block mt-1 ml-2" role="alert">\n' + '    <strong>' + value + '</strong>\n' + '</span>');
+            element.addClass('is-invalid');
+          });
+        } else if (!error.response.data.status) {
+          alert.html(error.response.data.message);
+          alert.show();
+        }
+      })["finally"](function () {
+        this_button.html(button_text);
+        this_button.prop('disabled', false);
+        console.clear();
+      });
+    }, 500);
+  });
 });
 
 /***/ }),

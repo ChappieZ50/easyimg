@@ -33,6 +33,7 @@
 <script>
     window.routes = {
         'user_status': '{{route('admin.user.status')}}',
+        'user_store': '{{route('admin.user.store')}}',
     };
 </script>
 <script src="{{asset('irob/assets/vendors/js/vendor.bundle.base.js')}}"></script>

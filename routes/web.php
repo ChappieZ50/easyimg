@@ -15,11 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 
 /* imgrob admin */
-Route::group(['prefix' => '/admin/', 'as' => 'admin.','namespace' => 'Admin','middleware' => 'admin-auth'], function () {
+Route::group(['prefix' => '/admin/', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'admin-auth'], function () {
     Route::get('', 'HomeController@index')->name('home');
-    Route::group(['namespace' => 'User'],function(){
-        Route::get('users','UserController@index')->name('users');
-        Route::post('users/status','UserController@status')->name('user.status');
+    Route::group(['namespace' => 'User'], function () {
+        Route::get('users', 'UserController@index')->name('users');
+        Route::post('users/status', 'UserController@status')->name('user.status');
+        Route::post('users/store', 'UserController@store')->name('user.store');
     });
 });
 
@@ -28,13 +29,15 @@ Route::group(['prefix' => '/admin/', 'as' => 'admin.','namespace' => 'Admin','mi
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/p', 'PageController@index')->name('page');
 
-Route::group(['as' => 'user.','namespace' => 'User','middleware' => 'user-status'],function(){
-    Route::resource('login','LoginController')->only('index','store')->middleware('guest');
-    Route::resource('register','RegisterController')->only('index','store')->middleware('guest');
-    Route::get('logout','LoginController@logout')->name('logout');
+Route::group(['as' => 'user.', 'namespace' => 'User', 'middleware' => 'user-status'], function () {
+    Route::resource('login', 'LoginController')->only('index', 'store')->middleware('guest');
+    Route::resource('register', 'RegisterController')->only('index', 'store')->middleware('guest');
+    Route::get('logout', 'LoginController@logout')->name('logout');
 
-    Route::group(['prefix' => 'user','middleware' => 'auth'],function(){
-        Route::get('/',function(){return redirect()->route('user.profile');});
+    Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
+        Route::get('/', function () {
+            return redirect()->route('user.profile');
+        });
         Route::get('profile', 'UserController@profile')->name('profile');
         Route::get('my-images', 'UserController@userImages')->name('images');
     });
