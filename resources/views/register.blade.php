@@ -102,4 +102,4 @@
 
 @section('scripts')
     {!! NoCaptcha::renderJs() !!}
-    @append
+@append
