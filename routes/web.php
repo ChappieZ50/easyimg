@@ -23,17 +23,17 @@ Route::group(['prefix' => '/admin/', 'as' => 'admin.'], function () {
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/p', 'PageController@index')->name('page');
-Route::get('/login', 'LoginController@login')->name('login');
-Route::get('/register', 'LoginController@register')->name('register');
 
-Route::group(['prefix' => '/user/', 'as' => 'user.'], function () {
+Route::group(['as' => 'user.','namespace' => 'User'],function(){
+    Route::resource('login','LoginController')->only('index','store')->middleware('guest');
+    Route::resource('register','RegisterController')->only('index','store')->middleware('guest');
+    Route::get('logout','LoginController@logout')->name('logout');
 
-    Route::get('/', function () {
-        return redirect()->route('user.profile');
+    Route::group(['prefix' => 'user','middleware' => 'auth'],function(){
+        Route::get('/',function(){return redirect()->route('user.profile');});
+        Route::get('profile', 'UserController@profile')->name('profile');
+        Route::get('my-images', 'UserController@userImages')->name('images');
     });
-
-    Route::get('profile', 'UserController@profile')->name('profile');
-    Route::get('my-images', 'UserController@userImages')->name('images');
 });
 
 Route::post('/upload', function () {

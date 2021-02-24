@@ -1,4 +1,5 @@
 {
-    "/irob/assets/js/app.js": "/irob/assets/js/app.js?id=df063d98fe1d75d3292e",
-    "/irob/assets/css/app.css": "/irob/assets/css/app.css?id=4333657858113ec6cd74"
+    "/assets/js/app.js": "/assets/js/app.js",
+    "/assets/js/dropzone.js": "/assets/js/dropzone.js",
+    "/assets/css/app.css": "/assets/css/app.css"
 }

@@ -67,7 +67,7 @@
             </form>
         </div>
         <div class="to-register-page text-center mt-3 small">
-            Don't have an account ? <a href="{{route('register')}}">Register</a>
+            Don't have an account ? <a href="{{route('user.register.index')}}">Register</a>
         </div>
     </div>
 @endsection
