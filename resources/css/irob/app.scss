@@ -19,10 +19,16 @@ $third-color: #f2f5f5;
     }
 }
 
-a.close{
-    position:absolute;
-    right:20px;
-    top:1px;
+a.close {
+    position: absolute;
+    right: 20px;
+    top: 1px;
+}
+
+.btn.btn-lg {
+    padding: 14px;
+    font-weight:500;
+    font-size: 14px;
 }
 
 @media (max-width: 991px) {

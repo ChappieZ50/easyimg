@@ -24,7 +24,7 @@ $(document).ready(function () {
                     status:false,
                     user:id,
                 }).then(response => {
-                    if (response.status) {
+                    if (response.data.status) {
                         Swal.fire({
                             title: "User Banned",
                             icon: "success",
@@ -59,7 +59,7 @@ $(document).ready(function () {
                     status: true,
                     user: id,
                 }).then(response => {
-                    if(response.status){
+                    if(response.data.status){
                         Swal.fire({
                             title:"User Unbanned",
                             icon:"success",

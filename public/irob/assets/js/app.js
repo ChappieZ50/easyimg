@@ -1876,7 +1876,7 @@ $(document).ready(function () {
           status: false,
           user: id
         }).then(function (response) {
-          if (response.status) {
+          if (response.data.status) {
             sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
               title: "User Banned",
               icon: "success",
@@ -1911,7 +1911,7 @@ $(document).ready(function () {
           status: true,
           user: id
         }).then(function (response) {
-          if (response.status) {
+          if (response.data.status) {
             sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
               title: "User Unbanned",
               icon: "success",
