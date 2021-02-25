@@ -1,4 +1,4 @@
-<div id="irob_dropzone" class="irob-dropzone" data-note="You can upload 5 images in one time and JPG,PNG,GIF are accepted, 30MB limit "></div>
+<div id="irob_dropzone" class="irob-dropzone" data-note="Max 5 files in one time and JPG,PNG,GIF,SVG are accepted, 25MB limit "></div>
 <div class="irob-dropzone-terms">
     <div>
         By creating a image, you agree to Imgrob's

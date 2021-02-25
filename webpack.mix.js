@@ -16,5 +16,9 @@ if (process.env.section) {
     const mix = require('laravel-mix');
     mix.js('resources/js/app.js', 'public/assets/js/app.js')
         .js('resources/js/dropzone.js', 'public/assets/js/dropzone.js')
-        .sass('resources/css/app.scss', 'public/assets/css/app.css');
+        .js('resources/js/lightbox.js', 'public/assets/js/lightbox.js')
+        .sass('resources/css/app.scss', 'public/assets/css/app.css')
+        .sass('resources/css/lightbox.scss', 'public/assets/css/lightbox.css');
+
+        
 }

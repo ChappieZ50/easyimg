@@ -22,6 +22,7 @@ Route::group(['prefix' => '/admin/', 'as' => 'admin.', 'namespace' => 'Admin', '
         Route::post('users/status', 'UserController@status')->name('user.status');
         Route::post('users/store', 'UserController@store')->name('user.store');
     });
+    Route::resource('file','FileController')->only('index','show');
 });
 
 /* imgrob web */
@@ -43,8 +44,4 @@ Route::group(['as' => 'user.', 'namespace' => 'User', 'middleware' => 'user-stat
     });
 });
 
-Route::post('/upload', function () {
-    return [
-        'url' => 'https://test.com/test.jpg',
-    ];
-});
+Route::post('file/store','FileController@store')->name('file.store');

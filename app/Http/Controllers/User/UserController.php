@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\File;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -15,6 +16,7 @@ class UserController extends Controller
 
     public function userImages()
     {
-        return view('user.images');
+        $files = File::where('user_id',auth()->user()->id)->orderByDesc('id')->paginate();
+        return view('user.files')->with('files',$files);
     }
 }

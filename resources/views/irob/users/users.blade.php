@@ -43,7 +43,7 @@
                                     </td>
                                     <td>{{ $user->username }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->created_at }}</td>
+                                    <td>{{ $user->created_at->diffForHumans() }}</td>
                                     <td>
                                         @if ($user->is_admin)
                                             <label class="badge badge-info">Admin</label>

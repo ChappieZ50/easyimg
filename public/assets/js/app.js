@@ -40458,6 +40458,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/css/lightbox.scss":
+/*!*************************************!*\
+  !*** ./resources/css/lightbox.scss ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./node_modules/process/browser.js":
 /*!*****************************************!*\
   !*** ./node_modules/process/browser.js ***!
@@ -44418,7 +44431,8 @@ if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAle
 /******/ 		
 /******/ 		var deferredModules = [
 /******/ 			["./resources/js/app.js"],
-/******/ 			["./resources/css/app.scss"]
+/******/ 			["./resources/css/app.scss"],
+/******/ 			["./resources/css/lightbox.scss"]
 /******/ 		];
 /******/ 		// no chunk on demand loading
 /******/ 		

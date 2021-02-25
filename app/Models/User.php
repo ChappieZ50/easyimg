@@ -24,4 +24,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = ['password','remember_token'];
+
+    public function files(){
+        return $this->hasMany(File::class,'user_id');
+    }
 }

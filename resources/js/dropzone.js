@@ -8,7 +8,7 @@ $(document).ready(function () {
         debug: false,
         autoProceed: true,
         restrictions: {
-            maxFileSize: 3000000,
+            maxFileSize: 2500000,
             maxNumberOfFiles: 5,
             minNumberOfFiles: 1,
             allowedFileTypes: ["image/*"],
@@ -20,12 +20,9 @@ $(document).ready(function () {
         note: uppy_note,
         replaceTargetContent: true,
         showProgressDetails: true,
-        metaFields: [
-            {id: 'name', name: 'Name', placeholder: 'file name'},
-            {id: 'caption', name: 'Caption', placeholder: 'describe what the image is about'}
-        ],
     }).use(XHRUpload, {
-        endpoint: "upload",
+        endpoint: "file/store",
+        fieldName:'file',
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
