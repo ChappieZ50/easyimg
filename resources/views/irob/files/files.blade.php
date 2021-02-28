@@ -10,14 +10,15 @@
                     @unless(count($files))
                         <h5 class="text-center mt-3">No Records Found</h5>
                     @else
-                        <table class="table table-hover table-striped">
+                    <div class="table-responsive">
+<table class="table table-hover table-striped">
                             <thead>
                                 <tr>
                                     <th>Preview</th>
                                     <th>Username</th>
                                     <th>Name</th>
                                     <th>Original Name</th>
-                                    <th>Image Size</th>
+                                    <th>Size</th>
                                     <th>Created</th>
                                     <th>Action</th>
                                 </tr>
@@ -34,6 +35,7 @@
                                         @else
                                             Anonymous
                                         @endif
+                                        </td>
                                         <td>{{ $file->file_id }}</td>
                                         <td>{{ $file->file_original_id }}</td>
                                         <td>{{ readable_size($file->file_size) }}</td>
@@ -53,6 +55,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
                         <div class="d-flex justify-content-center mt-4">
                             {{ $files->appends(['s' => request()->get('s')])->links() }}
                         </div>
