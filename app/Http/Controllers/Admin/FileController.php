@@ -8,12 +8,13 @@ use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $files = File::orderByDesc('id');
         if ($request->has('s')) {
             $s = $request->get('s');
-            $files->whereHas('user' ,function($query) use($s){
-                return $query->where('username','like','%'.$s.'%')->orWhere('email','like','%'.$s.'%');
+            $files->whereHas('user', function ($query) use ($s) {
+                return $query->where('username', 'like', '%' . $s . '%')->orWhere('email', 'like', '%' . $s . '%');
             })->orWhere('file_id', 'like', '%' . $s . '%');
         }
         return view('irob.files.files')->with('files', $files->paginate());
@@ -22,11 +23,16 @@ class FileController extends Controller
     public function show($id)
     {
         $file = File::findOrFail($id);
+        if (!$file->user) {
+            $file->user = json_decode(json_encode(config('imgfoo.anonymous_user')));
+        }
 
         return view('irob.files.file')->with('file', $file);
     }
 
-    public function delete(Request $request){
+    public function delete(Request $request)
+    {
+        // TODO
         $id = $request->get('id');
         return response()->json([
             'id' => $id
