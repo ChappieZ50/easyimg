@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UserRequest;
+use App\Models\File;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,11 +21,21 @@ class UserController extends Controller
         return view('irob.users.users')->with('users', $users->paginate());
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
+        $files = File::orderByDesc('id');
+        if ($request->has('s')) {
+            $s = $request->get('s');
+            $files->where('file_id', 'like', '%' . $s . '%')->orWhere('file_original_id', 'like', '%' . $s . '%');
+        }
+        $files->where('user_id',$id);
+
         $user = User::findOrFail($id);
 
-        return view('irob.users.user')->with('user', $user);
+        return view('irob.users.user')->with([
+            'user' => $user,
+            'files' => $files->paginate()
+        ]);
     }
 
     public function store(UserRequest $request)
