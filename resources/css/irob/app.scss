@@ -150,6 +150,31 @@ a.close {
     border-radius: 8% !important;
 }
 
+.nav-tabs{
+    border:0 !important;
+
+    .nav-item{
+        
+        .nav-link{
+            border:1px solid #e5e5e5;
+            border-bottom:0;
+            border-radius:0 !important;
+            padding: 0.8rem 1rem;
+            &.active{
+                background-color: $second-color;
+                color:#fff;
+            }
+            &:hover{
+                background-color: $second-color;
+                color:#fff;
+            }
+            &:last-child{
+                border-bottom: 1px solid #e5e5e5;
+            }
+        }
+    }
+}
+
 @media (max-width: 991px) {
     .navbar.default-layout .navbar-brand-wrapper {
         padding: 4px 10px;

@@ -23,6 +23,9 @@ Route::group(['prefix' => '/admin/', 'as' => 'admin.', 'namespace' => 'Admin', '
         Route::post('users/store', 'UserController@store')->name('user.store');
     });
     Route::resource('file','FileController')->only('index','show');
+
+    /* Website Settings */
+    Route::get('settings','SettingsController@index')->name('settings.index');
 });
 
 /* imgrob web */
