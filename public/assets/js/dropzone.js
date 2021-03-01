@@ -15638,7 +15638,9 @@ var XHRUpload = __webpack_require__(/*! @uppy/xhr-upload */ "./node_modules/@upp
 var Dashboard = __webpack_require__(/*! @uppy/dashboard */ "./node_modules/@uppy/dashboard/lib/index.js");
 
 $(document).ready(function () {
-  var uppy_note = $('#irob_dropzone').attr('data-note');
+  var uppy_note = $('#irob_dropzone').attr('data-note'),
+      uppy_drop_string = $('#irob_dropzone').attr('data-drop'),
+      uppy_browse_string = $('#irob_dropzone').attr('data-browse');
   var uppy = new Uppy({
     debug: false,
     autoProceed: true,
@@ -15647,6 +15649,12 @@ $(document).ready(function () {
       maxNumberOfFiles: 5,
       minNumberOfFiles: 1,
       allowedFileTypes: ["image/*"]
+    },
+    locale: {
+      strings: {
+        dropPaste: uppy_drop_string,
+        browse: uppy_browse_string
+      }
     }
   }).use(Dashboard, {
     target: "#irob_dropzone",
