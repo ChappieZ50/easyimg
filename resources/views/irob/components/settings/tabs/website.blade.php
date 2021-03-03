@@ -31,13 +31,20 @@
                     <div class="small font-italic">Default: 5</div>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="uploads_storage">Uploads Storage</label>
-                <select name="uploads_storage" id="uploads_storage" class="form-control">
-                    <option {{isset($setting) && $setting->uploads_storage == 'local' ? 'selected' : ''}} value="local">Local Storage</option>
-                    <option {{isset($setting) && $setting->uploads_storage == 'aws' ? 'selected' : ''}} value="aws">AWS Storage</option>
-                </select>
-                <div class="small font-italic">Default: Local Storage</div>
+            <div class="row">
+                <div class="form-group col-lg-6">
+                    <label for="menu_title">Menu Title</label>
+                    <input type="text" class="form-control col-12" id="menu_title"
+                           name="menu_title" value="{{isset($setting) ? $setting->menu_title : old('menu_title')}}">
+                </div>
+                <div class="form-group col-lg-6">
+                    <label for="uploads_storage">Uploads Storage</label>
+                    <select name="uploads_storage" id="uploads_storage" class="form-control">
+                        <option {{isset($setting) && $setting->uploads_storage == 'local' ? 'selected' : ''}} value="local">Local Storage</option>
+                        <option {{isset($setting) && $setting->uploads_storage == 'aws' ? 'selected' : ''}} value="aws">AWS Storage</option>
+                    </select>
+                    <div class="small font-italic">Default: Local Storage</div>
+                </div>
             </div>
         </div>
         <div class="col-lg-6 col-md-12">

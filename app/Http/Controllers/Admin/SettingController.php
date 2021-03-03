@@ -59,6 +59,7 @@ class SettingController extends Controller
             'dropzone_text'    => $request->get('dropzone_text'),
             'browse_text'      => $request->get('browse_text'),
             'dropzone_rule'    => $request->get('dropzone_rule'),
+            'menu_title'       => $request->get('menu_title'),
         ];
 
         if ($this->updateOrCreate($data)) {

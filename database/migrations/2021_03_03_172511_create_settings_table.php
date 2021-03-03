@@ -25,6 +25,7 @@ class CreateSettingsTable extends Migration
             $table->string('dropzone_text')->nullable();
             $table->string('browse_text')->nullable();
             $table->string('dropzone_rule')->nullable();
+            $table->string('menu_title')->nullable();
 
             /* AWS API */
             $table->string('aws_access_key')->nullable();

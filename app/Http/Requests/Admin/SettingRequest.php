@@ -33,6 +33,7 @@ class SettingRequest extends FormRequest
             'dropzone_text'         => 'sometimes',
             'browse_text'           => 'sometimes',
             'dropzone_rule'         => 'sometimes',
+            'menu_title'            => 'sometimes',
 
             /* AWS API */
             'aws_access_key'        => 'sometimes',
