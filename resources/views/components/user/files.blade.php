@@ -18,8 +18,8 @@
                 @else
                     @foreach ($files as $file)
                         @php $link = file_url($file); @endphp
-                        <div class="irob-user-image">
-                            <div class="irob-image-delete" id="delete" data-id="{{ $file->id }}">
+                        <div class="irob-user-image" >
+                            <div class="irob-image-delete" id="file_delete" data-id="{{ $file->id }}">
                                 <i data-feather="x"></i>
                             </div>
                             <div class="irob-image-link">
@@ -27,8 +27,8 @@
                             </div>
 
                             <a href="{{ $link }}" data-lightbox="image-{{ $file->id }}"
-                                data-title="{{ $file->file_original_id . '.' . $file->file_mime }}">
-                                <img src="{{ $link }}" alt="{{ $file->file_id }}}">
+                               data-title="{{ $file->file_original_id . '.' . $file->file_mime }}">
+                                <img src="{{ $link }}" alt="{{ $file->file_id }}">
                             </a>
 
                             <div class="irob-image-bottom">

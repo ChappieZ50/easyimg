@@ -6,8 +6,8 @@
                 Upload image
             </a>
             <button class="navbar-toggler collapsed border-0" type="button" data-toggle="collapse"
-                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
                 <span> </span>
                 <span> </span>
                 <span> </span>
@@ -16,13 +16,16 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            About
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{get_setting('menu_title','About')}}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Terms of Service </a>
-                            <a class="dropdown-item" href="#">Privacy Policy</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                            @forelse(get_pages() as $page)
+                                @if($page->slug)
+                                    <a class="dropdown-item" href="{{route('page',['slug' => $page->slug])}}">{{$page->title}}</a>
+                                @endif
+                            @empty
+                            @endforelse
                         </div>
                     </li>
                 </ul>
@@ -30,7 +33,7 @@
         </div>
 
         <a class="navbar-brand" href="{{ url('/') }}">
-            <img class="logo" src="{{ asset('logo.png') }}" alt="logo">
+            <img class="logo" src="{{ !empty(get_setting('logo')) ? website_file_url(get_setting('logo')) : asset('logo.png') }}" alt="logo">
         </a>
 
         <div class="page-items login-items">
@@ -38,11 +41,11 @@
                 <ul class="navbar-nav rob-move-btn">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="javascript:;" id="navbarDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="{{ asset('assets/images/avatar.png') }}" alt="avatar" class="nav-user-avatar">
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="{{ avatar_url(auth()->user()->avatar) }}" alt="avatar" class="nav-user-avatar">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right position-absolute shadow-lg"
-                            aria-labelledby="navbarDropdown">
+                             aria-labelledby="navbarDropdown">
                             @if(auth()->user()->is_admin)
                                 <a class="dropdown-item" href="{{route('admin.home')}}">Admin Panel</a>
                             @endif

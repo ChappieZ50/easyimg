@@ -1842,12 +1842,16 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var bootstrap_dist_js_bootstrap_bundle__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bootstrap/dist/js/bootstrap.bundle */ "./node_modules/bootstrap/dist/js/bootstrap.bundle.js");
-/* harmony import */ var bootstrap_dist_js_bootstrap_bundle__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(bootstrap_dist_js_bootstrap_bundle__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var clipboard_dist_clipboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! clipboard/dist/clipboard */ "./node_modules/clipboard/dist/clipboard.js");
-/* harmony import */ var clipboard_dist_clipboard__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(clipboard_dist_clipboard__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var bootstrap_dist_js_bootstrap_bundle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! bootstrap/dist/js/bootstrap.bundle */ "./node_modules/bootstrap/dist/js/bootstrap.bundle.js");
+/* harmony import */ var bootstrap_dist_js_bootstrap_bundle__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(bootstrap_dist_js_bootstrap_bundle__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var clipboard_dist_clipboard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! clipboard/dist/clipboard */ "./node_modules/clipboard/dist/clipboard.js");
+/* harmony import */ var clipboard_dist_clipboard__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(clipboard_dist_clipboard__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_3__);
+
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
@@ -1874,7 +1878,7 @@ $(document).ready(function () {
   }).resize();
   /* Copy Image Link */
 
-  var clipboard = new (clipboard_dist_clipboard__WEBPACK_IMPORTED_MODULE_1___default())('#copy');
+  var clipboard = new (clipboard_dist_clipboard__WEBPACK_IMPORTED_MODULE_2___default())('#copy');
 
   function setTooltip(btn, message) {
     $(btn).tooltip('hide').attr('data-original-title', message).tooltip('show');
@@ -1898,7 +1902,7 @@ $(document).ready(function () {
 
   $('#delete').on('click', function () {
     var id = $(this).attr('data-id');
-    sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
+    sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
       title: "Are you sure?",
       text: "This image will delete forever.",
       icon: "error",
@@ -1908,9 +1912,143 @@ $(document).ready(function () {
       confirmButtonColor: '#e34346'
     }).then(function (result) {
       if (result.isConfirmed) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
+        sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
           title: "Image successfully deleted.",
           icon: "success"
+        });
+      }
+    });
+  });
+
+  function parse_errors(errors) {
+    var el = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : $('#user_profile_errors');
+    Object.keys(errors).forEach(function (key) {
+      var value = errors[key][0];
+      el.html(value + "<br>");
+    });
+    el.show();
+  }
+  /* type: "success","error" */
+
+
+  function show_swal(title) {
+    var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'success';
+
+    if (type === "error") {
+      sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
+        title: title,
+        icon: "error",
+        cancelButtonText: 'Close'
+      }).then(function () {
+        window.location.reload();
+      });
+    } else {
+      sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
+        title: title,
+        icon: "success",
+        cancelButtonText: 'Close'
+      }).then(function () {
+        window.location.reload();
+      });
+    }
+  }
+  /* Preview Image */
+
+
+  function preview_image(el) {
+    var preview = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'preview_image';
+
+    if (el.files && el.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $('#' + preview).attr('src', e.target.result);
+      };
+
+      reader.readAsDataURL(el.files[0]); // convert to base64 string
+    }
+  }
+
+  $('input#user_avatar').on('change', function () {
+    preview_image(this, 'user_avatar_preview');
+  });
+  /* User Update */
+
+  $('#user_update').on('click', function () {
+    var username = $('#user_username').val(),
+        email = $('#user_email').val();
+    setTimeout(function () {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().put(window.location.href + '/update', {
+        username: username,
+        email: email
+      }).then(function (response) {
+        if (response.data.status) {
+          show_swal("Your profile successfully updated.");
+        }
+      }, function (error) {
+        return parse_errors(error.response.data.errors);
+      });
+    }, 500);
+  });
+  $('#user_update_password').on('click', function () {
+    var current_password = $('#user_current_password').val(),
+        password = $('#user_new_password').val(),
+        password_confirmation = $('#user_new_password_confirmation').val();
+    setTimeout(function () {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().put(window.location.href + '/update/password', {
+        current_password: current_password,
+        password: password,
+        password_confirmation: password_confirmation
+      }).then(function (response) {
+        if (response.data.status) {
+          show_swal("Your password successfully updated.");
+        }
+      }, function (error) {
+        return parse_errors(error.response.data.errors);
+      });
+    }, 500);
+  });
+  $('#user_update_avatar').on('click', function () {
+    var formData = new FormData();
+    var avatar = document.querySelector('#user_avatar');
+    formData.append("avatar", avatar.files[0]);
+    formData.append("_method", "PUT");
+    setTimeout(function () {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post(window.location.href + '/update/avatar', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        if (response.data.status) {
+          show_swal("Your avatar successfully updated.");
+        }
+      }, function (error) {
+        parse_errors(error.response.data.errors);
+        var preview = $('#user_avatar_preview');
+        preview.attr('src', preview.attr('data-original'));
+      });
+    }, 500);
+  });
+  /* Image Delete */
+
+  $('#file_delete').on('click', function () {
+    var id = $(this).attr('data-id');
+    sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
+      title: "Are you sure?",
+      text: "This file will be deleted",
+      icon: "info",
+      confirmButtonText: "Yes,Delete",
+      cancelButtonText: "Cancel",
+      showCancelButton: true,
+      confirmButtonColor: '#ff6258'
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().delete(window.location.href + '/delete/' + id).then(function (response) {
+          if (response.data.status) {
+            show_swal("Your file successfully deleted.");
+          }
+        }, function () {
+          show_swal('Something gone wrong, please try again.', 'error');
         });
       }
     });

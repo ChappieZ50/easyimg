@@ -19,7 +19,7 @@
                         <h5 class="text-center mt-3">No Records Found</h5>
                     @else
                         <div class="table-responsive">
-                                <table class="table table-hover table-striped">
+                            <table class="table table-hover table-striped">
                                 <thead>
                                 <tr>
                                     <th>Avatar</th>
@@ -35,12 +35,7 @@
                                 @foreach ($users as $user)
                                     <tr>
                                         <td>
-                                            @if($user->avatar)
-                                                <img src="{{ $user->avatar }}" alt="{{ $user->username }}">
-                                            @else
-                                                <img src="{{ asset('assets/images/avatar.png') }}"
-                                                    alt="{{ $user->username }}">
-                                            @endif
+                                            <img src="{{ avatar_url($user->avatar) }}" alt="{{ $user->username }}">
                                         </td>
                                         <td>{{ $user->username }}</td>
                                         <td>{{ $user->email }}</td>
@@ -61,7 +56,7 @@
                                         </td>
                                         <td>
                                             <a href="{{route('admin.user.show',$user->id)}}" class="btn btn-info social-btn" style="padding: 6px 10px;"
-                                            title="User Info">
+                                               title="User Info">
                                                 <i class="mdi mdi-eye"></i>
                                             </a>
                                             @if ($user->status)

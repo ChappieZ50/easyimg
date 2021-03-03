@@ -33,7 +33,8 @@ Route::group(['prefix' => '/admin/', 'as' => 'admin.', 'namespace' => 'Admin', '
 /* imgrob web */
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('/p', 'PageController@index')->name('page');
+Route::get('/p/{slug}', 'HomeController@page')->name('page');
+Route::resource('message', 'MessageController')->only('store');
 
 Route::group(['as' => 'user.', 'namespace' => 'User', 'middleware' => 'user-status'], function () {
     Route::resource('login', 'LoginController')->only('index', 'store')->middleware('guest');
@@ -45,7 +46,12 @@ Route::group(['as' => 'user.', 'namespace' => 'User', 'middleware' => 'user-stat
             return redirect()->route('user.profile');
         });
         Route::get('profile', 'UserController@profile')->name('profile');
-        Route::get('my-images', 'UserController@userImages')->name('images');
+        Route::put('profile/update', 'UserController@update')->name('update');
+        Route::put('profile/update/password', 'UserController@updatePassword')->name('update.password');
+        Route::put('profile/update/avatar', 'UserController@updateAvatar')->name('update.avatar');
+
+        Route::get('my-files', 'UserController@userImages')->name('images');
+        Route::delete('my-files/delete/{file}', 'UserController@destroyFile')->name('file.destroy');
     });
 });
 

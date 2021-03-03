@@ -5,7 +5,29 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Imgrob</title>
+    {{-- — --}}
+    <title>{{get_setting('site_title')}}@yield('site_title')</title>
+
+    <meta name="theme-color" content="#2c7ce0">
+    <meta name="description" content="@yield('site_description',get_setting('site_description'))">
+    <meta name="keywords" content="@yield('site_keywords',get_setting('site_keywords'))">
+    <meta name="robots" content="@yield('site_robots','index, follow')">
+
+    <meta property="og:type" content="@yield('og_site_type','website')">
+    <meta property="og:site_name" content="@yield('og_website_name',get_setting('website_name'))">
+    <meta property="og:description" content="@yield('og_site_description',get_setting('site_description'))">
+    <meta property="og:title" content="@yield('og_site_title',get_setting('site_title'))">
+    <meta property="og:url" content="@yield('og_site_url',url()->current())">
+    <meta property="og:image" content="@yield('og_site_image',website_file_url(get_setting('logo')))">
+
+    <meta name="twitter:title" content="@yield('twitter_site_title',get_setting('site_title'))">
+    <meta name="twitter:description" content="@yield('twitter_site_description',get_setting('site_description'))">
+    <meta name="twitter:card" content="@yield('site_twitter_card','summary')">
+    <meta name="twitter:site" content="@yield('twitter_site_url',url('/'))">
+
+    <link href="{{website_file_url(get_setting('favicon'))}}" rel="shortcut icon">
+    <link href="{{website_file_url(get_setting('favicon'))}}" type="image/{{get_setting('favicon_mime','png')}}" rel="icon" sizes="192x192">
+    <link rel="apple-touch-icon" href="{{website_file_url(get_setting('favicon'))}}" sizes="180x180">
 
     <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
     @yield('styles')
@@ -17,7 +39,6 @@
 <div class="page-wrapper container-fluid">
     @yield('content')
 </div>
-
 
 <script src="{{asset('assets/js/app.js')}}"></script>
 @yield('scripts')

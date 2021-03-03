@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Admin;
+namespace App\Http\Requests\User;
 
+use App\Rules\ConfirmPassword;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class UserPasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class UserRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->check() && auth()->user()->is_admin;
+        return auth()->check();
     }
 
     /**
@@ -24,10 +25,8 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required|min:4|max:50|string',
-            'email'    => 'required|email|min:6|unique:users',
-            'password' => 'required|min:8|max:24|confirmed',
-            'is_admin' => 'required|boolean',
+            'current_password' => ['required',new ConfirmPassword()],
+            'password'         => 'required|min:8|max:24|confirmed',
         ];
     }
 }

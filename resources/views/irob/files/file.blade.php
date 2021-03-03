@@ -13,12 +13,8 @@
                     <div class="card-body">
                         <div class="user-info">
                             <div class="user-avatar">
-                                @if ($file->user->avatar)
-                                    <img src="{{ $file->user->avatar }}" alt="{{ $file->user->username }}">
-                                @else
-                                    <img src="{{ asset('assets/images/avatar.png') }}"
-                                        alt="{{ $file->user->username }}">
-                                @endif
+                                <img src="{{avatar_url($file->user->avatar)}}"
+                                     alt="{{ $file->user->username }}">
                             </div>
                             @if ($file->user->is_anonymous)
                                 <span class="username">{{ $file->user->username }}</span>
@@ -89,7 +85,7 @@
                     <div class="card-body">
                         <div class="file-preview">
                             <img src="{{ file_url($file) }}" alt="{{ $file->user->username }}"
-                                class="img-fluid rounded">
+                                 class="img-fluid rounded">
                         </div>
                     </div>
                 </div>

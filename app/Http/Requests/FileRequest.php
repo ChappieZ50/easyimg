@@ -24,7 +24,7 @@ class FileRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => 'required|image|mimes:'.config('imgfoo.accepted_mimes').'max:'.config('imgfoo.max_upload_size'),
+            'file' => 'required|image|mimes:' . config('imgfoo.accepted_mimes') . 'max:' . config('imgfoo.max_file_size'),
         ];
     }
 }

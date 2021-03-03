@@ -25,7 +25,7 @@
                                     <tr>
                                         <td>
                                             @if($message->user && $message->user->avatar)
-                                                <img src="{{ $message->user->avatar }}" alt="{{ $message->name }}">
+                                                <img src="{{avatar_url($message->user->avatar)}}" alt="{{ $message->user->username }}">
                                             @else
                                                 <img src="{{ asset('assets/images/avatar.png') }}"
                                                      alt="{{ $message->name }}">

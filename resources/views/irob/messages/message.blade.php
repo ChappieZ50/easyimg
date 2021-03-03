@@ -13,21 +13,25 @@
                     <div class="card-body">
                         <div class="user-info">
                             <div class="user-avatar">
-                                @if($message->user && $message->user->avatar)
-                                    <img src="{{ $message->user->avatar }}" alt="{{ $message->name }}">
+                                @if($message->user)
+                                    <img src="{{avatar_url($message->user->avatar)}}" alt="{{ $message->user->username }}">
                                 @else
                                     <img src="{{ asset('assets/images/avatar.png') }}"
                                          alt="{{ $message->name }}">
                                 @endif
+
                             </div>
                             @if ($message->user)
-                                <span class="username">{{ $message->name }}</span>
-                            @else
                                 <a href="{{ route('admin.user.show', $message->user->id) }}">
                                     <span class="username">{{ $message->user->username }}</span>
                                 </a>
+                                <span class="email text-muted small">{{ $message->user->email }}</span>
+
+                            @else
+                                <span class="username">{{ $message->name }}</span>
+                                <span class="email text-muted small">{{ $message->email }}</span>
                             @endif
-                            <span class="email text-muted small">{{ $file->user->email }}</span>
+
                             <div class="user-status">
                                 @if (!$message->user)
                                     <label class="badge badge-warning text-white">Anonymous</label>
@@ -46,14 +50,14 @@
             </div>
 
             <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12">
-                <div class="card p-3">
-                    <div class="card-body">
+                <div class="card">
+                    <div class="card-header">
                         <div class="card-title">
-                            <h5>{{$message->subject}}</h5>
+                            <h4 class="h4">{{$message->subject}}</h4>
                         </div>
-                        <div class="file-preview">
-                            {{$message->message}}
-                        </div>
+                    </div>
+                    <div class="card-body" style="padding: 1.88rem 1.81rem !important;">
+                        {{$message->message}}
                     </div>
                 </div>
             </div>

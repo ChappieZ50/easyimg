@@ -1,9 +1,15 @@
-<div id="irob_dropzone" class="irob-dropzone" data-note="Max 5 files in one time and JPG,PNG,GIF,SVG are accepted, 25MB limit" data-drop="Drop files here, paste or %{browse}" data-browse="browse files"></div>
+<div id="irob_dropzone" class="irob-dropzone" data-note="{{get_setting('dropzone_rule')}}" data-drop="{{get_setting('dropzone_text')}}"
+     data-browse="{{get_setting('browse_text')}}">
+</div>
 <div class="irob-dropzone-terms">
     <div>
+        @php
+            $privacy = get_privacy_page();
+            $terms = get_terms_page();
+        @endphp
         By creating a image, you agree
-        <a href="#" class="selected-page-item" target="_blank">Terms of Service</a>
+        <a href="{{route('page',['slug' => !empty($terms->slug) ? $terms->slug : '#'])}}" class="selected-page-item" target="_blank">{{$terms->title}}</a>
         and
-        <a href="#" class="selected-page-item" target="_blank">Privacy Policy</a>
+        <a href="{{route('page',['slug' => !empty($privacy->slug) ? $privacy->slug : '#'])}}" class="selected-page-item" target="_blank">{{$privacy->title}}</a>
     </div>
 </div>

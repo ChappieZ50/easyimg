@@ -1,3 +1,5 @@
+import axios from "axios";
+
 require('./bootstrap');
 
 
@@ -71,5 +73,133 @@ $(document).ready(function () {
             }
         });
     });
+
+    function parse_errors(errors, el = $('#user_profile_errors')) {
+        Object.keys(errors).forEach(key => {
+            let value = errors[key][0];
+            el.html(value + "<br>");
+        });
+        el.show();
+    }
+
+    /* type: "success","error" */
+    function show_swal(title, type = 'success') {
+        if (type === "error") {
+            Swal.fire({
+                title: title,
+                icon: "error",
+                cancelButtonText: 'Close',
+            }).then(function () {
+                window.location.reload();
+            });
+
+        } else {
+            Swal.fire({
+                title,
+                icon: "success",
+                cancelButtonText: 'Close',
+            }).then(function () {
+                window.location.reload();
+            });
+        }
+    }
+
+
+    /* Preview Image */
+    function preview_image(el, preview = 'preview_image') {
+        if (el.files && el.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#' + preview).attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(el.files[0]); // convert to base64 string
+        }
+    }
+
+    $('input#user_avatar').on('change', function () {
+        preview_image(this, 'user_avatar_preview');
+    });
+
+    /* User Update */
+    $('#user_update').on('click', function () {
+        const username = $('#user_username').val(),
+            email = $('#user_email').val();
+
+        setTimeout(function () {
+            axios.put(window.location.href + '/update', {
+                username, email,
+            }).then(response => {
+                if (response.data.status) {
+                    show_swal("Your profile successfully updated.")
+                }
+            }, error => parse_errors(error.response.data.errors));
+        }, 500);
+    });
+
+    $('#user_update_password').on('click', function () {
+        const current_password = $('#user_current_password').val(),
+            password = $('#user_new_password').val(),
+            password_confirmation = $('#user_new_password_confirmation').val();
+
+        setTimeout(function () {
+            axios.put(window.location.href + '/update/password', {
+                current_password, password, password_confirmation
+            }).then(response => {
+                if (response.data.status) {
+                    show_swal("Your password successfully updated.");
+                }
+            }, error => parse_errors(error.response.data.errors));
+        }, 500);
+    });
+
+    $('#user_update_avatar').on('click', function () {
+        let formData = new FormData();
+        let avatar = document.querySelector('#user_avatar');
+        formData.append("avatar", avatar.files[0]);
+        formData.append("_method", "PUT");
+        setTimeout(function () {
+            axios.post(window.location.href + '/update/avatar', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(response => {
+                if (response.data.status) {
+                    show_swal("Your avatar successfully updated.");
+                }
+            }, error => {
+                parse_errors(error.response.data.errors);
+                let preview = $('#user_avatar_preview');
+                preview.attr('src', preview.attr('data-original'));
+            });
+        }, 500);
+    });
+
+    /* Image Delete */
+
+    $('#file_delete').on('click', function () {
+        const id = $(this).attr('data-id');
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This file will be deleted",
+            icon: "info",
+            confirmButtonText: "Yes,Delete",
+            cancelButtonText: "Cancel",
+            showCancelButton: true,
+            confirmButtonColor: '#ff6258',
+        }).then(function (result) {
+            if (result.isConfirmed) {
+                axios.delete(window.location.href + '/delete/' + id).then(response => {
+                    if (response.data.status) {
+                        show_swal("Your file successfully deleted.");
+                    }
+                }, () => {
+                    show_swal('Something gone wrong, please try again.', 'error');
+                });
+            }
+        });
+
+    });
+
 });
 
