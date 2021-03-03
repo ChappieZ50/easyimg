@@ -23,10 +23,11 @@ Route::group(['prefix' => '/admin/', 'as' => 'admin.', 'namespace' => 'Admin', '
         Route::post('users/store', 'UserController@store')->name('user.store');
     });
     Route::resource('file', 'FileController')->only('index', 'show');
-    Route::resource('page', 'PageController')->except('delete');
+    Route::resource('page', 'PageController')->except('show');
+    Route::resource('message', 'MessageController')->except('create', 'edit');
 
     /* Website Settings */
-    Route::get('settings', 'SettingsController@index')->name('settings.index');
+    Route::resource('setting', 'SettingController')->only('index', 'store');
 });
 
 /* imgrob web */

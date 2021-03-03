@@ -1,12 +1,23 @@
 @extends('irob.layouts.app')
 
 @section('content')
+    @if(session()->has('success'))
+        <div class="alert alert-success">
+            {{session()->get('success')}}
+        </div>
+    @elseif(session()->has('error'))
+        <div class="alert alert-danger">
+            {{session()->get('error')}}
+        </div>
+    @endif
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             @component('irob.components.card')
-                @slot('title','New Page')
+                @slot('title',isset($page) ? 'Update Page' : 'New Page')
                 @slot('body')
-                    <form action="{{route('admin.page.store')}}" method="POST">
+                    <form action="{{isset($page) ? route('admin.page.update',$page->id) : route('admin.page.store')}}" method="POST">
+                        @isset($page) @method('PUT') @endisset
+                        @csrf
                         <div class="col-xl-6  col-lg-12 mt-5 mx-auto">
                             <div class="form-group">
                                 <label for="page_title">Page Title</label>
@@ -21,7 +32,7 @@
                                 <label for="page_slug">Page Slug</label>
                                 <div class="input-group">
                                     <span class="input-group-text">{{url('/p/').'/'}}</span>
-                                    <input type="text" name="page_slug" id="page_slug" class="remove-spaces form-control" value="{{isset($page) ? $page->slug : old('slug')}}">
+                                    <input type="text" name="slug" id="page_slug" class="remove-spaces form-control" value="{{isset($page) ? $page->slug : old('slug')}}">
                                     @error('slug')
                                     <span class="invalid-feedback d-block mt-1 ml-2" role="alert">
                                        <strong>{{$message}}</strong>
@@ -69,7 +80,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-info btn-lg float-right">Create Page</button>
+                            <button type="submit" class="btn btn-info btn-lg float-right">{{isset($page) ? 'Update Page' : 'Create Page'}}</button>
                         </div>
                     </form>
                 @endslot

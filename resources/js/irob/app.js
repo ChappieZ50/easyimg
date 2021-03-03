@@ -163,4 +163,84 @@ $(document).ready(function () {
     $('input#favicon').on('change', function () {
         preview_image(this, 'favicon_preview');
     });
+
+
+    /* Delete Page */
+    $(document).on('click', '#page_delete', function () {
+        let id = $(this).attr('data-id');
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This page will be deleted",
+            icon: "error",
+            confirmButtonText: "Yes,Delete",
+            cancelButtonText: "Cancel",
+            showCancelButton: true,
+            confirmButtonColor: '#ff6258',
+        }).then(function (result) {
+            if (result.isConfirmed) {
+                axios.delete(window.routes.page_destroy + '/' + id).then(response => {
+                    if (response.data.status) {
+                        Swal.fire({
+                            title: "Page successfully deleted",
+                            icon: "success",
+                            cancelButtonText: 'Close',
+                        }).then(function () {
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Something wrong",
+                            icon: "error",
+                            cancelButtonText: 'Close',
+                        });
+                    }
+                }).catch(error => {
+                    Swal.fire({
+                        title: "Something wrong",
+                        icon: "error",
+                        cancelButtonText: 'Close',
+                    });
+                });
+            }
+        });
+    });
+
+    $(document).on('click', '#message_delete', function () {
+        let id = $(this).attr('data-id');
+        Swal.fire({
+            title: "Are you sure?",
+            text: "This message will be deleted",
+            icon: "error",
+            confirmButtonText: "Yes,Delete",
+            cancelButtonText: "Cancel",
+            showCancelButton: true,
+            confirmButtonColor: '#ff6258',
+        }).then(function (result) {
+            if (result.isConfirmed) {
+                axios.delete(window.routes.message_destroy + '/' + id).then(response => {
+                    if (response.data.status) {
+                        Swal.fire({
+                            title: "Message successfully deleted",
+                            icon: "success",
+                            cancelButtonText: 'Close',
+                        }).then(function () {
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Something wrong",
+                            icon: "error",
+                            cancelButtonText: 'Close',
+                        });
+                    }
+                }).catch(error => {
+                    Swal.fire({
+                        title: "Something wrong",
+                        icon: "error",
+                        cancelButtonText: 'Close',
+                    });
+                });
+            }
+        });
+    });
 });

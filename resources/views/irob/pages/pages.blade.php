@@ -24,6 +24,7 @@
                                 <tr>
                                     <th>Title</th>
                                     <th>Slug</th>
+                                    <th>Type</th>
                                     <th>Created</th>
                                     <th>Action</th>
                                 </tr>
@@ -33,14 +34,15 @@
                                     <tr>
                                         <td>{{ $page->title }}</td>
                                         <td>{{ $page->slug }}</td>
+                                        <td>{{ $page->type }}</td>
                                         <td>{{ $page->created_at->diffForHumans() }}</td>
                                         <td>
                                             <a href="{{ route('admin.page.edit', $page->id) }}" class="btn btn-info social-btn"
                                                style="padding: 6px 10px;" title="Edit Page">
                                                 <i class="mdi mdi-circle-edit-outline"></i>
                                             </a>
-                                            <button class="btn btn-danger social-btn" id="delete" style="padding: 6px 10px;"
-                                                    title="Delete this page" data-id="{{ $file->id }}">
+                                            <button class="btn btn-danger social-btn" id="page_delete" style="padding: 6px 10px;"
+                                                    title="Delete this page" data-id="{{ $page->id }}">
                                                 <i class="mdi mdi-delete-outline"></i>
                                             </button>
                                         </td>

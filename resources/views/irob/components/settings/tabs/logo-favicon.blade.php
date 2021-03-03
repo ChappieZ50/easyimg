@@ -1,11 +1,13 @@
 <div class="row">
-    <form class="col-12" action="" method="POST" enctype="multipart/form-data">
+    <form class="col-12" action="{{route('admin.setting.store')}}" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="logo_favicon">
         <h4>Website Logo & Favicon</h4>
         <hr>
         @csrf
         <div class="row">
             <div class="col-lg-6 text-center mt-3">
-                <img src="{{asset('irob/assets/images/404.svg')}}" alt="avatar" style="max-width: 120px;" id="logo_preview">
+                <img src="{{isset($setting) && $setting->logo ? website_file_url($setting->logo) : website_file_url('404.svg','irob/assets/images/')}}" alt="logo" style="max-width: 120px;"
+                     id="logo_preview">
                 <div class="form-group">
                     <hr>
                     <div class="mt-3 choose-file">
@@ -16,7 +18,7 @@
                 </div>
             </div>
             <div class="col-lg-6 text-center mt-3">
-                <img src="{{asset('irob/assets/images/404.svg')}}" alt="avatar" style="max-width: 120px;" id="favicon_preview">
+                <img src="{{isset($setting) && $setting->favicon ? website_file_url($setting->favicon) : website_file_url('404.svg','irob/assets/images/')}}" alt="favicon" style="max-width: 120px;" id="favicon_preview">
                 <div class="form-group">
                     <hr>
                     <div class="mt-3 choose-file">

@@ -1,6 +1,15 @@
 @extends('irob.layouts.app')
 
 @section('content')
+    @if(session()->has('success'))
+        <div class="alert alert-success">
+            {{session()->get('success')}}
+        </div>
+    @elseif(session()->has('error'))
+        <div class="alert alert-danger">
+            {{session()->get('error')}}
+        </div>
+    @endif
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             @component('irob.components.card')
@@ -36,21 +45,23 @@
                         </ul>
                         <div class="tab-content col-lg-10 col-md-12  mt-4">
                             <div class="tab-pane fade show active" id="tab-1">
-                                @component('irob.components.settings.tabs.website') @endcomponent
+                                @include('irob.components.settings.tabs.website')
                             </div>
 
                             <div class="tab-pane fade" id="tab-2">
-                                @component('irob.components.settings.tabs.logo-favicon') @endcomponent
+                                @include('irob.components.settings.tabs.logo-favicon')
                             </div>
 
                             <div class="tab-pane fade" id="tab-3">
-                                @component('irob.components.settings.tabs.aws-api') @endcomponent
+                                @include('irob.components.settings.tabs.aws-api')
                             </div>
+
                             <div class="tab-pane fade" id="tab-4">
-                                @component('irob.components.settings.tabs.login-recaptcha-api') @endcomponent
+                                @include('irob.components.settings.tabs.login-recaptcha-api')
                             </div>
+
                             <div class="tab-pane fade" id="tab-5">
-                                @component('irob.components.settings.tabs.seo') @endcomponent
+                                @include('irob.components.settings.tabs.seo')
                             </div>
                         </div>
                     </div>

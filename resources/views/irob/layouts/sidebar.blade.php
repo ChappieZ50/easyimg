@@ -37,9 +37,15 @@
                 <span class="menu-title">Pages</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('admin.message.index')}}">
+                <i class="menu-icon typcn typcn-document-text"></i>
+                <span class="menu-title">Messages</span>
+            </a>
+        </li>
         <li class="nav-item nav-category">Website</li>
         <li class="nav-item">
-            <a class="nav-link" href="{{route('admin.settings.index')}}">
+            <a class="nav-link" href="{{route('admin.setting.index')}}">
                 <i class="menu-icon typcn typcn-document-text"></i>
                 <span class="menu-title">Settings</span>
             </a>
