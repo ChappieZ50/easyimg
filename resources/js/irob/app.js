@@ -144,4 +144,23 @@ $(document).ready(function () {
             });
         }, 500);
     });
+
+    /* Preview Image */
+    function preview_image(el, preview = 'preview_image') {
+        if (el.files && el.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#' + preview).attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(el.files[0]); // convert to base64 string
+        }
+    }
+
+    $('input#logo').on('change', function () {
+        preview_image(this, 'logo_preview');
+    });
+    $('input#favicon').on('change', function () {
+        preview_image(this, 'favicon_preview');
+    });
 });

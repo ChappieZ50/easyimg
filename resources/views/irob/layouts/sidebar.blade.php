@@ -31,6 +31,12 @@
                 <span class="menu-title">Images</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('admin.page.index')}}">
+                <i class="menu-icon typcn typcn-document-text"></i>
+                <span class="menu-title">Pages</span>
+            </a>
+        </li>
         <li class="nav-item nav-category">Website</li>
         <li class="nav-item">
             <a class="nav-link" href="{{route('admin.settings.index')}}">

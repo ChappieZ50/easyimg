@@ -11,5 +11,6 @@ const mix = require('laravel-mix');
  |
  */
 
+
 mix.js('resources/js/irob/app.js', 'public/irob/assets/js/app.js').version()
     .sass('resources/css/irob/app.scss', 'public/irob/assets/css/app.css');

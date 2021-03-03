@@ -18,14 +18,15 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => '/admin/', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'admin-auth'], function () {
     Route::get('', 'HomeController@index')->name('home');
     Route::group(['namespace' => 'User'], function () {
-        Route::resource('user','UserController')->only('index','show');
+        Route::resource('user', 'UserController')->only('index', 'show');
         Route::post('users/status', 'UserController@status')->name('user.status');
         Route::post('users/store', 'UserController@store')->name('user.store');
     });
-    Route::resource('file','FileController')->only('index','show');
+    Route::resource('file', 'FileController')->only('index', 'show');
+    Route::resource('page', 'PageController')->except('delete');
 
     /* Website Settings */
-    Route::get('settings','SettingsController@index')->name('settings.index');
+    Route::get('settings', 'SettingsController@index')->name('settings.index');
 });
 
 /* imgrob web */
@@ -47,4 +48,4 @@ Route::group(['as' => 'user.', 'namespace' => 'User', 'middleware' => 'user-stat
     });
 });
 
-Route::post('file/store','FileController@store')->name('file.store');
+Route::post('file/store', 'FileController@store')->name('file.store');
