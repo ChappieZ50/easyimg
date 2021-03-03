@@ -13454,7 +13454,10 @@ html ul, body ul {
   width: 100px;
   height: 100px;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area .irob-avatar label[for=user_avatar] {
+.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area .irob-avatar:hover .rob-delete-button {
+  visibility: visible !important;
+}
+.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area .irob-avatar label[for=user_avatar], .irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area .irob-avatar label[for=user_delete_avatar] {
   cursor: pointer;
   position: absolute;
   bottom: 0;
@@ -13463,7 +13466,11 @@ html ul, body ul {
   height: 30px;
   border-radius: 50%;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area .irob-avatar label[for=user_avatar] svg {
+.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area .irob-avatar label[for=user_avatar].rob-delete-button, .irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area .irob-avatar label[for=user_delete_avatar].rob-delete-button {
+  left: 0 !important;
+  visibility: hidden;
+}
+.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area .irob-avatar label[for=user_avatar] svg, .irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area .irob-avatar label[for=user_delete_avatar] svg {
   width: 100%;
   height: auto;
   margin: 0;

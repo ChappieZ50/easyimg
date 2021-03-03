@@ -45,6 +45,11 @@
                         <label for="user_avatar" class="btn rob-button">
                             <i data-feather="edit-2"></i>
                         </label>
+                        @if($user->avatar)
+                            <label for="user_delete_avatar" class="btn rob-button bg-danger rob-delete-button" id="user_delete_avatar">
+                                <i data-feather="trash"></i>
+                            </label>
+                        @endif
                     </div>
                     <input type="file" class="form-control-file" name="avatar" id="user_avatar" placeholder="Avatar">
                 </div>

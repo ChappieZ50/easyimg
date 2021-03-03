@@ -504,7 +504,13 @@ html, body {
                             width: 100px;
                             height: 100px;
 
-                            label[for=user_avatar] {
+                            &:hover {
+                                .rob-delete-button {
+                                    visibility: visible !important;
+                                }
+                            }
+
+                            label[for=user_avatar], label[for=user_delete_avatar] {
                                 cursor: pointer;
                                 position: absolute;
                                 bottom: 0;
@@ -513,11 +519,17 @@ html, body {
                                 height: 30px;
                                 border-radius: 50%;
 
+                                &.rob-delete-button {
+                                    left: 0 !important;
+                                    visibility: hidden;
+                                }
+
                                 svg {
                                     width: 100%;
                                     height: auto;
                                     margin: 0;
                                 }
+
                             }
 
                             .user-avatar {
@@ -616,9 +628,11 @@ html, body {
 
                                 .image-info {
                                     margin-right: 5px;
-                                    a{
-                                        color:#fff;
+
+                                    a {
+                                        color: #fff;
                                     }
+
                                     svg {
                                         width: 18px;
                                         height: 18px;

@@ -49,9 +49,10 @@ Route::group(['as' => 'user.', 'namespace' => 'User', 'middleware' => 'user-stat
         Route::put('profile/update', 'UserController@update')->name('update');
         Route::put('profile/update/password', 'UserController@updatePassword')->name('update.password');
         Route::put('profile/update/avatar', 'UserController@updateAvatar')->name('update.avatar');
+        Route::delete('profile/destroy/avatar', 'UserController@destroyAvatar')->name('destroy.avatar');
 
         Route::get('my-files', 'UserController@userImages')->name('images');
-        Route::delete('my-files/delete/{file}', 'UserController@destroyFile')->name('file.destroy');
+        Route::delete('my-files/destroy/{file}', 'UserController@destroyFile')->name('file.destroy');
     });
 });
 

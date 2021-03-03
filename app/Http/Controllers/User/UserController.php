@@ -8,6 +8,7 @@ use App\Http\Requests\User\UserPasswordRequest;
 use App\Http\Requests\User\UserRequest;
 use App\Models\File as FileModel;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -76,7 +77,15 @@ class UserController extends Controller
         }
 
         return response()->json([], 500);
+    }
 
+    public function destroyAvatar()
+    {
+        File::delete(config('imgfoo.user_avatars_folder') . '/' . auth()->user()->avatar);
+        Auth::user()->update([
+            'avatar' => ''
+        ]);
+        return response()->json(['status' => true]);
     }
 
 }

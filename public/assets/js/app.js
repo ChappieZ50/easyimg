@@ -2043,9 +2043,30 @@ $(document).ready(function () {
       confirmButtonColor: '#ff6258'
     }).then(function (result) {
       if (result.isConfirmed) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default().delete(window.location.href + '/delete/' + id).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().delete(window.location.href + '/destroy/' + id).then(function (response) {
           if (response.data.status) {
             show_swal("Your file successfully deleted.");
+          }
+        }, function () {
+          show_swal('Something gone wrong, please try again.', 'error');
+        });
+      }
+    });
+  });
+  $('#user_delete_avatar').on('click', function () {
+    sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
+      title: "Are you sure?",
+      text: "Your avatar will be deleted",
+      icon: "info",
+      confirmButtonText: "Yes,Delete",
+      cancelButtonText: "Cancel",
+      showCancelButton: true,
+      confirmButtonColor: '#ff6258'
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().delete(window.location.href + '/destroy/avatar').then(function (response) {
+          if (response.data.status) {
+            show_swal("Your avatar successfully deleted.");
           }
         }, function () {
           show_swal('Something gone wrong, please try again.', 'error');

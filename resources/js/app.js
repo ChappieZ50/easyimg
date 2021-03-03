@@ -189,9 +189,32 @@ $(document).ready(function () {
             confirmButtonColor: '#ff6258',
         }).then(function (result) {
             if (result.isConfirmed) {
-                axios.delete(window.location.href + '/delete/' + id).then(response => {
+                axios.delete(window.location.href + '/destroy/' + id).then(response => {
                     if (response.data.status) {
                         show_swal("Your file successfully deleted.");
+                    }
+                }, () => {
+                    show_swal('Something gone wrong, please try again.', 'error');
+                });
+            }
+        });
+
+    });
+
+    $('#user_delete_avatar').on('click', function () {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "Your avatar will be deleted",
+            icon: "info",
+            confirmButtonText: "Yes,Delete",
+            cancelButtonText: "Cancel",
+            showCancelButton: true,
+            confirmButtonColor: '#ff6258',
+        }).then(function (result) {
+            if (result.isConfirmed) {
+                axios.delete(window.location.href + '/destroy/avatar').then(response => {
+                    if (response.data.status) {
+                        show_swal("Your avatar successfully deleted.");
                     }
                 }, () => {
                     show_swal('Something gone wrong, please try again.', 'error');
