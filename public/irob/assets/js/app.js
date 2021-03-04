@@ -2084,6 +2084,44 @@ $(document).ready(function () {
       }
     });
   });
+  $(document).on('click', '#file_delete', function () {
+    var id = $(this).attr('data-id');
+    sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
+      title: "Are you sure?",
+      text: "This file will be deleted",
+      icon: "error",
+      confirmButtonText: "Yes,Delete",
+      cancelButtonText: "Cancel",
+      showCancelButton: true,
+      confirmButtonColor: '#ff6258'
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().delete(window.routes.file_destroy + '/' + id).then(function (response) {
+          if (response.data.status) {
+            sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
+              title: "File successfully deleted",
+              icon: "success",
+              cancelButtonText: 'Close'
+            }).then(function () {
+              window.location.reload();
+            });
+          } else {
+            sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
+              title: "Something wrong",
+              icon: "error",
+              cancelButtonText: 'Close'
+            });
+          }
+        })["catch"](function (error) {
+          sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
+            title: "Something wrong",
+            icon: "error",
+            cancelButtonText: 'Close'
+          });
+        });
+      }
+    });
+  });
 });
 
 /***/ }),

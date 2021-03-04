@@ -4,7 +4,7 @@
 /* Imgfoo config file */
 
 return [
-    /* Do not change if possible */
+    /* Do not change if website is active and if some files are uploaded. */
     'local_folder'        => 'if',
     'user_avatars_folder' => 'avatars',
     'aws_folder'          => 'if',
@@ -48,11 +48,10 @@ return [
         'browse_text'           => 'browse files',
 
         /* AWS Settings */
-        'aws_access_key'        => '',
-        'aws_secret_access_key' => '',
-        'aws_region'            => '',
-        'aws_bucket'            => '',
-        'aws_url'               => '',
+        'aws_access_key'        => env('AWS_ACCESS_KEY_ID',''),
+        'aws_secret_access_key' => env('AWS_SECRET_ACCESS_KEY',''),
+        'aws_region'            => env('AWS_DEFAULT_REGION', ''),
+        'aws_bucket'            => env('AWS_BUCKET', ''),
 
         /* Login Settings */
         'google_client_id'      => '',

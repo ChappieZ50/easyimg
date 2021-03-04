@@ -8,8 +8,8 @@
             $terms = get_terms_page();
         @endphp
         By creating a image, you agree
-        <a href="{{route('page',['slug' => !empty($terms->slug) ? $terms->slug : '#'])}}" class="selected-page-item" target="_blank">{{$terms->title}}</a>
+        <a href="{{route('page',['slug' => !empty($terms->slug) ? $terms->slug : '#'])}}" class="selected-page-item" target="_blank">{{!empty($terms->title) ? $terms->title : ''}}</a>
         and
-        <a href="{{route('page',['slug' => !empty($privacy->slug) ? $privacy->slug : '#'])}}" class="selected-page-item" target="_blank">{{$privacy->title}}</a>
+        <a href="{{route('page',['slug' => !empty($privacy->slug) ? $privacy->slug : '#'])}}" class="selected-page-item" target="_blank">{{!empty($privacy->title) ? $privacy->title : ''}}</a>
     </div>
 </div>

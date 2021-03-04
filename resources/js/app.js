@@ -177,7 +177,7 @@ $(document).ready(function () {
 
     /* Image Delete */
 
-    $('#file_delete').on('click', function () {
+    $(document).on('click','#file_delete', function () {
         const id = $(this).attr('data-id');
         Swal.fire({
             title: "Are you sure?",
@@ -189,9 +189,11 @@ $(document).ready(function () {
             confirmButtonColor: '#ff6258',
         }).then(function (result) {
             if (result.isConfirmed) {
-                axios.delete(window.location.href + '/destroy/' + id).then(response => {
+                axios.delete(window.routes.file_destroy +'/'+ id).then(response => {
                     if (response.data.status) {
                         show_swal("Your file successfully deleted.");
+                    }else{
+                        show_swal('Something gone wrong, please try again.', 'error');
                     }
                 }, () => {
                     show_swal('Something gone wrong, please try again.', 'error');

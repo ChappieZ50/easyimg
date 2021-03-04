@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File as FacadesFile;
 
 class FileController extends Controller
 {
@@ -30,12 +31,34 @@ class FileController extends Controller
         return view('irob.files.file')->with('file', $file);
     }
 
-    public function delete(Request $request)
+
+    public function destroyLocalFile($name)
     {
-        // TODO
-        $id = $request->get('id');
-        return response()->json([
-            'id' => $id
-        ]);
+        return FacadesFile::delete($name);
+    }
+
+    public function destroyAwsFile()
+    {
+    }
+
+    public function destroy($id)
+    {
+        $file = File::where('id', $id)->first();
+
+        if ($file) {
+            if ($file->uploaded_to === 'aws') {
+                $destroy =  $this->destroyAwsFile();
+            }else{
+                $destroy = $this->destroyLocalFile(config('imgfoo.local_folder').'/'. $file->file_full_id);
+            }
+
+
+            if ($destroy) {
+                $file->delete();
+                return response()->json(['status' => true]);
+            }
+        }
+
+        return response()->json(['status' => false]);
     }
 }

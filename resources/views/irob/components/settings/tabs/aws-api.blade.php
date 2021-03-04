@@ -32,11 +32,6 @@
                        name="aws_bucket" value="{{isset($setting) ? $setting->aws_bucket : ''}}">
             </div>
         </div>
-        <div class="form-group">
-            <label for="aws_url">Url</label>
-            <input type="text" class="form-control col-12" id="aws_url"
-                   name="aws_url" value="{{isset($setting) ? $setting->aws_url : ''}}">
-        </div>
         <div class="alert alert-warning small">
             Please enter all information
         </div>

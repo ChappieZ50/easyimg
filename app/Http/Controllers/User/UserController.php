@@ -10,6 +10,7 @@ use App\Models\File as FileModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -29,10 +30,30 @@ class UserController extends Controller
     {
         $file = FileModel::where('id', $id)->where('user_id', Auth::user()->id)->first();
         if ($file) {
-            return response()->json(['name' => $file->file_original_id]);
+            if ($file->uploaded_to === 'aws') {
+                $destroy = Storage::disk('s3')->delete(config('imgfoo.aws_folder') . '/' . $file->file_full_id);
+            } else {
+                /* Local upload */
+                $destroy = File::delete(config('imgfoo.local_folder') . '/' . $file->file_full_id);
+            }
+
+            if ($destroy) {
+                $file->delete();
+                return response()->json(['status' => true]);
+            }
         }
 
-        return response()->json([], 404);
+        return response()->json(['status' => false]);
+    }
+
+    public function downloadFile($file)
+    {
+        $file = FileModel::where('file_id', $file)->where('user_id', auth()->user()->id)->first();
+        if ($file) {
+           return download_file($file);
+        }
+
+        return abort(404);
     }
 
     public function update(UserRequest $request)
@@ -87,5 +108,4 @@ class UserController extends Controller
         ]);
         return response()->json(['status' => true]);
     }
-
 }

@@ -40,7 +40,6 @@ class SettingRequest extends FormRequest
             'aws_secret_access_key' => 'sometimes',
             'aws_region'            => 'sometimes',
             'aws_bucket'            => 'sometimes',
-            'aws_url'               => 'sometimes',
 
             /* Login & Recaptcha API */
             'google_client_id'      => 'sometimes',

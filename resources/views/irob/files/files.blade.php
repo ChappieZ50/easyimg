@@ -43,11 +43,11 @@
 
                                         <td>
                                             <a href="{{ route('admin.file.show', $file->id) }}" class="btn btn-info social-btn"
-                                                style="padding: 6px 10px;" title="Image info">
+                                                style="padding: 6px 10px;" title="File info">
                                                 <i class="mdi mdi-eye"></i>
                                             </a>
-                                            <button class="btn btn-danger social-btn" id="delete" style="padding: 6px 10px;"
-                                                title="Delete this image" data-id="{{ $file->id }}">
+                                            <button class="btn btn-danger social-btn" id="file_delete" style="padding: 6px 10px;"
+                                                title="Delete this file" data-id="{{ $file->id }}">
                                                 <i class="mdi mdi-delete-outline"></i>
                                             </button>
                                         </td>

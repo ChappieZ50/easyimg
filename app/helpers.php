@@ -4,7 +4,21 @@ use App\Models\Page;
 use App\Models\Setting;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+
+if (!function_exists('download_file')) {
+    function download_file($file)
+    {
+        $name = $file->file_full_id;
+
+        if($file->uploaded_to === 'aws') {
+            return Storage::disk('s3')->download(config('imgfoo.aws_folder').'/'.$name);
+        }else{
+            return response()->download(config('imgfoo.local_folder').'/'.$name);
+        }
+    }
+}
 
 if (!function_exists('file_url')) {
     function file_url($file)
@@ -12,7 +26,7 @@ if (!function_exists('file_url')) {
         if ($file->uploaded_to === 'local') {
             $link = asset(config('imgfoo.local_folder') . '/' . $file->file_full_id);
         } elseif ($file->uploaded_to === 'aws') {
-            $link = asset(config('imgfoo.aws_folder') . '/' . $file->file_full_id);
+            $link = Storage::disk('s3')->url(config('imgfoo.aws_folder').'/'. $file->file_full_id);
         } else {
             $link = asset($file->file_full_id);
         }
@@ -30,8 +44,7 @@ if (!function_exists('website_file_url')) {
 if (!function_exists('avatar_url')) {
     function avatar_url($file, $path = '')
     {
-        return $file ? asset(config('imgfoo.user_avatars_folder') . '/' . $file) :
-            ($path ? $path : asset('assets/images/avatar.png'));
+        return $file ? asset(config('imgfoo.user_avatars_folder') . '/' . $file) : ($path ? $path : asset('assets/images/avatar.png'));
     }
 }
 
@@ -49,18 +62,27 @@ if (!function_exists('readable_size')) {
 }
 
 if (!function_exists('upload_file')) {
-    function upload_file($file, $uploadFolder, $delete = '')
+    function upload_file($file, $uploadFolder, $delete = '', $disk = '')
     {
         $extension = $file->getClientOriginalExtension();
-        $path = public_path($uploadFolder);
         $fileId = Str::random(12);
         $name = $fileId . '.' . $extension;
         $fileSize = $file->getSize();
         $fileOriginalId = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
-        if ($file->move($path, $name)) {
+        if ($disk) {
+            $put =  Storage::disk($disk)->put($uploadFolder.'/'.$name, file_get_contents($file),'public');
+        } else {
+            $put = $file->move(public_path($uploadFolder), $name);
+        }
+
+        if ($put) {
             if ($delete) {
-                File::delete(public_path($uploadFolder . '/' . $delete));
+                if ($disk) {
+                    Storage::disk($disk)->delete($uploadFolder . '/' . $delete);
+                } else {
+                    File::delete(public_path($uploadFolder . '/' . $delete));
+                }
             }
             return response()->json([
                 'status'           => true,
@@ -69,7 +91,7 @@ if (!function_exists('upload_file')) {
                 'file_id'          => $fileId,
                 'file_original_id' => $fileOriginalId,
                 'file_size'        => $fileSize,
-                'url'              => asset($uploadFolder . '/' . $name)
+                'url'              => !$disk ? asset($uploadFolder . '/' . $name) : Storage::disk($disk)->url($uploadFolder.'/'.$name)
             ]);
         }
 

@@ -35,6 +35,7 @@
         'user_status': '{{route('admin.user.status')}}',
         'user_store': '{{route('admin.user.store')}}',
         'page_destroy': '{{route('admin.page.index')}}',
+        'file_destroy': '{{route('admin.file.index')}}',
         'message_destroy': '{{route('admin.message.index')}}',
     };
 </script>

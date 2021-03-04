@@ -2031,7 +2031,7 @@ $(document).ready(function () {
   });
   /* Image Delete */
 
-  $('#file_delete').on('click', function () {
+  $(document).on('click', '#file_delete', function () {
     var id = $(this).attr('data-id');
     sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
       title: "Are you sure?",
@@ -2043,9 +2043,11 @@ $(document).ready(function () {
       confirmButtonColor: '#ff6258'
     }).then(function (result) {
       if (result.isConfirmed) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default().delete(window.location.href + '/destroy/' + id).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default().delete(window.routes.file_destroy + '/' + id).then(function (response) {
           if (response.data.status) {
             show_swal("Your file successfully deleted.");
+          } else {
+            show_swal('Something gone wrong, please try again.', 'error');
           }
         }, function () {
           show_swal('Something gone wrong, please try again.', 'error');

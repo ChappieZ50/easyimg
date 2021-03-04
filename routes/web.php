@@ -22,7 +22,7 @@ Route::group(['prefix' => '/admin/', 'as' => 'admin.', 'namespace' => 'Admin', '
         Route::post('users/status', 'UserController@status')->name('user.status');
         Route::post('users/store', 'UserController@store')->name('user.store');
     });
-    Route::resource('file', 'FileController')->only('index', 'show');
+    Route::resource('file', 'FileController')->only('index', 'show','destroy');
     Route::resource('page', 'PageController')->except('show');
     Route::resource('message', 'MessageController')->except('create', 'edit');
 
@@ -53,6 +53,7 @@ Route::group(['as' => 'user.', 'namespace' => 'User', 'middleware' => 'user-stat
 
         Route::get('my-files', 'UserController@userImages')->name('images');
         Route::delete('my-files/destroy/{file}', 'UserController@destroyFile')->name('file.destroy');
+        Route::get('my-files/download/{file}','UserController@downloadFile')->name('file.download');
     });
 });
 

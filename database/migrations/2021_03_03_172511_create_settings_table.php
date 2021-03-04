@@ -32,7 +32,6 @@ class CreateSettingsTable extends Migration
             $table->string('aws_secret_access_key')->nullable();
             $table->string('aws_region')->nullable();
             $table->string('aws_bucket')->nullable();
-            $table->string('aws_url')->nullable();
 
             /* Login & Recaptcha API */
             $table->string('google_client_id')->nullable();

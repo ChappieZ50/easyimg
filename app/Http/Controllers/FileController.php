@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FileRequest;
 use App\Models\File;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -12,31 +13,30 @@ class FileController extends Controller
     public function store(FileRequest $request)
     {
         $file = $request->file('file');
+        $setting = Setting::first();
 
-        if (true) {
-            return $this->toLocal($file);
-        } else {
-            return $this->toAws();
+        $disk = '';
+        $storage = 'local';
+        $uploadFolder = config('imgfoo.local_folder');
+
+        if ($setting && $setting->uploads_storage === 'aws') {
+            $disk = 's3';
+            $storage = 'aws';
+            $uploadFolder = config('imgfoo.aws_folder');
+        }
+
+        $file = upload_file($file, config('imgfoo.local_folder'),'',$disk)->getData();
+        $save = $this->save($file->file_id, $file->file_size, $file->extension, $file->file_original_id,$storage);
+        if ($save) {
+            return response()->json([
+                'url' => $file->url,
+            ]);
         }
 
         return response()->json([], 500);
     }
 
-    public function toLocal($file)
-    {
-        $file = upload_file($file, config('imgfoo.local_folder'))->getData();
-        $this->save($file->file_id, $file->file_size, $file->extension, $file->file_original_id);
-        return response()->json([
-            'url' => $file->url,
-        ]);
-    }
-
-    public function toAws()
-    {
-
-    }
-
-    public function save($fileId, $fileSize, $fileMime, $fileOriginalId, $uploadedTo = 'local')
+    public function save($fileId, $fileSize, $fileMime, $fileOriginalId, $storage = 'local')
     {
         $create = [
             'file_id'          => $fileId,
@@ -44,7 +44,7 @@ class FileController extends Controller
             'file_original_id' => $fileOriginalId,
             'file_size'        => $fileSize,
             'file_mime'        => $fileMime,
-            'uploaded_to'      => $uploadedTo,
+            'uploaded_to'      => $storage,
         ];
         if (Auth::check()) {
             $create['user_id'] = Auth::user()->id;

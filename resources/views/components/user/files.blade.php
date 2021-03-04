@@ -18,7 +18,7 @@
                 @else
                     @foreach ($files as $file)
                         @php $link = file_url($file); @endphp
-                        <div class="irob-user-image" >
+                        <div class="irob-user-image">
                             <div class="irob-image-delete" id="file_delete" data-id="{{ $file->id }}">
                                 <i data-feather="x"></i>
                             </div>
@@ -27,7 +27,7 @@
                             </div>
 
                             <a href="{{ $link }}" data-lightbox="image-{{ $file->id }}"
-                               data-title="{{ $file->file_original_id . '.' . $file->file_mime }}">
+                                data-title="{{ $file->file_original_id . '.' . $file->file_mime }}">
                                 <img src="{{ $link }}" alt="{{ $file->file_id }}">
                             </a>
 
@@ -35,7 +35,7 @@
                                 <div class="bottom-content">
                                     <div class="image-name">{{ $file->file_original_id . '.' . $file->file_mime }}</div>
                                     <div class="image-info">
-                                        <a href="{{ $link }}" download>
+                                        <a href="{{ route('user.file.download',['file' => $file->file_id]) }}">
                                             <i data-feather="download"></i>
                                         </a>
                                     </div>
@@ -43,8 +43,10 @@
                             </div>
                         </div>
                     @endforeach
-
                 @endunless
+            </div>
+            <div class="mx-auto mt-3">
+                {{ $files->links() }}
             </div>
         </div>
     </div>

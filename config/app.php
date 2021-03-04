@@ -175,6 +175,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /* Imgfoo Custom Service Providers */
+        \App\Providers\InitialServiceProvider::class,
+
     ],
 
     /*

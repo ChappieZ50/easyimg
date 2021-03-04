@@ -133,7 +133,6 @@ class SettingController extends Controller
             'aws_secret_access_key' => $request->get('aws_secret_access_key'),
             'aws_region'            => $request->get('aws_region'),
             'aws_bucket'            => $request->get('aws_bucket'),
-            'aws_url'               => $request->get('aws_url'),
         ];
 
         if ($this->updateOrCreate($data)) {

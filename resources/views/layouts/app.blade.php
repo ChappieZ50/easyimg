@@ -40,6 +40,11 @@
     @yield('content')
 </div>
 
+<script>
+    window.routes = {
+        file_destroy:'{{route('user.images').'/destroy'}}'
+    };
+</script>
 <script src="{{asset('assets/js/app.js')}}"></script>
 @yield('scripts')
 </body>
