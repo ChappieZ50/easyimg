@@ -24,7 +24,7 @@ class HomeController extends Controller
         $files = File::orderByDesc('id')->take(5)->get();
         $users = User::orderByDesc('id')->take(5)->get();
 
-        $labels = explode(',',config('imgfoo.accepted_mimes'));
+        $labels = explode(',', config('imgfoo.accepted_mimes'));
 
         return view('irob.home')->with([
             'filesCount' => $filesCount,
@@ -37,7 +37,8 @@ class HomeController extends Controller
             'chart_user_data' => $this->getChartData(User::class),
             'chart_user_status_data' => $this->getUserStatusChart(),
             'chart_file_extension_data' => $this->getFileExtensionChart(),
-            'chart_file_extension_labels' => $labels
+            'chart_file_extension_labels' => $labels,
+            'chart_user_login_data' => $this->getUserLoginChart(),
         ]);
     }
 
@@ -79,14 +80,37 @@ class HomeController extends Controller
     public function getFileExtensionChart()
     {
         $files = File::select('file_mime', DB::raw('count(*) as count'))
-        ->groupBy('file_mime')
-        ->get()->toArray();
+            ->groupBy('file_mime')
+            ->get()->toArray();
 
 
         $data = [];
 
         foreach ($files as $key => $value) {
             $data[$value['file_mime']] = $value['count'];
+        }
+
+        return $data;
+    }
+
+    public function getUserLoginChart()
+    {
+        $users = User::select('google', 'facebook', DB::raw('count(*) as count'))
+            ->groupBy('google', 'facebook')
+            ->get()->toArray();
+
+
+        $data = [];
+
+        foreach ($users as $value) {
+            $count = $value['count'];
+            if(!empty($value['google'])){
+                $data['google'] = isset($data['google']) ? $count + $data['google'] : $count;
+            }elseif(!empty($value['facebook'])){
+                $data['facebook'] = isset($data['facebook']) ? $count + $data['facebook'] : $count;
+            }else{
+                $data['normal'] = isset($data['normal']) ? $count + $data['normal'] : $count;
+            }
         }
 
         return $data;

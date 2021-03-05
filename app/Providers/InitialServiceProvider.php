@@ -48,6 +48,21 @@ class InitialServiceProvider extends ServiceProvider
             'endpoint' => env('AWS_ENDPOINT'),
             'visibility' => 'public',
         ];
+
+        $google = [
+            'client_id' => Config::get('imgfoo.settings.google_client_id'),
+            'client_secret' => Config::get('imgfoo.settings.google_secret'),
+            'redirect' => url('/auth/google/callback')
+        ];
+
+        $facebook = [
+            'client_id' => Config::get('imgfoo.settings.facebook_client_id'),
+            'client_secret' => Config::get('imgfoo.settings.facebook_secret'),
+            'redirect' => url('/auth/facebook/callback')
+        ];
+
+        Config::set('services.google',$google);
+        Config::set('services.facebook', $facebook);
         Config::set('filesystems.disks.s3', $s3);
     }
 }

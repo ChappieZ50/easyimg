@@ -8,45 +8,47 @@
                 <div class="form-group">
                     <label for="user_email">Email Address</label>
                     <input type="email" class="form-control" name="email" id="user_email" placeholder="Email Address"
-                           value="{{ $user->email }}">
+                        value="{{ $user->email }}">
                 </div>
                 <div class="form-group">
                     <label for="user_username">Username</label>
                     <input type="text" class="form-control" name="username" id="user_username" placeholder="Username"
-                           value="{{ $user->username }}">
+                        value="{{ $user->username }}">
                 </div>
                 <button class="btn rob-button" id="user_update">Update</button>
-                <h2 class="user-profile-title mt-5">Security Information</h2>
-                <hr>
-                <div class="form-group mt-4">
-                    <label for="user_current_password">Current Password</label>
-                    <input type="password" class="form-control" name="current_password" id="user_current_password"
-                           placeholder="Current Password">
-                </div>
-                <div class="form-group">
-                    <label for="user_new_password">New Password</label>
-                    <input type="password" class="form-control" name="password" id="user_new_password"
-                           placeholder="New Password">
-                </div>
-                <div class="form-group">
-                    <label for="user_new_password_confirmation">Confirm New Password</label>
-                    <input type="password" class="form-control" name="password_confirmation"
-                           id="user_new_password_confirmation" placeholder="Confirm New Password">
-                </div>
-                <button class="btn rob-button" id="user_update_password">Update</button>
+                @if (!auth()->user()->google)
+                    <h2 class="user-profile-title mt-5">Security Information</h2>
+                    <hr>
+                    <div class="form-group mt-4">
+                        <label for="user_current_password">Current Password</label>
+                        <input type="password" class="form-control" name="current_password" id="user_current_password"
+                            placeholder="Current Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="user_new_password">New Password</label>
+                        <input type="password" class="form-control" name="password" id="user_new_password"
+                            placeholder="New Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="user_new_password_confirmation">Confirm New Password</label>
+                        <input type="password" class="form-control" name="password_confirmation"
+                            id="user_new_password_confirmation" placeholder="Confirm New Password">
+                    </div>
+                    <button class="btn rob-button" id="user_update_password">Update</button>
+                @endif
             </div>
             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 irob-update-avatar">
                 <div class="form-group mx-auto irob-avatar-area">
                     <div class="irob-avatar">
-                        <img src="{{avatar_url($user->avatar)}}" alt="{{$user->username}}"
-                             class="user-avatar" id="user_avatar_preview"
-                             data-original="{{avatar_url($user->avatar)}}">
+                        <img src="{{ avatar_url($user->avatar) }}" alt="{{ $user->username }}" class="user-avatar"
+                            id="user_avatar_preview" data-original="{{ avatar_url($user->avatar) }}">
 
                         <label for="user_avatar" class="btn rob-button">
                             <i data-feather="edit-2"></i>
                         </label>
-                        @if($user->avatar)
-                            <label for="user_delete_avatar" class="btn rob-button bg-danger rob-delete-button" id="user_delete_avatar">
+                        @if ($user->avatar)
+                            <label for="user_delete_avatar" class="btn rob-button bg-danger rob-delete-button"
+                                id="user_delete_avatar">
                                 <i data-feather="trash"></i>
                             </label>
                         @endif

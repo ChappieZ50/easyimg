@@ -79,6 +79,11 @@
                 
             @endcomponent
         </div>
+        <div class="row col-12">
+            @component('irob.components.charts.user-login-chart')
+                
+            @endcomponent
+        </div>
     </div>
  @endsection
 
@@ -94,5 +99,6 @@
         window.user_status_chart = @json($chart_user_status_data);
         window.file_extension_chart = @json($chart_file_extension_data);
         window.file_extension_chart_labels = @json($chart_file_extension_labels);
+        window.user_login_chart = @json($chart_user_login_data);
     </script>
 @append

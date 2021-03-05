@@ -388,4 +388,28 @@ $(document).ready(function () {
 
         chart.render();
     }
+
+    /* User Login Types Chart */
+    if ($('#user_login_chart').length) {
+        var options = {
+            series: Object.values(window.user_login_chart),
+            chart: {
+                width: 380,
+                type: 'pie',
+            },
+            labels: Object.keys(window.user_login_chart),
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    }
+                }
+            }]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#user_login_chart"), options);
+
+        chart.render();
+    }
 });

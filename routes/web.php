@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 
 /* imgrob admin */
+
 Route::group(['prefix' => '/admin/', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'admin-auth'], function () {
     Route::get('', 'HomeController@index')->name('home');
     Route::group(['namespace' => 'User'], function () {
@@ -22,7 +24,7 @@ Route::group(['prefix' => '/admin/', 'as' => 'admin.', 'namespace' => 'Admin', '
         Route::post('users/status', 'UserController@status')->name('user.status');
         Route::post('users/store', 'UserController@store')->name('user.store');
     });
-    Route::resource('file', 'FileController')->only('index', 'show','destroy');
+    Route::resource('file', 'FileController')->only('index', 'show', 'destroy');
     Route::resource('page', 'PageController')->except('show');
     Route::resource('message', 'MessageController')->except('create', 'edit');
 
@@ -41,6 +43,15 @@ Route::group(['as' => 'user.', 'namespace' => 'User', 'middleware' => 'user-stat
     Route::resource('register', 'RegisterController')->only('index', 'store')->middleware('guest');
     Route::get('logout', 'LoginController@logout')->name('logout');
 
+    /* Google Login | DO NOT CHANGE!! */
+    Route::get('auth/google/redirect', 'SocialUserController@googleLogin')->name('google.login');
+    Route::get('auth/google/callback', 'SocialUserController@handleGoogleLogin')->name('google.login.handle');
+    
+    /* Facebook Login | DO NOT CHANGE!! */
+    Route::get('auth/facebook/redirect', 'SocialUserController@facebookLogin')->name('facebook.login');
+    Route::get('auth/facebook/callback', 'SocialUserController@handleFacebookLogin')->name('facebook.login.handle');
+
+
     Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
         Route::get('/', function () {
             return redirect()->route('user.profile');
@@ -53,7 +64,7 @@ Route::group(['as' => 'user.', 'namespace' => 'User', 'middleware' => 'user-stat
 
         Route::get('my-files', 'UserController@userImages')->name('images');
         Route::delete('my-files/destroy/{file}', 'UserController@destroyFile')->name('file.destroy');
-        Route::get('my-files/download/{file}','UserController@downloadFile')->name('file.download');
+        Route::get('my-files/download/{file}', 'UserController@downloadFile')->name('file.download');
     });
 });
 
