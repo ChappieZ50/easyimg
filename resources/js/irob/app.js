@@ -118,7 +118,7 @@ $(document).ready(function () {
                 }
             }, error => {
                 if (error.response.data.errors) {
-                    let {errors} = error.response.data;
+                    let { errors } = error.response.data;
 
                     Object.keys(errors).forEach(key => {
                         let value = errors[key][0],
@@ -282,4 +282,110 @@ $(document).ready(function () {
             }
         });
     });
+
+    /* Statics of uploads */
+    if ($('#file_chart').length) {
+        var options = {
+            chart: {
+                type: 'bar',
+                zoom: {
+                    enabled: true
+                }
+            },
+            series: [{
+                name: 'Uploads',
+                data: Object.values(window.file_chart)
+            }],
+            xaxis: {
+                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            }
+        }
+        var chart = new ApexCharts(document.querySelector("#file_chart"), options);
+
+        chart.render();
+    }
+
+    /* Statics of users */
+    if ($('#user_chart').length) {
+        var options = {
+            series: [{
+                name: "Users",
+                data: Object.values(window.user_chart)
+            }],
+            chart: {
+                height: 350,
+                type: 'line',
+                zoom: {
+                    enabled: true
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            grid: {
+                row: {
+                    colors: ['#f3f3f3', 'transparent'],
+                    opacity: 0.5
+                },
+            },
+            xaxis: {
+                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#user_chart"), options);
+
+        chart.render();
+    }
+    /* Active & Banned Users Charts */
+    if ($('#user_status_chart').length) {
+        var options = {
+            series: Object.values(window.user_status_chart),
+            chart: {
+                width: 380,
+                type: 'pie',
+            },
+            colors: ['#19d895', '#ff6258'],
+            labels: ['Active', 'Banned'],
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    }
+                }
+            }]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#user_status_chart"), options);
+
+        chart.render();
+    }
+
+    /* File Extension Chart */
+    if ($('#file_extension_chart').length) {
+        var options = {
+            series: Object.values(window.file_extension_chart),
+            chart: {
+                width: 380,
+                type: 'pie',
+            },
+            labels: Object.values(window.file_extension_chart_labels),
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    }
+                }
+            }]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#file_extension_chart"), options);
+
+        chart.render();
+    }
 });

@@ -8,11 +8,11 @@ return [
     'local_folder'        => 'if',
     'user_avatars_folder' => 'avatars',
     'aws_folder'          => 'if',
-    'accepted_mimes'      => 'jpeg,jpg,png,svg,gif',
     'upload_folder'       => 'df', // Upload Folder for website uploads (logo,favicon,avatar etc.)
     'max_avatar_size'     => '3000', // MB
 
     /* DO NOT EDIT */
+    'accepted_mimes'      => 'jpeg,jpg,png,svg,gif',
     'anonymous_user'      => [
         'username'     => 'Anonymous',
         'avatar'       => '',
