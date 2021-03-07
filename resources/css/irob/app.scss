@@ -199,15 +199,22 @@ a.close {
         min-height: 300px !important;
     }
 }
-.latest-items{
-    .latest-item{
-        &:not(:last-child){
-            border-bottom:1px solid #e5e5e5;
+
+.latest-items {
+    .latest-item {
+        &:not(:last-child) {
+            border-bottom: 1px solid #e5e5e5;
         }
-        .user-name a, .user-name strong{
-            color:$second-color;
+
+        .user-name a, .user-name strong {
+            color: $second-color;
         }
     }
+}
+
+.file-image {
+    object-fit: cover;
+    border:1px solid #e5e5e5;
 }
 
 @media (max-width: 991px) {

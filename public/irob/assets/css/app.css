@@ -175,6 +175,12 @@ a.close {
   color: #2c7ce0;
 }
 
+.file-image {
+  -o-object-fit: cover;
+     object-fit: cover;
+  border: 1px solid #e5e5e5;
+}
+
 @media (max-width: 991px) {
   .navbar.default-layout .navbar-brand-wrapper {
     padding: 4px 10px;
