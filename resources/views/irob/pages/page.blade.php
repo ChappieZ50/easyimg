@@ -90,8 +90,12 @@
 @endsection
 
 @section('scripts')
-    <script src="{{asset('irob/assets/plugins/ckeditor/ckeditor.js')}}"></script>
+    <script src="{{asset('irob/assets/plugins/trumbowyg/trumbowyg.js')}}"></script>
     <script>
-        CKEDITOR.replace('page_content');
+        $('#page_content').trumbowyg();
     </script>
+@append
+
+@section('styles')
+    <link rel="stylesheet" href="{{asset('irob/assets/plugins/trumbowyg/ui/trumbowyg.css')}}">
 @append
