@@ -67,7 +67,7 @@
                                     <span>{{ $file->created_at }}</span>
                                 </li>
                                 <li>
-                                    <strong>Loaded To:</strong>
+                                    <strong>Uploaded To:</strong>
                                     <span class="text-uppercase">{{ $file->uploaded_to }}</span>
                                 </li>
                                 <li>
