@@ -64,5 +64,7 @@
 </form>
 
 @section('scripts')
-    {!! NoCaptcha::renderJs() !!}
+    @if(config()->get('captcha.secret') && config()->get('captcha.sitekey'))
+        {!! NoCaptcha::renderJs() !!}
+    @endif
 @append

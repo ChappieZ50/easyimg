@@ -16,15 +16,15 @@
         </div>
         <div class="irob-login col-xl-5 col-lg-8 col-md-10 col-sm-12 mx-auto">
             @error('non')
-                <div class="mt-2 mb-4 alert alert-danger w-100" role="alert">
-                    {{$message}}
-                </div>
+            <div class="mt-2 mb-4 alert alert-danger w-100" role="alert">
+                {{$message}}
+            </div>
             @enderror
             <div class="login-types-title">
                 Sign in with
             </div>
             @component('components.social-login')
-                
+
             @endcomponent
             <div class="login-types-title mt-4 mb-4">
                 OR
@@ -34,9 +34,9 @@
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" name="email"
-                        id="email" placeholder="Email Address">
+                           id="email" placeholder="Email Address">
                     @error('email')
-                        <span class="invalid-feedback d-block mt-2" role="alert">
+                    <span class="invalid-feedback d-block mt-2" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
@@ -47,9 +47,9 @@
                         <a href="#" class="text-right text-bold small">Reset your password</a>
                     </label>
                     <input type="password" class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
-                        name="password" id="password" placeholder="Password">
+                           name="password" id="password" placeholder="Password">
                     @error('password')
-                        <span class="invalid-feedback d-block mt-2" role="alert">
+                    <span class="invalid-feedback d-block mt-2" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
@@ -57,7 +57,7 @@
                 <div class="form-group">
                     {!! app('captcha')->display() !!}
                     @error('g-recaptcha-response')
-                        <span class="invalid-feedback d-block mt-2" role="alert">
+                    <span class="invalid-feedback d-block mt-2" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
@@ -72,5 +72,7 @@
 @endsection
 
 @section('scripts')
-    {!! NoCaptcha::renderJs() !!}
+    @if(config()->get('captcha.secret') && config()->get('captcha.sitekey'))
+        {!! NoCaptcha::renderJs() !!}
+    @endif
 @append

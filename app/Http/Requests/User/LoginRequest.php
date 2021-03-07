@@ -23,10 +23,18 @@ class LoginRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'email'                => 'required|email',
-            'password'             => 'required',
-            'g-recaptcha-response' => 'required|captcha'
+
+        $captcha = config()->get('captcha.secret') && config()->get('captcha.sitekey');
+
+        $rules = [
+            'email'    => 'required|email',
+            'password' => 'required',
         ];
+
+        if ($captcha) {
+            $rules['g-recaptcha-response'] = 'required|captcha';
+        }
+
+        return $rules;
     }
 }

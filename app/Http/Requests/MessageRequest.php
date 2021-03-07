@@ -23,12 +23,19 @@ class MessageRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name'                 => 'required|max:100',
-            'email'                => 'required|email|max:100',
-            'subject'              => 'required|max:100',
-            'message'              => 'required|max:350',
-            'g-recaptcha-response' => 'required|captcha'
+        $captcha = config()->get('captcha.secret') && config()->get('captcha.sitekey');
+
+        $rules = [
+            'name'    => 'required|max:100',
+            'email'   => 'required|email|max:100',
+            'subject' => 'required|max:100',
+            'message' => 'required|max:350',
         ];
+
+        if ($captcha) {
+            $rules['g-recaptcha-response'] = 'required|captcha';
+        }
+
+        return $rules;
     }
 }

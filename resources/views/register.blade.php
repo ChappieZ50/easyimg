@@ -23,7 +23,7 @@
                 Sign up with
             </div>
             @component('components.social-login')
-                
+
             @endcomponent
             <div class="login-types-title mt-4 mb-4">
                 OR
@@ -85,5 +85,7 @@
 @endsection
 
 @section('scripts')
-    {!! NoCaptcha::renderJs() !!}
+    @if(config()->get('captcha.secret') && config()->get('captcha.sitekey'))
+        {!! NoCaptcha::renderJs() !!}
+    @endif
 @append
