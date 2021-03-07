@@ -25,7 +25,7 @@ class FileController extends Controller
             $uploadFolder = config('imgfoo.aws_folder');
         }
 
-        $file = upload_file($file, config('imgfoo.local_folder'),'',$disk)->getData();
+        $file = upload_file($file, $uploadFolder,'',$disk)->getData();
         $save = $this->save($file->file_id, $file->file_size, $file->extension, $file->file_original_id,$storage);
         if ($save) {
             return response()->json([
