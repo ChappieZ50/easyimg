@@ -23,18 +23,18 @@ class UserController extends Controller
 
     public function show($id, Request $request)
     {
-        $files = File::orderByDesc('id');
-        if ($request->has('s')) {
-            $s = $request->get('s');
-            $files->where('file_id', 'like', '%' . $s . '%')->orWhere('file_original_id', 'like', '%' . $s . '%');
-        }
-        $files->where('user_id',$id);
+        $s = $request->get('s');
+        $files = File::orderByDesc('id')->where('user_id', $id)->where(function ($q) use ($s) {
+            if ($s) {
+                $q->where('file_id', 'like', '%' . $s . '%')->orWhere('file_original_id', 'like', '%' . $s . '%');
+            }
+        })->paginate();
 
         $user = User::findOrFail($id);
 
         return view('irob.users.user')->with([
-            'user' => $user,
-            'files' => $files->paginate()
+            'user'  => $user,
+            'files' => $files
         ]);
     }
 
