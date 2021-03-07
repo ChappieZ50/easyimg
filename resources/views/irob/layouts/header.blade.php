@@ -18,6 +18,7 @@
                     </div>
                     <a href="{{route('user.profile')}}" class="dropdown-item">My Profile <i class="dropdown-item-icon ti-dashboard"></i></a>
                     <a href="{{route('admin.message.index')}}" class="dropdown-item">Messages<i class="dropdown-item-icon ti-comment-alt"></i></a>
+                    <a href="{{route('home')}}" class="dropdown-item">Website Home<i class="dropdown-item-icon ti-comment-alt"></i></a>
                     <a href="{{route('user.logout')}}" class="dropdown-item">Logout<i class="dropdown-item-icon ti-power-off"></i></a>
                 </div>
             </li>
