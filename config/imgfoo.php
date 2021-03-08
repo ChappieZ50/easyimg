@@ -36,7 +36,7 @@ return [
         'site_keywords'         => 'imgfoo,upload image',
 
         /* Upload Settings */
-        'max_file_size'         => '5000', // 5 MB
+        'max_file_size'         => '5', // 5 MB
         'one_time_uploads'      => '5', // 5 images in one post
         'uploads_storage'       => 'local', // "local","aws"
 

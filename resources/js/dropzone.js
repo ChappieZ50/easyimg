@@ -5,13 +5,15 @@ const Dashboard = require('@uppy/dashboard');
 $(document).ready(function () {
     const uppy_note = $('#irob_dropzone').attr('data-note'),
         uppy_drop_string = $('#irob_dropzone').attr('data-drop'),
-        uppy_browse_string = $('#irob_dropzone').attr('data-browse');
+        uppy_browse_string = $('#irob_dropzone').attr('data-browse'),
+        uppy_maxFileSize = $('#irob_dropzone').attr('data-max-size'),
+        uppy_maxFile = $('#irob_dropzone').attr('data-max-file');
     const uppy = new Uppy({
         debug: false,
         autoProceed: true,
         restrictions: {
-            maxFileSize: 2500000,
-            maxNumberOfFiles: 5,
+            maxFileSize: parseInt(uppy_maxFileSize),
+            maxNumberOfFiles: parseInt(uppy_maxFile),
             minNumberOfFiles: 1,
             allowedFileTypes: ["image/*"],
         },

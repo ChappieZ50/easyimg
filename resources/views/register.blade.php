@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('site_title',' — Register')
+
 @section('content')
     <div class="return-to-homepage">
         <a href="{{ route('home') }}" class="return-to-homepage">
@@ -19,15 +21,10 @@
                     {{$message}}
                 </div>
             @enderror
-            <div class="login-types-title">
-                Sign up with
-            </div>
             @component('components.social-login')
-
+                @slot('title','Sign up With')
+                @slot('bottom_title','OR')
             @endcomponent
-            <div class="login-types-title mt-4 mb-4">
-                OR
-            </div>
             <form action="{{ route('user.register.store') }}" method="POST">
                 @csrf
                 <div class="form-group">

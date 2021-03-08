@@ -10,8 +10,7 @@
     <link rel="stylesheet" href="{{asset('irob/assets/vendors/iconfonts/flag-icon-css/css/flag-icon.min.css')}}">
     <link rel="stylesheet" href="{{asset('irob/assets/vendors/css/vendor.bundle.base.css')}}">
     <link rel="stylesheet" href="{{asset('irob/assets/vendors/css/vendor.bundle.addons.css')}}">
-    <link rel="stylesheet" href="{{asset('irob/assets/css/shared/style.css')}}">
-    <link rel="stylesheet" href="{{asset('irob/assets/css/demo_1/style.css')}}">
+    <link rel="stylesheet" href="{{asset('irob/assets/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('irob/assets/css/app.css')}}">
     <link rel="shortcut icon" href="{{asset('irob/assets/images/favicon.ico')}}"/>
     @yield('styles')
@@ -41,8 +40,8 @@
 </script>
 <script src="{{asset('irob/assets/vendors/js/vendor.bundle.base.js')}}"></script>
 <script src="{{asset('irob/assets/vendors/js/vendor.bundle.addons.js')}}"></script>
-<script src="{{asset('irob/assets/js/shared/off-canvas.js')}}"></script>
-<script src="{{asset('irob/assets/js/shared/misc.js')}}"></script>
+<script src="{{asset('irob/assets/js/off-canvas.js')}}"></script>
+<script src="{{asset('irob/assets/js/misc.js')}}"></script>
 <script src="{{asset('irob/assets/js/app.js')}}"></script>
 @yield('scripts')
 </body>

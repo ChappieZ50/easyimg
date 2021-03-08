@@ -1886,7 +1886,7 @@ $(document).ready(function () {
             });
           } else {
             sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
-              title: "Something wrong",
+              title: response.data.message ? response.data.message : "Something wrong",
               icon: "error",
               cancelButtonText: 'Close'
             });
@@ -1921,7 +1921,7 @@ $(document).ready(function () {
             });
           } else {
             sweetalert2__WEBPACK_IMPORTED_MODULE_2___default().fire({
-              title: "Something wrong",
+              title: response.data.message ? response.data.message : "Something wrong",
               icon: "error",
               cancelButtonText: 'Close'
             });

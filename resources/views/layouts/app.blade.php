@@ -33,11 +33,15 @@
     <link rel="apple-touch-icon" href="{{ website_file_url(get_setting('favicon')) }}" sizes="180x180">
 
     {!! get_analytics_script() !!}
+    @if (has_ad('mobile_ad'))
+        {!! get_ad('mobile_ad') !!}
+    @endif
 
     <style>
         :root {
             --primary-color: {{ get_setting('theme_color') }};
         }
+
     </style>
 
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">

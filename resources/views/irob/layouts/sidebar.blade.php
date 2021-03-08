@@ -43,6 +43,12 @@
                 <span class="menu-title">Messages</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('admin.ad.index')}}">
+                <i class="menu-icon typcn typcn-document-text"></i>
+                <span class="menu-title">Manage Ads</span>
+            </a>
+        </li>
         <li class="nav-item nav-category">Website</li>
         <li class="nav-item">
             <a class="nav-link" href="{{route('admin.setting.index')}}">

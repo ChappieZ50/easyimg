@@ -23,16 +23,13 @@ class RegisterRequest extends FormRequest
      */
     public function rules()
     {
-
-        $captcha = config()->get('captcha.secret') && config()->get('captcha.sitekey');
-
         $rules = [
             'username'             => 'required|min:4|max:50|string',
             'email'                => 'required|email|min:6|unique:users',
             'password'             => 'required|min:8|max:24|confirmed',
         ];
 
-        if ($captcha) {
+        if (has_settings('recaptcha_site_key', 'recaptcha_secret_key')) {
             $rules['g-recaptcha-response'] = 'required|captcha';
         }
 

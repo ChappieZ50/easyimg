@@ -27,6 +27,7 @@ Route::group(['prefix' => '/admin/', 'as' => 'admin.', 'namespace' => 'Admin', '
     Route::resource('file', 'FileController')->only('index', 'show', 'destroy');
     Route::resource('page', 'PageController')->except('show');
     Route::resource('message', 'MessageController')->except('create', 'edit');
+    Route::resource('ad','AdController')->only('index','store');
 
     /* Website Settings */
     Route::resource('setting', 'SettingController')->only('index', 'store');

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('site_title',' — Login')
+
 @section('content')
     <div class="return-to-homepage">
         <a href="{{ route('home') }}" class="return-to-homepage">
@@ -20,15 +22,11 @@
                 {{$message}}
             </div>
             @enderror
-            <div class="login-types-title">
-                Sign in with
-            </div>
+            
             @component('components.social-login')
-
+                @slot('title','Sign in With')
+                @slot('bottom_title','OR')
             @endcomponent
-            <div class="login-types-title mt-4 mb-4">
-                OR
-            </div>
             <form action="{{route('user.login.store')}}" method="POST">
                 @csrf
                 <div class="form-group">
@@ -42,10 +40,6 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label for="password" class="d-flex justify-content-between">
-                        Password
-                        <a href="#" class="text-right text-bold small">Reset your password</a>
-                    </label>
                     <input type="password" class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
                            name="password" id="password" placeholder="Password">
                     @error('password')

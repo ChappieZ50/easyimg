@@ -34,7 +34,7 @@ $(document).ready(function () {
                         });
                     } else {
                         Swal.fire({
-                            title: "Something wrong",
+                            title: response.data.message ? response.data.message : "Something wrong",
                             icon: "error",
                             cancelButtonText: 'Close',
                         });
@@ -69,7 +69,7 @@ $(document).ready(function () {
                         });
                     } else {
                         Swal.fire({
-                            title: "Something wrong",
+                            title: response.data.message ? response.data.message : "Something wrong",
                             icon: "error",
                             cancelButtonText: 'Close',
                         });

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FileRequest extends FormRequest
+class AdRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class FileRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->check() && auth()->user()->is_admin;
     }
 
     /**
@@ -24,7 +24,9 @@ class FileRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => 'required|image|mimes:' . config('imgfoo.accepted_mimes') . 'max:' . get_setting('max_file_size') * 1000,
+            'home_top_ad' => 'sometimes',
+            'home_bottom_ad' => 'sometimes',
+            'mobile_ad' => 'sometimes',
         ];
     }
 }

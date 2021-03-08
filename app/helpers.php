@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Ad;
 use App\Models\Page;
 use App\Models\Setting;
 use Illuminate\Support\Facades\File;
@@ -146,8 +147,47 @@ if (!function_exists('get_setting')) {
             if ($setting && $setting->$name) {
                 return $setting->$name;
             }
-            return !$value ? config('imgfoo.settings.' . $name) : $value;
         }
+
+        return !$value ? config('imgfoo.settings.' . $name) : $value;
+    }
+}
+
+if (!function_exists('has_settings')) {
+    function has_settings(...$names)
+    {
+        $status = false;
+
+        if (Schema::hasTable('settings')) {
+            $setting = Setting::first();
+            if ($setting) {
+                $status = true;
+                foreach($names as $name){
+                    if(!isset($setting->$name) || empty($setting->$name)){
+                        $status = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return $status;
+    }
+}
+
+if (!function_exists('has_ad')) {
+    function has_ad($name)
+    {
+        $ad = Ad::first();
+        return $ad && $ad->$name && !empty($ad->$name) ? true : false;
+    }
+}
+
+if (!function_exists('get_ad')) {
+    function get_ad($name)
+    {
+        $ad = Ad::first();
+        return $ad->$name;
     }
 }
 

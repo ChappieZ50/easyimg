@@ -24,14 +24,12 @@ class LoginRequest extends FormRequest
     public function rules()
     {
 
-        $captcha = config()->get('captcha.secret') && config()->get('captcha.sitekey');
-
         $rules = [
             'email'    => 'required|email',
             'password' => 'required',
         ];
 
-        if ($captcha) {
+        if (has_settings('recaptcha_site_key', 'recaptcha_secret_key')) {
             $rules['g-recaptcha-response'] = 'required|captcha';
         }
 

@@ -23,8 +23,6 @@ class MessageRequest extends FormRequest
      */
     public function rules()
     {
-        $captcha = config()->get('captcha.secret') && config()->get('captcha.sitekey');
-
         $rules = [
             'name'    => 'required|max:100',
             'email'   => 'required|email|max:100',
@@ -32,7 +30,7 @@ class MessageRequest extends FormRequest
             'message' => 'required|max:350',
         ];
 
-        if ($captcha) {
+        if (has_settings('recaptcha_site_key', 'recaptcha_secret_key')) {
             $rules['g-recaptcha-response'] = 'required|captcha';
         }
 

@@ -65,6 +65,13 @@ class UserController extends Controller
         $user = User::where('id', '!=', Auth::user()->id)->find($request->get('user'));
         $update = false;
         if ($user) {
+            if($user->is_admin){
+                return response()->json([
+                    'status' =>  false,
+                    'message' => 'Admin user cannot ban',
+                ]);
+            }
+
             $update = $user->update([
                 'status' => $request->get('status') ? true : false
             ]);
