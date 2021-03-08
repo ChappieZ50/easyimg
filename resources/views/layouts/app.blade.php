@@ -1,12 +1,14 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- — --}}
-    <title>{{get_setting('site_title')}}@yield('site_title')</title>
+    <title>{{ get_setting('site_title') }}@yield('site_title')</title>
 
     <meta name="theme-color" content="#2c7ce0">
     <meta name="description" content="@yield('site_description',get_setting('site_description'))">
@@ -25,27 +27,34 @@
     <meta name="twitter:card" content="@yield('site_twitter_card','summary')">
     <meta name="twitter:site" content="@yield('twitter_site_url',url('/'))">
 
-    <link href="{{website_file_url(get_setting('favicon'))}}" rel="shortcut icon">
-    <link href="{{website_file_url(get_setting('favicon'))}}" type="image/{{get_setting('favicon_mime','png')}}" rel="icon" sizes="192x192">
-    <link rel="apple-touch-icon" href="{{website_file_url(get_setting('favicon'))}}" sizes="180x180">
+    <link href="{{ website_file_url(get_setting('favicon')) }}" rel="shortcut icon">
+    <link href="{{ website_file_url(get_setting('favicon')) }}" type="image/{{ get_setting('favicon_mime', 'png') }}"
+        rel="icon" sizes="192x192">
+    <link rel="apple-touch-icon" href="{{ website_file_url(get_setting('favicon')) }}" sizes="180x180">
 
-    <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
+    {!! get_analytics_script() !!}
+
+
+    <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
     @yield('styles')
 </head>
+
 <body>
 
-@includeWhen(!isset($no_header),'layouts.header')
+    @includeWhen(!isset($no_header),'layouts.header')
 
-<div class="page-wrapper container-fluid">
-    @yield('content')
-</div>
+    <div class="page-wrapper container-fluid">
+        @yield('content')
+    </div>
 
-<script>
-    window.routes = {
-        file_destroy:'{{route('user.images').'/destroy'}}'
-    };
-</script>
-<script src="{{asset('assets/js/app.js')}}"></script>
-@yield('scripts')
+    <script>
+        window.routes = {
+            file_destroy: '{{ route('user.images') . '/destroy' }}'
+        };
+
+    </script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
+    @yield('scripts')
 </body>
+
 </html>
