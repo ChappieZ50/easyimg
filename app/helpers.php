@@ -124,6 +124,20 @@ if (!function_exists('upload_file')) {
     }
 }
 
+if (!function_exists('has_setting')) {
+    function has_setting($name)
+    {
+        if (Schema::hasTable('settings')) {
+            $setting = Setting::first();
+            if ($setting && $setting->$name) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
 if (!function_exists('get_setting')) {
     function get_setting($name, $value = '')
     {

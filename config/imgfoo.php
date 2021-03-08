@@ -28,6 +28,7 @@ return [
         /* Website Settings */
         'website_name'          => 'Imgfoo',
         'menu_title'            => 'About',
+        'theme_color'           => '#2c7ce0',
 
         /* SEO */
         'site_title'            => 'Imgfoo',

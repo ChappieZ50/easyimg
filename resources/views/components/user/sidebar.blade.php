@@ -6,6 +6,6 @@
         <li class="{{request()->routeIs('user.profile') ? 'active' : ''}}"><a href="{{route('user.profile')}}">Profile</a></li>
         <li class="{{request()->routeIs('user.images') ? 'active' : ''}}"><a href="{{route('user.images')}}">My Images</a></li>
         <li><a href="{{route('home')}}">Upload Image</a></li>
-        <li><a href="#">Logout</a></li>
+        <li><a href="{{route('user.logout')}}">Logout</a></li>
     </ul>
 </div>

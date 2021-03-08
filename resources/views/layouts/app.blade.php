@@ -10,7 +10,7 @@
     {{-- — --}}
     <title>{{ get_setting('site_title') }}@yield('site_title')</title>
 
-    <meta name="theme-color" content="#2c7ce0">
+    <meta name="theme-color" content="{{ get_setting('theme_color') }}">
     <meta name="description" content="@yield('site_description',get_setting('site_description'))">
     <meta name="keywords" content="@yield('site_keywords',get_setting('site_keywords'))">
     <meta name="robots" content="@yield('site_robots','index, follow')">
@@ -28,12 +28,17 @@
     <meta name="twitter:site" content="@yield('twitter_site_url',url('/'))">
 
     <link href="{{ website_file_url(get_setting('favicon')) }}" rel="shortcut icon">
-    <link href="{{ website_file_url(get_setting('favicon')) }}" type="image/{{ get_setting('favicon_mime', 'png') }}"
-        rel="icon" sizes="192x192">
+    <link href="{{ website_file_url(get_setting('favicon')) }}"
+        type="image/{{ get_setting('favicon_mime', 'png') }}" rel="icon" sizes="192x192">
     <link rel="apple-touch-icon" href="{{ website_file_url(get_setting('favicon')) }}" sizes="180x180">
 
     {!! get_analytics_script() !!}
 
+    <style>
+        :root {
+            --primary-color: {{ get_setting('theme_color') }};
+        }
+    </style>
 
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
     @yield('styles')
