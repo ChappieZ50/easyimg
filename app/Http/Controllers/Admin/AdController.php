@@ -11,7 +11,7 @@ class AdController extends Controller
     public function index()
     {
         $ad = Ad::first();
-        return view('irob.ads')->with('ad',$ad);
+        return view('ipool.ads')->with('ad',$ad);
     }
 
     public function store(AdRequest $request)

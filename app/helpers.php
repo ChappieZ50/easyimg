@@ -14,9 +14,9 @@ if (!function_exists('download_file')) {
         $name = $file->file_full_id;
 
         if ($file->uploaded_to === 'aws') {
-            return Storage::disk('s3')->download(config('imgfoo.aws_folder') . '/' . $name);
+            return Storage::disk('s3')->download(config('imgpool.aws_folder') . '/' . $name);
         } else {
-            return response()->download(config('imgfoo.local_folder') . '/' . $name);
+            return response()->download(config('imgpool.local_folder') . '/' . $name);
         }
     }
 }
@@ -25,9 +25,9 @@ if (!function_exists('file_url')) {
     function file_url($file)
     {
         if ($file->uploaded_to === 'local') {
-            $link = asset(config('imgfoo.local_folder') . '/' . $file->file_full_id);
+            $link = asset(config('imgpool.local_folder') . '/' . $file->file_full_id);
         } elseif ($file->uploaded_to === 'aws') {
-            $link = Storage::disk('s3')->url(config('imgfoo.aws_folder') . '/' . $file->file_full_id);
+            $link = Storage::disk('s3')->url(config('imgpool.aws_folder') . '/' . $file->file_full_id);
         } else {
             $link = asset($file->file_full_id);
         }
@@ -38,14 +38,14 @@ if (!function_exists('file_url')) {
 if (!function_exists('website_file_url')) {
     function website_file_url($file, $path = '')
     {
-        return !$path ? asset(config('imgfoo.upload_folder') . '/' . $file) : asset($path . $file);
+        return !$path ? asset(config('imgpool.upload_folder') . '/' . $file) : asset($path . $file);
     }
 }
 
 if (!function_exists('avatar_url')) {
     function avatar_url($file, $path = '')
     {
-        return $file ? asset(config('imgfoo.user_avatars_folder') . '/' . $file) : ($path ? $path : asset('assets/images/avatar.png'));
+        return $file ? asset(config('imgpool.user_avatars_folder') . '/' . $file) : ($path ? $path : asset('assets/images/avatar.png'));
     }
 }
 
@@ -149,7 +149,7 @@ if (!function_exists('get_setting')) {
             }
         }
 
-        return !$value ? config('imgfoo.settings.' . $name) : $value;
+        return !$value ? config('imgpool.settings.' . $name) : $value;
     }
 }
 

@@ -3,7 +3,7 @@
 @section('site_title',' — My Images')
 
 @section('content')
-    <div class="irob-user-wrapper col-md-10 col-sm-12">
+    <div class="ipool-user-wrapper col-md-10 col-sm-12">
         @component('components.user.sidebar') @endcomponent
         @component('components.user.files')
             @slot('files',$files)

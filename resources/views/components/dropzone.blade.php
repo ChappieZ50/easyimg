@@ -1,7 +1,7 @@
-<div id="irob_dropzone" class="irob-dropzone" data-note="{{get_setting('dropzone_rule')}}" data-drop="{{get_setting('dropzone_text')}}"
+<div id="ipool_dropzone" class="ipool-dropzone" data-note="{{get_setting('dropzone_rule')}}" data-drop="{{get_setting('dropzone_text')}}"
      data-browse="{{get_setting('browse_text')}}" data-max-size="{{get_setting('max_file_size').'000000'}}" data-max-file="{{get_setting('one_time_uploads')}}">
 </div>
-<div class="irob-dropzone-terms">
+<div class="ipool-dropzone-terms">
     <div>
         @php
             $privacy = get_privacy_page();

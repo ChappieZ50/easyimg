@@ -17,12 +17,12 @@ class PageController extends Controller
             $s = $request->get('s');
             $pages->where('title', 'like', '%' . $s . '%')->orWhere('slug', 'like', '%' . $s . '%');
         }
-        return view('irob.pages.pages')->with('pages', $pages->paginate());
+        return view('ipool.pages.pages')->with('pages', $pages->paginate());
     }
 
     public function create()
     {
-        return view('irob.pages.page');
+        return view('ipool.pages.page');
     }
 
     public function store(PageRequest $request)
@@ -44,7 +44,7 @@ class PageController extends Controller
     public function edit($id)
     {
         $page = Page::findOrFail($id);
-        return view('irob.pages.page')->with('page', $page);
+        return view('ipool.pages.page')->with('page', $page);
     }
 
     public function update(Page $page, PageRequest $request)

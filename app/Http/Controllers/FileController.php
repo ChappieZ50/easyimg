@@ -17,12 +17,12 @@ class FileController extends Controller
 
         $disk = '';
         $storage = 'local';
-        $uploadFolder = config('imgfoo.local_folder');
+        $uploadFolder = config('imgpool.local_folder');
 
         if ($setting && $setting->uploads_storage === 'aws') {
             $disk = 's3';
             $storage = 'aws';
-            $uploadFolder = config('imgfoo.aws_folder');
+            $uploadFolder = config('imgpool.aws_folder');
         }
 
         $file = upload_file($file, $uploadFolder,'',$disk)->getData();

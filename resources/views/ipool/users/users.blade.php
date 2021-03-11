@@ -1,9 +1,9 @@
-@extends('irob.layouts.app')
+@extends('ipool.layouts.app')
 
 @section('content')
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
-            @component('irob.components.card')
+            @component('ipool.components.card')
                 @slot('title','Users')
                 @slot('searchRoute',route('admin.user.index'))
                 @slot('header')
@@ -87,5 +87,5 @@
     </div>
 
 
-    @include('irob.components.modals.new-user')
+    @include('ipool.components.modals.new-user')
 @endsection

@@ -1,4 +1,4 @@
-@extends('irob.layouts.app')
+@extends('ipool.layouts.app')
 
 @section('content')
     @if(session()->has('success'))
@@ -12,7 +12,7 @@
     @endif
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
-            @component('irob.components.card')
+            @component('ipool.components.card')
                 @slot('title') Settings @endslot
                 @slot('body')
                     <div class="row mt-3 align-items-start">
@@ -45,23 +45,23 @@
                         </ul>
                         <div class="tab-content col-lg-10 col-md-12  mt-4">
                             <div class="tab-pane fade show active" id="tab-1">
-                                @include('irob.components.settings.tabs.website')
+                                @include('ipool.components.settings.tabs.website')
                             </div>
 
                             <div class="tab-pane fade" id="tab-2">
-                                @include('irob.components.settings.tabs.logo-favicon')
+                                @include('ipool.components.settings.tabs.logo-favicon')
                             </div>
 
                             <div class="tab-pane fade" id="tab-3">
-                                @include('irob.components.settings.tabs.aws-api')
+                                @include('ipool.components.settings.tabs.aws-api')
                             </div>
 
                             <div class="tab-pane fade" id="tab-4">
-                                @include('irob.components.settings.tabs.login-recaptcha-api')
+                                @include('ipool.components.settings.tabs.login-recaptcha-api')
                             </div>
 
                             <div class="tab-pane fade" id="tab-5">
-                                @include('irob.components.settings.tabs.seo')
+                                @include('ipool.components.settings.tabs.seo')
                             </div>
                         </div>
                     </div>

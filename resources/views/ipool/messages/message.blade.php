@@ -1,4 +1,4 @@
-@extends('irob.layouts.app')
+@extends('ipool.layouts.app')
 
 @section('content')
     <div class="row">

@@ -1,9 +1,9 @@
-<div class="irob-user-container col-xl-10 col-lg-10 col-md-12 col-sm-12">
-    <div class="irob-user">
-        <h2 class="irob-sidebar-title">My Images</h2>
+<div class="ipool-user-container col-xl-10 col-lg-10 col-md-12 col-sm-12">
+    <div class="ipool-user">
+        <h2 class="ipool-sidebar-title">My Images</h2>
         <hr>
-        <div class="irob-user-content">
-            <div class="col-12 irob-images">
+        <div class="ipool-user-content">
+            <div class="col-12 ipool-images">
                 @unless(count($files))
                     <div class="empty-images">
                         <img src="{{ asset('empty-images.svg') }}" alt="empty image" class="img-fluid">
@@ -18,11 +18,11 @@
                 @else
                     @foreach ($files as $file)
                         @php $link = file_url($file); @endphp
-                        <div class="irob-user-image">
-                            <div class="irob-image-delete" id="file_delete" data-id="{{ $file->id }}">
+                        <div class="ipool-user-image">
+                            <div class="ipool-image-delete" id="file_delete" data-id="{{ $file->id }}">
                                 <i data-feather="x"></i>
                             </div>
-                            <div class="irob-image-link">
+                            <div class="ipool-image-link">
                                 <i data-feather="link" id="copy" data-clipboard-text="{{ $link }}"></i>
                             </div>
 
@@ -31,7 +31,7 @@
                                 <img src="{{ $link }}" alt="{{ $file->file_id }}">
                             </a>
 
-                            <div class="irob-image-bottom">
+                            <div class="ipool-image-bottom">
                                 <div class="bottom-content">
                                     <div class="image-name">{{ $file->file_original_id . '.' . $file->file_mime }}</div>
                                     <div class="image-info">

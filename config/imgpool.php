@@ -1,7 +1,7 @@
 <?php
 
 
-/* Imgfoo config file */
+/* Imgpool config file */
 
 return [
     /* Do not change if website is active and if some files are uploaded. */
@@ -26,14 +26,14 @@ return [
 
     'settings' => [
         /* Website Settings */
-        'website_name'          => 'Imgfoo',
+        'website_name'          => 'Imgpool',
         'menu_title'            => 'About',
         'theme_color'           => '#2c7ce0',
 
         /* SEO */
-        'site_title'            => 'Imgfoo',
-        'site_description'      => 'Imgfoo',
-        'site_keywords'         => 'imgfoo,upload image',
+        'site_title'            => 'Imgpool',
+        'site_description'      => 'Imgpool',
+        'site_keywords'         => 'imgpool,upload image',
 
         /* Upload Settings */
         'max_file_size'         => '5', // 5 MB

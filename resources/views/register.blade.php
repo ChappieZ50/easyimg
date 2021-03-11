@@ -9,13 +9,13 @@
             <span>Homepage</span>
         </a>
     </div>
-    <div class="irob-login-wrapper container mt-5">
-        <div class="irob-login-logo">
+    <div class="ipool-login-wrapper container mt-5">
+        <div class="ipool-login-logo">
             <a href="{{ route('home') }}">
                 <img src="{{ asset('logo.png') }}" alt="logo" class="img-fluid">
             </a>
         </div>
-        <div class="irob-login col-xl-5 col-lg-8 col-md-10 col-sm-12 mx-auto">
+        <div class="ipool-login col-xl-5 col-lg-8 col-md-10 col-sm-12 mx-auto">
             @error('non')
                 <div class="mt-2 mb-4 alert alert-danger w-100" role="alert">
                     {{$message}}
@@ -72,7 +72,7 @@
                         </span>
                     @enderror
                 </div>
-                <button class="btn rob-button w-100" type="submit">Sign Up</button>
+                <button class="btn ipool-button w-100" type="submit">Sign Up</button>
             </form>
         </div>
         <div class="to-register-page text-center mt-3 small">

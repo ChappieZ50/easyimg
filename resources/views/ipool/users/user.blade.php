@@ -1,4 +1,4 @@
-@extends('irob.layouts.app')
+@extends('ipool.layouts.app')
 
 @section('content')
     <div class="row">
@@ -35,11 +35,11 @@
             </div>
 
             <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 mt-3">
-                @component('irob.components.card')
+                @component('ipool.components.card')
                     @slot('title', 'User Images')
                     @slot('searchRoute', route('admin.user.show',$user->id))
                     @slot('body')
-                        @component('irob.components.files')
+                        @component('ipool.components.files')
                             @slot('files',$files)
                         @endcomponent
                     @endslot

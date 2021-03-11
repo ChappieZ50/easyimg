@@ -1,4 +1,4 @@
-<div class="irob-sidebar col-xl-2 col-lg-2 col-md-12 col-sm-12">
+<div class="ipool-sidebar col-xl-2 col-lg-2 col-md-12 col-sm-12">
     <ul>
         @if(auth()->user()->is_admin)
             <li><a href="{{route('admin.home')}}">Admin Panel</a></li>

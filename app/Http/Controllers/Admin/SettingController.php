@@ -11,7 +11,7 @@ class SettingController extends Controller
 {
     public function index()
     {
-        $view = view('irob.settings');
+        $view = view('ipool.settings');
 
         $setting = Setting::first();
 
@@ -74,7 +74,7 @@ class SettingController extends Controller
     private function logoFavicon(SettingRequest $request)
     {
         $setting = Setting::first();
-        $uploadFolder = config('imgfoo.upload_folder');
+        $uploadFolder = config('imgpool.upload_folder');
 
 
         if ($request->hasFile('logo')) {

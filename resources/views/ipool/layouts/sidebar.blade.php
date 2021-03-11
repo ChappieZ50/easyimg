@@ -7,7 +7,7 @@
                     <div class="dot-indicator bg-success"></div>
                 </div>
                 <div class="text-wrapper">
-                    <p class="profile-name">IMGROB</p>
+                    <p class="profile-name text-uppercase">{{get_setting('website_name','imgpool')}}</p>
                     <p class="designation">{{auth()->user()->username}}</p>
                 </div>
             </a>

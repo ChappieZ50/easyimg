@@ -18,17 +18,17 @@ class FileController extends Controller
                 return $query->where('username', 'like', '%' . $s . '%')->orWhere('email', 'like', '%' . $s . '%');
             })->orWhere('file_id', 'like', '%' . $s . '%');
         }
-        return view('irob.files.files')->with('files', $files->paginate());
+        return view('ipool.files.files')->with('files', $files->paginate());
     }
 
     public function show($id)
     {
         $file = File::findOrFail($id);
         if (!$file->user) {
-            $file->user = json_decode(json_encode(config('imgfoo.anonymous_user')));
+            $file->user = json_decode(json_encode(config('imgpool.anonymous_user')));
         }
 
-        return view('irob.files.file')->with('file', $file);
+        return view('ipool.files.file')->with('file', $file);
     }
 
 
@@ -49,7 +49,7 @@ class FileController extends Controller
             if ($file->uploaded_to === 'aws') {
                 $destroy =  $this->destroyAwsFile();
             }else{
-                $destroy = $this->destroyLocalFile(config('imgfoo.local_folder').'/'. $file->file_full_id);
+                $destroy = $this->destroyLocalFile(config('imgpool.local_folder').'/'. $file->file_full_id);
             }
 
 

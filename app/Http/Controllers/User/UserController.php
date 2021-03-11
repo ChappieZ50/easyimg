@@ -31,10 +31,10 @@ class UserController extends Controller
         $file = FileModel::where('id', $id)->where('user_id', Auth::user()->id)->first();
         if ($file) {
             if ($file->uploaded_to === 'aws') {
-                $destroy = Storage::disk('s3')->delete(config('imgfoo.aws_folder') . '/' . $file->file_full_id);
+                $destroy = Storage::disk('s3')->delete(config('imgpool.aws_folder') . '/' . $file->file_full_id);
             } else {
                 /* Local upload */
-                $destroy = File::delete(config('imgfoo.local_folder') . '/' . $file->file_full_id);
+                $destroy = File::delete(config('imgpool.local_folder') . '/' . $file->file_full_id);
             }
 
             if ($destroy) {
@@ -87,7 +87,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        $avatar = upload_file($request->file('avatar'), config('imgfoo.user_avatars_folder'), $user->avatar)->getData();
+        $avatar = upload_file($request->file('avatar'), config('imgpool.user_avatars_folder'), $user->avatar)->getData();
         if ($avatar) {
             $update = $user->update([
                 'avatar' => $avatar->name
@@ -102,7 +102,7 @@ class UserController extends Controller
 
     public function destroyAvatar()
     {
-        File::delete(config('imgfoo.user_avatars_folder') . '/' . auth()->user()->avatar);
+        File::delete(config('imgpool.user_avatars_folder') . '/' . auth()->user()->avatar);
         Auth::user()->update([
             'avatar' => ''
         ]);

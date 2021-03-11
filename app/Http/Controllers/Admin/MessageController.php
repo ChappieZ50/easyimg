@@ -10,13 +10,13 @@ class MessageController extends Controller
     public function index()
     {
         $messages = Message::orderByDesc('id')->paginate();
-        return view('irob.messages.messages')->with('messages', $messages);
+        return view('ipool.messages.messages')->with('messages', $messages);
     }
 
     public function show($id)
     {
         $message = Message::findOrFail($id);
-        return view('irob.messages.message')->with('message', $message);
+        return view('ipool.messages.message')->with('message', $message);
     }
 
     public function destroy($id)

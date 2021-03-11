@@ -1,13 +1,13 @@
-@extends('irob.layouts.app')
+@extends('ipool.layouts.app')
 
 @section('content')
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
-            @component('irob.components.card')
+            @component('ipool.components.card')
                 @slot('title', 'Images')
                 @slot('searchRoute', route('admin.file.index'))
                 @slot('body')
-                    @component('irob.components.files')
+                    @component('ipool.components.files')
                         @slot('username',true)
                         @slot('files',$files)
                     @endcomponent

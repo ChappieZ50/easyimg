@@ -17,10 +17,10 @@ $(document).ready(function () {
     /* Windows Sizes */
     $(window).on('resize', function () {
         if (window.matchMedia('(max-width: 992px)').matches) {
-            $('.login-items .rob-move-btn').appendTo('.navbar')
+            $('.login-items .ipool-move-btn').appendTo('.navbar')
         } else {
-            if ($('.login-items .rob-move-btn').length === 0) {
-                $('.navbar .rob-move-btn').appendTo('.login-items')
+            if ($('.login-items .ipool-move-btn').length === 0) {
+                $('.navbar .ipool-move-btn').appendTo('.login-items')
             }
         }
 

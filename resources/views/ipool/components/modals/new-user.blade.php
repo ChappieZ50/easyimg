@@ -1,4 +1,4 @@
-@component('irob.components.modals.modal')
+@component('ipool.components.modals.modal')
     @slot('id','newUserModal')
     @slot('title','New User')
     @slot('body')

@@ -1,9 +1,9 @@
-<div class="irob-user-container col-xl-10 col-lg-10 col-md-12 col-sm-12">
-    <div class="irob-user">
-        <h2 class="irob-sidebar-title">Profile Information</h2>
+<div class="ipool-user-container col-xl-10 col-lg-10 col-md-12 col-sm-12">
+    <div class="ipool-user">
+        <h2 class="ipool-sidebar-title">Profile Information</h2>
         <div class="alert alert-danger" id="user_profile_errors" style="display: none"></div>
         <hr>
-        <div class="irob-user-content">
+        <div class="ipool-user-content">
             <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
                 <div class="form-group">
                     <label for="user_email">Email Address</label>
@@ -15,7 +15,7 @@
                     <input type="text" class="form-control" name="username" id="user_username" placeholder="Username"
                         value="{{ $user->username }}">
                 </div>
-                <button class="btn rob-button" id="user_update">Update</button>
+                <button class="btn ipool-button" id="user_update">Update</button>
                 @if (!auth()->user()->google)
                     <h2 class="user-profile-title mt-5">Security Information</h2>
                     <hr>
@@ -34,20 +34,20 @@
                         <input type="password" class="form-control" name="password_confirmation"
                             id="user_new_password_confirmation" placeholder="Confirm New Password">
                     </div>
-                    <button class="btn rob-button" id="user_update_password">Update</button>
+                    <button class="btn ipool-button" id="user_update_password">Update</button>
                 @endif
             </div>
-            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 irob-update-avatar">
-                <div class="form-group mx-auto irob-avatar-area">
-                    <div class="irob-avatar">
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 ipool-update-avatar">
+                <div class="form-group mx-auto ipool-avatar-area">
+                    <div class="ipool-avatar">
                         <img src="{{ avatar_url($user->avatar) }}" alt="{{ $user->username }}" class="user-avatar"
                             id="user_avatar_preview" data-original="{{ avatar_url($user->avatar) }}">
 
-                        <label for="user_avatar" class="btn rob-button">
+                        <label for="user_avatar" class="btn ipool-button">
                             <i data-feather="edit-2"></i>
                         </label>
                         @if ($user->avatar)
-                            <label for="user_delete_avatar" class="btn rob-button bg-danger rob-delete-button"
+                            <label for="user_delete_avatar" class="btn ipool-button bg-danger ipool-delete-button"
                                 id="user_delete_avatar">
                                 <i data-feather="trash"></i>
                             </label>
@@ -55,7 +55,7 @@
                     </div>
                     <input type="file" class="form-control-file" name="avatar" id="user_avatar" placeholder="Avatar">
                 </div>
-                <button class="btn rob-button mx-auto" id="user_update_avatar">Update Avatar</button>
+                <button class="btn ipool-button mx-auto" id="user_update_avatar">Update Avatar</button>
             </div>
         </div>
     </div>

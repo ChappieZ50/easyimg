@@ -1,7 +1,7 @@
 <header class="header">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="page-items">
-            <a class="rob-button nav-link" href="{{ url('/') }}">
+            <a class="ipool-button nav-link" href="{{ url('/') }}">
                 <i data-feather="upload"></i>
                 Upload image
             </a>
@@ -38,7 +38,7 @@
 
         <div class="page-items login-items">
             @auth
-                <ul class="navbar-nav rob-move-btn">
+                <ul class="navbar-nav ipool-move-btn">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="javascript:;" id="navbarDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -59,7 +59,7 @@
                 </ul>
             @else
                 <a class="nav-link" href="{{ route('user.login.index') }}">Sign in</a>
-                <a class="nav-link rob-button rob-sign-up rob-move-btn" href="{{ route('user.register.index') }}">
+                <a class="nav-link ipool-button ipool-sign-up ipool-move-btn" href="{{ route('user.register.index') }}">
                     <i data-feather="user-plus"></i>
                     Sign up
                 </a>

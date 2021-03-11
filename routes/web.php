@@ -15,7 +15,7 @@ use Laravel\Socialite\Facades\Socialite;
 */
 
 
-/* imgrob admin */
+/* imgpool admin */
 
 Route::group(['prefix' => '/admin/', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'admin-auth'], function () {
     Route::get('', 'HomeController@index')->name('home');
@@ -33,7 +33,7 @@ Route::group(['prefix' => '/admin/', 'as' => 'admin.', 'namespace' => 'Admin', '
     Route::resource('setting', 'SettingController')->only('index', 'store');
 });
 
-/* imgrob web */
+/* imgpool web */
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/p/{slug}', 'HomeController@page')->name('page');
@@ -47,7 +47,7 @@ Route::group(['as' => 'user.', 'namespace' => 'User', 'middleware' => 'user-stat
     /* Google Login | DO NOT CHANGE!! */
     Route::get('auth/google/redirect', 'SocialUserController@googleLogin')->name('google.login');
     Route::get('auth/google/callback', 'SocialUserController@handleGoogleLogin')->name('google.login.handle');
-    
+
     /* Facebook Login | DO NOT CHANGE!! */
     Route::get('auth/facebook/redirect', 'SocialUserController@facebookLogin')->name('facebook.login');
     Route::get('auth/facebook/callback', 'SocialUserController@handleFacebookLogin')->name('facebook.login.handle');

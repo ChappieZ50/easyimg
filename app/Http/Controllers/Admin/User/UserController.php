@@ -18,7 +18,7 @@ class UserController extends Controller
             $s = $request->get('s');
             $users->where('username', 'like', '%' . $s . '%')->orWhere('email', 'like', '%' . $s . '%');
         }
-        return view('irob.users.users')->with('users', $users->paginate());
+        return view('ipool.users.users')->with('users', $users->paginate());
     }
 
     public function show($id, Request $request)
@@ -32,7 +32,7 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
-        return view('irob.users.user')->with([
+        return view('ipool.users.user')->with([
             'user'  => $user,
             'files' => $files
         ]);

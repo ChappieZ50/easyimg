@@ -24,9 +24,9 @@ class HomeController extends Controller
         $files = File::orderByDesc('id')->take(5)->get();
         $users = User::orderByDesc('id')->take(5)->get();
 
-        $labels = explode(',', config('imgfoo.accepted_mimes'));
+        $labels = explode(',', config('imgpool.accepted_mimes'));
 
-        return view('irob.home')->with([
+        return view('ipool.home')->with([
             'filesCount' => $filesCount,
             'usersCount' => $usersCount,
             'messagesCount' => $messagesCount,

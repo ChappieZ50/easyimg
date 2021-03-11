@@ -1834,10 +1834,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./resources/js/irob/app.js":
-/*!**********************************!*\
-  !*** ./resources/js/irob/app.js ***!
-  \**********************************/
+/***/ "./resources/js/ipool/app.js":
+/*!***********************************!*\
+  !*** ./resources/js/ipool/app.js ***!
+  \***********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1848,7 +1848,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var bootstrap_dist_js_bootstrap_bundle__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(bootstrap_dist_js_bootstrap_bundle__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_2__);
-__webpack_require__(/*! ./bootstrap */ "./resources/js/irob/bootstrap.js");
+__webpack_require__(/*! ./bootstrap */ "./resources/js/ipool/bootstrap.js");
 
 
 
@@ -2252,10 +2252,10 @@ $(document).ready(function () {
 
 /***/ }),
 
-/***/ "./resources/js/irob/bootstrap.js":
-/*!****************************************!*\
-  !*** ./resources/js/irob/bootstrap.js ***!
-  \****************************************/
+/***/ "./resources/js/ipool/bootstrap.js":
+/*!*****************************************!*\
+  !*** ./resources/js/ipool/bootstrap.js ***!
+  \*****************************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
@@ -39801,10 +39801,10 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
 
 /***/ }),
 
-/***/ "./resources/css/irob/app.scss":
-/*!*************************************!*\
-  !*** ./resources/css/irob/app.scss ***!
-  \*************************************/
+/***/ "./resources/css/ipool/app.scss":
+/*!**************************************!*\
+  !*** ./resources/css/ipool/app.scss ***!
+  \**************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -43769,12 +43769,12 @@ if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAle
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// Promise = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"/irob/assets/js/app": 0
+/******/ 			"/ipool/assets/js/app": 0
 /******/ 		};
 /******/ 		
 /******/ 		var deferredModules = [
-/******/ 			["./resources/js/irob/app.js"],
-/******/ 			["./resources/css/irob/app.scss"]
+/******/ 			["./resources/js/ipool/app.js"],
+/******/ 			["./resources/css/ipool/app.scss"]
 /******/ 		];
 /******/ 		// no chunk on demand loading
 /******/ 		

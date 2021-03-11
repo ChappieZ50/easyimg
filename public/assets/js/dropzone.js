@@ -15638,11 +15638,11 @@ var XHRUpload = __webpack_require__(/*! @uppy/xhr-upload */ "./node_modules/@upp
 var Dashboard = __webpack_require__(/*! @uppy/dashboard */ "./node_modules/@uppy/dashboard/lib/index.js");
 
 $(document).ready(function () {
-  var uppy_note = $('#irob_dropzone').attr('data-note'),
-      uppy_drop_string = $('#irob_dropzone').attr('data-drop'),
-      uppy_browse_string = $('#irob_dropzone').attr('data-browse'),
-      uppy_maxFileSize = $('#irob_dropzone').attr('data-max-size'),
-      uppy_maxFile = $('#irob_dropzone').attr('data-max-file');
+  var uppy_note = $('#ipool_dropzone').attr('data-note'),
+      uppy_drop_string = $('#ipool_dropzone').attr('data-drop'),
+      uppy_browse_string = $('#ipool_dropzone').attr('data-browse'),
+      uppy_maxFileSize = $('#ipool_dropzone').attr('data-max-size'),
+      uppy_maxFile = $('#ipool_dropzone').attr('data-max-file');
   var uppy = new Uppy({
     debug: false,
     autoProceed: true,
@@ -15659,7 +15659,7 @@ $(document).ready(function () {
       }
     }
   }).use(Dashboard, {
-    target: "#irob_dropzone",
+    target: "#ipool_dropzone",
     inline: true,
     width: 1000,
     note: uppy_note,

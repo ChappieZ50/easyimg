@@ -21,7 +21,7 @@ html, body {
     }
 }
 
-.rob-button {
+.ipool-button {
     background-color: $primary-color;
     color: #fff !important;
     border-radius: 3px;
@@ -142,7 +142,7 @@ html, body {
                         color: #000;
                     }
 
-                    &.rob-sign-up {
+                    &.ipool-sign-up {
                         padding: 6px 12px;
                     }
                 }
@@ -157,7 +157,7 @@ html, body {
             }
         }
 
-        .rob-move-btn {
+        .ipool-move-btn {
             .dropdown-menu {
                 top: 56px;
                 border-color: #e5e5e5 !important;
@@ -177,7 +177,7 @@ html, body {
 }
 
 .page-wrapper {
-    .irob-dropzone {
+    .ipool-dropzone {
         margin-top: 100px;
 
         .uppy-Dashboard-inner {
@@ -198,7 +198,7 @@ html, body {
         }
     }
 
-    .irob-dropzone-terms {
+    .ipool-dropzone-terms {
         display: flex;
         justify-content: center;
         font-size: 12px;
@@ -258,9 +258,9 @@ html, body {
     }
 }
 
-.irob-login-wrapper {
+.ipool-login-wrapper {
 
-    .irob-login-logo {
+    .ipool-login-logo {
         margin-top: 100px;
         text-align: center;
 
@@ -269,7 +269,7 @@ html, body {
         }
     }
 
-    .irob-login {
+    .ipool-login {
         padding: 20px 30px;
         border: 1px solid #e5e5e5;
         margin-top: 80px;
@@ -361,7 +361,7 @@ html, body {
                 display: none !important;
             }
 
-            .rob-button {
+            .ipool-button {
                 display: none !important;
             }
         }
@@ -389,25 +389,25 @@ html, body {
             }
         }
     }
-    .irob-user-wrapper {
-        .irob-sidebar {
+    .ipool-user-wrapper {
+        .ipool-sidebar {
             max-width: 100% !important;
         }
 
-        .irob-user-container {
+        .ipool-user-container {
             padding-left: 0 !important;
             padding-top: 20px;
         }
     }
 }
 
-.irob-user-wrapper {
+.ipool-user-wrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     margin: 60px auto 0 auto;
 
-    .irob-sidebar {
+    .ipool-sidebar {
         border: 1px solid #e5e5e5;
         border-radius: 6px;
         padding: 0 !important;
@@ -465,33 +465,33 @@ html, body {
         }
     }
 
-    .irob-sidebar-title {
+    .ipool-sidebar-title {
         font-weight: 600;
         font-size: 26px;
         color: #333;
     }
 
-    .irob-user-container {
+    .ipool-user-container {
         padding-left: 20px;
 
-        .irob-user {
+        .ipool-user {
             padding: 16px;
             border: 1px solid #e5e5e5;
             border-radius: 6px;
 
-            .irob-user-content {
+            .ipool-user-content {
                 display: flex;
                 flex-wrap: wrap;
                 flex-direction: row;
                 justify-content: space-between;
 
-                .rob-button {
+                .ipool-button {
                     font-size: 14px !important;
                 }
 
-                .irob-update-avatar {
+                .ipool-update-avatar {
 
-                    .irob-avatar-area {
+                    .ipool-avatar-area {
                         display: flex;
                         justify-content: center;
 
@@ -499,13 +499,13 @@ html, body {
                             display: none !important;
                         }
 
-                        .irob-avatar {
+                        .ipool-avatar {
                             position: relative;
                             width: 100px;
                             height: 100px;
 
                             &:hover {
-                                .rob-delete-button {
+                                .ipool-delete-button {
                                     visibility: visible !important;
                                 }
                             }
@@ -519,7 +519,7 @@ html, body {
                                 height: 30px;
                                 border-radius: 50%;
 
-                                &.rob-delete-button {
+                                &.ipool-delete-button {
                                     left: 0 !important;
                                     visibility: hidden;
                                 }
@@ -542,7 +542,7 @@ html, body {
                     }
                 }
 
-                .irob-images {
+                .ipool-images {
                     display: flex;
                     flex-wrap: wrap;
                     flex-direction: row;
@@ -565,24 +565,24 @@ html, body {
                         }
                     }
 
-                    .irob-user-image {
+                    .ipool-user-image {
                         margin: 5px;
                         position: relative;
                         height: 170px;
                         width: 220px;
 
                         &:hover {
-                            .irob-image-delete {
+                            .ipool-image-delete {
                                 opacity: 1;
                                 transition: opacity .3s;
                             }
 
-                            .irob-image-link {
+                            .ipool-image-link {
                                 opacity: 1;
                                 transition: opacity .3s;
                             }
 
-                            .irob-image-bottom {
+                            .ipool-image-bottom {
                                 height: 30px;
                                 transition: height .3s;
                             }
@@ -597,7 +597,7 @@ html, body {
                             }
                         }
 
-                        .irob-image-bottom {
+                        .ipool-image-bottom {
                             position: absolute;
                             bottom: 0;
                             left: 0;
@@ -642,7 +642,7 @@ html, body {
                             }
                         }
 
-                        .irob-image-delete {
+                        .ipool-image-delete {
                             position: absolute;
                             right: 5px;
                             top: 5px;
@@ -664,7 +664,7 @@ html, body {
                             }
                         }
 
-                        .irob-image-link {
+                        .ipool-image-link {
                             position: absolute;
                             left: 5px;
                             top: 5px;

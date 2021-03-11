@@ -1,4 +1,4 @@
-@extends('irob.layouts.app')
+@extends('ipool.layouts.app')
 
 @section('content')
     @if (session()->has('success'))
@@ -12,7 +12,7 @@
     @endif
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
-            @component('irob.components.card')
+            @component('ipool.components.card')
                 @slot('title') Manage Ads @endslot
                 @slot('body')
                     <form action="{{ route('admin.ad.store') }}" method="POST">

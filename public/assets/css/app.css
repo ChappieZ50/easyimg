@@ -13067,7 +13067,7 @@ html ul, body ul {
   list-style-type: none;
 }
 
-.rob-button {
+.ipool-button {
   background-color: var(--primary-color);
   color: #fff !important;
   border-radius: 3px;
@@ -13078,11 +13078,11 @@ html ul, body ul {
   justify-content: center;
   align-items: center;
 }
-.rob-button:hover {
+.ipool-button:hover {
   opacity: 0.9;
   color: #fff !important;
 }
-.rob-button svg {
+.ipool-button svg {
   width: 16px;
   height: 16px;
   margin-top: -3px;
@@ -13168,17 +13168,17 @@ html ul, body ul {
 .header .navbar .navbar-nav .nav-item .nav-link:hover {
   color: #000;
 }
-.header .navbar .navbar-nav .nav-item .nav-link.rob-sign-up {
+.header .navbar .navbar-nav .nav-item .nav-link.ipool-sign-up {
   padding: 6px 12px;
 }
 .header .navbar .navbar-nav .dropdown-toggle {
   color: #131313;
 }
-.header .navbar .rob-move-btn .dropdown-menu {
+.header .navbar .ipool-move-btn .dropdown-menu {
   top: 56px;
   border-color: #e5e5e5 !important;
 }
-.header .navbar .rob-move-btn .dropdown-toggle::after {
+.header .navbar .ipool-move-btn .dropdown-toggle::after {
   display: none !important;
 }
 .header .navbar .nav-user-avatar {
@@ -13187,29 +13187,29 @@ html ul, body ul {
   border-radius: 50%;
 }
 
-.page-wrapper .irob-dropzone {
+.page-wrapper .ipool-dropzone {
   margin-top: 100px;
 }
-.page-wrapper .irob-dropzone .uppy-Dashboard-inner {
+.page-wrapper .ipool-dropzone .uppy-Dashboard-inner {
   margin: 0 auto;
 }
-.page-wrapper .irob-dropzone .uppy-Dashboard-inner .uppy-Dashboard-AddFiles {
+.page-wrapper .ipool-dropzone .uppy-Dashboard-inner .uppy-Dashboard-AddFiles {
   border-color: var(--primary-color);
   border-width: 1.5px;
 }
-.page-wrapper .irob-dropzone .uppy-Dashboard-inner .uppy-Dashboard-AddFiles-info a {
+.page-wrapper .ipool-dropzone .uppy-Dashboard-inner .uppy-Dashboard-AddFiles-info a {
   display: none !important;
 }
-.page-wrapper .irob-dropzone .uppy-Dashboard-inner .uppy-Dashboard-Item, .page-wrapper .irob-dropzone .uppy-Dashboard-inner .uppyDashboard-Item.is-complete {
+.page-wrapper .ipool-dropzone .uppy-Dashboard-inner .uppy-Dashboard-Item, .page-wrapper .ipool-dropzone .uppy-Dashboard-inner .uppyDashboard-Item.is-complete {
   display: inline-block;
 }
-.page-wrapper .irob-dropzone-terms {
+.page-wrapper .ipool-dropzone-terms {
   display: flex;
   justify-content: center;
   font-size: 12px;
   color: #212121;
 }
-.page-wrapper .irob-dropzone-terms .selected-page-item {
+.page-wrapper .ipool-dropzone-terms .selected-page-item {
   color: var(--primary-color);
   -webkit-text-decoration-color: var(--primary-color);
           text-decoration-color: var(--primary-color);
@@ -13253,20 +13253,20 @@ html ul, body ul {
   color: var(--primary-color);
 }
 
-.irob-login-wrapper .irob-login-logo {
+.ipool-login-wrapper .ipool-login-logo {
   margin-top: 100px;
   text-align: center;
 }
-.irob-login-wrapper .irob-login-logo img {
+.ipool-login-wrapper .ipool-login-logo img {
   height: 46px;
 }
-.irob-login-wrapper .irob-login {
+.ipool-login-wrapper .ipool-login {
   padding: 20px 30px;
   border: 1px solid #e5e5e5;
   margin-top: 80px;
   text-align: center;
 }
-.irob-login-wrapper .irob-login .login-types-title {
+.ipool-login-wrapper .ipool-login .login-types-title {
   margin: 14px 0;
   font-size: 14px;
   font-weight: 600;
@@ -13274,26 +13274,26 @@ html ul, body ul {
   align-items: center;
   height: 1px;
 }
-.irob-login-wrapper .irob-login .login-types-title::before {
+.ipool-login-wrapper .ipool-login .login-types-title::before {
   content: "";
   margin-right: 0.5rem;
 }
-.irob-login-wrapper .irob-login .login-types-title::after {
+.ipool-login-wrapper .ipool-login .login-types-title::after {
   content: "";
   margin-left: 0.5rem;
 }
-.irob-login-wrapper .irob-login .login-types-title::after, .irob-login-wrapper .irob-login .login-types-title::before {
+.ipool-login-wrapper .ipool-login .login-types-title::after, .ipool-login-wrapper .ipool-login .login-types-title::before {
   flex: 1 1 auto;
   height: 1px;
   background-color: var(--primary-color);
   opacity: 0.16;
 }
-.irob-login-wrapper .irob-login .login-types {
+.ipool-login-wrapper .ipool-login .login-types {
   display: flex;
   align-items: center;
   flex-direction: column;
 }
-.irob-login-wrapper .irob-login .login-types .login-type {
+.ipool-login-wrapper .ipool-login .login-types .login-type {
   margin-top: 10px;
   max-width: 100%;
   width: 100%;
@@ -13305,12 +13305,12 @@ html ul, body ul {
   color: #000 !important;
   text-decoration: none;
 }
-.irob-login-wrapper .irob-login .login-types .login-type .login-type-title {
+.ipool-login-wrapper .ipool-login .login-types .login-type .login-type-title {
   text-align: center;
   font-weight: bold;
   width: 100%;
 }
-.irob-login-wrapper .irob-login .login-types .login-type .login-type-icon {
+.ipool-login-wrapper .ipool-login .login-types .login-type .login-type-icon {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13320,15 +13320,15 @@ html ul, body ul {
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
 }
-.irob-login-wrapper .irob-login .login-types .login-type .login-type-icon svg {
+.ipool-login-wrapper .ipool-login .login-types .login-type .login-type-icon svg {
   width: 20px;
   height: 20px;
   color: #fff;
 }
-.irob-login-wrapper .irob-login .form-group {
+.ipool-login-wrapper .ipool-login .form-group {
   text-align: left;
 }
-.irob-login-wrapper .irob-login .form-group label {
+.ipool-login-wrapper .ipool-login .form-group label {
   font-weight: 600;
   font-size: 15px;
 }
@@ -13337,7 +13337,7 @@ html ul, body ul {
   .navbar .page-items.login-items {
     display: none !important;
   }
-  .navbar .page-items .rob-button {
+  .navbar .page-items .ipool-button {
     display: none !important;
   }
 
@@ -13359,32 +13359,32 @@ html ul, body ul {
     float: right;
   }
 
-  .irob-user-wrapper .irob-sidebar {
+  .ipool-user-wrapper .ipool-sidebar {
     max-width: 100% !important;
   }
-  .irob-user-wrapper .irob-user-container {
+  .ipool-user-wrapper .ipool-user-container {
     padding-left: 0 !important;
     padding-top: 20px;
   }
 }
-.irob-user-wrapper {
+.ipool-user-wrapper {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   margin: 60px auto 0 auto;
 }
-.irob-user-wrapper .irob-sidebar {
+.ipool-user-wrapper .ipool-sidebar {
   border: 1px solid #e5e5e5;
   border-radius: 6px;
   padding: 0 !important;
   max-width: 220px;
   margin-bottom: 30px;
 }
-.irob-user-wrapper .irob-sidebar ul {
+.ipool-user-wrapper .ipool-sidebar ul {
   padding: 0 !important;
   margin: 0 !important;
 }
-.irob-user-wrapper .irob-sidebar ul li {
+.ipool-user-wrapper .ipool-sidebar ul li {
   width: 100%;
   height: 38px;
   display: flex;
@@ -13392,7 +13392,7 @@ html ul, body ul {
   flex-direction: column;
   position: relative;
 }
-.irob-user-wrapper .irob-sidebar ul li.active::before {
+.ipool-user-wrapper .ipool-sidebar ul li.active::before {
   content: "";
   position: absolute;
   left: 0;
@@ -13401,63 +13401,63 @@ html ul, body ul {
   width: 2px;
   background-color: var(--primary-color);
 }
-.irob-user-wrapper .irob-sidebar ul li.active a {
+.ipool-user-wrapper .ipool-sidebar ul li.active a {
   color: var(--primary-color);
 }
-.irob-user-wrapper .irob-sidebar ul li a {
+.ipool-user-wrapper .ipool-sidebar ul li a {
   color: #333;
   font-size: 14px;
   font-weight: bold;
   text-decoration: none;
   padding-left: 16px;
 }
-.irob-user-wrapper .irob-sidebar ul li:hover {
+.ipool-user-wrapper .ipool-sidebar ul li:hover {
   background-color: var(--primary-color);
 }
-.irob-user-wrapper .irob-sidebar ul li:hover a {
+.ipool-user-wrapper .ipool-sidebar ul li:hover a {
   color: #fff;
 }
-.irob-user-wrapper .irob-sidebar ul li:not(last-child) {
+.ipool-user-wrapper .ipool-sidebar ul li:not(last-child) {
   border-bottom: 1px solid #e5e5e5;
 }
-.irob-user-wrapper .irob-sidebar-title {
+.ipool-user-wrapper .ipool-sidebar-title {
   font-weight: 600;
   font-size: 26px;
   color: #333;
 }
-.irob-user-wrapper .irob-user-container {
+.ipool-user-wrapper .ipool-user-container {
   padding-left: 20px;
 }
-.irob-user-wrapper .irob-user-container .irob-user {
+.ipool-user-wrapper .ipool-user-container .ipool-user {
   padding: 16px;
   border: 1px solid #e5e5e5;
   border-radius: 6px;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-between;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .rob-button {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-button {
   font-size: 14px !important;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-update-avatar .ipool-avatar-area {
   display: flex;
   justify-content: center;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area #user_avatar {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-update-avatar .ipool-avatar-area #user_avatar {
   display: none !important;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area .irob-avatar {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-update-avatar .ipool-avatar-area .ipool-avatar {
   position: relative;
   width: 100px;
   height: 100px;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area .irob-avatar:hover .rob-delete-button {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-update-avatar .ipool-avatar-area .ipool-avatar:hover .ipool-delete-button {
   visibility: visible !important;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area .irob-avatar label[for=user_avatar], .irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area .irob-avatar label[for=user_delete_avatar] {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-update-avatar .ipool-avatar-area .ipool-avatar label[for=user_avatar], .ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-update-avatar .ipool-avatar-area .ipool-avatar label[for=user_delete_avatar] {
   cursor: pointer;
   position: absolute;
   bottom: 0;
@@ -13466,65 +13466,65 @@ html ul, body ul {
   height: 30px;
   border-radius: 50%;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area .irob-avatar label[for=user_avatar].rob-delete-button, .irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area .irob-avatar label[for=user_delete_avatar].rob-delete-button {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-update-avatar .ipool-avatar-area .ipool-avatar label[for=user_avatar].ipool-delete-button, .ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-update-avatar .ipool-avatar-area .ipool-avatar label[for=user_delete_avatar].ipool-delete-button {
   left: 0 !important;
   visibility: hidden;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area .irob-avatar label[for=user_avatar] svg, .irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area .irob-avatar label[for=user_delete_avatar] svg {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-update-avatar .ipool-avatar-area .ipool-avatar label[for=user_avatar] svg, .ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-update-avatar .ipool-avatar-area .ipool-avatar label[for=user_delete_avatar] svg {
   width: 100%;
   height: auto;
   margin: 0;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-update-avatar .irob-avatar-area .irob-avatar .user-avatar {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-update-avatar .ipool-avatar-area .ipool-avatar .user-avatar {
   width: 100px;
   height: 100px;
   border-radius: 50%;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .empty-images {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .empty-images {
   text-align: center;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .empty-images img {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .empty-images img {
   max-width: 250px;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .empty-images h5 {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .empty-images h5 {
   font-weight: bold;
   margin-top: 30px;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .empty-images p {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .empty-images p {
   font-size: 14px;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .irob-user-image {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .ipool-user-image {
   margin: 5px;
   position: relative;
   height: 170px;
   width: 220px;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .irob-user-image:hover .irob-image-delete {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .ipool-user-image:hover .ipool-image-delete {
   opacity: 1;
   transition: opacity 0.3s;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .irob-user-image:hover .irob-image-link {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .ipool-user-image:hover .ipool-image-link {
   opacity: 1;
   transition: opacity 0.3s;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .irob-user-image:hover .irob-image-bottom {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .ipool-user-image:hover .ipool-image-bottom {
   height: 30px;
   transition: height 0.3s;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .irob-user-image a img {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .ipool-user-image a img {
   width: 100%;
   height: 100%;
   cursor: pointer;
   -o-object-fit: cover;
      object-fit: cover;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .irob-user-image .irob-image-bottom {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .ipool-user-image .ipool-image-bottom {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -13534,7 +13534,7 @@ html ul, body ul {
   transition: height 0.3s;
   overflow-x: hidden;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .irob-user-image .irob-image-bottom .bottom-content {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .ipool-user-image .ipool-image-bottom .bottom-content {
   width: 100%;
   height: 100%;
   padding: 0 3px;
@@ -13546,24 +13546,24 @@ html ul, body ul {
   color: #fff;
   overflow: hidden;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .irob-user-image .irob-image-bottom .bottom-content .image-name {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .ipool-user-image .ipool-image-bottom .bottom-content .image-name {
   width: 85%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .irob-user-image .irob-image-bottom .bottom-content .image-info {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .ipool-user-image .ipool-image-bottom .bottom-content .image-info {
   margin-right: 5px;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .irob-user-image .irob-image-bottom .bottom-content .image-info a {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .ipool-user-image .ipool-image-bottom .bottom-content .image-info a {
   color: #fff;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .irob-user-image .irob-image-bottom .bottom-content .image-info svg {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .ipool-user-image .ipool-image-bottom .bottom-content .image-info svg {
   width: 18px;
   height: 18px;
   cursor: pointer;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .irob-user-image .irob-image-delete {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .ipool-user-image .ipool-image-delete {
   position: absolute;
   right: 5px;
   top: 5px;
@@ -13577,13 +13577,13 @@ html ul, body ul {
   opacity: 0;
   transition: opacity 0.3s;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .irob-user-image .irob-image-delete svg {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .ipool-user-image .ipool-image-delete svg {
   color: #fff;
   width: 20px;
   height: auto;
   margin: 0;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .irob-user-image .irob-image-link {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .ipool-user-image .ipool-image-link {
   position: absolute;
   left: 5px;
   top: 5px;
@@ -13597,7 +13597,7 @@ html ul, body ul {
   opacity: 0;
   transition: opacity 0.3s;
 }
-.irob-user-wrapper .irob-user-container .irob-user .irob-user-content .irob-images .irob-user-image .irob-image-link svg {
+.ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images .ipool-user-image .ipool-image-link svg {
   color: #fff;
   width: 16px;
   height: auto;

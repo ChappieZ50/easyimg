@@ -24,7 +24,7 @@ class UserAvatarRequest extends FormRequest
     public function rules()
     {
         return [
-            'avatar' => 'required|image|mimes:jpg,png,jpeg|max:' . config('imgfoo.max_avatar_size'),
+            'avatar' => 'required|image|mimes:jpg,png,jpeg|max:' . config('imgpool.max_avatar_size'),
         ];
     }
 }

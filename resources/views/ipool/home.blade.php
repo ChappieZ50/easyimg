@@ -1,4 +1,4 @@
-@extends('irob.layouts.app')
+@extends('ipool.layouts.app')
 
 @section('content')
     <div class="row">
@@ -61,38 +61,38 @@
             </div>
         </div>
         <div class="row col-12">
-            @component('irob.components.charts.file-chart')
+            @component('ipool.components.charts.file-chart')
                 @slot('files', $files)
             @endcomponent
         </div>
         <div class="row col-12">
-            @component('irob.components.charts.user-chart')
+            @component('ipool.components.charts.user-chart')
                 @slot('users', $users)
             @endcomponent
         </div>
         <div class="row col-12">
-            @component('irob.components.charts.user-status-chart')
-                
+            @component('ipool.components.charts.user-status-chart')
+
             @endcomponent
 
-            @component('irob.components.charts.file-extension-chart')
-                
+            @component('ipool.components.charts.file-extension-chart')
+
             @endcomponent
         </div>
         <div class="row col-12">
-            @component('irob.components.charts.user-login-chart')
-                
+            @component('ipool.components.charts.user-login-chart')
+
             @endcomponent
         </div>
     </div>
  @endsection
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('irob/assets/plugins/apexcharts/apexcharts.css') }}">
+    <link rel="stylesheet" href="{{ asset('ipool/assets/plugins/apexcharts/apexcharts.css') }}">
 @append
 
 @section('scripts')
-    <script src="{{ asset('irob/assets/plugins/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('ipool/assets/plugins/apexcharts/apexcharts.min.js') }}"></script>
     <script>
         window.file_chart = @json($chart_file_data);
         window.user_chart = @json($chart_user_data);

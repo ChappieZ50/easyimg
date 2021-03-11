@@ -1,4 +1,4 @@
-@extends('irob.layouts.app')
+@extends('ipool.layouts.app')
 
 @section('content')
     @if(session()->has('success'))
@@ -12,7 +12,7 @@
     @endif
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
-            @component('irob.components.card')
+            @component('ipool.components.card')
                 @slot('title',isset($page) ? 'Update Page' : 'New Page')
                 @slot('body')
                     <form action="{{isset($page) ? route('admin.page.update',$page->id) : route('admin.page.store')}}" method="POST">
@@ -90,12 +90,12 @@
 @endsection
 
 @section('scripts')
-    <script src="{{asset('irob/assets/plugins/trumbowyg/trumbowyg.js')}}"></script>
+    <script src="{{asset('ipool/assets/plugins/trumbowyg/trumbowyg.js')}}"></script>
     <script>
         $('#page_content').trumbowyg();
     </script>
 @append
 
 @section('styles')
-    <link rel="stylesheet" href="{{asset('irob/assets/plugins/trumbowyg/ui/trumbowyg.css')}}">
+    <link rel="stylesheet" href="{{asset('ipool/assets/plugins/trumbowyg/ui/trumbowyg.css')}}">
 @append
