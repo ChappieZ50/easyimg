@@ -88,11 +88,11 @@
  @endsection
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('ipool/assets/plugins/apexcharts/apexcharts.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/apexcharts/apexcharts.css') }}">
 @append
 
 @section('scripts')
-    <script src="{{ asset('ipool/assets/plugins/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/apexcharts/apexcharts.min.js') }}"></script>
     <script>
         window.file_chart = @json($chart_file_data);
         window.user_chart = @json($chart_user_data);
