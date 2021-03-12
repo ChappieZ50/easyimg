@@ -69,3 +69,4 @@ Route::group(['as' => 'user.', 'namespace' => 'User', 'middleware' => 'user-stat
 });
 
 Route::post('file/store', 'FileController@store')->name('file.store');
+Route::get('ipool/{file}','FileController@show')->name('file.show');

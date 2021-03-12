@@ -7,6 +7,13 @@
                 "{{ $file->user->username }}" has been banned
             </div>
         @endif
+
+        <a href="{{route('file.show',$file->file_id)}}" class="ml-auto btn out-of-page" target="_blank">
+            <span>File Page</span>
+            <i class="mdi mdi-arrow-right"></i>
+
+        </a>
+
         <div class="col-lg-12 d-flex justify-content-between flex-wrap mt-3">
             <div class="col-xl-3 col-lg-12 col-md-12 col-sm-12">
                 <div class="card">

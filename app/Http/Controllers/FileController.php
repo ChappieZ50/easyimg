@@ -25,11 +25,11 @@ class FileController extends Controller
             $uploadFolder = config('imgpool.aws_folder');
         }
 
-        $file = upload_file($file, $uploadFolder,'',$disk)->getData();
-        $save = $this->save($file->file_id, $file->file_size, $file->extension, $file->file_original_id,$storage);
+        $file = upload_file($file, $uploadFolder, '', $disk)->getData();
+        $save = $this->save($file->file_id, $file->file_size, $file->extension, $file->file_original_id, $storage);
         if ($save) {
             return response()->json([
-                'url' => $file->url,
+                'url' => route('file.show',$file->file_id),
             ]);
         }
 
@@ -50,5 +50,11 @@ class FileController extends Controller
             $create['user_id'] = Auth::user()->id;
         }
         return File::create($create);
+    }
+
+    public function show($file)
+    {
+        $file = File::where('file_id', $file)->first();
+        return $file ? view('file')->with('file', $file) : abort(404);
     }
 }

@@ -177,7 +177,7 @@ $(document).ready(function () {
 
     /* Image Delete */
 
-    $(document).on('click','#file_delete', function () {
+    $(document).on('click', '#file_delete', function () {
         const id = $(this).attr('data-id');
         Swal.fire({
             title: "Are you sure?",
@@ -189,10 +189,10 @@ $(document).ready(function () {
             confirmButtonColor: '#ff6258',
         }).then(function (result) {
             if (result.isConfirmed) {
-                axios.delete(window.routes.file_destroy +'/'+ id).then(response => {
+                axios.delete(window.routes.file_destroy + '/' + id).then(response => {
                     if (response.data.status) {
                         show_swal("Your file successfully deleted.");
-                    }else{
+                    } else {
                         show_swal('Something gone wrong, please try again.', 'error');
                     }
                 }, () => {
@@ -224,6 +224,35 @@ $(document).ready(function () {
             }
         });
 
+    });
+
+    /* Copy Snap */
+    let copy_snap = new Clipboard('#click_to_copy', {
+        text: function (e) {
+            return $(e).closest('.ipool-copy-container').find('#copy_content').html();
+        }
+    });
+
+    function clickToCopyAction(el, success = true) {
+        let color = success ? '#3cb371' : '#dc143c';
+        let tt = success ? 'Text Copied!' : 'ERROR!';
+        let text = $(el).text();
+        $(el).html('<span style="color:' + color + '">' + tt + '</span>');
+        $(el).show();
+        setTimeout(function () {
+            $(el).html(text);
+            $(el).hide();
+        }, 1000)
+    }
+
+    copy_snap.on('success', function (e) {
+        e.clearSelection();
+        clickToCopyAction(e.trigger);
+    });
+
+    copy_snap.on('error', function (e) {
+        e.clearSelection();
+        clickToCopyAction(e.trigger, false);
     });
 
 });

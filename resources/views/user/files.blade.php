@@ -10,11 +10,3 @@
         @endcomponent
     </div>
 @endsection
-
-@section('scripts')
-    <script src="{{asset('assets/js/lightbox.js')}}"></script>
-@append
-
-@section('styles')
-    <link rel="stylesheet" href="{{asset('assets/css/lightbox.css')}}">
-@append

@@ -26,9 +26,8 @@
                                 <i data-feather="link" id="copy" data-clipboard-text="{{ $link }}"></i>
                             </div>
 
-                            <a href="{{ $link }}" data-lightbox="image-{{ $file->id }}"
-                                data-title="{{ $file->file_original_id . '.' . $file->file_mime }}">
-                                <img src="{{ $link }}" alt="{{ $file->file_id }}">
+                            <a href="{{ route('file.show',$file->file_id) }}" target="_blank">
+                                <img src="{{ $link }}" alt="{{ $file->file_original_id }}" class="rounded">
                             </a>
 
                             <div class="ipool-image-bottom">

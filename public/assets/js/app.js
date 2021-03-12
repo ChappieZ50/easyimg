@@ -2076,6 +2076,35 @@ $(document).ready(function () {
       }
     });
   });
+  /* Copy Snap */
+
+  var copy_snap = new (clipboard_dist_clipboard__WEBPACK_IMPORTED_MODULE_2___default())('#click_to_copy', {
+    text: function text(e) {
+      return $(e).closest('.ipool-copy-container').find('#copy_content').html();
+    }
+  });
+
+  function clickToCopyAction(el) {
+    var success = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    var color = success ? '#3cb371' : '#dc143c';
+    var tt = success ? 'Text Copied!' : 'ERROR!';
+    var text = $(el).text();
+    $(el).html('<span style="color:' + color + '">' + tt + '</span>');
+    $(el).show();
+    setTimeout(function () {
+      $(el).html(text);
+      $(el).hide();
+    }, 1000);
+  }
+
+  copy_snap.on('success', function (e) {
+    e.clearSelection();
+    clickToCopyAction(e.trigger);
+  });
+  copy_snap.on('error', function (e) {
+    e.clearSelection();
+    clickToCopyAction(e.trigger, false);
+  });
 });
 
 /***/ }),
@@ -40619,19 +40648,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/css/lightbox.scss":
-/*!*************************************!*\
-  !*** ./resources/css/lightbox.scss ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
 /***/ "./node_modules/process/browser.js":
 /*!*****************************************!*\
   !*** ./node_modules/process/browser.js ***!
@@ -44592,8 +44608,7 @@ if (typeof this !== 'undefined' && this.Sweetalert2){  this.swal = this.sweetAle
 /******/ 		
 /******/ 		var deferredModules = [
 /******/ 			["./resources/js/app.js"],
-/******/ 			["./resources/css/app.scss"],
-/******/ 			["./resources/css/lightbox.scss"]
+/******/ 			["./resources/css/app.scss"]
 /******/ 		];
 /******/ 		// no chunk on demand loading
 /******/ 		
