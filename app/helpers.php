@@ -42,8 +42,21 @@ if (!function_exists('website_file_url')) {
     }
 }
 
+if (!function_exists('get_logo')) {
+    function get_logo()
+    {
+        $file = get_setting('logo', 'logo.png');
+        if ($file === 'logo.png') {
+            return asset($file);
+        }
+
+        return asset(config('imgpool.upload_folder') . '/' . $file);
+    }
+}
+
+
 if (!function_exists('avatar_url')) {
-    function avatar_url($file, $path = '')
+    function avatar_url($file = '', $path = '')
     {
         return $file ? asset(config('imgpool.user_avatars_folder') . '/' . $file) : ($path ? $path : asset('assets/images/avatar.png'));
     }
@@ -97,7 +110,7 @@ if (!function_exists('upload_file')) {
         $fileOriginalId = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
         if ($disk) {
-            $put =  Storage::disk($disk)->put($uploadFolder . '/' . $name, file_get_contents($file), 'public');
+            $put = Storage::disk($disk)->put($uploadFolder . '/' . $name, file_get_contents($file), 'public');
         } else {
             $put = $file->move(public_path($uploadFolder), $name);
         }
@@ -162,8 +175,8 @@ if (!function_exists('has_settings')) {
             $setting = Setting::first();
             if ($setting) {
                 $status = true;
-                foreach($names as $name){
-                    if(!isset($setting->$name) || empty($setting->$name)){
+                foreach ($names as $name) {
+                    if (!isset($setting->$name) || empty($setting->$name)) {
                         $status = false;
                         break;
                     }

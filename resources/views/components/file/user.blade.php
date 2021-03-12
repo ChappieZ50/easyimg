@@ -1,8 +1,8 @@
 <div class="ipool-file-user-container col-xl-3 col-lg-3 col-md-12 col-sm-12">
     <div class="ipool-file-user-content">
         <div class="ipool-user-card"></div>
-        <img class="user-avatar" src="{{ avatar_url($user->avatar) }}" alt="{{$user->username}}">
-        <div class="username h4">{{$user->username}}</div>
+        <img class="user-avatar" src="{{ avatar_url($user ? $user->avatar : '') }}" alt="avatar">
+        <div class="username h4">{{$user ? $user->username : 'Anonymous'}}</div>
         <div class="file-info">
             <ul>
                 <li>
@@ -23,9 +23,11 @@
                 </li>
             </ul>
         </div>
-        <a href="{{ route('user.file.download',$file->file_id) }}" class="btn btn-sm ipool-button mt-3 w-100" style="font-size: 14px;">
+        <a href="{{ route('file.download',$file->file_id) }}" class="btn btn-sm ipool-button mt-3 w-100" style="font-size: 14px;">
             <i data-feather="download"></i>
             Download
         </a>
     </div>
+    @component('components.ads.file.left') @endcomponent
 </div>
+

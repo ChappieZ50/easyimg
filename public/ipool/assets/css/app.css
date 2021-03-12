@@ -4,6 +4,7 @@
 }
 
 .sidebar {
+  z-index: 99;
   background: linear-gradient(to top, #212121, #212121);
 }
 .sidebar > .nav:not(.sub-menu) > .nav-item:hover:not(.nav-profile):not(.hover-open) > .nav-link:not([aria-expanded=true]) {

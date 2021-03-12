@@ -12,7 +12,7 @@
                         value="{{ isset($setting) ? $setting->website_name : old('website_name') }}">
                 </div>
                 <div class="form-group col-lg-6">
-                    <label for="google_analytics">Google UA Code</label>
+                    <label for="google_analytics">Google Analytics ID</label>
                     <input type="text" class="form-control col-12" id="google_analytics" name="google_analytics"
                         value="{{ isset($setting) ? $setting->google_analytics : old('google_analytics') }}">
                 </div>

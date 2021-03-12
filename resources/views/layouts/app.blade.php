@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- — --}}
@@ -29,7 +29,7 @@
 
     <link href="{{ website_file_url(get_setting('favicon')) }}" rel="shortcut icon">
     <link href="{{ website_file_url(get_setting('favicon')) }}"
-        type="image/{{ get_setting('favicon_mime', 'png') }}" rel="icon" sizes="192x192">
+          type="image/{{ get_setting('favicon_mime', 'png') }}" rel="icon" sizes="192x192">
     <link rel="apple-touch-icon" href="{{ website_file_url(get_setting('favicon')) }}" sizes="180x180">
 
     {!! get_analytics_script() !!}
@@ -47,23 +47,22 @@
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
     @yield('styles')
 </head>
-
 <body>
 
-    @includeWhen(!isset($no_header),'layouts.header')
+@includeWhen(!isset($no_header),'layouts.header')
 
-    <div class="page-wrapper container-fluid">
-        @yield('content')
-    </div>
+<div class="page-wrapper container-fluid">
+    @yield('content')
+</div>
 
-    <script>
-        window.routes = {
-            file_destroy: '{{ route('user.images') . '/destroy' }}'
-        };
+<script>
+    window.routes = {
+        file_destroy: '{{ route('user.images') . '/destroy' }}'
+    };
 
-    </script>
-    <script src="{{ asset('assets/js/app.js') }}"></script>
-    @yield('scripts')
+</script>
+<script src="{{ asset('assets/js/app.js') }}"></script>
+@yield('scripts')
 </body>
 
 </html>

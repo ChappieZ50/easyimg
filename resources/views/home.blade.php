@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-   
-    @component('components.ads.top-ad') @endcomponent
+
+    @component('components.ads.home.top') @endcomponent
 
     @component('components.dropzone') @endcomponent
 
-    @component('components.ads.bottom-ad') @endcomponent
+    @component('components.ads.home.bottom') @endcomponent
 
 @endsection
 

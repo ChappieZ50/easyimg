@@ -12,14 +12,14 @@
     <div class="ipool-login-wrapper container mt-5">
         <div class="ipool-login-logo">
             <a href="{{ route('home') }}">
-                <img src="{{ asset('logo.png') }}" alt="logo" class="img-fluid">
+                <img src="{{get_logo()}}" alt="logo" class="img-fluid">
             </a>
         </div>
         <div class="ipool-login col-xl-5 col-lg-8 col-md-10 col-sm-12 mx-auto">
             @error('non')
-                <div class="mt-2 mb-4 alert alert-danger w-100" role="alert">
-                    {{$message}}
-                </div>
+            <div class="mt-2 mb-4 alert alert-danger w-100" role="alert">
+                {{$message}}
+            </div>
             @enderror
             @component('components.social-login')
                 @slot('title','Sign up With')
@@ -31,7 +31,7 @@
                     <label for="username">Username</label>
                     <input type="text" class="form-control" name="username" id="username" placeholder="Username" value="{{old('username')}}">
                     @error('username')
-                        <span class="invalid-feedback d-block mt-2" role="alert">
+                    <span class="invalid-feedback d-block mt-2" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
@@ -40,7 +40,7 @@
                     <label for="email">Email Address</label>
                     <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" value="{{old('email')}}">
                     @error('email')
-                        <span class="invalid-feedback d-block mt-2" role="alert">
+                    <span class="invalid-feedback d-block mt-2" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
@@ -49,7 +49,7 @@
                     <label for="password">Password</label>
                     <input type="password" class="form-control" name="password" id="password" placeholder="Password">
                     @error('password')
-                        <span class="invalid-feedback d-block mt-2" role="alert">
+                    <span class="invalid-feedback d-block mt-2" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
@@ -57,17 +57,17 @@
                 <div class="form-group">
                     <label for="confirm_password">Confirm Password</label>
                     <input type="password" class="form-control" name="password_confirmation" id="confirm_password"
-                        placeholder="Confirm Password">
+                           placeholder="Confirm Password">
                     @error('password_confirmation')
-                        <span class="invalid-feedback d-block mt-2" role="alert">
+                    <span class="invalid-feedback d-block mt-2" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                 </div>
-                <div class="form-group">
+                <div class="form-group d-flex justify-content-center">
                     {!! app('captcha')->display() !!}
                     @error('g-recaptcha-response')
-                        <span class="invalid-feedback d-block mt-2" role="alert">
+                    <span class="invalid-feedback d-block mt-2" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror

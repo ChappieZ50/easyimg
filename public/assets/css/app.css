@@ -13147,7 +13147,7 @@ html ul, body ul {
   transform: translate(0%, 0%) rotate(0deg);
 }
 .header .navbar .logo {
-  height: 28px;
+  height: 45px;
 }
 .header .navbar .page-items {
   display: flex;
@@ -13265,6 +13265,7 @@ html ul, body ul {
   border: 1px solid #e5e5e5;
   margin-top: 80px;
   text-align: center;
+  overflow: hidden;
 }
 .ipool-login-wrapper .ipool-login .login-types-title {
   margin: 14px 0;
@@ -13686,6 +13687,9 @@ html ul, body ul {
 
 .ipool-copy-container {
   position: relative;
+}
+.ipool-copy-container textarea {
+  overflow: hidden;
 }
 .ipool-copy-container:hover .ipool-copy {
   display: flex !important;

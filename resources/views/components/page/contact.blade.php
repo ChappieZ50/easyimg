@@ -1,3 +1,7 @@
+<div class="mt-3">
+    {!! $page->content !!}
+</div>
+
 <h1 class="h5">Contact Page</h1>
 
 <form action="{{route('message.store')}}" method="POST">

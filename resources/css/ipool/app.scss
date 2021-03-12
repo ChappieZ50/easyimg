@@ -9,6 +9,7 @@ $third-color: #f2f5f5;
 }
 
 .sidebar {
+    z-index: 99;
     background: linear-gradient(to top, $primary-color, $primary-color);
 
     > .nav:not(.sub-menu) > .nav-item:hover:not(.nav-profile):not(.hover-open) > .nav-link:not([aria-expanded="true"]) {

@@ -13,7 +13,7 @@
     <div class="ipool-login-wrapper container mt-5">
         <div class="ipool-login-logo">
             <a href="{{ route('home') }}">
-                <img src="{{ asset('logo.png') }}" alt="logo" class="img-fluid">
+                <img src="{{get_logo()}}" alt="logo" class="img-fluid">
             </a>
         </div>
         <div class="ipool-login col-xl-5 col-lg-8 col-md-10 col-sm-12 mx-auto">
@@ -32,7 +32,7 @@
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" name="email"
-                           id="email" placeholder="Email Address">
+                           id="email" placeholder="Email Address" value="{{old('email')}}">
                     @error('email')
                     <span class="invalid-feedback d-block mt-2" role="alert">
                             <strong>{{ $message }}</strong>
@@ -48,7 +48,7 @@
                         </span>
                     @enderror
                 </div>
-                <div class="form-group">
+                <div class="form-group d-flex justify-content-center">
                     {!! app('captcha')->display() !!}
                     @error('g-recaptcha-response')
                     <span class="invalid-feedback d-block mt-2" role="alert">

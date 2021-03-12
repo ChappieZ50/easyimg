@@ -26,7 +26,7 @@ Route::group(['prefix' => '/admin/', 'as' => 'admin.', 'namespace' => 'Admin', '
     Route::resource('file', 'FileController')->only('index', 'show', 'destroy');
     Route::resource('page', 'PageController')->except('show');
     Route::resource('message', 'MessageController')->except('create', 'edit');
-    Route::resource('ad','AdController')->only('index','store');
+    Route::resource('ad', 'AdController')->only('index', 'store');
 
     /* Website Settings */
     Route::resource('setting', 'SettingController')->only('index', 'store');
@@ -64,9 +64,9 @@ Route::group(['as' => 'user.', 'namespace' => 'User', 'middleware' => 'user-stat
 
         Route::get('my-files', 'UserController@userImages')->name('images');
         Route::delete('my-files/destroy/{file}', 'UserController@destroyFile')->name('file.destroy');
-        Route::get('my-files/download/{file}', 'UserController@downloadFile')->name('file.download');
     });
 });
 
 Route::post('file/store', 'FileController@store')->name('file.store');
-Route::get('ipool/{file}','FileController@show')->name('file.show');
+Route::get('ipool/download/{file}', 'FileController@downloadFile')->name('file.download');
+Route::get('ipool/{file}', 'FileController@show')->name('file.show');

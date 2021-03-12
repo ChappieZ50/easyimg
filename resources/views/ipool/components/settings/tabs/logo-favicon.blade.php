@@ -12,7 +12,7 @@
                     <hr>
                     <div class="mt-3 choose-file">
                         <label for="logo" class="form-control form-control-file text-center d-inline">Choose Logo</label>
-                        <div class="small">Recommended: 120x30</div>
+                        <div class="small">Recommended: 135x45</div>
                     </div>
                     <input type="file" class="d-none" id="logo" name="logo">
                 </div>

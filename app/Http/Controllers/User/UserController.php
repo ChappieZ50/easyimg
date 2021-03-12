@@ -46,16 +46,6 @@ class UserController extends Controller
         return response()->json(['status' => false]);
     }
 
-    public function downloadFile($file)
-    {
-        $file = FileModel::where('file_id', $file)->where('user_id', auth()->user()->id)->first();
-        if ($file) {
-           return download_file($file);
-        }
-
-        return abort(404);
-    }
-
     public function update(UserRequest $request)
     {
         $update = Auth::user()->update($request->validated());

@@ -1,6 +1,6 @@
 <div class="ipool-file-container col-xl-9 col-lg-9 col-md-12 col-sm-12">
     <div class="ipool-file-content">
-        <div class="img-preview">
+        <div class="img-preview text-center">
             <img src="{{file_url($file)}}" alt="{{$file->file_original_id}}" class="img-fluid rounded">
         </div>
         <div class="file-snap p-4">
@@ -32,6 +32,7 @@
                 </div>
             </div>
         </div>
+        @component('components.ads.file.bottom') @endcomponent
         <div class="h4 text-center">Share With</div>
         <hr>
         @component('components.social-share')

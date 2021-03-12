@@ -33,7 +33,7 @@
         </div>
 
         <a class="navbar-brand" href="{{ url('/') }}">
-            <img class="logo" src="{{website_file_url(get_setting('logo'),'/logo.png')}}" alt="logo">
+            <img class="logo" src="{{get_logo()}}" alt="logo">
         </a>
 
         <div class="page-items login-items">

@@ -6,7 +6,6 @@ use App\Http\Requests\FileRequest;
 use App\Models\File;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class FileController extends Controller
 {
@@ -29,11 +28,17 @@ class FileController extends Controller
         $save = $this->save($file->file_id, $file->file_size, $file->extension, $file->file_original_id, $storage);
         if ($save) {
             return response()->json([
-                'url' => route('file.show',$file->file_id),
+                'url' => route('file.show', $file->file_id),
             ]);
         }
 
         return response()->json([], 500);
+    }
+
+    public function downloadFile($file)
+    {
+        $file = File::where('file_id', $file)->first();
+        return $file ? download_file($file) : abort(404);
     }
 
     public function save($fileId, $fileSize, $fileMime, $fileOriginalId, $storage = 'local')

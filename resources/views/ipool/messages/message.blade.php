@@ -36,7 +36,11 @@
                                 @if (!$message->user)
                                     <label class="badge badge-warning text-white">Anonymous</label>
                                 @else
-                                    <label class="badge badge-primary">User</label>
+                                    @if($message->user->is_admin)
+                                        <label class="badge badge-info">Admin</label>
+                                    @else
+                                        <label class="badge badge-primary">User</label>
+                                    @endif
                                 @endif
                                 @if ($message->user && $message->user->status)
                                     <label class="badge badge-success text-white">Active</label>
