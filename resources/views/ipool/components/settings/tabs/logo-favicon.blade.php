@@ -29,6 +29,6 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-info btn-lg float-right">Save Settings</button>
+        <button type="submit" class="btn btn-primary btn-lg float-right">Save Settings</button>
     </form>
 </div>

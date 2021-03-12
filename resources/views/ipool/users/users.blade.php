@@ -8,7 +8,7 @@
                 @slot('searchRoute',route('admin.user.index'))
                 @slot('header')
                     <div class="card-right">
-                        <button class="btn btn-info btn-fw btn-lg" data-toggle="modal" data-target="#newUserModal">
+                        <button class="btn btn-primary btn-fw btn-lg" data-toggle="modal" data-target="#newUserModal">
                             <i class="mdi mdi-account-plus-outline" style="font-size: 16px;"></i>
                             New User
                         </button>
@@ -55,7 +55,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{route('admin.user.show',$user->id)}}" class="btn btn-info social-btn" style="padding: 6px 10px;"
+                                            <a href="{{route('admin.user.show',$user->id)}}" class="btn btn-primary social-btn" style="padding: 6px 10px;"
                                                title="User Info">
                                                 <i class="mdi mdi-eye"></i>
                                             </a>

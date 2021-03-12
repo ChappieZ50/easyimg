@@ -31,8 +31,8 @@
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button class="btn btn-info" id="add_new_user">Create User</button>
+                <button type="button" class="btn btn-secondary btn-lg" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary btn-lg" id="add_new_user">Create User</button>
             </div>
         </div>
     @endslot

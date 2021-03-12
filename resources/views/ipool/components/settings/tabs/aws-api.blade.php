@@ -35,6 +35,6 @@
         <div class="alert alert-warning small">
             Please enter all information
         </div>
-        <button type="submit" class="btn btn-info btn-lg float-right">Save Settings</button>
+        <button type="submit" class="btn btn-primary btn-lg float-right">Save Settings</button>
     </form>
 </div>

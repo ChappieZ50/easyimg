@@ -10,7 +10,7 @@
     <div class="card">
         <div class="p-4 border-bottom bg-light d-flex justify-content-between">
             <h4 class="card-title mb-0">Latest users</h4>
-            <a href="{{ route('admin.user.index') }}" class="btn btn-info btn-fw">
+            <a href="{{ route('admin.user.index') }}" class="btn btn-primary btn-fw">
                 <span>Show All Users</span>
                 <i class="mdi mdi-arrow-right"></i>
             </a>

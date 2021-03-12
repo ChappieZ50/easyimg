@@ -37,7 +37,7 @@
                     <td>{{ $file->created_at->diffForHumans() }}</td>
 
                     <td>
-                        <a href="{{ route('admin.file.show', $file->id) }}" class="btn btn-info social-btn"
+                        <a href="{{ route('admin.file.show', $file->id) }}" class="btn btn-primary social-btn"
                            style="padding: 6px 10px;" title="File info">
                             <i class="mdi mdi-eye"></i>
                         </a>

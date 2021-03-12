@@ -80,7 +80,7 @@
                                     </label>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-info btn-lg float-right">{{isset($page) ? 'Update Page' : 'Create Page'}}</button>
+                            <button type="submit" class="btn btn-primary btn-lg float-right">{{isset($page) ? 'Update Page' : 'Create Page'}}</button>
                         </div>
                     </form>
                 @endslot

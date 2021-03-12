@@ -49,7 +49,7 @@
                                       class="form-control">{{ isset($ad) ? $ad->mobile_ad : '' }}</textarea>
                         </div>
 
-                        <button type="submit" class="btn btn-info btn-lg float-right mr-3">Save Ads</button>
+                        <button type="submit" class="btn btn-primary btn-lg float-right mr-3">Save Ads</button>
                     </form>
                 @endslot
             @endcomponent

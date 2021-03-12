@@ -35,7 +35,7 @@
                                         <td>{{ $message->email }}</td>
                                         <td>{{ $message->created_at->diffForHumans() }}</td>
                                         <td>
-                                            <a href="{{route('admin.message.show',$message->id)}}" class="btn btn-info social-btn" style="padding: 6px 10px;"
+                                            <a href="{{route('admin.message.show',$message->id)}}" class="btn btn-primary social-btn" style="padding: 6px 10px;"
                                                title="Message Info">
                                                 <i class="mdi mdi-eye"></i>
                                             </a>

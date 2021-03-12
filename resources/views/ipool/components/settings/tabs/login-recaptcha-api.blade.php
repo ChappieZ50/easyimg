@@ -52,6 +52,6 @@
             <input type="text" class="form-control col-12" id="recaptcha_secret_key"
                    name="recaptcha_secret_key" value="{{isset($setting) ? $setting->recaptcha_secret_key : ''}}">
         </div>
-        <button type="submit" class="btn btn-info btn-lg float-right">Save Settings</button>
+        <button type="submit" class="btn btn-primary btn-lg float-right">Save Settings</button>
     </form>
 </div>

@@ -8,7 +8,7 @@
                 @slot('searchRoute',route('admin.page.index'))
                 @slot('header')
                     <div class="card-right">
-                        <a href="{{route('admin.page.create')}}" class="btn btn-info btn-fw btn-lg">
+                        <a href="{{route('admin.page.create')}}" class="btn btn-primary btn-fw btn-lg">
                             <i class="mdi mdi-plus-circle-outline" style="font-size: 16px;"></i>
                             New Page
                         </a>
@@ -37,7 +37,7 @@
                                         <td>{{ $page->type }}</td>
                                         <td>{{ $page->created_at->diffForHumans() }}</td>
                                         <td>
-                                            <a href="{{ route('admin.page.edit', $page->id) }}" class="btn btn-info social-btn"
+                                            <a href="{{ route('admin.page.edit', $page->id) }}" class="btn btn-primary social-btn"
                                                style="padding: 6px 10px;" title="Edit Page">
                                                 <i class="mdi mdi-circle-edit-outline"></i>
                                             </a>

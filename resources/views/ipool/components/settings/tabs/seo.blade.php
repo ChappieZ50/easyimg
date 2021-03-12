@@ -20,6 +20,6 @@
                 <textarea class="form-control col-12" id="site_keywords" name="site_keywords">{{isset($setting) ? $setting->site_keywords : ''}}</textarea>
             </div>
         </div>
-        <button type="submit" class="btn btn-info btn-lg float-right">Save Settings</button>
+        <button type="submit" class="btn btn-primary btn-lg float-right">Save Settings</button>
     </form>
 </div>
