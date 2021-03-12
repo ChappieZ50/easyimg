@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File as FacadesFile;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
@@ -37,8 +38,10 @@ class FileController extends Controller
         return FacadesFile::delete($name);
     }
 
-    public function destroyAwsFile()
+    public function destroyAwsFile($name)
     {
+        return Storage::disk('s3')->delete($name);
+
     }
 
     public function destroy($id)
@@ -47,9 +50,9 @@ class FileController extends Controller
 
         if ($file) {
             if ($file->uploaded_to === 'aws') {
-                $destroy =  $this->destroyAwsFile();
-            }else{
-                $destroy = $this->destroyLocalFile(config('imgpool.local_folder').'/'. $file->file_full_id);
+                $destroy = $this->destroyAwsFile(config('imgpool.aws_folder') . '/' . $file->file_full_id);
+            } else {
+                $destroy = $this->destroyLocalFile(config('imgpool.local_folder') . '/' . $file->file_full_id);
             }
 
 
