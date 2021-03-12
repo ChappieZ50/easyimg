@@ -2,8 +2,6 @@
     {!! $page->content !!}
 </div>
 
-<h1 class="h5">Contact Page</h1>
-
 <form action="{{route('message.store')}}" method="POST">
 
     @if(session()->has('success'))
