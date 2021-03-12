@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{asset('ipool/assets/vendors/css/vendor.bundle.addons.css')}}">
     <link rel="stylesheet" href="{{asset('ipool/assets/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('ipool/assets/css/app.css')}}">
-    <link rel="shortcut icon" href="{{asset('ipool/assets/images/favicon.ico')}}"/>
+    <link rel="shortcut icon" href="{{get_favicon()}}"/>
     @yield('styles')
 </head>
 <body>

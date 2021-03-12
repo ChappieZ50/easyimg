@@ -27,10 +27,10 @@
     <meta name="twitter:card" content="@yield('site_twitter_card','summary')">
     <meta name="twitter:site" content="@yield('twitter_site_url',url('/'))">
 
-    <link href="{{ website_file_url(get_setting('favicon')) }}" rel="shortcut icon">
-    <link href="{{ website_file_url(get_setting('favicon')) }}"
-          type="image/{{ get_setting('favicon_mime', 'png') }}" rel="icon" sizes="192x192">
-    <link rel="apple-touch-icon" href="{{ website_file_url(get_setting('favicon')) }}" sizes="180x180">
+    <link href="{{get_favicon()}}" rel="shortcut icon">
+    <link href="{{get_favicon()}}"
+          type="image/{{ get_setting('favicon_mime', 'ico') }}" rel="icon" sizes="48x48">
+    <link rel="apple-touch-icon" href="{{get_favicon()}}" sizes="48x48">
 
     {!! get_analytics_script() !!}
     @if (has_ad('mobile_ad'))

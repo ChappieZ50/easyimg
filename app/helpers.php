@@ -54,6 +54,17 @@ if (!function_exists('get_logo')) {
     }
 }
 
+if (!function_exists('get_favicon')) {
+    function get_favicon()
+    {
+        $file = get_setting('favicon', 'favicon.ico');
+        if ($file === 'favicon.ico') {
+            return asset($file);
+        }
+
+        return asset(config('imgpool.upload_folder') . '/' . $file);
+    }
+}
 
 if (!function_exists('avatar_url')) {
     function avatar_url($file = '', $path = '')
