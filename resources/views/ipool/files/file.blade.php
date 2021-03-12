@@ -53,9 +53,9 @@
                         <hr>
                         <div class="file-info">
                             <ul>
-                                <li>
+                                <li title="{{$file->file_original_id}}">
                                     <strong>Original Name:</strong>
-                                    <span>{{ $file->file_original_id }}</span>
+                                    <span>{{ str_limit($file->file_original_id,25) }}</span>
                                 </li>
                                 <li>
                                     <strong>Image ID:</strong>

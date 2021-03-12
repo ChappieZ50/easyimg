@@ -24,9 +24,9 @@ class MessageRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'name'    => 'required|max:100',
-            'email'   => 'required|email|max:100',
-            'subject' => 'required|max:100',
+            'name'    => 'required|max:60',
+            'email'   => 'required|email|max:60',
+            'subject' => 'required|max:60',
             'message' => 'required|max:350',
         ];
 

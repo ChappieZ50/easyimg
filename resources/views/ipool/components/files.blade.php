@@ -32,7 +32,7 @@
                         </td>
                     @endisset
                     <td>{{ $file->file_id }}</td>
-                    <td>{{ $file->file_original_id }}</td>
+                    <td title="{{$file->file_original_id}}">{{ str_limit($file->file_original_id) }}</td>
                     <td>{{ readable_size($file->file_size) }}</td>
                     <td>{{ $file->created_at->diffForHumans() }}</td>
 

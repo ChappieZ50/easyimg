@@ -235,3 +235,10 @@ if (!function_exists('get_privacy_page')) {
         return Page::where('type', 'privacy')->first();
     }
 }
+
+if (!function_exists('str_limit')) {
+    function str_limit($value, $limit = 50, $end = '...')
+    {
+        return Str::limit($value, $limit, $end);
+    }
+}

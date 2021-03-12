@@ -5,7 +5,7 @@
         <div class="username h4">{{$user ? $user->username : 'Anonymous'}}</div>
         <div class="file-info">
             <ul>
-                <li>
+                <li title="{{$file->file_original_id}}">
                     <strong><i data-feather="file-text"></i></strong>
                     <span>{{$file->file_original_id}}</span>
                 </li>

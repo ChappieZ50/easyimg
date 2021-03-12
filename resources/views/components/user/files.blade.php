@@ -32,7 +32,7 @@
 
                             <div class="ipool-image-bottom">
                                 <div class="bottom-content">
-                                    <div class="image-name">{{ $file->file_original_id . '.' . $file->file_mime }}</div>
+                                    <div class="image-name" title="{{ $file->file_original_id . '.' . $file->file_mime }}">{{ $file->file_original_id . '.' . $file->file_mime }}</div>
                                     <div class="image-info">
                                         <a href="{{ route('file.download',['file' => $file->file_id]) }}">
                                             <i data-feather="download"></i>
