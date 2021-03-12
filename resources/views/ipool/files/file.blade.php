@@ -90,7 +90,7 @@
             <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12">
                 <div class="card p-3">
                     <div class="card-body">
-                        <div class="file-preview">
+                        <div class="file-preview text-center">
                             <img src="{{ file_url($file) }}" alt="{{ $file->user->username }}"
                                  class="img-fluid rounded">
                         </div>
