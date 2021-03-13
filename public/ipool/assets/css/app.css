@@ -186,6 +186,19 @@ a.close {
   color: #2c7ce0;
 }
 
+.ipool-admin-menu a.dropdown-item {
+  color: #212121;
+  font-weight: 500;
+}
+.ipool-admin-menu a.dropdown-item:hover {
+  color: #2c7ce0;
+}
+.ipool-admin-menu a.dropdown-item .mdi {
+  color: #2c7ce0;
+  font-size: 14px !important;
+  margin-right: 5px;
+}
+
 @media (max-width: 991px) {
   .navbar.default-layout .navbar-brand-wrapper {
     padding: 4px 10px;

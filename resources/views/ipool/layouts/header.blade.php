@@ -10,16 +10,28 @@
             <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
                 <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
                     <img class="img-xs rounded-circle" src="{{avatar_url(auth()->user()->avatar)}}" alt="{{auth()->user()->username}}"> </a>
-                <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+                <div class="dropdown-menu dropdown-menu-right navbar-dropdown ipool-admin-menu" aria-labelledby="UserDropdown">
                     <div class="dropdown-header text-center">
                         <img class="img-md rounded-circle" src="{{avatar_url(auth()->user()->avatar)}}" alt="{{auth()->user()->username}}">
-                        <p class="mb-1 mt-3 font-weight-semibold">{{auth()->user()->username}}</p>
+                        <p class="mb-1 mt-3 font-weight-semibold" style="font-weight: 500;">{{auth()->user()->username}}</p>
                         <p class="font-weight-light text-muted mb-0">{{auth()->user()->email}}</p>
                     </div>
-                    <a href="{{route('user.profile')}}" class="dropdown-item">My Profile <i class="dropdown-item-icon ti-dashboard"></i></a>
-                    <a href="{{route('admin.message.index')}}" class="dropdown-item">Messages<i class="dropdown-item-icon ti-comment-alt"></i></a>
-                    <a href="{{route('home')}}" class="dropdown-item">Website Home<i class="dropdown-item-icon ti-comment-alt"></i></a>
-                    <a href="{{route('user.logout')}}" class="dropdown-item">Logout<i class="dropdown-item-icon ti-power-off"></i></a>
+                    <a href="{{route('user.profile')}}" class="dropdown-item">
+                        <i class="mdi mdi-arrow-right-drop-circle"></i>
+                        My Profile
+                    </a>
+                    <a href="{{route('admin.setting.index')}}" class="dropdown-item">
+                        <i class="mdi mdi-arrow-right-drop-circle"></i>
+                        Settings
+                    </a>
+                    <a href="{{route('home')}}" class="dropdown-item">
+                        <i class="mdi mdi-arrow-right-drop-circle"></i>
+                        Website
+                    </a>
+                    <a href="{{route('user.logout')}}" class="dropdown-item">
+                        <i class="mdi mdi-arrow-right-drop-circle"></i>
+                        Logout
+                    </a>
                 </div>
             </li>
         </ul>
