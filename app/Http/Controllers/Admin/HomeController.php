@@ -27,46 +27,25 @@ class HomeController extends Controller
         $labels = explode(',', config('imgpool.accepted_mimes'));
 
         return view('ipool.home')->with([
-            'filesCount' => $filesCount,
-            'usersCount' => $usersCount,
-            'messagesCount' => $messagesCount,
-            'pagesCount' => $pagesCount,
-            'files' => $files,
-            'users' => $users,
-            'chart_file_data' => $this->getChartData(File::class),
-            'chart_user_data' => $this->getChartData(User::class),
-            'chart_user_status_data' => $this->getUserStatusChart(),
-            'chart_file_extension_data' => $this->getFileExtensionChart(),
+            'filesCount'                  => $filesCount,
+            'usersCount'                  => $usersCount,
+            'messagesCount'               => $messagesCount,
+            'pagesCount'                  => $pagesCount,
+            'files'                       => $files,
+            'users'                       => $users,
+            'chart_file_data'             => get_chart_data(File::class),
+            'chart_user_data'             => get_chart_data(User::class),
+            'chart_user_status_data'      => $this->getUserStatusChart(),
+            'chart_file_extension_data'   => $this->getFileExtensionChart(),
             'chart_file_extension_labels' => $labels,
-            'chart_user_login_data' => $this->getUserLoginChart(),
+            'chart_user_login_data'       => $this->getUserLoginChart(),
         ]);
     }
 
-    public function getChartData($model, $primary = 'id')
-    {
-        $files = $model::select($primary, 'created_at')->get()->groupBy(function ($date) {
-            return Carbon::parse($date->created_at)->format('m'); // grouping by months
-        });
-
-        $filecount = [];
-        $fileArr = [];
-
-        foreach ($files as $key => $value) {
-            $filecount[(int)$key] = count($value);
-        }
-        for ($i = 1; $i <= 12; $i++) {
-            if (!empty($filecount[$i])) {
-                $fileArr[$i] = $filecount[$i];
-            } else {
-                $fileArr[$i] = 0;
-            }
-        }
-        return $fileArr;
-    }
 
     public function getUserStatusChart()
     {
-        $users =  User::groupBy('status')->select('status', DB::raw('count(*) as count'))->get()->toArray();
+        $users = User::groupBy('status')->select('status', DB::raw('count(*) as count'))->get()->toArray();
 
         $data = [];
 
@@ -104,11 +83,11 @@ class HomeController extends Controller
 
         foreach ($users as $value) {
             $count = $value['count'];
-            if(!empty($value['google'])){
+            if (!empty($value['google'])) {
                 $data['google'] = isset($data['google']) ? $count + $data['google'] : $count;
-            }elseif(!empty($value['facebook'])){
+            } elseif (!empty($value['facebook'])) {
                 $data['facebook'] = isset($data['facebook']) ? $count + $data['facebook'] : $count;
-            }else{
+            } else {
                 $data['normal'] = isset($data['normal']) ? $count + $data['normal'] : $count;
             }
         }

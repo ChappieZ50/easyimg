@@ -2138,6 +2138,13 @@ $(document).ready(function () {
       }],
       xaxis: {
         categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+      },
+      yaxis: {
+        labels: {
+          formatter: function formatter(val) {
+            return val.toFixed(0);
+          }
+        }
       }
     };
     var chart = new ApexCharts(document.querySelector("#file_chart"), options);
@@ -2173,6 +2180,13 @@ $(document).ready(function () {
       },
       xaxis: {
         categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+      },
+      yaxis: {
+        labels: {
+          formatter: function formatter(val) {
+            return val.toFixed(0);
+          }
+        }
       }
     };
     var chart = new ApexCharts(document.querySelector("#user_chart"), options);

@@ -118,7 +118,7 @@ $(document).ready(function () {
                 }
             }, error => {
                 if (error.response.data.errors) {
-                    let { errors } = error.response.data;
+                    let {errors} = error.response.data;
 
                     Object.keys(errors).forEach(key => {
                         let value = errors[key][0],
@@ -298,8 +298,14 @@ $(document).ready(function () {
             }],
             xaxis: {
                 categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            },
+            yaxis: {
+                labels: {
+                    formatter: val => val.toFixed(0)
+                }
             }
-        }
+        };
+
         var chart = new ApexCharts(document.querySelector("#file_chart"), options);
 
         chart.render();
@@ -333,6 +339,11 @@ $(document).ready(function () {
             },
             xaxis: {
                 categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+            },
+            yaxis: {
+                labels: {
+                    formatter: val => val.toFixed(0)
+                }
             }
         };
 

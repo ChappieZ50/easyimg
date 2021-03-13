@@ -3,6 +3,7 @@
 use App\Models\Ad;
 use App\Models\Page;
 use App\Models\Setting;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
@@ -240,5 +241,34 @@ if (!function_exists('str_limit')) {
     function str_limit($value, $limit = 50, $end = '...')
     {
         return Str::limit($value, $limit, $end);
+    }
+}
+
+if (!function_exists('get_chart_data')) {
+    function get_chart_data($model, callable $callback = null, $primary = 'id')
+    {
+        $query = $model::select($primary, 'created_at')->where(function ($q) use ($callback) {
+            if (is_callable($callback)) {
+                return $callback($q);
+            }
+            return '';
+        })->get()->groupBy(function ($date) {
+            return Carbon::parse($date->created_at)->format('m'); // grouping by months
+        });
+
+        $count = [];
+        $pool = [];
+
+        foreach ($query as $key => $value) {
+            $count[(int)$key] = count($value);
+        }
+        for ($i = 1; $i <= 12; $i++) {
+            if (!empty($count[$i])) {
+                $pool[$i] = $count[$i];
+            } else {
+                $pool[$i] = 0;
+            }
+        }
+        return $pool;
     }
 }

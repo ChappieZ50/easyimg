@@ -46,12 +46,12 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right position-absolute shadow-lg"
                              aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('user.profile') }}">Profile</a>
+                            <a class="dropdown-item" href="{{ route('user.images') }}">My Images</a>
+                            <a class="dropdown-item" href="{{ route('user.statistic') }}">Statistics</a>
                             @if(auth()->user()->is_admin)
                                 <a class="dropdown-item" href="{{route('admin.home')}}">Admin Panel</a>
                             @endif
-                            <a class="dropdown-item" href="{{ route('user.profile') }}">Profile</a>
-                            <a class="dropdown-item" href="{{ route('user.images') }}">My Images</a>
-                            <a class="dropdown-item" href="{{ route('home') }}">Upload Image</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('user.logout') }}">Logout</a>
                         </div>

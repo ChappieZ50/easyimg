@@ -254,6 +254,45 @@ $(document).ready(function () {
         e.clearSelection();
         clickToCopyAction(e.trigger, false);
     });
+    /* Statistics of files */
+    if ($('#file_chart').length) {
+        let options = {
+            series: [{
+                name: "Images",
+                data: Object.values(window.file_chart)
+            }],
+            chart: {
+                height: 350,
+                type: 'line',
+                zoom: {
+                    enabled: true
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            grid: {
+                row: {
+                    colors: ['#f3f3f3', 'transparent'],
+                    opacity: 0.5
+                },
+            },
+            xaxis: {
+                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            },
+            yaxis: {
+                labels:{
+                    formatter:val => val.toFixed(0)
+                }
+            }
+        };
 
+        let chart = new ApexCharts(document.querySelector("#file_chart"), options);
+
+        chart.render();
+    }
 });
 
