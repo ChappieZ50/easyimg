@@ -8,6 +8,7 @@ import '@popperjs/core';
 import 'bootstrap/dist/js/bootstrap.bundle'
 import Clipboard from "clipboard/dist/clipboard";
 import Swal from 'sweetalert2'
+import imagesLoaded from 'imagesloaded';
 
 const feather = require('feather-icons');
 $(document).ready(function () {
@@ -284,8 +285,8 @@ $(document).ready(function () {
                 categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
             },
             yaxis: {
-                labels:{
-                    formatter:val => val.toFixed(0)
+                labels: {
+                    formatter: val => val.toFixed(0)
                 }
             }
         };
@@ -294,5 +295,12 @@ $(document).ready(function () {
 
         chart.render();
     }
-});
 
+    /* Ipool images loading */
+    if ($('.ipool-images-wrapper').length) {
+        imagesLoaded(document.querySelector('.ipool-images-wrapper'), function () {
+            $('.ipool-spinner').fadeOut();
+            $('.ipool-images-wrapper').fadeIn();
+        });
+    }
+});
