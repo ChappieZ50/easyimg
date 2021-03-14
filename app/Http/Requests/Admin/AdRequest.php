@@ -29,6 +29,7 @@ class AdRequest extends FormRequest
             'file_left_ad'   => 'sometimes',
             'file_bottom_ad' => 'sometimes',
             'mobile_ad'      => 'sometimes',
+            'download_ad'    => 'sometimes',
         ];
     }
 }

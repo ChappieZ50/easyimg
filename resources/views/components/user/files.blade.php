@@ -34,7 +34,7 @@
                                 <div class="bottom-content">
                                     <div class="image-name" title="{{ $file->file_original_id . '.' . $file->file_mime }}">{{ $file->file_original_id . '.' . $file->file_mime }}</div>
                                     <div class="image-info">
-                                        <a href="{{ route('file.download',['file' => $file->file_id]) }}">
+                                        <a href="{{ route('file.download',['file' => $file->file_id]) }}" {{has_ad('download_ad') ? 'onclick=window.open(\''.get_ad('download_ad').'\');' : ''}}>
                                             <i data-feather="download"></i>
                                         </a>
                                     </div>

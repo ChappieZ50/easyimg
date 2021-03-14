@@ -48,6 +48,10 @@
                             <textarea name="mobile_ad" id="mobile_ad" rows="10"
                                       class="form-control">{{ isset($ad) ? $ad->mobile_ad : '' }}</textarea>
                         </div>
+                        <div class="form-group col-lg-12">
+                            <label for="download__ad">Download Ad Link</label>
+                            <input name="download_ad" id="download__ad" class="form-control" value="{{ isset($ad) ? $ad->download_ad : '' }}">
+                        </div>
 
                         <button type="submit" class="btn btn-primary btn-lg float-right mr-3">Save Ads</button>
                     </form>
