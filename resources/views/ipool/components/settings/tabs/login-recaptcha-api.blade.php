@@ -17,6 +17,7 @@
                     <label for="google_secret">Secret Key</label>
                     <input type="text" class="form-control col-12" id="google_secret"
                            name="google_secret" value="{{isset($setting) ? $setting->google_secret : ''}}">
+                    <div class="small"><strong>Add this to your api callback: </strong>{{route('user.google.login.handle')}}</div>
                 </div>
             </div>
             <div class="col-lg-6">
@@ -31,6 +32,7 @@
                     <label for="facebook_secret">Secret Key</label>
                     <input type="text" class="form-control col-12" id="facebook_secret"
                            name="facebook_secret" value="{{isset($setting) ? $setting->facebook_secret : ''}}">
+                    <div class="small"><strong>Add this to your api callback: </strong>{{route('user.facebook.login.handle')}}</div>
                 </div>
             </div>
 
