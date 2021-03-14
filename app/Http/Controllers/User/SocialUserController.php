@@ -14,56 +14,28 @@ class SocialUserController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function handleGoogleLogin()
-    {
-        $googleUser = Socialite::driver('google')->user();
-
-        if ($googleUser) {
-            $user = User::where('google', $googleUser->id)->first();
-            if ($user) {
-                if (!$user->status) {
-                    return redirect()->route('user.login.index')->withErrors([
-                        'non' => 'Your accont has been banned',
-                    ]);
-                }
-                Auth::login($user);
-                return redirect()->route('home');
-            }
-
-            $find = User::where('email', $googleUser->email)->first();
-
-            if ($find) {
-                return redirect()->route('user.login.index')->withErrors([
-                    'non' => 'User already exists. Sign in with email password.'
-                ]);
-            }
-
-            $user = User::create([
-                'username' => $googleUser->name,
-                'email'    => $googleUser->email,
-                'google'   => $googleUser->id,
-                'password' => bcrypt($googleUser->token),
-            ]);
-            Auth::login($user);
-
-            return redirect()->route('home');
-        }
-
-        return abort(404);
-    }
-
     public function facebookLogin()
     {
         return Socialite::driver('facebook')->redirect();
     }
 
+    public function handleGoogleLogin()
+    {
+        return $this->setSocialUser('google');
+    }
+
     public function handleFacebookLogin()
     {
-        $facebookUser = Socialite::driver('facebook')->user();
+        return $this->setSocialUser('facebook');
+    }
 
-        dd($facebookUser);
-        if ($facebookUser) {
-            $user = User::where('facebook', $facebookUser->id)->first();
+    private function setSocialUser($driver, $column = '')
+    {
+        $column = empty($column) ? $driver : $column;
+        $socialUser = Socialite::driver($driver)->user();
+
+        if ($socialUser) {
+            $user = User::where($column, $socialUser->id)->first();
             if ($user) {
                 if (!$user->status) {
                     return redirect()->route('user.login.index')->withErrors([
@@ -74,7 +46,7 @@ class SocialUserController extends Controller
                 return redirect()->route('home');
             }
 
-            $find = User::where('email', $facebookUser->email)->first();
+            $find = User::where('email', $socialUser->email)->first();
 
             if ($find) {
                 return redirect()->route('user.login.index')->withErrors([
@@ -83,13 +55,12 @@ class SocialUserController extends Controller
             }
 
             $user = User::create([
-                'username' => $facebookUser->name,
-                'email'    => $facebookUser->email,
-                'facebook' => $facebookUser->id,
-                'password' => bcrypt($facebookUser->token),
+                'username' => $socialUser->name,
+                'email'    => $socialUser->email,
+                $column    => $socialUser->id,
+                'password' => bcrypt($socialUser->id),
             ]);
             Auth::login($user);
-
             return redirect()->route('home');
         }
 
