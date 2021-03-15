@@ -39,7 +39,7 @@ class SocialUserController extends Controller
             if ($user) {
                 if (!$user->status) {
                     return redirect()->route('user.login.index')->withErrors([
-                        'non' => 'Your accont has been banned',
+                        'non' => 'Your account has been banned',
                     ]);
                 }
                 Auth::login($user);
@@ -48,6 +48,7 @@ class SocialUserController extends Controller
 
             $find = User::where('email', $socialUser->email)->first();
 
+            /* If user already registered with normal register form then return back */
             if ($find) {
                 return redirect()->route('user.login.index')->withErrors([
                     'non' => 'User already exists. Sign in with email password.'

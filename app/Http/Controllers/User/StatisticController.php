@@ -11,7 +11,7 @@ class StatisticController extends Controller
 {
     public function index()
     {
-
+        /* Getting user file chart */
         $chartFileData = get_chart_data(File::class, function ($q) {
             return $q->where('user_id', auth()->user()->id);
         });

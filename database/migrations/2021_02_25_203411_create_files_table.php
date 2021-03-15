@@ -15,16 +15,23 @@ class CreateFilesTable extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
+
+            // Auto generated file name
             $table->string('file_id');
-            $table->string('file_full_id');                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+            // Auto generated file name with extension
+            $table->string('file_full_id');
+            // File extension
             $table->string('file_mime');
+            // File original name: "myfile" (Without extension)
             $table->string('file_original_id')->nullable();
+
+            // File size by bytes
             $table->string('file_size')->nullable();
 
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-
-            $table->string('uploaded_to'); // Only "local" and "aws"
+            // Storage name | for now only have "local" and "aws"
+            $table->string('uploaded_to');
             $table->timestamps();
         });
     }

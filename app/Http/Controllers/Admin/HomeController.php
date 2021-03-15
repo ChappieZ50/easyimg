@@ -15,13 +15,16 @@ class HomeController extends Controller
 {
     public function index()
     {
+        /* Getting records count for dashboard top */
         $filesCount = File::count();
         $usersCount = User::count();
         $messagesCount = Message::count();
         $pagesCount = Page::count();
 
 
+        /* Take last 5 records from files */
         $files = File::orderByDesc('id')->take(5)->get();
+        /* Take last 5 records from users */
         $users = User::orderByDesc('id')->take(5)->get();
 
         $labels = explode(',', config('imgpool.accepted_mimes'));
@@ -33,6 +36,8 @@ class HomeController extends Controller
             'pagesCount'                  => $pagesCount,
             'files'                       => $files,
             'users'                       => $users,
+            
+            /* Charts data */
             'chart_file_data'             => get_chart_data(File::class),
             'chart_user_data'             => get_chart_data(User::class),
             'chart_user_status_data'      => $this->getUserStatusChart(),

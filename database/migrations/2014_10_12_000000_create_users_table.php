@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration
             $table->boolean('status')->default(true);
             $table->boolean('is_admin')->default(false);
             $table->string('avatar')->nullable();
+
+            // Do not change social media names | If you want add another social media add by normal name like "vk" "twitter" etc.
             $table->string('google')->nullable();
             $table->string('facebook')->nullable();
             $table->rememberToken();

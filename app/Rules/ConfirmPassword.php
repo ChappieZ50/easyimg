@@ -27,6 +27,7 @@ class ConfirmPassword implements Rule
      */
     public function passes($attribute, $value)
     {
+        /* If this password equal current user password. Then return true otherwise return false */
         return !Hash::check($value, auth()->user()->getAuthPassword()) ? false : true;
     }
 

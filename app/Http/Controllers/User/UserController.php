@@ -20,22 +20,19 @@ class UserController extends Controller
         return view('user.profile')->with('user', $user);
     }
 
+    /* Getting user's files */
     public function userImages()
     {
         $files = FileModel::where('user_id', auth()->user()->id)->orderByDesc('id')->paginate();
         return view('user.files')->with('files', $files);
     }
 
+    /* Deleting file and database record */
     public function destroyFile($id)
     {
         $file = FileModel::where('id', $id)->where('user_id', Auth::user()->id)->first();
         if ($file) {
-            if ($file->uploaded_to === 'aws') {
-                $destroy = Storage::disk('s3')->delete(config('imgpool.aws_folder') . '/' . $file->file_full_id);
-            } else {
-                /* Local upload */
-                $destroy = File::delete(config('imgpool.local_folder') . '/' . $file->file_full_id);
-            }
+            $destroy = delete_file($file);
 
             if ($destroy) {
                 $file->delete();

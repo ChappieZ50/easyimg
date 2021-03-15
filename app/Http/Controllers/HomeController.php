@@ -14,11 +14,6 @@ class HomeController extends Controller
     public function page($slug)
     {
         $page = Page::where('slug', $slug)->first();
-
-        if ($page) {
-            return view('page')->with('page', $page);
-        }
-
-        return abort(404);
+        return $page ? view('page')->with('page', $page) : abort(404);
     }
 }

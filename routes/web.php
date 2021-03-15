@@ -14,15 +14,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-/* imgpool admin */
+/* imgpool admin routes */
 
 Route::group(['prefix' => '/admin/', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'admin-auth'], function () {
     Route::get('', 'HomeController@index')->name('home');
+    /* User Actions */
     Route::group(['namespace' => 'User'], function () {
         Route::resource('user', 'UserController')->only('index', 'show');
         Route::post('users/status', 'UserController@status')->name('user.status');
         Route::post('users/store', 'UserController@store')->name('user.store');
     });
+
     Route::resource('file', 'FileController')->only('index', 'show', 'destroy');
     Route::resource('page', 'PageController')->except('show');
     Route::resource('message', 'MessageController')->except('create', 'edit');
@@ -35,10 +37,14 @@ Route::group(['prefix' => '/admin/', 'as' => 'admin.', 'namespace' => 'Admin', '
 /* imgpool web */
 
 Route::get('/', 'HomeController@index')->name('home');
+
+/* Dynamic page */
 Route::get('/p/{slug}', 'HomeController@page')->name('page');
+
 Route::resource('message', 'MessageController')->only('store');
 
 Route::group(['as' => 'user.', 'namespace' => 'User', 'middleware' => 'user-status'], function () {
+    /* User - login | register | logout */
     Route::resource('login', 'LoginController')->only('index', 'store')->middleware('guest');
     Route::resource('register', 'RegisterController')->only('index', 'store')->middleware('guest');
     Route::get('logout', 'LoginController@logout')->name('logout');
@@ -53,9 +59,12 @@ Route::group(['as' => 'user.', 'namespace' => 'User', 'middleware' => 'user-stat
 
 
     Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
+        /* Redirecting to profile route */
         Route::get('/', function () {
             return redirect()->route('user.profile');
         });
+
+        /* User profile actions */
         Route::get('profile', 'UserController@profile')->name('profile');
         Route::put('profile/update', 'UserController@update')->name('update');
         Route::put('profile/update/password', 'UserController@updatePassword')->name('update.password');
@@ -69,6 +78,9 @@ Route::group(['as' => 'user.', 'namespace' => 'User', 'middleware' => 'user-stat
     });
 });
 
+// Store images
 Route::post('file/store', 'FileController@store')->name('file.store');
+// Download image
 Route::get('ipool/download/{file}', 'FileController@downloadFile')->name('file.download');
+// Show image
 Route::get('ipool/{file}', 'FileController@show')->name('file.show');

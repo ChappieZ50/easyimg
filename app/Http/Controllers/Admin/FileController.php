@@ -25,6 +25,7 @@ class FileController extends Controller
     public function show($id)
     {
         $file = File::findOrFail($id);
+        /* If file has not a user then set anonymous user data */
         if (!$file->user) {
             $file->user = json_decode(json_encode(config('imgpool.anonymous_user')));
         }
@@ -32,28 +33,12 @@ class FileController extends Controller
         return view('ipool.files.file')->with('file', $file);
     }
 
-
-    public function destroyLocalFile($name)
-    {
-        return FacadesFile::delete($name);
-    }
-
-    public function destroyAwsFile($name)
-    {
-        return Storage::disk('s3')->delete($name);
-
-    }
-
     public function destroy($id)
     {
         $file = File::where('id', $id)->first();
 
         if ($file) {
-            if ($file->uploaded_to === 'aws') {
-                $destroy = $this->destroyAwsFile(config('imgpool.aws_folder') . '/' . $file->file_full_id);
-            } else {
-                $destroy = $this->destroyLocalFile(config('imgpool.local_folder') . '/' . $file->file_full_id);
-            }
+            $destroy = delete_file($file);
 
 
             if ($destroy) {

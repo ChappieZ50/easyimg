@@ -10,21 +10,23 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
-    public function index(){
-        return view('register')->with('no_header',true);
+    public function index()
+    {
+        return view('register')->with('no_header', true);
     }
 
-    public function store(RegisterRequest $request){
+    public function store(RegisterRequest $request)
+    {
         $user = new User([
             'username' => $request->get('username'),
             'email'    => $request->get('email'),
             'password' => bcrypt($request->get('password')),
         ]);
-        
-        if($user->save()){
+        /* Saving user */
+        if ($user->save()) {
             $credentials = [
-              'email'    => $user->email,
-              'password' => $request->get('password'),  
+                'email'    => $user->email,
+                'password' => $request->get('password'),
             ];
             Auth::attempt($credentials);
             return redirect()->route('user.profile');

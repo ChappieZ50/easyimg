@@ -13,6 +13,7 @@ class LoginController extends Controller
     {
         return view('login')->with('no_header', true);
     }
+
     public function store(LoginRequest $request)
     {
         $credentials = [
@@ -20,14 +21,16 @@ class LoginController extends Controller
             'password' => $request->get('password')
         ];
 
+        /* Auth user by given credentials */
         if (Auth::attempt($credentials)) {
+            /* If user banned then logout and back with error */
             if (!Auth::user()->status && !Auth::user()->is_admin) {
                 Auth::logout();
                 return back()->withErrors([
-                    'non' => 'Your accont has been banned',
+                    'non' => 'Your account has been banned',
                 ]);
             }
-
+            /* Return admin home if is admin user */
             if (Auth::user()->is_admin) {
                 return redirect()->route('admin.home');
             }

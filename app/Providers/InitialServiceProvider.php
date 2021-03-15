@@ -22,6 +22,8 @@ class InitialServiceProvider extends ServiceProvider
     /**
      * Bootstrap services.
      *
+     * We will changing all settings in this method
+     *
      * @return void
      */
     public function boot()

@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+/*
+ * Downloading file from any storage.
+ * You should give File model instance to $file parameter.
+*/
 if (!function_exists('download_file')) {
     function download_file($file)
     {
@@ -22,20 +26,24 @@ if (!function_exists('download_file')) {
     }
 }
 
+/*
+ * Getting file url from any storage your given.
+*/
 if (!function_exists('file_url')) {
     function file_url($file)
     {
-        if ($file->uploaded_to === 'local') {
-            $link = asset(config('imgpool.local_folder') . '/' . $file->file_full_id);
-        } elseif ($file->uploaded_to === 'aws') {
+        if ($file->uploaded_to === 'aws') {
             $link = Storage::disk('s3')->url(config('imgpool.aws_folder') . '/' . $file->file_full_id);
         } else {
-            $link = asset($file->file_full_id);
+            $link = asset(config('imgpool.local_folder') . '/' . $file->file_full_id);
         }
         return $link;
     }
 }
 
+/*
+ * This function for admin panel /settings logo favicon tab
+*/
 if (!function_exists('website_file_url')) {
     function website_file_url($file, $path = '')
     {
@@ -43,6 +51,9 @@ if (!function_exists('website_file_url')) {
     }
 }
 
+/*
+ * Get Website logo
+*/
 if (!function_exists('get_logo')) {
     function get_logo()
     {
@@ -55,6 +66,9 @@ if (!function_exists('get_logo')) {
     }
 }
 
+/*
+ * Get Website favicon
+*/
 if (!function_exists('get_favicon')) {
     function get_favicon()
     {
@@ -67,6 +81,10 @@ if (!function_exists('get_favicon')) {
     }
 }
 
+/*
+ * Getting avatar url.
+ * If $file not exists then will return default avatar
+*/
 if (!function_exists('avatar_url')) {
     function avatar_url($file = '', $path = '')
     {
@@ -74,6 +92,10 @@ if (!function_exists('avatar_url')) {
     }
 }
 
+/*
+ * Get analytics script
+ * You should add google analytic code from admin panel /settings page
+*/
 if (!function_exists('get_analytics_script')) {
     function get_analytics_script()
     {
@@ -99,6 +121,9 @@ if (!function_exists('get_analytics_script')) {
     }
 }
 
+/*
+ * Change file sizes to readable size
+*/
 if (!function_exists('readable_size')) {
     function readable_size($size, $unit = "")
     {
@@ -111,7 +136,20 @@ if (!function_exists('readable_size')) {
         return number_format($size) . " bytes";
     }
 }
-
+if (!function_exists('delete_file')) {
+    function delete_file($file)
+    {
+        if ($file->uploaded_to === 'aws') {
+            return Storage::disk('s3')->delete(config('imgpool.aws_folder') . '/' . $file->file_full_id);
+        } else {
+            return File::delete(config('imgpool.local_folder') . '/' . $file->file_full_id);
+        }
+    }
+}
+/*
+ * This function can upload file to any storage to your given
+ * If you pass file name to $delete parameter. Then this file will be deleted.
+*/
 if (!function_exists('upload_file')) {
     function upload_file($file, $uploadFolder, $delete = '', $disk = '')
     {
@@ -150,6 +188,9 @@ if (!function_exists('upload_file')) {
     }
 }
 
+/*
+ * Check setting is exist
+*/
 if (!function_exists('has_setting')) {
     function has_setting($name)
     {
@@ -164,6 +205,10 @@ if (!function_exists('has_setting')) {
     }
 }
 
+/*
+ * Get any setting
+ * If you pass value parameter and if setting is empty then will return value
+*/
 if (!function_exists('get_setting')) {
     function get_setting($name, $value = '')
     {
@@ -178,6 +223,11 @@ if (!function_exists('get_setting')) {
     }
 }
 
+/*
+ * Check any setting is exists or not
+ * You can pass multiple settings
+ * If any setting is not exists or empty then will return false
+*/
 if (!function_exists('has_settings')) {
     function has_settings(...$names)
     {
@@ -200,6 +250,9 @@ if (!function_exists('has_settings')) {
     }
 }
 
+/*
+ * Check ad is exist or not
+*/
 if (!function_exists('has_ad')) {
     function has_ad($name)
     {
@@ -208,6 +261,9 @@ if (!function_exists('has_ad')) {
     }
 }
 
+/*
+ * Get any ad "home_top_ad" "home_bottom_ad" "mobile_ad" "download_left_ad" "download_bottom_ad"
+*/
 if (!function_exists('get_ad')) {
     function get_ad($name)
     {
@@ -215,7 +271,9 @@ if (!function_exists('get_ad')) {
         return $ad->$name;
     }
 }
-
+/*
+ * Get all pages
+*/
 if (!function_exists('get_pages')) {
     function get_pages()
     {
@@ -223,6 +281,9 @@ if (!function_exists('get_pages')) {
     }
 }
 
+/*
+ * Get terms page
+*/
 if (!function_exists('get_terms_page')) {
     function get_terms_page()
     {
@@ -230,6 +291,9 @@ if (!function_exists('get_terms_page')) {
     }
 }
 
+/*
+ * Get privacy page
+*/
 if (!function_exists('get_privacy_page')) {
     function get_privacy_page()
     {
@@ -237,12 +301,24 @@ if (!function_exists('get_privacy_page')) {
     }
 }
 
+
+/*
+ * Limiting any string
+*/
 if (!function_exists('str_limit')) {
     function str_limit($value, $limit = 50, $end = '...')
     {
         return Str::limit($value, $limit, $end);
     }
 }
+
+
+/*
+ * Getting chart settings for admin panel and front
+ * Give a model and get data like this: [0 => 1,5 => 4]
+ * 0 and 5 is id column data
+ * 1 and 4 is count of grouped and counted data
+*/
 
 if (!function_exists('get_chart_data')) {
     function get_chart_data($model, callable $callback = null, $primary = 'id')

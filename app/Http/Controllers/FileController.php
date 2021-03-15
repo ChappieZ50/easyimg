@@ -9,23 +9,29 @@ use Illuminate\Support\Facades\Auth;
 
 class FileController extends Controller
 {
+    protected $disk;
+    protected $storage = 'local'; // Default storage
+    protected $uploadFolder;
+
+    public function __construct()
+    {
+        $this->uploadFolder = config('imgpool.local_folder'); // Default storage folder
+    }
+
     public function store(FileRequest $request)
     {
         $file = $request->file('file');
         $setting = Setting::first();
 
-        $disk = '';
-        $storage = 'local';
-        $uploadFolder = config('imgpool.local_folder');
-
         if ($setting && $setting->uploads_storage === 'aws') {
-            $disk = 's3';
-            $storage = 'aws';
-            $uploadFolder = config('imgpool.aws_folder');
+            $this->disk = 's3';
+            $this->storage = 'aws';
+            $this->uploadFolder = config('imgpool.aws_folder');
         }
 
-        $file = upload_file($file, $uploadFolder, '', $disk)->getData();
-        $save = $this->save($file->file_id, $file->file_size, $file->extension, $file->file_original_id, $storage);
+        $file = upload_file($file, $this->uploadFolder, '', $this->disk)->getData();
+        $save = $this->save($file->file_id, $file->file_size, $file->extension, $file->file_original_id, $this->storage);
+
         if ($save) {
             return response()->json([
                 'url' => route('file.show', $file->file_id),
