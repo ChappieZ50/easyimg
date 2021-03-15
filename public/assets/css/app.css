@@ -13098,19 +13098,17 @@ html ul, body ul {
   padding: 0 20px;
   border-bottom: 1px solid #e5e5e5;
   /* Define the shape and color of the hamburger lines */
-  /* top line needs a little padding */
+}
+.header .navbar .navbar-toggler {
   /**
-   * Animate collapse into X.
-   */
+      * Animate collapse into X.
+  */
   /* top line rotates 45 degrees clockwise and moves up and in a bit to close the center of the X in the center of the button */
   /* center line goes transparent */
-  /* bottom line rotates 45 degrees counter clockwise, in, and down a bit to close the center of the X in the center of the button  */
   /**
-   * Animate collapse open into hamburger menu
+     * Animate collapse open into hamburger menu
    */
-  /* top line moves back to initial position and rotates back to 0 degrees */
-  /* middle line goes back to regular color and opacity */
-  /* bottom line goes back to initial position and rotates back to 0 degrees */
+  /* bottom line rotates 45 degrees counter clockwise, in, and down a bit to close the center of the X in the center of the button  */
 }
 .header .navbar .navbar-toggler span {
   display: block;
@@ -13124,27 +13122,32 @@ html ul, body ul {
   opacity: 1;
   transition: all 0.35s ease-out;
   transform-origin: center;
-}
-.header .navbar .navbar-toggler span:nth-child(1) {
-  margin-top: 0.3em;
-}
-.header .navbar .navbar-toggler:not(.collapsed) span:nth-child(1) {
-  transform: translate(11%, -35%) rotate(45deg);
-}
-.header .navbar .navbar-toggler:not(.collapsed) span:nth-child(2) {
-  opacity: 0;
-}
-.header .navbar .navbar-toggler:not(.collapsed) span:nth-child(3) {
-  transform: translate(11%, 160%) rotate(-45deg);
+  /* top line needs a little padding */
+  /* top line moves back to initial position and rotates back to 0 degrees */
+  /* middle line goes back to regular color and opacity */
+  /* bottom line goes back to initial position and rotates back to 0 degrees */
 }
 .header .navbar .navbar-toggler span:nth-child(1) {
   transform: translate(0%, 0%) rotate(0deg);
+  margin-top: 0.3em;
+  top: 1.4px;
 }
 .header .navbar .navbar-toggler span:nth-child(2) {
   opacity: 1;
 }
 .header .navbar .navbar-toggler span:nth-child(3) {
   transform: translate(0%, 0%) rotate(0deg);
+  top: -18px;
+}
+.header .navbar .navbar-toggler:not(.collapsed) span:nth-child(1) {
+  transform: translate(11%, -35%) rotate(45deg);
+  top: 0;
+}
+.header .navbar .navbar-toggler:not(.collapsed) span:nth-child(2) {
+  opacity: 0;
+}
+.header .navbar .navbar-toggler:not(.collapsed) span:nth-child(3) {
+  transform: translate(11%, 160%) rotate(-45deg);
 }
 .header .navbar .logo {
   height: 45px;
@@ -13349,6 +13352,7 @@ html ul, body ul {
     z-index: 101 !important;
     width: 100%;
     border-bottom: 1px solid #e5e5e5;
+    background-color: #fff;
   }
   .navbar-collapse .nav-item .nav-link {
     padding: 0.5rem 1.5rem;
@@ -13484,6 +13488,7 @@ html ul, body ul {
 }
 .ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images-wrapper {
   display: none;
+  width: 100%;
 }
 .ipool-user-wrapper .ipool-user-container .ipool-user .ipool-user-content .ipool-images-wrapper .ipool-images-content {
   display: flex;

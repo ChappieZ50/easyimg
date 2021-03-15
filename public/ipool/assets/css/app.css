@@ -200,6 +200,11 @@ a.close {
 }
 
 @media (max-width: 991px) {
+  .navbar.default-layout .navbar-menu-wrapper {
+    width: calc(100% - 20px);
+  }
+}
+@media (max-width: 991px) {
   .navbar.default-layout .navbar-brand-wrapper {
     padding: 4px 10px;
   }
