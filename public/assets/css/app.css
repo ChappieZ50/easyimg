@@ -13988,3 +13988,18 @@ html ul, body ul {
 .no-resize {
   resize: none !important;
 }
+
+@media only screen and (max-width: 992px) {
+  .ipool-image-bottom {
+    height: 30px !important;
+  }
+
+  .ipool-image-link, .ipool-image-delete {
+    opacity: 1 !important;
+  }
+}
+@media only screen and (max-width: 650px) {
+  .container-fluid, .container-sm, .container-md, .container-lg, .container-xl, .container {
+    padding: 0 !important;
+  }
+}
