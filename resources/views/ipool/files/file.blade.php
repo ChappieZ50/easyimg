@@ -83,6 +83,7 @@
                                 </li>
                             </ul>
                         </div>
+                        <a href="{{ route('file.download',$file->file_id) }}" class="btn btn-primary w-100 mt-2">Download</a>
                     </div>
                 </div>
             </div>
