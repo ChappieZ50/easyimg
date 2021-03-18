@@ -24,9 +24,9 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'username' => 'TheChappie',
-            'email'    => 'info@ugurtosun.com.tr',
-            'password' => Hash::make('adminadmin'),
+            'username' => 'Imgpool',
+            'email'    => 'admin@imgpool.com',
+            'password' => Hash::make('admin1234'),
             'is_admin' => true,
         ];
     }
