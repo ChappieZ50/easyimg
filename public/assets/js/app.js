@@ -1894,33 +1894,12 @@ $(document).ready(function () {
   }
 
   clipboard.on('success', function (e) {
-    setTooltip(e.trigger, 'Image Copied!');
+    setTooltip(e.trigger, window.text.success_copy_my_images);
     hideTooltip(e.trigger);
   });
   clipboard.on('error', function (e) {
     setTooltip(e.trigger, 'Failed!');
     hideTooltip(e.trigger);
-  });
-  /* Delete Image */
-
-  $('#delete').on('click', function () {
-    var id = $(this).attr('data-id');
-    sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
-      title: "Are you sure?",
-      text: "This image will delete forever.",
-      icon: "error",
-      confirmButtonText: "Yes, Delete it",
-      cancelButtonText: "Cancel",
-      showCancelButton: true,
-      confirmButtonColor: '#e34346'
-    }).then(function (result) {
-      if (result.isConfirmed) {
-        sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
-          title: "Image successfully deleted.",
-          icon: "success"
-        });
-      }
-    });
   });
 
   function parse_errors(errors) {
@@ -1986,7 +1965,7 @@ $(document).ready(function () {
         email: email
       }).then(function (response) {
         if (response.data.status) {
-          show_swal("Your profile successfully updated.");
+          show_swal(response.data.message);
         }
       }, function (error) {
         return parse_errors(error.response.data.errors);
@@ -2004,7 +1983,7 @@ $(document).ready(function () {
         password_confirmation: password_confirmation
       }).then(function (response) {
         if (response.data.status) {
-          show_swal("Your password successfully updated.");
+          show_swal(response.data.message);
         }
       }, function (error) {
         return parse_errors(error.response.data.errors);
@@ -2023,7 +2002,7 @@ $(document).ready(function () {
         }
       }).then(function (response) {
         if (response.data.status) {
-          show_swal("Your avatar successfully updated.");
+          show_swal(response.data.message);
         }
       }, function (error) {
         parse_errors(error.response.data.errors);
@@ -2037,44 +2016,44 @@ $(document).ready(function () {
   $(document).on('click', '#file_delete', function () {
     var id = $(this).attr('data-id');
     sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
-      title: "Are you sure?",
-      text: "This file will be deleted",
+      title: window.text.verify,
+      text: window.text.file_delete,
       icon: "info",
-      confirmButtonText: "Yes,Delete",
-      cancelButtonText: "Cancel",
+      confirmButtonText: window.text.verify_delete,
+      cancelButtonText: window.text.close,
       showCancelButton: true,
       confirmButtonColor: '#ff6258'
     }).then(function (result) {
       if (result.isConfirmed) {
         axios__WEBPACK_IMPORTED_MODULE_0___default().delete(window.routes.file_destroy + '/' + id).then(function (response) {
           if (response.data.status) {
-            show_swal("Your file successfully deleted.");
+            show_swal(response.data.message);
           } else {
-            show_swal('Something gone wrong, please try again.', 'error');
+            show_swal(window.text["delete"], 'error');
           }
         }, function () {
-          show_swal('Something gone wrong, please try again.', 'error');
+          show_swal(window.text["delete"], 'error');
         });
       }
     });
   });
   $('#user_delete_avatar').on('click', function () {
     sweetalert2__WEBPACK_IMPORTED_MODULE_3___default().fire({
-      title: "Are you sure?",
-      text: "Your avatar will be deleted",
+      title: window.text.verify,
+      text: window.text.avatar_delete,
       icon: "info",
-      confirmButtonText: "Yes,Delete",
-      cancelButtonText: "Cancel",
+      confirmButtonText: window.text.verify_delete,
+      cancelButtonText: window.text.close,
       showCancelButton: true,
       confirmButtonColor: '#ff6258'
     }).then(function (result) {
       if (result.isConfirmed) {
         axios__WEBPACK_IMPORTED_MODULE_0___default().delete(window.location.href + '/destroy/avatar').then(function (response) {
           if (response.data.status) {
-            show_swal("Your avatar successfully deleted.");
+            show_swal(response.data.message);
           }
         }, function () {
-          show_swal('Something gone wrong, please try again.', 'error');
+          show_swal(window.text["delete"], 'error');
         });
       }
     });
@@ -2090,7 +2069,7 @@ $(document).ready(function () {
   function clickToCopyAction(el) {
     var success = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
     var color = success ? '#3cb371' : '#dc143c';
-    var tt = success ? 'Text Copied!' : 'ERROR!';
+    var tt = success ? window.text.success_copy : 'ERROR!';
     var text = $(el).text();
     $(el).html('<span style="color:' + color + '">' + tt + '</span>');
     $(el).show();
@@ -2113,7 +2092,7 @@ $(document).ready(function () {
   if ($('#file_chart').length) {
     var options = {
       series: [{
-        name: "Images",
+        name: window.file_chart_title,
         data: Object.values(window.file_chart)
       }],
       chart: {
@@ -2136,7 +2115,7 @@ $(document).ready(function () {
         }
       },
       xaxis: {
-        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        categories: window.file_chart_months.split(',')
       },
       yaxis: {
         labels: {

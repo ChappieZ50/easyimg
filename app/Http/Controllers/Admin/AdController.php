@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AdRequest;
 use App\Models\Ad;
+use App\Models\User;
 
 class AdController extends Controller
 {
@@ -18,9 +19,9 @@ class AdController extends Controller
     {
 
         if ($this->updateOrCreate($request->validated())) {
-            return back()->with('success', 'Ads successfully updated.');
+            return back()->with('success', __('page.admin_response_ads_success'));
         } else {
-            return back()->with('error', 'Something gone wrong.');
+            return back()->with('error', __('page.response_error'));
         }
     }
 

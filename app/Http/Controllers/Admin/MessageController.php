@@ -23,9 +23,9 @@ class MessageController extends Controller
     {
         $message = Message::where('id', $id)->first();
         if ($message && $message->delete()) {
-            return response()->json(['message' => 'Message successfully deleted.', 'status' => true]);
+            return response()->json(['message' => __('page.admin_response_message_delete_success'), 'status' => true]);
         }
 
-        return response()->json(['message' => 'Something gone wrong.', 'status' => false], 404);
+        return response()->json(['message' => __('page.response_error'), 'status' => false], 404);
     }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('site_title',' — My Images')
+@section('site_title',' — '.__('page.user_sidebar_my_images'))
 
 @section('content')
     <div class="ipool-user-wrapper col-md-10 col-sm-12">

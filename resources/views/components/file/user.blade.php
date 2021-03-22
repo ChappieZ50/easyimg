@@ -26,7 +26,7 @@
         <a href="{{ route('file.download',$file->file_id) }}" class="btn btn-sm ipool-button mt-3 w-100"
            style="font-size: 14px;" {{has_ad('download_ad') ? 'onclick=window.open(\''.get_ad('download_ad').'\');' : ''}}>
             <i data-feather="download"></i>
-            Download
+            {{__('page.image_download')}}
         </a>
     </div>
     @component('components.ads.file.left') @endcomponent

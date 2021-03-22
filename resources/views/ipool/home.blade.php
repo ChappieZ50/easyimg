@@ -10,7 +10,7 @@
                             <div class="d-flex align-items-center justify-content-center flex-column flex-sm-row p-4">
                                 <i class="mdi mdi-cloud-upload-outline text-primary mr-0 mr-sm-4 icon-lg"></i>
                                 <div class="wrapper text-center text-sm-left">
-                                    <p class="card-text mb-0">Uploaded Files</p>
+                                    <p class="card-text mb-0">{{__('page.admin_home_total_images_card')}}</p>
                                     <div class="fluid-container">
                                         <h3 class="mb-0 font-weight-medium">{{ $filesCount }}</h3>
                                     </div>
@@ -23,7 +23,7 @@
                             <div class="d-flex align-items-center justify-content-center flex-column flex-sm-row p-4">
                                 <i class="mdi mdi-account-multiple-outline text-primary mr-0 mr-sm-4 icon-lg"></i>
                                 <div class="wrapper text-center text-sm-left">
-                                    <p class="card-text mb-0">Users</p>
+                                    <p class="card-text mb-0">{{__('page.admin_home_total_users_card')}}</p>
                                     <div class="fluid-container">
                                         <h3 class="mb-0 font-weight-medium">{{ $usersCount }}</h3>
                                     </div>
@@ -36,7 +36,7 @@
                             <div class="d-flex align-items-center justify-content-center flex-column flex-sm-row p-4">
                                 <i class="mdi mdi-message-outline text-primary mr-0 mr-sm-4 icon-lg"></i>
                                 <div class="wrapper text-center text-sm-left">
-                                    <p class="card-text mb-0">Messages</p>
+                                    <p class="card-text mb-0">{{__('page.admin_home_total_messages_card')}}</p>
                                     <div class="fluid-container">
                                         <h3 class="mb-0 font-weight-medium">{{ $messagesCount }}</h3>
                                     </div>
@@ -49,7 +49,7 @@
                             <div class="d-flex align-items-center justify-content-center flex-column flex-sm-row p-4">
                                 <i class="mdi mdi-file-document-outline text-primary mr-0 mr-sm-4 icon-lg"></i>
                                 <div class="wrapper text-center text-sm-left">
-                                    <p class="card-text mb-0">Pages</p>
+                                    <p class="card-text mb-0">{{__('page.admin_home_total_pages_card')}}</p>
                                     <div class="fluid-container">
                                         <h3 class="mb-0 font-weight-medium">{{ $pagesCount }}</h3>
                                     </div>
@@ -85,7 +85,7 @@
             @endcomponent
         </div>
     </div>
- @endsection
+@endsection
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('assets/plugins/apexcharts/apexcharts.css') }}">
@@ -94,11 +94,22 @@
 @section('scripts')
     <script src="{{ asset('assets/plugins/apexcharts/apexcharts.min.js') }}"></script>
     <script>
+        window.chart_months = '{{__('page.admin_home_chart_months')}}';
+
         window.file_chart = @json($chart_file_data);
+        window.file_chart_title = '{{__('page.admin_home_chart_uploads_chart_title')}}';
+
         window.user_chart = @json($chart_user_data);
+        window.user_chart_title = '{{__('page.admin_home_chart_users_chart_title')}}';
+
         window.user_status_chart = @json($chart_user_status_data);
+        window.user_status_chart_types = '{{__('page.admin_home_chart_active_banned_types')}}';
+
+
         window.file_extension_chart = @json($chart_file_extension_data);
         window.file_extension_chart_labels = @json($chart_file_extension_labels);
         window.user_login_chart = @json($chart_user_login_data);
+
+
     </script>
 @append

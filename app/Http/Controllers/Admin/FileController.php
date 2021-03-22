@@ -43,7 +43,7 @@ class FileController extends Controller
 
             if ($destroy) {
                 $file->delete();
-                return response()->json(['status' => true]);
+                return response()->json(['status' => true,'message' => __('page.admin_response_file_success')]);
             }
         }
 

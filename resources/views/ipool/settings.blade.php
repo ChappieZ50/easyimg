@@ -13,33 +13,33 @@
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             @component('ipool.components.card')
-                @slot('title') Settings @endslot
+                @slot('title') {{__('page.admin_settings_title')}} @endslot
                 @slot('body')
                     <div class="row mt-3 align-items-start">
                         <ul class="nav nav-tabs col-lg-2 col-md-12 flex-column justify-content-between" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#tab-1">
-                                    Website
+                                    {{__('page.admin_sidebar_settings_website')}}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tab-2">
-                                    Logo & Favicon
+                                    {{__('page.admin_sidebar_settings_logo_favicon')}}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tab-3">
-                                    AWS API
+                                    {{__('page.admin_sidebar_settings_aws_api')}}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tab-4">
-                                    Login & Recaptcha API
+                                    {{__('page.admin_sidebar_settings_login_recaptcha_api')}}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tab-5">
-                                    SEO
+                                    {{__('page.admin_sidebar_settings_seo')}}
                                 </a>
                             </li>
                         </ul>

@@ -49,12 +49,12 @@ class UserController extends Controller
         if ($user->save()) {
             return response()->json([
                 'status'  => true,
-                'message' => 'User Created',
+                'message' => __('page.admin_response_user_success'),
             ]);
         } else {
             return response()->json([
                 'status'  => false,
-                'message' => 'Something wrong please try again.'
+                'message' => __('page.response_error')
             ], 500);
         }
     }
@@ -65,10 +65,10 @@ class UserController extends Controller
         $user = User::where('id', '!=', Auth::user()->id)->find($request->get('user'));
         $update = false;
         if ($user) {
-            if($user->is_admin){
+            if ($user->is_admin) {
                 return response()->json([
-                    'status' =>  false,
-                    'message' => 'Admin user cannot ban',
+                    'status'  => false,
+                    'message' => __('page.admin_response_user_admin_ban_error'),
                 ]);
             }
 
@@ -78,8 +78,16 @@ class UserController extends Controller
         }
 
 
-        return response()->json([
-            'status' => $update ? true : false
-        ]);
+        if ($update) {
+            return response()->json([
+                'status'  => true,
+                'message' => $request->get('status') ? __('page.admin_response_user_unban') : __('page.admin_response_user_ban')
+            ]);
+        } else {
+            return response()->json([
+                'status'  => false,
+                'message' => __('page.response_error')
+            ]);
+        }
     }
 }

@@ -36,7 +36,7 @@ class SettingController extends Controller
             return $this->seo($request);
 
         } else {
-            return back()->with('error', 'Something gone wrong.');
+            return back()->with('error', __('page.response_error'));
         }
     }
 
@@ -64,7 +64,7 @@ class SettingController extends Controller
         ];
 
         if ($this->updateOrCreate($data)) {
-            return back()->with('success', 'Website Settings successfully updated.');
+            return back()->with('success', __('page.admin_response_settings_website_success'));
         } else {
             return back()->with('error', 'Something gone wrong.');
         }
@@ -79,7 +79,7 @@ class SettingController extends Controller
 
         if ($request->hasFile('logo')) {
             if (!$this->logoUpload($uploadFolder)) {
-                return back()->with('error', 'Something gone wrong.');
+                return back()->with('error', __('page.response_error'));
             }
 
             if ($setting && $setting->logo) {
@@ -89,7 +89,7 @@ class SettingController extends Controller
 
         if ($request->hasFile('favicon')) {
             if (!$this->faviconUpload($uploadFolder)) {
-                return back()->with('error', 'Something gone wrong.');
+                return back()->with('error', __('page.response_error'));
             }
 
             if ($setting && $setting->favicon) {
@@ -97,7 +97,7 @@ class SettingController extends Controller
             }
         }
 
-        return back()->with('success', 'Logo & favicon successfully updated');
+        return back()->with('success', __('page.admin_response_settings_logo_favicon_success'));
     }
 
     private function logoUpload($uploadFolder)
@@ -137,9 +137,9 @@ class SettingController extends Controller
         ];
 
         if ($this->updateOrCreate($data)) {
-            return back()->with('success', 'AWS API successfully updated.');
+            return back()->with('success', __('page.admin_response_settings_aws_api_success'));
         } else {
-            return back()->with('error', 'Something gone wrong.');
+            return back()->with('error', __('page.response_error'));
         }
     }
 
@@ -155,9 +155,9 @@ class SettingController extends Controller
         ];
 
         if ($this->updateOrCreate($data)) {
-            return back()->with('success', 'Login & Recaptcha Api successfully updated.');
+            return back()->with('success', __('page.admin_response_settings_login_recaptcha_api_success'));
         } else {
-            return back()->with('error', 'Something gone wrong.');
+            return back()->with('error', __('page.response_error'));
         }
     }
 
@@ -170,9 +170,9 @@ class SettingController extends Controller
         ];
 
         if ($this->updateOrCreate($data)) {
-            return back()->with('success', 'SEO successfully updated.');
+            return back()->with('success', __('page.admin_response_settings_seo_success'));
         } else {
-            return back()->with('error', 'Something gone wrong.');
+            return back()->with('error', __('page.response_error'));
         }
     }
 }

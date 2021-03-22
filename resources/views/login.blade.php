@@ -6,7 +6,7 @@
     <div class="return-to-homepage">
         <a href="{{ route('home') }}" class="return-to-homepage">
             <i data-feather="arrow-left"></i>
-            <span>Homepage</span>
+            <span>{{__('page.login_homepage')}}</span>
         </a>
     </div>
 
@@ -24,15 +24,15 @@
             @enderror
 
             @component('components.social-login')
-                @slot('title','Sign in With')
+                @slot('title',__('page.login_social'))
                 @slot('bottom_title','OR')
             @endcomponent
             <form action="{{route('user.login.store')}}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label for="email">Email Address</label>
+                    <label for="email">{{__('page.login_email')}}</label>
                     <input type="email" class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" name="email"
-                           id="email" placeholder="Email Address" value="{{old('email')}}">
+                           id="email" placeholder="{{__('page.login_email')}}" value="{{old('email')}}">
                     @error('email')
                     <span class="invalid-feedback d-block mt-2" role="alert">
                             <strong>{{ $message }}</strong>
@@ -40,8 +40,9 @@
                     @enderror
                 </div>
                 <div class="form-group">
+                    <label for="password">{{__('page.login_password')}}</label>
                     <input type="password" class="form-control {{ $errors->has('password') ? 'is-invalid' : '' }}"
-                           name="password" id="password" placeholder="Password">
+                           name="password" id="password" placeholder="{{__('page.login_password')}}">
                     @error('password')
                     <span class="invalid-feedback d-block mt-2" role="alert">
                             <strong>{{ $message }}</strong>
@@ -60,7 +61,7 @@
             </form>
         </div>
         <div class="to-register-page text-center mt-3 small">
-            Don't have an account ? <a href="{{ route('user.register.index') }}">Register</a>
+            {{__('page.login_create_account')}} <a href="{{ route('user.register.index') }}">{{__('page.login_register')}}</a>
         </div>
     </div>
 @endsection

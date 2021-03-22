@@ -1,19 +1,19 @@
 @unless(count($files))
-    <h5 class="text-center mt-3">No Records Found</h5>
+    <h5 class="text-center mt-3">{{__('page.admin_no_records')}}</h5>
 @else
     <div class="table-responsive">
         <table class="table table-hover table-striped">
             <thead>
             <tr>
-                <th>Preview</th>
+                <th>{{__('page.admin_images_table_preview')}}</th>
                 @isset($username)
-                    <th>Username</th>
+                    <th>{{__('page.admin_images_table_username')}}</th>
                 @endisset
-                <th>Name</th>
-                <th>Original Name</th>
-                <th>Size</th>
-                <th>Created</th>
-                <th>Action</th>
+                <th>{{__('page.admin_images_table_name')}}</th>
+                <th>{{__('page.admin_images_table_original_name')}}</th>
+                <th>{{__('page.admin_images_table_size')}}</th>
+                <th>{{__('page.admin_images_table_created')}}</th>
+                <th>{{__('page.admin_images_table_action')}}</th>
             </tr>
             </thead>
             <tbody>
@@ -38,11 +38,11 @@
 
                     <td>
                         <a href="{{ route('admin.file.show', $file->id) }}" class="btn btn-primary social-btn"
-                           style="padding: 6px 10px;" title="File info">
+                           style="padding: 6px 10px;" title="{{__('page.admin_images_table_action_view')}}">
                             <i class="mdi mdi-eye"></i>
                         </a>
                         <button class="btn btn-danger social-btn" id="file_delete" style="padding: 6px 10px;"
-                                title="Delete this file" data-id="{{ $file->id }}">
+                                title="{{__('page.admin_images_table_action_delete')}}" data-id="{{ $file->id }}">
                             <i class="mdi mdi-delete-outline"></i>
                         </button>
                     </td>

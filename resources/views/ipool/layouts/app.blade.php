@@ -37,6 +37,21 @@
         'file_destroy': '{{route('admin.file.index')}}',
         'message_destroy': '{{route('admin.message.index')}}',
     };
+    window.text = {
+        close: '{{__('page.admin_text_close')}}',
+        verify: '{{__('page.admin_text_verify')}}',
+        something_wrong: '{{__('page.admin_text_error')}}',
+        user: {
+            ban: '{{__('page.admin_text_ban')}}',
+            unban: '{{__('page.admin_text_unban')}}',
+            ban_verify: '{{__('page.admin_text_ban_verify')}}',
+            unban_verify: '{{__('page.admin_text_unban_verify')}}',
+        },
+        page_delete: '{{__('page.admin_text_page_delete')}}',
+        delete_verify: '{{__('page.admin_text_delete_verify')}}',
+        message_delete: '{{__('page.admin_text_message_delete')}}',
+        file_delete: '{{__('page.admin_text_file_delete')}}',
+    }
 </script>
 <script src="{{asset('ipool/assets/vendors/js/vendor.bundle.base.js')}}"></script>
 <script src="{{asset('ipool/assets/vendors/js/vendor.bundle.addons.js')}}"></script>

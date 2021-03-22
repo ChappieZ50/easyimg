@@ -11,11 +11,11 @@ $(document).ready(function () {
     $(document).on('click', '#ban', function () {
         let id = $(this).attr('data-id');
         Swal.fire({
-            title: "Are you sure?",
-            text: "This user will be banned",
+            title: window.text.verify,
+            text: window.text.user.ban,
             icon: "error",
-            confirmButtonText: "Yes,Ban",
-            cancelButtonText: "Cancel",
+            confirmButtonText: window.text.user.ban_verify,
+            cancelButtonText: window.text.close,
             showCancelButton: true,
             confirmButtonColor: '#ff6258',
         }).then(function (result) {
@@ -26,17 +26,17 @@ $(document).ready(function () {
                 }).then(response => {
                     if (response.data.status) {
                         Swal.fire({
-                            title: "User Banned",
+                            title: response.data.message,
                             icon: "success",
-                            cancelButtonText: 'Close',
+                            cancelButtonText: window.text.close,
                         }).then(function () {
                             window.location.reload();
                         });
                     } else {
                         Swal.fire({
-                            title: response.data.message ? response.data.message : "Something wrong",
+                            title: response.data.message ? response.data.message : window.text.something_wrong,
                             icon: "error",
-                            cancelButtonText: 'Close',
+                            cancelButtonText: window.text.close,
                         });
                     }
                 });
@@ -46,11 +46,11 @@ $(document).ready(function () {
     $(document).on('click', '#unban', function () {
         let id = $(this).attr('data-id');
         Swal.fire({
-            title: "Are you sure?",
-            text: "This user will be unbanned",
+            title: window.text.verify,
+            text: window.text.user.unban,
             icon: "info",
-            confirmButtonText: "Yes,Unban",
-            cancelButtonText: "Cancel",
+            confirmButtonText: window.text.user.unban_verify,
+            cancelButtonText: window.text.close,
             showCancelButton: true,
             confirmButtonColor: '#19d895',
         }).then(function (result) {
@@ -61,17 +61,17 @@ $(document).ready(function () {
                 }).then(response => {
                     if (response.data.status) {
                         Swal.fire({
-                            title: "User Unbanned",
+                            title: response.data.message,
                             icon: "success",
-                            cancelButtonText: 'Close',
+                            cancelButtonText: window.text.close,
                         }).then(function () {
                             window.location.reload();
                         });
                     } else {
                         Swal.fire({
-                            title: response.data.message ? response.data.message : "Something wrong",
+                            title: response.data.message ? response.data.message : window.text.something_wrong,
                             icon: "error",
-                            cancelButtonText: 'Close',
+                            cancelButtonText: window.text.close,
                         });
                     }
                 });
@@ -109,9 +109,9 @@ $(document).ready(function () {
                 if (response.data.status) {
                     $('#newUserModal').modal('toggle');
                     Swal.fire({
-                        title: "New User Added",
+                        title: response.data.message,
                         icon: "success",
-                        cancelButtonText: 'Close',
+                        cancelButtonText: window.text.close,
                     }).then(function () {
                         window.location.reload();
                     });
@@ -169,11 +169,11 @@ $(document).ready(function () {
     $(document).on('click', '#page_delete', function () {
         let id = $(this).attr('data-id');
         Swal.fire({
-            title: "Are you sure?",
-            text: "This page will be deleted",
+            title: window.text.verify,
+            text: window.text.page_delete,
             icon: "error",
-            confirmButtonText: "Yes,Delete",
-            cancelButtonText: "Cancel",
+            confirmButtonText: window.text.delete_verify,
+            cancelButtonText: window.text.close,
             showCancelButton: true,
             confirmButtonColor: '#ff6258',
         }).then(function (result) {
@@ -181,24 +181,24 @@ $(document).ready(function () {
                 axios.delete(window.routes.page_destroy + '/' + id).then(response => {
                     if (response.data.status) {
                         Swal.fire({
-                            title: "Page successfully deleted",
+                            title: response.data.message,
                             icon: "success",
-                            cancelButtonText: 'Close',
+                            cancelButtonText: window.text.close,
                         }).then(function () {
                             window.location.reload();
                         });
                     } else {
                         Swal.fire({
-                            title: "Something wrong",
+                            title: window.text.something_wrong,
                             icon: "error",
-                            cancelButtonText: 'Close',
+                            cancelButtonText: window.text.close,
                         });
                     }
                 }).catch(error => {
                     Swal.fire({
-                        title: "Something wrong",
+                        title: window.text.something_wrong,
                         icon: "error",
-                        cancelButtonText: 'Close',
+                        cancelButtonText: window.text.close,
                     });
                 });
             }
@@ -208,11 +208,11 @@ $(document).ready(function () {
     $(document).on('click', '#message_delete', function () {
         let id = $(this).attr('data-id');
         Swal.fire({
-            title: "Are you sure?",
-            text: "This message will be deleted",
+            title: window.text.verify,
+            text: window.text.message_delete,
             icon: "error",
-            confirmButtonText: "Yes,Delete",
-            cancelButtonText: "Cancel",
+            confirmButtonText: window.text.delete_verify,
+            cancelButtonText: window.text.close,
             showCancelButton: true,
             confirmButtonColor: '#ff6258',
         }).then(function (result) {
@@ -220,24 +220,24 @@ $(document).ready(function () {
                 axios.delete(window.routes.message_destroy + '/' + id).then(response => {
                     if (response.data.status) {
                         Swal.fire({
-                            title: "Message successfully deleted",
+                            title: response.data.message,
                             icon: "success",
-                            cancelButtonText: 'Close',
+                            cancelButtonText: window.text.close,
                         }).then(function () {
                             window.location.reload();
                         });
                     } else {
                         Swal.fire({
-                            title: "Something wrong",
+                            title: window.text.something_wrong,
                             icon: "error",
-                            cancelButtonText: 'Close',
+                            cancelButtonText: window.text.close,
                         });
                     }
                 }).catch(error => {
                     Swal.fire({
-                        title: "Something wrong",
+                        title: window.text.something_wrong,
                         icon: "error",
-                        cancelButtonText: 'Close',
+                        cancelButtonText: window.text.close,
                     });
                 });
             }
@@ -247,11 +247,11 @@ $(document).ready(function () {
     $(document).on('click', '#file_delete', function () {
         let id = $(this).attr('data-id');
         Swal.fire({
-            title: "Are you sure?",
-            text: "This file will be deleted",
+            title: window.text.verify,
+            text: window.text.file_delete,
             icon: "error",
-            confirmButtonText: "Yes,Delete",
-            cancelButtonText: "Cancel",
+            confirmButtonText: window.text.delete_verify,
+            cancelButtonText: window.text.close,
             showCancelButton: true,
             confirmButtonColor: '#ff6258',
         }).then(function (result) {
@@ -259,24 +259,24 @@ $(document).ready(function () {
                 axios.delete(window.routes.file_destroy + '/' + id).then(response => {
                     if (response.data.status) {
                         Swal.fire({
-                            title: "File successfully deleted",
+                            title: response.data.message,
                             icon: "success",
-                            cancelButtonText: 'Close',
+                            cancelButtonText: window.text.close,
                         }).then(function () {
                             window.location.reload();
                         });
                     } else {
                         Swal.fire({
-                            title: "Something wrong",
+                            title: window.text.something_wrong,
                             icon: "error",
-                            cancelButtonText: 'Close',
+                            cancelButtonText: window.text.close,
                         });
                     }
                 }).catch(error => {
                     Swal.fire({
-                        title: "Something wrong",
+                        title: window.text.something_wrong,
                         icon: "error",
-                        cancelButtonText: 'Close',
+                        cancelButtonText: window.text.close,
                     });
                 });
             }
@@ -293,11 +293,11 @@ $(document).ready(function () {
                 }
             },
             series: [{
-                name: 'Uploads',
+                name: window.file_chart_title,
                 data: Object.values(window.file_chart)
             }],
             xaxis: {
-                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+                categories: window.chart_months.split(','),
             },
             yaxis: {
                 labels: {
@@ -315,7 +315,7 @@ $(document).ready(function () {
     if ($('#user_chart').length) {
         var options = {
             series: [{
-                name: "Users",
+                name: window.user_chart_title,
                 data: Object.values(window.user_chart)
             }],
             chart: {
@@ -338,7 +338,7 @@ $(document).ready(function () {
                 },
             },
             xaxis: {
-                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+                categories: window.chart_months.split(','),
             },
             yaxis: {
                 labels: {
@@ -360,7 +360,7 @@ $(document).ready(function () {
                 type: 'pie',
             },
             colors: ['#19d895', '#ff6258'],
-            labels: ['Active', 'Banned'],
+            labels: window.user_status_chart_types.split(','),
             responsive: [{
                 breakpoint: 480,
                 options: {

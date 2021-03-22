@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('site_title',' — Profile')
+@section('site_title',' — '.__('page.user_sidebar_statistics'))
 
 @section('content')
     <div class="ipool-user-wrapper col-md-10 col-sm-12">

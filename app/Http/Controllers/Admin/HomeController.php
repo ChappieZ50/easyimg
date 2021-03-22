@@ -36,7 +36,7 @@ class HomeController extends Controller
             'pagesCount'                  => $pagesCount,
             'files'                       => $files,
             'users'                       => $users,
-            
+
             /* Charts data */
             'chart_file_data'             => get_chart_data(File::class),
             'chart_user_data'             => get_chart_data(User::class),
@@ -89,11 +89,11 @@ class HomeController extends Controller
         foreach ($users as $value) {
             $count = $value['count'];
             if (!empty($value['google'])) {
-                $data['google'] = isset($data['google']) ? $count + $data['google'] : $count;
+                $data['Google'] = isset($data['Google']) ? $count + $data['Google'] : $count;
             } elseif (!empty($value['facebook'])) {
-                $data['facebook'] = isset($data['facebook']) ? $count + $data['facebook'] : $count;
+                $data['Facebook'] = isset($data['Facebook']) ? $count + $data['Facebook'] : $count;
             } else {
-                $data['normal'] = isset($data['normal']) ? $count + $data['normal'] : $count;
+                $data[__('page.admin_home_chart_user_login_types_normal_type')] = isset($data[__('page.admin_home_chart_user_login_types_normal_type')]) ? $count + $data[__('page.admin_home_chart_user_login_types_normal_type')] : $count;
             }
         }
 

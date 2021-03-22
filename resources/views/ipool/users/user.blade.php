@@ -4,7 +4,7 @@
     <div class="row">
         @if (!$user->status)
             <div class="alert alert-danger w-100 ml-3 mr-3">
-                "{{ $user->username }}" has been banned
+                "{{ $user->username }}" {{__('page.admin_user_banned')}}
             </div>
         @endif
         <div class="col-lg-12 d-flex justify-content-between flex-wrap mt-3">
@@ -19,14 +19,14 @@
                             <span class="email text-muted small">{{ $user->email }}</span>
                             <div class="user-status">
                                 @if ($user->is_admin)
-                                    <label class="badge badge-info">Admin</label>
+                                    <label class="badge badge-info">{{__('page.admin_user_type_admin')}}</label>
                                 @else
-                                    <label class="badge badge-primary">User</label>
+                                    <label class="badge badge-primary">{{__('page.admin_user_type_user')}}</label>
                                 @endif
                                 @if ($user->status)
-                                    <label class="badge badge-success text-white">Active</label>
+                                    <label class="badge badge-success text-white">{{__('page.admin_active')}}</label>
                                 @else
-                                    <label class="badge badge-danger text-white">Banned</label>
+                                    <label class="badge badge-danger text-white">{{__('page.admin_banned')}}</label>
                                 @endif
                             </div>
                         </div>
@@ -36,7 +36,7 @@
 
             <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 mt-3">
                 @component('ipool.components.card')
-                    @slot('title', 'User Images')
+                    @slot('title', __('page.admin_user_title'))
                     @slot('searchRoute', route('admin.user.show',$user->id))
                     @slot('body')
                         @component('ipool.components.files')

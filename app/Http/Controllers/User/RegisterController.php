@@ -33,7 +33,7 @@ class RegisterController extends Controller
         }
 
         return back()->withErrors([
-            'non' => 'Something wrong please try again.'
+            'non' => __('page.response_error')
         ]);
     }
 }

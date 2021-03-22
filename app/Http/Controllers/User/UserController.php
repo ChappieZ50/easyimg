@@ -36,7 +36,7 @@ class UserController extends Controller
 
             if ($destroy) {
                 $file->delete();
-                return response()->json(['status' => true]);
+                return response()->json(['status' => true, 'message' => __('page.response_file_delete')]);
             }
         }
 
@@ -48,7 +48,7 @@ class UserController extends Controller
         $update = Auth::user()->update($request->validated());
 
         if ($update) {
-            return response()->json(['status' => true]);
+            return response()->json(['status' => true, 'message' => __('page.response_user_profile_update')]);
         }
 
         return response()->json([], 500);
@@ -63,7 +63,7 @@ class UserController extends Controller
         ]);
 
         if ($update) {
-            return response()->json(['status' => true]);
+            return response()->json(['status' => true, 'message' => __('page.response_user_password_update')]);
         }
 
         return response()->json([], 500);
@@ -80,7 +80,7 @@ class UserController extends Controller
                 'avatar' => $avatar->name
             ]);
             if ($update) {
-                return response()->json(['status' => true]);
+                return response()->json(['status' => true, 'message' => __('page.response_user_avatar_update')]);
             }
         }
 
@@ -93,6 +93,6 @@ class UserController extends Controller
         Auth::user()->update([
             'avatar' => ''
         ]);
-        return response()->json(['status' => true]);
+        return response()->json(['status' => true, 'message' => __('page.response_user_avatar_delete')]);
     }
 }

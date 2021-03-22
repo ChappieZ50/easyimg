@@ -59,6 +59,17 @@
     window.routes = {
         file_destroy: '{{ route('user.images') . '/destroy' }}'
     };
+    window.text = {
+        success_copy: '{{__('page.image_click_to_copy_success')}}',
+        success_copy_my_images: '{{__('page.user_my_images_copy_success')}}',
+        verify: '{{__('page.text_verify')}}',
+        verify_delete: '{{__('page.text_verify_delete')}}',
+        error: '{{__('page.text_error')}}',
+        close: '{{__('page.text_close')}}',
+        file_delete: '{{__('page.text_file_delete')}}',
+        avatar_delete: '{{__('page.text_avatar_delete')}}',
+
+    }
 
 </script>
 <script src="{{ asset('assets/js/app.js') }}"></script>

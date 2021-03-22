@@ -45,34 +45,13 @@ $(document).ready(function () {
 
 
     clipboard.on('success', function (e) {
-        setTooltip(e.trigger, 'Image Copied!');
+        setTooltip(e.trigger, window.text.success_copy_my_images);
         hideTooltip(e.trigger);
     });
 
     clipboard.on('error', function (e) {
         setTooltip(e.trigger, 'Failed!');
         hideTooltip(e.trigger);
-    });
-
-    /* Delete Image */
-    $('#delete').on('click', function () {
-        let id = $(this).attr('data-id');
-        Swal.fire({
-            title: "Are you sure?",
-            text: "This image will delete forever.",
-            icon: "error",
-            confirmButtonText: "Yes, Delete it",
-            cancelButtonText: "Cancel",
-            showCancelButton: true,
-            confirmButtonColor: '#e34346',
-        }).then(result => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: "Image successfully deleted.",
-                    icon: "success",
-                })
-            }
-        });
     });
 
     function parse_errors(errors, el = $('#user_profile_errors')) {
@@ -132,7 +111,7 @@ $(document).ready(function () {
                 username, email,
             }).then(response => {
                 if (response.data.status) {
-                    show_swal("Your profile successfully updated.")
+                    show_swal(response.data.message)
                 }
             }, error => parse_errors(error.response.data.errors));
         }, 500);
@@ -148,7 +127,7 @@ $(document).ready(function () {
                 current_password, password, password_confirmation
             }).then(response => {
                 if (response.data.status) {
-                    show_swal("Your password successfully updated.");
+                    show_swal(response.data.message);
                 }
             }, error => parse_errors(error.response.data.errors));
         }, 500);
@@ -166,7 +145,7 @@ $(document).ready(function () {
                 }
             }).then(response => {
                 if (response.data.status) {
-                    show_swal("Your avatar successfully updated.");
+                    show_swal(response.data.message);
                 }
             }, error => {
                 parse_errors(error.response.data.errors);
@@ -181,23 +160,23 @@ $(document).ready(function () {
     $(document).on('click', '#file_delete', function () {
         const id = $(this).attr('data-id');
         Swal.fire({
-            title: "Are you sure?",
-            text: "This file will be deleted",
+            title: window.text.verify,
+            text: window.text.file_delete,
             icon: "info",
-            confirmButtonText: "Yes,Delete",
-            cancelButtonText: "Cancel",
+            confirmButtonText: window.text.verify_delete,
+            cancelButtonText: window.text.close,
             showCancelButton: true,
             confirmButtonColor: '#ff6258',
         }).then(function (result) {
             if (result.isConfirmed) {
                 axios.delete(window.routes.file_destroy + '/' + id).then(response => {
                     if (response.data.status) {
-                        show_swal("Your file successfully deleted.");
+                        show_swal(response.data.message);
                     } else {
-                        show_swal('Something gone wrong, please try again.', 'error');
+                        show_swal(window.text.delete, 'error');
                     }
                 }, () => {
-                    show_swal('Something gone wrong, please try again.', 'error');
+                    show_swal(window.text.delete, 'error');
                 });
             }
         });
@@ -206,21 +185,21 @@ $(document).ready(function () {
 
     $('#user_delete_avatar').on('click', function () {
         Swal.fire({
-            title: "Are you sure?",
-            text: "Your avatar will be deleted",
+            title: window.text.verify,
+            text: window.text.avatar_delete,
             icon: "info",
-            confirmButtonText: "Yes,Delete",
-            cancelButtonText: "Cancel",
+            confirmButtonText: window.text.verify_delete,
+            cancelButtonText: window.text.close,
             showCancelButton: true,
             confirmButtonColor: '#ff6258',
         }).then(function (result) {
             if (result.isConfirmed) {
                 axios.delete(window.location.href + '/destroy/avatar').then(response => {
                     if (response.data.status) {
-                        show_swal("Your avatar successfully deleted.");
+                        show_swal(response.data.message);
                     }
                 }, () => {
-                    show_swal('Something gone wrong, please try again.', 'error');
+                    show_swal(window.text.delete, 'error');
                 });
             }
         });
@@ -236,7 +215,7 @@ $(document).ready(function () {
 
     function clickToCopyAction(el, success = true) {
         let color = success ? '#3cb371' : '#dc143c';
-        let tt = success ? 'Text Copied!' : 'ERROR!';
+        let tt = success ? window.text.success_copy : 'ERROR!';
         let text = $(el).text();
         $(el).html('<span style="color:' + color + '">' + tt + '</span>');
         $(el).show();
@@ -259,7 +238,7 @@ $(document).ready(function () {
     if ($('#file_chart').length) {
         let options = {
             series: [{
-                name: "Images",
+                name: window.file_chart_title,
                 data: Object.values(window.file_chart)
             }],
             chart: {
@@ -282,7 +261,7 @@ $(document).ready(function () {
                 },
             },
             xaxis: {
-                categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                categories: window.file_chart_months.split(','),
             },
             yaxis: {
                 labels: {

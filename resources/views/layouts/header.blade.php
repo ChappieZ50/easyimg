@@ -3,7 +3,7 @@
         <div class="page-items">
             <a class="ipool-button nav-link" href="{{ url('/') }}">
                 <i data-feather="upload"></i>
-                Upload image
+                {{__('page.home_upload_image_button')}}
             </a>
             <button class="navbar-toggler collapsed border-0" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -17,7 +17,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{get_setting('menu_title','About')}}
+                            {{get_setting('menu_title',__('page.home_default_menu_title'))}}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             @forelse(get_pages() as $page)
@@ -46,22 +46,22 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right position-absolute shadow-lg"
                              aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('user.profile') }}">Profile</a>
-                            <a class="dropdown-item" href="{{ route('user.images') }}">My Images</a>
-                            <a class="dropdown-item" href="{{ route('user.statistic') }}">Statistics</a>
+                            <a class="dropdown-item" href="{{ route('user.profile') }}">{{__('page.home_sidebar_profile')}}</a>
+                            <a class="dropdown-item" href="{{ route('user.images') }}">{{__('page.home_sidebar_my_images')}}</a>
+                            <a class="dropdown-item" href="{{ route('user.statistic') }}">{{__('page.home_sidebar_statistics')}}</a>
                             @if(auth()->user()->is_admin)
-                                <a class="dropdown-item" href="{{route('admin.home')}}">Admin Panel</a>
+                                <a class="dropdown-item" href="{{route('admin.home')}}">{{__('page.home_sidebar_admin_panel')}}</a>
                             @endif
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ route('user.logout') }}">Logout</a>
+                            <a class="dropdown-item" href="{{ route('user.logout') }}">{{__('page.home_sidebar_logout')}}</a>
                         </div>
                     </li>
                 </ul>
             @else
-                <a class="nav-link" href="{{ route('user.login.index') }}">Sign in</a>
+                <a class="nav-link" href="{{ route('user.login.index') }}">{{__('page.home_sign_in')}}</a>
                 <a class="nav-link ipool-button ipool-sign-up ipool-move-btn" href="{{ route('user.register.index') }}">
                     <i data-feather="user-plus"></i>
-                    Sign up
+                    {{__('page.home_sign_up')}}
                 </a>
             @endauth
 
